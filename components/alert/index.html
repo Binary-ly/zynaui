@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alert — Zyna UI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../zynaui.css">
+  <link rel="stylesheet" href="../../docs.css">
+</head>
+<body>
+  <div id="topbar"></div>
+  <div id="docs-layout">
+    <aside id="sidebar"></aside>
+    <main id="content">
+
+      <div class="page-header">
+        <div class="breadcrumb">
+          <span>Feedback</span>
+          <span class="breadcrumb-sep">›</span>
+          <span>Alert</span>
+        </div>
+        <h1 class="page-title">Alert</h1>
+        <p class="page-desc">System terminal notifications with a left luminescent bar, translucent tint, and squared left edge with a subtle right radius. Luminescent semantic colours replace conventional green/red/yellow.</p>
+      </div>
+
+      <!-- All Variants -->
+      <div class="doc-section">
+        <h2 class="section-title">All Variants</h2>
+        <div class="tabs-bar">
+          <button class="tab-btn active" onclick="tab(this,'alert-v-p')">Preview</button>
+          <button class="tab-btn" onclick="tab(this,'alert-v-c')">Code</button>
+        </div>
+        <div>
+          <div id="alert-v-p" class="tab-panel active">
+            <div class="preview-box col" style="gap:0.5rem;padding:2rem">
+              <div class="alert alert-success">
+                <div><p class="alert-title">Uplink Established</p><p>Secure transmission confirmed. All nodes synchronized.</p></div>
+              </div>
+              <div class="alert alert-danger">
+                <div><p class="alert-title">System Breach</p><p>Unauthorized access detected. Isolating affected modules.</p></div>
+              </div>
+              <div class="alert alert-warning">
+                <div><p class="alert-title">Irreversible</p><p>This action cannot be undone. Confirm before proceeding.</p></div>
+              </div>
+              <div class="alert alert-info">
+                <div><p class="alert-title">Signal Received</p><p>New transmission available. Protocol v2.1 inbound.</p></div>
+              </div>
+              <div class="alert alert-neutral">
+                <div><p class="alert-title">Standby</p><p>No active events. System is idle and awaiting instructions.</p></div>
+              </div>
+              <div class="alert alert-dark">
+                <div><p class="alert-title">Classified</p><p>Access restricted. Clearance level insufficient for this record.</p></div>
+              </div>
+            </div>
+          </div>
+          <div id="alert-v-c" class="tab-panel">
+            <div class="code-box">
+              <div class="code-toolbar">
+                <span class="code-lang">HTML</span>
+                <button class="copy-btn" onclick="cp(this,'alert-v-code')">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                  Copy
+                </button>
+              </div>
+              <pre id="alert-v-code"><span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-success"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;p</span> <span class="atr">class</span>=<span class="val">"alert-title"</span><span class="tag">&gt;</span>Success<span class="tag">&lt;/p&gt;</span>
+  <span class="tag">&lt;p&gt;</span>Changes saved successfully.<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-danger"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-warning"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-info"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-neutral"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-dark"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- With Icons -->
+      <div class="doc-section">
+        <h2 class="section-title">With Icons</h2>
+        <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.25rem">Add an <code style="color:var(--gold);background:rgba(201,168,76,0.1);padding:0.1rem 0.4rem;border-radius:4px;font-family:var(--mono);font-size:0.85em">.alert-icon</code> element as the first child to include an SVG icon alongside the message.</p>
+        <div class="tabs-bar">
+          <button class="tab-btn active" onclick="tab(this,'alert-i-p')">Preview</button>
+          <button class="tab-btn" onclick="tab(this,'alert-i-c')">Code</button>
+        </div>
+        <div>
+          <div id="alert-i-p" class="tab-panel active">
+            <div class="preview-box col" style="gap:0.5rem;padding:2rem">
+              <div class="alert alert-success">
+                <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <div><p class="alert-title">Uplink Established</p><p>Secure channel confirmed. All nodes synchronized.</p></div>
+              </div>
+              <div class="alert alert-danger">
+                <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                <div><p class="alert-title">System Breach</p><p>Unauthorized access detected. Isolating affected modules.</p></div>
+              </div>
+              <div class="alert alert-info">
+                <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <div><p class="alert-title">Signal Received</p><p>New transmission available. Protocol v2.1 inbound.</p></div>
+              </div>
+            </div>
+          </div>
+          <div id="alert-i-c" class="tab-panel">
+            <div class="code-box">
+              <div class="code-toolbar">
+                <span class="code-lang">HTML</span>
+                <button class="copy-btn" onclick="cp(this,'alert-i-code')">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                  Copy
+                </button>
+              </div>
+              <pre id="alert-i-code"><span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-success"</span><span class="tag">&gt;</span>
+  <span class="cmt">&lt;!-- .alert-icon — 1.1rem × 1.1rem, flex-shrink:0 --&gt;</span>
+  <span class="tag">&lt;svg</span> <span class="atr">class</span>=<span class="val">"alert-icon"</span> <span class="atr">viewBox</span>=<span class="val">"0 0 24 24"</span>
+       <span class="atr">fill</span>=<span class="val">"none"</span> <span class="atr">stroke</span>=<span class="val">"currentColor"</span> <span class="atr">stroke-width</span>=<span class="val">"2"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;polyline</span> <span class="atr">points</span>=<span class="val">"20 6 9 17 4 12"</span><span class="tag">/&gt;</span>
+  <span class="tag">&lt;/svg&gt;</span>
+  <span class="tag">&lt;div&gt;</span>
+    <span class="tag">&lt;p</span> <span class="atr">class</span>=<span class="val">"alert-title"</span><span class="tag">&gt;</span>Uplink Established<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;p&gt;</span>Secure channel confirmed.<span class="tag">&lt;/p&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CSS Variable API -->
+      <div class="doc-section">
+        <h2 class="section-title">CSS Variable API</h2>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Variable</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="t-var">--alert-bar-color</td><td class="t-def">rgba(255,255,255,0.10)</td><td>Left luminescent bar colour</td></tr>
+            <tr><td class="t-var">--alert-bg</td><td class="t-def">rgba(255,255,255,0.02)</td><td>Background tint</td></tr>
+            <tr><td class="t-var">--alert-color</td><td class="t-def">rgba(240,235,224,0.65)</td><td>Text colour (≥4.5:1 WCAG AA)</td></tr>
+            <tr><td class="t-var">--alert-shadow</td><td class="t-def">none</td><td>box-shadow — near glow + inset depth</td></tr>
+            <tr><td class="t-var">--alert-title-shadow</td><td class="t-def">none</td><td>.alert-title text-shadow luminescence</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Custom Variant -->
+      <div class="doc-section">
+        <h2 class="section-title">Custom Variant</h2>
+        <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.25rem">Five variables to override. The plasma example creates a purple notification.</p>
+
+        <div style="margin-bottom:1.5rem">
+          <style>
+            .alert-plasma {
+              --alert-bar-color:    #BF5FFF;
+              --alert-bg:           rgba(139, 0, 255, 0.055);
+              --alert-color:        rgba(191, 95, 255, 0.88);
+              --alert-shadow:       0 0 30px rgba(139,0,255,0.08), inset 4px 0 18px rgba(139,0,255,0.05);
+              --alert-title-shadow: 0 0 12px rgba(191,95,255,0.65);
+            }
+          </style>
+          <div class="preview-box col" style="gap:0.5rem;padding:2rem">
+            <div class="alert alert-plasma">
+              <div><p class="alert-title">Plasma Signal</p><p>Quantum channel established. Reality distortion nominal.</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-box" style="border-top:1px solid var(--border);border-radius:var(--radius)">
+          <div class="code-toolbar">
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn" onclick="cp(this,'alert-custom-code')">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              Copy
+            </button>
+          </div>
+          <pre id="alert-custom-code"><span class="cls">.alert-plasma</span> {
+  <span class="atr">--alert-bar-color</span>:    <span class="val">#BF5FFF</span>;
+  <span class="atr">--alert-bg</span>:           <span class="val">rgba(139, 0, 255, 0.055)</span>;
+  <span class="atr">--alert-color</span>:        <span class="val">rgba(191, 95, 255, 0.88)</span>;
+  <span class="atr">--alert-shadow</span>:       <span class="val">0 0 30px rgba(139,0,255,0.08),
+                        inset 4px 0 18px rgba(139,0,255,0.05)</span>;
+  <span class="atr">--alert-title-shadow</span>: <span class="val">0 0 12px rgba(191,95,255,0.65)</span>;
+}</pre>
+        </div>
+      </div>
+
+      <!-- When to Use -->
+      <div class="doc-section">
+        <h2 class="section-title">When to Use</h2>
+        <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.5rem">Use alerts to communicate system feedback, status changes, or important notices that the user needs to see in context. They should be temporary, contextual, and relevant.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div style="background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.18);border-radius:var(--radius);padding:1.25rem">
+            <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;color:#4ade80;text-transform:uppercase;font-family:var(--mono);margin-bottom:0.875rem">✓  Do</div>
+            <ul style="padding-left:1.1rem;display:flex;flex-direction:column;gap:0.45rem;font-size:0.85rem;color:var(--text2);line-height:1.6">
+              <li>Match the variant to the semantic meaning (success, danger, warning, info)</li>
+              <li>Use <code style="font-family:var(--mono);font-size:0.82em">.alert-icon</code> to improve scan speed in busy layouts</li>
+              <li>Keep the message short: a title and one supporting sentence</li>
+              <li>Place alerts close to the action that triggered them</li>
+              <li>Use <code style="font-family:var(--mono);font-size:0.82em">.alert-neutral</code> or <code style="font-family:var(--mono);font-size:0.82em">.alert-dark</code> for ambient, non-urgent notices</li>
+            </ul>
+          </div>
+          <div style="background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.18);border-radius:var(--radius);padding:1.25rem">
+            <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;color:#f87171;text-transform:uppercase;font-family:var(--mono);margin-bottom:0.875rem">✗  Don't</div>
+            <ul style="padding-left:1.1rem;display:flex;flex-direction:column;gap:0.45rem;font-size:0.85rem;color:var(--text2);line-height:1.6">
+              <li>Don't stack multiple alerts of the same variant</li>
+              <li>Don't use alerts for purely decorative section dividers</li>
+              <li>Don't write long paragraphs inside an alert. Link to a detail page instead.</li>
+              <li>Don't use color alone as the only differentiator. Always include a title.</li>
+              <li>Don't show an alert for an action the user didn't trigger</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script type="module" src="../../_nav.js"></script>
+  <script>
+    function tab(btn, panelId) {
+      const bar = btn.parentElement
+      bar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      const container = bar.nextElementSibling
+      container.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'))
+      document.getElementById(panelId).classList.add('active')
+    }
+    function cp(btn, id) {
+      const txt = document.getElementById(id).innerText
+      navigator.clipboard.writeText(txt).then(() => {
+        btn.classList.add('ok')
+        btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!'
+        setTimeout(() => {
+          btn.classList.remove('ok')
+          btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy'
+        }, 2000)
+      })
+    }
+  </script>
+</body>
+</html>

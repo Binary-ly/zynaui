@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Waffle Chart — Zyna UI Charts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="/dist/zyna-charts.iife.js"></script>
+  <link rel="stylesheet" href="../../zynaui.css">
+  <link rel="stylesheet" href="../../docs.css">
+</head>
+<body>
+  <div id="topbar"></div>
+  <div id="docs-layout">
+    <aside id="sidebar"></aside>
+    <main id="content">
+
+      <div class="page-header">
+        <div class="breadcrumb">
+          <span>Charts</span>
+          <span class="breadcrumb-sep">›</span>
+          <span>Waffle</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap">
+          <h1 class="page-title" style="margin-bottom:0">Waffle Chart</h1>
+          <code style="font-family:var(--mono);font-size:0.78rem;padding:0.2rem 0.6rem;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--gold)">&lt;zyna-waffle&gt;</code>
+        </div>
+        <p class="page-desc">A 10×10 grid where each cell represents 1%. Segments can be solid-filled or outline-only, ideal for proportion breakdowns.</p>
+      </div>
+
+      <!-- Demo Section -->
+      <div class="doc-section">
+        <h2 class="section-title">Demo</h2>
+        <div class="tabs-bar">
+          <button class="tab-btn active" onclick="tab(this,'wf-p')">Preview</button>
+          <button class="tab-btn" onclick="tab(this,'wf-c')">Code</button>
+          <button class="tab-btn" onclick="tab(this,'wf-a')">Attributes</button>
+        </div>
+        <div>
+          <div id="wf-p" class="tab-panel active">
+            <div class="preview-box col" style="min-height:300px;padding:1.5rem;align-items:flex-start">
+              <p style="font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:1rem">Libya humanitarian funding by donor (each cell = 1%)</p>
+              <zyna-waffle
+                data='[{"label":"EU NEAR","value":24,"color":"#1A3A6B"},{"label":"EU FPI+ECHO","value":9,"color":"#2A5A9B"},{"label":"UN System","value":28,"color":"#009EDB","outline":true},{"label":"USAID","value":12,"color":"#4A6741","outline":true},{"label":"Other","value":27,"color":"#7A6230","outline":true}]'
+                cols='10' gap='3'
+                style="display:block;width:100%;max-width:480px">
+              </zyna-waffle>
+              <div style="display:flex;flex-wrap:wrap;gap:0.75rem 1.25rem;margin-top:1.25rem">
+                <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--text2)">
+                  <span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:#1A3A6B;flex-shrink:0"></span>EU NEAR
+                </div>
+                <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--text2)">
+                  <span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:#2A5A9B;flex-shrink:0"></span>EU FPI+ECHO
+                </div>
+                <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--text2)">
+                  <span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:transparent;border:2px solid #009EDB;flex-shrink:0"></span>UN System
+                </div>
+                <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--text2)">
+                  <span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:transparent;border:2px solid #4A6741;flex-shrink:0"></span>USAID
+                </div>
+                <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--text2)">
+                  <span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:transparent;border:2px solid #7A6230;flex-shrink:0"></span>Other
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="wf-c" class="tab-panel">
+            <div class="code-box">
+              <div class="code-toolbar">
+                <span class="code-lang">html</span>
+                <button class="copy-btn" onclick="cp(this,'wf-code')">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy
+                </button>
+              </div>
+              <pre id="wf-code"><span class="tag">&lt;zyna-waffle</span>
+  <span class="atr">data</span>=<span class="val">'[
+    {"label":"EU NEAR",     "value":24, "color":"#1A3A6B"},
+    {"label":"EU FPI+ECHO", "value":9,  "color":"#2A5A9B"},
+    {"label":"UN System",   "value":28, "color":"#009EDB", "outline":true},
+    {"label":"USAID",       "value":12, "color":"#4A6741", "outline":true},
+    {"label":"Other",       "value":27, "color":"#7A6230", "outline":true}
+  ]'</span>
+  <span class="atr">cols</span>=<span class="val">'10'</span>
+  <span class="atr">gap</span>=<span class="val">'3'</span>
+  <span class="atr">style</span>=<span class="val">"display:block;width:100%;max-width:480px"</span><span class="tag">&gt;
+&lt;/zyna-waffle&gt;</span></pre>
+            </div>
+          </div>
+
+          <div id="wf-a" class="tab-panel">
+            <div style="border:1px solid var(--border);border-top:none;border-bottom-left-radius:var(--radius);border-bottom-right-radius:var(--radius);overflow:hidden">
+              <table class="api-table" style="border:none;border-radius:0">
+                <thead>
+                  <tr>
+                    <th>Attribute</th>
+                    <th>Type</th>
+                    <th>Default</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="t-var">data</td>
+                    <td class="t-type">JSON array</td>
+                    <td class="t-def">—</td>
+                    <td>Array of <code style="font-family:var(--mono);font-size:0.75rem;color:var(--text)">{ label, value, color?, outline? }</code>. Sum ≤ 100.</td>
+                  </tr>
+                  <tr>
+                    <td class="t-var">color</td>
+                    <td class="t-type">hex</td>
+                    <td class="t-def">#C9A84C</td>
+                    <td>Fallback accent color for items without per-item color.</td>
+                  </tr>
+                  <tr>
+                    <td class="t-var">cols</td>
+                    <td class="t-type">number</td>
+                    <td class="t-def">10</td>
+                    <td>Number of columns in the grid.</td>
+                  </tr>
+                  <tr>
+                    <td class="t-var">gap</td>
+                    <td class="t-type">number</td>
+                    <td class="t-def">3</td>
+                    <td>Gap between cells in pixels.</td>
+                  </tr>
+                  <tr>
+                    <td class="t-var">height</td>
+                    <td class="t-type">number</td>
+                    <td class="t-def">—</td>
+                    <td>Explicit height in px. Auto-derived from data when omitted.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Outline Variant Section -->
+      <div class="doc-section">
+        <h2 class="section-title">Outline Variant</h2>
+        <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.25rem;line-height:1.7">Use <code style="font-family:var(--mono);font-size:0.78rem;color:var(--gold)">"outline":true</code> on a segment to render it as an unfilled bordered cell. This is useful for showing a "remaining" portion against a goal.</p>
+
+        <div class="tabs-bar">
+          <button class="tab-btn active" onclick="tab(this,'wf-ov-p')">Preview</button>
+          <button class="tab-btn" onclick="tab(this,'wf-ov-c')">Code</button>
+        </div>
+        <div>
+          <div id="wf-ov-p" class="tab-panel active">
+            <div class="preview-box col" style="min-height:300px;padding:1.5rem;align-items:flex-start">
+              <p style="font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:1rem">Funding goal progress — 68% reached</p>
+              <zyna-waffle
+                data='[{"label":"Goal","value":68,"color":"#C9A84C"},{"label":"Remaining","value":32,"color":"#C9A84C","outline":true}]'
+                cols='10' gap='3'
+                style="display:block;width:100%;max-width:360px">
+              </zyna-waffle>
+              <div style="display:flex;flex-wrap:wrap;gap:0.75rem 1.25rem;margin-top:1.25rem">
+                <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--text2)">
+                  <span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:#C9A84C;flex-shrink:0"></span>Goal (68%)
+                </div>
+                <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--text2)">
+                  <span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:transparent;border:2px solid #C9A84C;flex-shrink:0"></span>Remaining (32%)
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="wf-ov-c" class="tab-panel">
+            <div class="code-box">
+              <div class="code-toolbar">
+                <span class="code-lang">html</span>
+                <button class="copy-btn" onclick="cp(this,'wf-ov-code')">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy
+                </button>
+              </div>
+              <pre id="wf-ov-code"><span class="tag">&lt;zyna-waffle</span>
+  <span class="atr">data</span>=<span class="val">'[
+    {"label":"Goal",      "value":68, "color":"#C9A84C"},
+    {"label":"Remaining", "value":32, "color":"#C9A84C", "outline":true}
+  ]'</span>
+  <span class="atr">cols</span>=<span class="val">'10'</span>
+  <span class="atr">gap</span>=<span class="val">'3'</span>
+  <span class="atr">style</span>=<span class="val">"display:block;width:100%;max-width:360px"</span><span class="tag">&gt;
+&lt;/zyna-waffle&gt;</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Light Theme Section -->
+      <div class="doc-section">
+        <h2 class="section-title">Light Theme</h2>
+        <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.25rem;line-height:1.7">Set <code style="font-family:var(--mono);font-size:0.78rem;color:var(--gold)">theme="light"</code> for use on light backgrounds.</p>
+        <div class="tabs-bar">
+          <button class="tab-btn active" onclick="tab(this,'wf-lt-p')">Preview</button>
+          <button class="tab-btn" onclick="tab(this,'wf-lt-c')">Code</button>
+        </div>
+        <div>
+          <div id="wf-lt-p" class="tab-panel active">
+            <div class="preview-box col" style="min-height:300px;padding:1.5rem;background:#F8F6F2;background-image:none">
+              <p style="font-size:0.7rem;color:#888;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:1rem">Funding goal progress — 68% reached</p>
+              <div style="background:#F8F6F2;border-radius:0.75rem;width:100%">
+                <zyna-waffle
+                  data='[{"label":"Goal","value":68,"color":"#C9A84C"},{"label":"Remaining","value":32,"color":"#C9A84C","outline":true}]'
+                  cols='10' gap='3'
+                  theme='light'
+                  style="display:block;width:100%;max-width:360px">
+                </zyna-waffle>
+              </div>
+            </div>
+          </div>
+          <div id="wf-lt-c" class="tab-panel">
+            <div class="code-box">
+              <div class="code-toolbar">
+                <span class="code-lang">html</span>
+                <button class="copy-btn" onclick="cp(this,'wf-lt-code')">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy
+                </button>
+              </div>
+              <pre id="wf-lt-code"><span class="tag">&lt;zyna-waffle</span>
+  <span class="atr">data</span>=<span class="val">'[...]'</span>
+  <span class="atr">theme</span>=<span class="val">"light"</span>
+<span class="tag">&gt;&lt;/zyna-waffle&gt;</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Usage Tips -->
+      <div class="doc-section">
+        <h2 class="section-title">Usage Tips</h2>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;font-size:0.875rem;color:var(--text2);line-height:1.75">
+          <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:0.4rem">
+            <li>Values represent percentages — the sum of all segments should not exceed 100</li>
+            <li>Use 10 columns (default) for a clean 10×10 grid where each cell = 1%</li>
+            <li>Keep to 3–5 segments for best legibility; more colors reduce clarity</li>
+            <li>Use <code style="font-family:var(--mono);font-size:0.8rem">outline:true</code> on a segment to show "remaining" or "other" without visual weight</li>
+            <li>Don't use for time series or ranked data — the grid implies proportion, not sequence</li>
+          </ul>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script type="module" src="../../_nav.js"></script>
+  <script>
+    function tab(btn, panelId) {
+      const bar = btn.parentElement
+      bar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      const container = bar.nextElementSibling
+      container.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'))
+      document.getElementById(panelId).classList.add('active')
+    }
+    function cp(btn, id) {
+      const txt = document.getElementById(id).innerText
+      navigator.clipboard.writeText(txt).then(() => {
+        btn.classList.add('ok')
+        btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!'
+        setTimeout(() => {
+          btn.classList.remove('ok')
+          btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy'
+        }, 2000)
+      })
+    }
+  </script>
+</body>
+</html>

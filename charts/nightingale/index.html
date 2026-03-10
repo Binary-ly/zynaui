@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nightingale — Zyna UI Charts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="/dist/zyna-charts.iife.js"></script>
+  <link rel="stylesheet" href="../../zynaui.css">
+  <link rel="stylesheet" href="../../docs.css">
+</head>
+<body>
+  <div id="topbar"></div>
+  <div id="docs-layout">
+    <aside id="sidebar"></aside>
+    <main id="content">
+
+      <div class="page-header">
+        <div class="breadcrumb">
+          <span>Charts</span>
+          <span class="breadcrumb-sep">›</span>
+          <span>Nightingale</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap">
+          <h1 class="page-title" style="margin-bottom:0">Nightingale (Rose)</h1>
+          <code style="font-family:var(--mono);font-size:0.78rem;padding:0.2rem 0.6rem;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--gold)">&lt;zyna-nightingale&gt;</code>
+        </div>
+        <p class="page-desc">Radial rose chart where each sector's radius encodes its value. Equal-angle sectors make magnitude the only visual variable, which suits comparing multiple categories with colour-coded groupings.</p>
+      </div>
+
+      <!-- Demo -->
+      <div class="doc-section">
+        <h2 class="section-title">Demo</h2>
+        <div class="tabs-bar">
+          <button class="tab-btn active" onclick="tab(this,'ng-p')">Preview</button>
+          <button class="tab-btn" onclick="tab(this,'ng-c')">Code</button>
+          <button class="tab-btn" onclick="tab(this,'ng-a')">Attributes</button>
+        </div>
+        <div>
+          <div id="ng-p" class="tab-panel active">
+            <div class="preview-box col" style="min-height:520px;padding:1.5rem">
+              <p style="font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:1rem">Libya aid by sector — EU (red) vs non-EU (green)</p>
+              <zyna-nightingale
+                data='[{"label":"Emergency","value":607,"color":"#B03A2E"},{"label":"Governance","value":408,"color":"#C0392B"},{"label":"Peacebuilding","value":243,"color":"#922B21"},{"label":"Capacity","value":153,"color":"#A93226"},{"label":"Migration","value":87,"color":"#7B241C"},{"label":"Health","value":124,"color":"#2D8C4E"},{"label":"Reconstruction","value":48,"color":"#239B56"},{"label":"WASH","value":48,"color":"#1E8449"},{"label":"Education","value":26,"color":"#196F3D"},{"label":"Community","value":48,"color":"#145A32"}]'
+                theme='dark'
+                color='#C9A84C'
+                style="display:block;width:100%">
+              </zyna-nightingale>
+            </div>
+          </div>
+          <div id="ng-c" class="tab-panel">
+            <div class="code-box">
+              <div class="code-toolbar">
+                <span class="code-lang">HTML</span>
+                <button class="copy-btn" onclick="cp(this,'ng-code')">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                  Copy
+                </button>
+              </div>
+              <pre id="ng-code"><span class="tag">&lt;zyna-nightingale</span>
+  <span class="atr">data</span>=<span class="val">'[
+    {"label":"Emergency",     "value":607,"color":"#B03A2E"},
+    {"label":"Governance",    "value":408,"color":"#C0392B"},
+    {"label":"Peacebuilding", "value":243,"color":"#922B21"},
+    {"label":"Capacity",      "value":153,"color":"#A93226"},
+    {"label":"Migration",     "value":87, "color":"#7B241C"},
+    {"label":"Health",        "value":124,"color":"#2D8C4E"},
+    {"label":"Reconstruction","value":48, "color":"#239B56"},
+    {"label":"WASH",          "value":48, "color":"#1E8449"},
+    {"label":"Education",     "value":26, "color":"#196F3D"},
+    {"label":"Community",     "value":48, "color":"#145A32"}
+  ]'</span>
+  <span class="atr">theme</span>=<span class="val">"dark"</span>
+  <span class="atr">color</span>=<span class="val">"#C9A84C"</span>
+<span class="tag">&gt;&lt;/zyna-nightingale&gt;</span></pre>
+            </div>
+          </div>
+          <div id="ng-a" class="tab-panel">
+            <div style="border:1px solid var(--border);border-top:none;border-bottom-left-radius:var(--radius);border-bottom-right-radius:var(--radius);overflow:hidden">
+              <table class="api-table" style="border:none;border-radius:0">
+                <thead>
+                  <tr>
+                    <th>Attribute</th>
+                    <th>Type</th>
+                    <th>Default</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td class="t-var">data</td><td class="t-type">JSON array</td><td class="t-def">—</td><td>Array of <code>{ label, value, color? }</code> objects.</td></tr>
+                  <tr><td class="t-var">color</td><td class="t-type">hex</td><td class="t-def">#C9A84C</td><td>Fallback accent color for items without a per-item color.</td></tr>
+                  <tr><td class="t-var">theme</td><td class="t-type">dark | light</td><td class="t-def">dark</td><td>Controls background and text colour scheme.</td></tr>
+                  <tr><td class="t-var">height</td><td class="t-type">number</td><td class="t-def">—</td><td>Explicit height in px. Auto-derived from width when omitted.</td></tr>
+                  <tr><td class="t-var">show-values</td><td class="t-type">boolean</td><td class="t-def">true</td><td>Set to <code style="font-family:var(--mono);font-size:0.75rem">"false"</code> to hide the numeric value labels on leader lines.</td></tr>
+                  <tr><td class="t-var">label-format</td><td class="t-type">string</td><td class="t-def">—</td><td>D3-style number format (e.g. <code style="font-family:var(--mono);font-size:0.75rem">$,.0f</code>, <code style="font-family:var(--mono);font-size:0.75rem">.1%</code>, <code style="font-family:var(--mono);font-size:0.75rem">,.2f</code>). Raw value shown when omitted.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Light Theme Section -->
+      <div class="doc-section">
+        <h2 class="section-title">Light Theme</h2>
+        <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.25rem;line-height:1.7">Set <code style="font-family:var(--mono);font-size:0.78rem;color:var(--gold)">theme="light"</code> for use on light backgrounds. The component adjusts all internal colours automatically.</p>
+        <div class="tabs-bar">
+          <button class="tab-btn active" onclick="tab(this,'ng-lt-p')">Preview</button>
+          <button class="tab-btn" onclick="tab(this,'ng-lt-c')">Code</button>
+        </div>
+        <div>
+          <div id="ng-lt-p" class="tab-panel active">
+            <div class="preview-box col" style="min-height:520px;padding:1.5rem;background:#F8F6F2;background-image:none">
+              <p style="font-size:0.7rem;color:#888;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:1rem">Libya aid by sector (light theme)</p>
+              <div style="background:#F8F6F2;border-radius:0.75rem;width:100%">
+                <zyna-nightingale
+                  data='[{"label":"Emergency","value":607,"color":"#B03A2E"},{"label":"Governance","value":408,"color":"#C0392B"},{"label":"Peacebuilding","value":243,"color":"#922B21"},{"label":"Capacity","value":153,"color":"#A93226"},{"label":"Migration","value":87,"color":"#7B241C"},{"label":"Health","value":124,"color":"#2D8C4E"},{"label":"Reconstruction","value":48,"color":"#239B56"},{"label":"WASH","value":48,"color":"#1E8449"},{"label":"Education","value":26,"color":"#196F3D"},{"label":"Community","value":48,"color":"#145A32"}]'
+                  theme='light'
+                  style="display:block;width:100%">
+                </zyna-nightingale>
+              </div>
+            </div>
+          </div>
+          <div id="ng-lt-c" class="tab-panel">
+            <div class="code-box">
+              <div class="code-toolbar">
+                <span class="code-lang">html</span>
+                <button class="copy-btn" onclick="cp(this,'ng-lt-code')">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy
+                </button>
+              </div>
+              <pre id="ng-lt-code"><span class="tag">&lt;zyna-nightingale</span>
+  <span class="atr">data</span>=<span class="val">'[...]'</span>
+  <span class="atr">theme</span>=<span class="val">"light"</span>
+<span class="tag">&gt;&lt;/zyna-nightingale&gt;</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tips -->
+      <div class="doc-section">
+        <h2 class="section-title">Usage Tips</h2>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;font-size:0.875rem;color:var(--text2);line-height:1.75">
+          <p style="margin-bottom:0.75rem">Use colour families to encode a secondary grouping: warm tones for one group, cool for another. Sort sectors by value descending for a natural clockwise taper.</p>
+          <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:0.4rem">
+            <li>Aim for 6–12 segments for best legibility</li>
+            <li>Keep labels concise. Elbow leader lines handle positioning.</li>
+            <li>Don't use fewer than 4 segments. A bar chart is cleaner at low counts.</li>
+            <li>Don't exceed 15 segments. Labels overlap and narrow sectors lose meaning.</li>
+          </ul>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script type="module" src="../../_nav.js"></script>
+  <script>
+    function tab(btn, panelId) {
+      const bar = btn.parentElement
+      bar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      const container = bar.nextElementSibling
+      container.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'))
+      document.getElementById(panelId).classList.add('active')
+    }
+    function cp(btn, id) {
+      const txt = document.getElementById(id).innerText
+      navigator.clipboard.writeText(txt).then(() => {
+        btn.classList.add('ok')
+        btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!'
+        setTimeout(() => {
+          btn.classList.remove('ok')
+          btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy'
+        }, 2000)
+      })
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zyna UI — Tailwind Component Library + D3 Charts by Binary Tech Ltd</title>
+  <meta name="description" content="Semantic Tailwind CSS components and D3-powered chart Web Components. Framework-agnostic, open source, built by Binary Tech Ltd."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./zynaui.css" />
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:       #0C0C0F;
+      --bg2:      #12121A;
+      --bg3:      #1A1A24;
+      --border:   #252530;
+      --border2:  #1A1A28;
+      --text:     #F0EBE0;
+      --text2:    #A09888;
+      --text3:    #6A6460;
+      --gold:     #C9A84C;
+      --gold-d:   #7A6230;
+      --gold-l:   #E8C86C;
+      --green:    #2D8C4E;
+      --red:      #C0392B;
+      --blue:     #009EDB;
+      --radius:   0.75rem;
+      --radius-sm:0.5rem;
+      --font:     'Outfit', system-ui, sans-serif;
+      --mono:     'DM Mono', 'Fira Code', monospace;
+    }
+    html { font-family: var(--font); background: var(--bg); color: var(--text); }
+    body { min-height: 100vh; overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; font-family: inherit; }
+    pre, code { font-family: var(--mono); }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* ── Noise texture overlay ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+      opacity: 0.4;
+    }
+
+    /* ── Navbar ── */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 64px;
+      display: flex; align-items: center;
+      padding: 0 1.5rem;
+      border-bottom: 1px solid transparent;
+      transition: background 200ms, border-color 200ms, box-shadow 200ms;
+    }
+    .navbar.scrolled {
+      background: rgba(12,12,15,0.85);
+      border-color: var(--border);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.03);
+    }
+    .navbar-logo {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-weight: 700; font-size: 1.25rem; letter-spacing: -0.02em;
+      flex-shrink: 0;
+    }
+    .navbar-logo .logo-mark {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-d) 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 900; color: #0C0C0F;
+      letter-spacing: -0.05em;
+    }
+    .navbar-links {
+      display: flex; align-items: center; gap: 0.25rem;
+      margin-left: 2.5rem;
+    }
+    .navbar-links a {
+      padding: 0.375rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem; font-weight: 500; color: var(--text2);
+      transition: color 150ms, background 150ms;
+    }
+    .navbar-links a:hover { color: var(--text); background: var(--bg3); }
+    .navbar-right {
+      margin-left: auto;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .badge-version {
+      padding: 0.2rem 0.6rem; border-radius: 99px;
+      background: rgba(201,168,76,0.12); color: var(--gold);
+      font-size: 0.7rem; font-weight: 700; font-family: var(--mono);
+      border: 1px solid rgba(201,168,76,0.25);
+      letter-spacing: 0.05em;
+    }
+    .btn-github {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.4rem 0.875rem; border-radius: var(--radius-sm);
+      background: var(--bg3); border: 1px solid var(--border);
+      font-size: 0.8rem; font-weight: 600; color: var(--text2);
+      transition: all 150ms;
+    }
+    .btn-github:hover { color: var(--text); border-color: var(--border2); background: var(--bg2); }
+    @media (max-width: 640px) {
+      .navbar-links { display: none; }
+      .navbar-logo .logo-text { display: none; }
+    }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 7rem 1.5rem 5rem;
+      text-align: center;
+      overflow: hidden;
+    }
+    /* Radial glow */
+    .hero::after {
+      content: '';
+      position: absolute; top: 10%; left: 50%; transform: translateX(-50%);
+      width: 800px; height: 600px;
+      background: radial-gradient(ellipse at center, rgba(201,168,76,0.10) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    /* Grid lines */
+    .hero-grid {
+      position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 100%);
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.35rem 0.85rem; border-radius: 99px;
+      background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.2);
+      font-size: 0.8rem; font-weight: 600; color: var(--gold);
+      margin-bottom: 2rem; letter-spacing: 0.05em;
+      animation: fade-up 0.6s ease both;
+    }
+    .hero-title {
+      font-size: clamp(2.75rem, 8vw, 6rem);
+      font-weight: 900; letter-spacing: -0.04em; line-height: 0.95;
+      margin-bottom: 1.5rem; position: relative; z-index: 1;
+      animation: fade-up 0.6s 0.1s ease both;
+    }
+    .hero-title .gradient {
+      background: linear-gradient(135deg, var(--gold-l) 0%, var(--gold) 40%, var(--gold-d) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-sub {
+      max-width: 560px; font-size: 1.125rem; line-height: 1.7;
+      color: var(--text2); margin-bottom: 2.5rem; font-weight: 400;
+      animation: fade-up 0.6s 0.2s ease both;
+    }
+    .hero-actions {
+      display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center;
+      position: relative; z-index: 1;
+      animation: fade-up 0.6s 0.3s ease both;
+    }
+
+    /* ── Hero component preview (floating cards) ── */
+    .hero-preview {
+      position: relative; width: 100%; max-width: 900px;
+      margin-top: 5rem;
+      animation: fade-up 0.7s 0.5s ease both;
+      z-index: 1;
+    }
+    .preview-window {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04) inset;
+    }
+    .preview-titlebar {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-red { background: #FF5F57; }
+    .dot-yellow { background: #FEBC2E; }
+    .dot-green { background: #28C840; }
+    .preview-titlebar-url {
+      flex: 1; text-align: center;
+      font-size: 0.75rem; color: var(--text3); font-family: var(--mono);
+    }
+    .preview-body {
+      padding: 1.5rem;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    /* ── Sections ── */
+    section { position: relative; z-index: 1; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+    .section-label {
+      display: inline-block;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-size: clamp(1.75rem, 4vw, 2.75rem);
+      font-weight: 800; letter-spacing: -0.03em; line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .section-sub {
+      font-size: 1rem; color: var(--text2); line-height: 1.7;
+      max-width: 560px;
+    }
+
+    /* ── Stats bar ── */
+    .stats-bar {
+      background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 1.5rem 0;
+    }
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1px; background: var(--border);
+    }
+    .stat-item {
+      background: var(--bg2); padding: 1.5rem 2rem;
+      text-align: center;
+    }
+    .stat-num {
+      font-size: 2rem; font-weight: 900; letter-spacing: -0.03em;
+      color: var(--gold); line-height: 1;
+    }
+    .stat-label { font-size: 0.8rem; color: var(--text2); margin-top: 0.25rem; }
+    @media (max-width: 640px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    /* ── Feature cards ── */
+    .features { padding: 6rem 0; }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; margin-top: 4rem;
+    }
+    .feature-card {
+      background: var(--bg2); padding: 2rem;
+      transition: background 200ms;
+      position: relative; overflow: hidden;
+    }
+    .feature-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0; transition: opacity 300ms;
+    }
+    .feature-card:hover { background: var(--bg3); }
+    .feature-card:hover::before { opacity: 1; }
+    .feature-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.2);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.25rem; color: var(--gold);
+    }
+    .feature-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem; }
+    .feature-text { font-size: 0.875rem; color: var(--text2); line-height: 1.6; }
+
+    /* ── Component showcase ── */
+    .components-section { padding: 6rem 0; background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .component-tabs {
+      display: flex; gap: 0.25rem;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 0.25rem;
+      margin-bottom: 1.5rem; width: fit-content;
+    }
+    .tab-btn {
+      padding: 0.375rem 0.875rem; border-radius: 6px; border: none;
+      font-size: 0.8rem; font-weight: 600; color: var(--text3);
+      background: transparent; transition: all 150ms;
+    }
+    .tab-btn.active { background: var(--bg2); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Component preview area */
+    .comp-preview {
+      background: var(--bg);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 3rem 2rem;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 1rem;
+      min-height: 160px;
+      /* Diagonal stripe pattern like DaisyUI */
+      background-image: repeating-linear-gradient(
+        -45deg, var(--bg), var(--bg) 13px, var(--bg2) 13px, var(--bg2) 14px
+      );
+      background-size: 40px 40px;
+      position: relative;
+    }
+    .code-block {
+      background: #0A0A10; border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .code-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.625rem 1rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+    }
+    .code-filename { font-size: 0.75rem; color: var(--text3); font-family: var(--mono); }
+    .copy-btn {
+      display: flex; align-items: center; gap: 0.35rem;
+      padding: 0.25rem 0.6rem; border-radius: 6px;
+      background: var(--bg3); border: 1px solid var(--border);
+      font-size: 0.7rem; font-weight: 600; color: var(--text2);
+      transition: all 150ms;
+    }
+    .copy-btn:hover { color: var(--text); background: var(--bg2); }
+    .copy-btn.copied { color: var(--green); border-color: var(--green); }
+    pre {
+      padding: 1.25rem 1.5rem; overflow-x: auto;
+      font-size: 0.8rem; line-height: 1.7;
+      color: #A8B5C8;
+    }
+    /* Simple code coloring */
+    .kw  { color: #C792EA; }
+    .str { color: #C3E88D; }
+    .cls { color: #FFCB6B; }
+    .cmt { color: #546E7A; }
+    .tag { color: #F78C6C; }
+    .atr { color: #89DDFF; }
+    .val { color: #C3E88D; }
+
+    /* ── Component grid ── */
+    .comp-grid { display: grid; grid-template-columns: 200px 1fr; gap: 3rem; align-items: start; }
+    .comp-nav { position: sticky; top: 5rem; }
+    .comp-nav-item {
+      display: block; padding: 0.5rem 0.75rem; border-radius: var(--radius-sm);
+      font-size: 0.875rem; font-weight: 500; color: var(--text2);
+      border: 1px solid transparent;
+      transition: all 150ms; margin-bottom: 0.125rem; cursor: pointer;
+    }
+    .comp-nav-item:hover { color: var(--text); background: var(--bg3); }
+    .comp-nav-item.active { color: var(--gold); background: rgba(201,168,76,0.08); border-color: rgba(201,168,76,0.2); }
+    .comp-section { margin-bottom: 4rem; scroll-margin-top: 80px; }
+    .comp-name {
+      font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+    .comp-desc { font-size: 0.9rem; color: var(--text2); margin-bottom: 1.5rem; }
+    @media (max-width: 768px) {
+      .comp-grid { grid-template-columns: 1fr; }
+      .comp-nav { display: none; }
+    }
+
+    /* ── Install section ── */
+    .install-section {
+      padding: 6rem 0;
+      background: radial-gradient(ellipse 80% 50% at 50% 100%, rgba(201,168,76,0.08) 0%, transparent 60%);
+    }
+    .step-num {
+      width: 2.5rem; height: 2.5rem; border-radius: 50%;
+      background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 0.875rem; color: var(--gold);
+      flex-shrink: 0;
+    }
+    .step-content h3 { font-weight: 700; margin-bottom: 0.75rem; }
+
+    /* ── Framework logos ── */
+    .frameworks { padding: 4rem 0; border-top: 1px solid var(--border); }
+    .framework-logos {
+      display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; align-items: center;
+      margin-top: 2rem; opacity: 0.5;
+    }
+    .fw-logo {
+      font-size: 0.875rem; font-weight: 700; color: var(--text2);
+      display: flex; align-items: center; gap: 0.5rem;
+      transition: opacity 200ms;
+    }
+    .fw-logo:hover { opacity: 1; }
+    .fw-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border); padding: 3rem 0;
+      background: var(--bg2);
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+    }
+    .footer-brand { color: var(--text2); font-size: 0.875rem; line-height: 1.7; margin-top: 0.75rem; }
+    .footer-col h4 { font-weight: 700; font-size: 0.875rem; margin-bottom: 1rem; }
+    .footer-col a { display: block; color: var(--text2); font-size: 0.875rem; margin-bottom: 0.5rem; transition: color 150ms; }
+    .footer-col a:hover { color: var(--gold); }
+    .footer-bottom {
+      border-top: 1px solid var(--border); margin-top: 3rem; padding-top: 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.8rem; color: var(--text3);
+    }
+    @media (max-width: 768px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Animations ── */
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(1rem); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes shimmer {
+      from { background-position: -200% 0; }
+      to   { background-position: 200% 0; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-8px); }
+    }
+    @keyframes pulse-ring {
+      0%   { box-shadow: 0 0 0 0 rgba(201,168,76,0.4); }
+      70%  { box-shadow: 0 0 0 12px rgba(201,168,76,0); }
+      100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
+    }
+    @keyframes slide-in-left {
+      from { opacity: 0; transform: translateX(-1.5rem); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0; transform: translateY(1.5rem);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.08s; }
+    .reveal-delay-2 { transition-delay: 0.16s; }
+    .reveal-delay-3 { transition-delay: 0.24s; }
+    .reveal-delay-4 { transition-delay: 0.32s; }
+
+    .chart-mini-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: border-color 200ms ease;
+    }
+    .chart-mini-card:hover { border-color: var(--gold); }
+
+    /* Shimmer text on the logo */
+    .shimmer-text {
+      background: linear-gradient(90deg, var(--gold) 0%, var(--gold-l) 40%, var(--gold) 60%, var(--gold));
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      animation: shimmer 3s linear infinite;
+    }
+
+    /* ── Marquee strip ── */
+    .marquee-wrap { overflow: hidden; padding: 1.5rem 0; background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .marquee-track {
+      display: flex; gap: 3rem; width: max-content;
+      animation: marquee 28s linear infinite;
+    }
+    .marquee-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; font-weight: 700; color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
+    .marquee-sep { color: var(--border); }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── Gradient border trick ── */
+    .glow-card {
+      position: relative; border-radius: var(--radius); overflow: hidden;
+    }
+    .glow-card::before {
+      content: ''; position: absolute; inset: 0; padding: 1px; border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(201,168,76,0.5), transparent 50%, rgba(201,168,76,0.2));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    /* ── Highlight strip ── */
+    .highlight { position: relative; display: inline; }
+    .highlight::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 30%; background: rgba(201,168,76,0.25); z-index: -1;
+      border-radius: 2px;
+    }
+
+    /* ── Install tab system ── */
+    .install-step-row { display:flex; gap:1.25rem; margin-bottom:2.5rem; align-items:start; }
+    .step-body { flex:1; min-width:0; }
+    .step-body h3 { font-weight:700; margin-bottom:0.875rem; }
+    .pkg-bar {
+      display:flex; gap:0.25rem;
+      background:rgba(255,255,255,0.03); border:1px solid var(--border);
+      border-bottom:none; padding:0.375rem 0.75rem 0; width:fit-content;
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    }
+    .pkg-btn {
+      padding:0.35rem 0.75rem; border-radius:6px 6px 0 0; border:none;
+      background:transparent; font-size:0.72rem; font-weight:700;
+      color:var(--text3); font-family:var(--mono); letter-spacing:0.05em;
+      cursor:pointer; transition:all 150ms;
+    }
+    .pkg-btn.active { background:var(--bg); color:var(--gold); }
+    .install-block {
+      background:#0A0A10; border:1px solid var(--border);
+      border-radius:0 var(--radius-sm) var(--radius-sm) var(--radius-sm);
+      overflow:hidden;
+    }
+    .install-cmd {
+      display:flex; align-items:center; justify-content:space-between;
+      gap:1rem; padding:0.875rem 1.25rem;
+    }
+    .install-cmd code { font-family:var(--mono); font-size:0.82rem; color:#C3E88D; }
+    .file-bar {
+      display:flex; gap:0;
+      background:rgba(255,255,255,0.02); border:1px solid var(--border);
+      border-bottom:none; border-radius:var(--radius-sm) var(--radius-sm) 0 0;
+      overflow:hidden; width:fit-content;
+    }
+    .file-tab {
+      padding:0.45rem 1rem; border:none; border-right:1px solid var(--border);
+      background:transparent; font-size:0.72rem; font-weight:600;
+      color:var(--text3); font-family:var(--mono);
+      cursor:pointer; transition:all 150ms;
+    }
+    .file-tab:last-child { border-right:none; }
+    .file-tab.active { background:#0A0A10; color:var(--text); }
+    .file-content { display:none; }
+    .file-content.active { display:block; }
+    .install-divider {
+      width:1px; background:linear-gradient(to bottom, transparent, var(--border) 20%, var(--border) 80%, transparent);
+      align-self:stretch; flex-shrink:0; margin:0 0.25rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAVBAR ── -->
+  <nav class="navbar" id="navbar">
+    <a href="/" class="navbar-logo">
+      <div class="logo-mark">Z</div>
+      <span class="logo-text">zyna<span style="color:var(--gold)">ui</span></span>
+    </a>
+    <div class="navbar-links">
+      <a href="components/btn/">Components</a>
+      <a href="charts/waffle/">Charts</a>
+      <a href="#install">Install</a>
+    </div>
+    <div class="navbar-right">
+      <span class="badge-version">v0.1.0-beta</span>
+      <a href="https://github.com/binary-ly/zynaui" class="btn-github" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        GitHub
+      </a>
+    </div>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="hero-grid"></div>
+
+    <div class="hero-eyebrow">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><circle cx="6" cy="6" r="6"/></svg>
+      Open source · MIT License · By Binary Tech Ltd
+    </div>
+
+    <h1 class="hero-title">
+      Build sharp UIs<br>
+      <span class="gradient">without the ceremony</span>
+    </h1>
+
+    <p class="hero-sub">
+      Semantic Tailwind CSS components and D3-powered chart Web Components.
+      Works in React, Vue, Svelte, Blade, or plain HTML. No configuration required.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#install" class="btn btn-primary">
+        Get started
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="components/btn/" class="btn btn-ghost">
+        Browse components
+      </a>
+      <a href="charts/waffle/" class="btn btn-ghost">
+        View charts →
+      </a>
+    </div>
+
+    <!-- Preview window -->
+    <div class="hero-preview">
+      <div class="preview-window">
+        <div class="preview-titlebar">
+          <div class="dot dot-red"></div>
+          <div class="dot dot-yellow"></div>
+          <div class="dot dot-green"></div>
+          <span class="preview-titlebar-url">localhost:5173 — Zyna UI Preview</span>
+        </div>
+        <div class="preview-body">
+          <!-- Left col: Buttons + Badges -->
+          <div style="display:flex;flex-direction:column;gap:1.25rem">
+            <div>
+              <p style="font-size:0.58rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.14em;font-weight:700;font-family:var(--mono);margin-bottom:0.6rem">// Buttons</p>
+              <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.4rem">
+                <button class="btn btn-primary btn-sm">Execute</button>
+                <button class="btn btn-secondary btn-sm">Standby</button>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:0.4rem">
+                <button class="btn btn-ghost btn-sm">Dismiss</button>
+                <button class="btn btn-danger btn-sm">Abort</button>
+              </div>
+            </div>
+            <div>
+              <p style="font-size:0.58rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.14em;font-weight:700;font-family:var(--mono);margin-bottom:0.6rem">// Badges</p>
+              <div style="display:flex;flex-wrap:wrap;gap:0.35rem">
+                <span class="badge badge-success badge-pulse">Online</span>
+                <span class="badge badge-danger">Critical</span>
+                <span class="badge badge-warning">Alert</span>
+                <span class="badge badge-info">Sync</span>
+                <span class="badge badge-neutral">Idle</span>
+              </div>
+            </div>
+            <div>
+              <p style="font-size:0.58rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.14em;font-weight:700;font-family:var(--mono);margin-bottom:0.6rem">// Alerts</p>
+              <div style="display:flex;flex-direction:column;gap:0.35rem">
+                <div class="alert alert-success" style="padding:0.5rem 0.875rem">
+                  <div><p class="alert-title" style="font-size:0.65rem">Uplink Established</p></div>
+                </div>
+                <div class="alert alert-danger" style="padding:0.5rem 0.875rem">
+                  <div><p class="alert-title" style="font-size:0.65rem">System Breach</p></div>
+                </div>
+                <div class="alert alert-info" style="padding:0.5rem 0.875rem">
+                  <div><p class="alert-title" style="font-size:0.65rem">Signal Received</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Right col: Card -->
+          <div style="display:flex;align-items:center;justify-content:center">
+            <div class="card card-glow" style="width:100%">
+              <div class="card-header">Mission Data</div>
+              <div class="card-body">
+                <p class="card-title">Q1 Field Report</p>
+                <p class="card-subtitle">Libya Aid Programme · 2024</p>
+                <span class="badge badge-success badge-pulse" style="margin-top:0.5rem;display:inline-flex">Transmitted</span>
+              </div>
+              <div class="card-footer" style="display:flex;justify-content:flex-end;gap:0.5rem">
+                <button class="btn btn-ghost btn-sm">Discard</button>
+                <button class="btn btn-primary btn-sm">Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MARQUEE ── -->
+  <div class="marquee-wrap">
+    <div class="marquee-track" id="marqueeTrack">
+      <span class="marquee-item"><img src="https://cdn.simpleicons.org/react/61DAFB" width="16" height="16" alt="React" style="vertical-align:middle;margin-right:0.45rem;opacity:0.9">React <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item"><img src="https://cdn.simpleicons.org/vuedotjs/4FC08D" width="16" height="16" alt="Vue.js" style="vertical-align:middle;margin-right:0.45rem;opacity:0.9">Vue.js <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item"><img src="https://cdn.simpleicons.org/svelte/FF3E00" width="16" height="16" alt="Svelte" style="vertical-align:middle;margin-right:0.45rem;opacity:0.9">Svelte <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item"><img src="https://cdn.simpleicons.org/laravel/FF2D20" width="16" height="16" alt="Laravel" style="vertical-align:middle;margin-right:0.45rem;opacity:0.9">Laravel <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item"><img src="https://cdn.simpleicons.org/typescript/3178C6" width="16" height="16" alt="TypeScript" style="vertical-align:middle;margin-right:0.45rem;opacity:0.9">TypeScript <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item"><img src="https://cdn.simpleicons.org/tailwindcss/06B6D4" width="16" height="16" alt="Tailwind CSS" style="vertical-align:middle;margin-right:0.45rem;opacity:0.9">Tailwind CSS <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item"><img src="https://cdn.simpleicons.org/d3/F9A03C" width="16" height="16" alt="D3.js" style="vertical-align:middle;margin-right:0.45rem;opacity:0.9">D3.js <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item"><img src="https://cdn.simpleicons.org/nextdotjs/FFFFFF" width="16" height="16" alt="Next.js" style="vertical-align:middle;margin-right:0.45rem;opacity:0.9">Next.js <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item"><img src="https://cdn.simpleicons.org/nuxt/00DC82" width="16" height="16" alt="Nuxt" style="vertical-align:middle;margin-right:0.45rem;opacity:0.9">Nuxt <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item"><img src="https://cdn.simpleicons.org/angular/DD0031" width="16" height="16" alt="Angular" style="vertical-align:middle;margin-right:0.45rem;opacity:0.9">Angular <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item"><img src="https://cdn.simpleicons.org/astro/FFFFFF" width="16" height="16" alt="Astro" style="vertical-align:middle;margin-right:0.45rem;opacity:0.9">Astro <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item"><img src="https://cdn.simpleicons.org/vite/646CFF" width="16" height="16" alt="Vite" style="vertical-align:middle;margin-right:0.45rem;opacity:0.9">Vite <span class="marquee-sep">✦</span></span>
+      <!-- duplicate for seamless loop -->
+      <span class="marquee-item"><img src="https://cdn.simpleicons.org/react/61DAFB" width="16" height="16" alt="React" style="vertical-align:middle;margin-right:0.45rem;opacity:0.9">React <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item"><img src="https://cdn.simpleicons.org/vuedotjs/4FC08D" width="16" height="16" alt="Vue.js" style="vertical-align:middle;margin-right:0.45rem;opacity:0.9">Vue.js <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item"><img src="https://cdn.simpleicons.org/svelte/FF3E00" width="16" height="16" alt="Svelte" style="vertical-align:middle;margin-right:0.45rem;opacity:0.9">Svelte <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item"><img src="https://cdn.simpleicons.org/laravel/FF2D20" width="16" height="16" alt="Laravel" style="vertical-align:middle;margin-right:0.45rem;opacity:0.9">Laravel <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item"><img src="https://cdn.simpleicons.org/typescript/3178C6" width="16" height="16" alt="TypeScript" style="vertical-align:middle;margin-right:0.45rem;opacity:0.9">TypeScript <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item"><img src="https://cdn.simpleicons.org/tailwindcss/06B6D4" width="16" height="16" alt="Tailwind CSS" style="vertical-align:middle;margin-right:0.45rem;opacity:0.9">Tailwind CSS <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item"><img src="https://cdn.simpleicons.org/d3/F9A03C" width="16" height="16" alt="D3.js" style="vertical-align:middle;margin-right:0.45rem;opacity:0.9">D3.js <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item"><img src="https://cdn.simpleicons.org/nextdotjs/FFFFFF" width="16" height="16" alt="Next.js" style="vertical-align:middle;margin-right:0.45rem;opacity:0.9">Next.js <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item"><img src="https://cdn.simpleicons.org/nuxt/00DC82" width="16" height="16" alt="Nuxt" style="vertical-align:middle;margin-right:0.45rem;opacity:0.9">Nuxt <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item"><img src="https://cdn.simpleicons.org/angular/DD0031" width="16" height="16" alt="Angular" style="vertical-align:middle;margin-right:0.45rem;opacity:0.9">Angular <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item"><img src="https://cdn.simpleicons.org/astro/FFFFFF" width="16" height="16" alt="Astro" style="vertical-align:middle;margin-right:0.45rem;opacity:0.9">Astro <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item"><img src="https://cdn.simpleicons.org/vite/646CFF" width="16" height="16" alt="Vite" style="vertical-align:middle;margin-right:0.45rem;opacity:0.9">Vite <span class="marquee-sep">✦</span></span>
+    </div>
+  </div>
+
+  <!-- ── STATS ── -->
+  <div class="stats-bar">
+    <div class="container">
+      <div class="stats-grid reveal">
+        <div class="stat-item">
+          <div class="stat-num">4+</div>
+          <div class="stat-label">UI Components</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">5</div>
+          <div class="stat-label">Chart Web Components</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">0</div>
+          <div class="stat-label">Required JS (UI only)</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">MIT</div>
+          <div class="stat-label">Free & Open Source</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FEATURES ── -->
+  <section class="features">
+    <div class="container">
+      <div class="reveal">
+        <span class="section-label">Why Zyna UI</span>
+        <h2 class="section-title">Everything you need,<br>nothing you don't</h2>
+        <p class="section-sub">Built for developers who care about quality, speed, and maintainability. No bloat included.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card reveal">
+          <div class="feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <div class="feature-title">Tailwind Plugin</div>
+          <div class="feature-text">Adds semantic class names like <code style="color:var(--gold);background:rgba(201,168,76,0.1);padding:0.1rem 0.35rem;border-radius:4px;font-size:0.75rem">.btn</code> and <code style="color:var(--gold);background:rgba(201,168,76,0.1);padding:0.1rem 0.35rem;border-radius:4px;font-size:0.75rem">.card</code> on top of Tailwind. No new build step. No config changes.</div>
+        </div>
+        <div class="feature-card reveal reveal-delay-1">
+          <div class="feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+          </div>
+          <div class="feature-title">Web Component Charts</div>
+          <div class="feature-text">Drop <code style="color:var(--gold);background:rgba(201,168,76,0.1);padding:0.1rem 0.35rem;border-radius:4px;font-size:0.75rem">&lt;zyna-waffle&gt;</code> anywhere: React, Vue, Blade, or plain HTML. D3-powered, responsive, no framework lock-in.</div>
+        </div>
+        <div class="feature-card reveal reveal-delay-2">
+          <div class="feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <div class="feature-title">Zero Configuration</div>
+          <div class="feature-text">Install, import, use. No boilerplate, no theme setup. Defaults adapt to your Tailwind colour config automatically.</div>
+        </div>
+        <div class="feature-card reveal reveal-delay-3">
+          <div class="feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="feature-title">Accessible by Default</div>
+          <div class="feature-text">Focus styles, ARIA patterns, and keyboard navigation are included. Colour contrasts meet WCAG 2.1 AA throughout.</div>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+          </div>
+          <div class="feature-title">Tree-shakeable</div>
+          <div class="feature-text">Import only what you use. The Tailwind plugin generates only the classes you reference. The chart bundle ships as ESM for code splitting.</div>
+        </div>
+        <div class="feature-card reveal reveal-delay-1">
+          <div class="feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <div class="feature-title">TypeScript Ready</div>
+          <div class="feature-text">Type definitions for all chart Web Component attributes and events. IDE autocomplete works for both the plugin and the chart components.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── COMPONENTS ── -->
+  <section class="components-section" id="components">
+    <div class="container">
+      <div class="reveal" style="margin-bottom:3rem">
+        <span class="section-label">UI Components</span>
+        <h2 class="section-title">Semantic classes,<br>instant results</h2>
+        <p class="section-sub">One class name is all it takes. Every component has a live preview, a code tab, and a CSS variable API.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden" class="reveal">
+
+        <a href="components/btn/" class="feature-card" style="display:block">
+          <div class="feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="10" rx="3"/></svg>
+          </div>
+          <div class="feature-title">Button</div>
+          <div class="feature-text">Chamfered-corner buttons with scan-fill hover and glow physics. 4 variants · 3 sizes · icon mode.</div>
+          <div style="margin-top:1.25rem;display:flex;flex-wrap:wrap;gap:0.4rem">
+            <button class="btn btn-primary btn-sm" tabindex="-1">Primary</button>
+            <button class="btn btn-secondary btn-sm" tabindex="-1">Secondary</button>
+            <button class="btn btn-ghost btn-sm" tabindex="-1">Ghost</button>
+            <button class="btn btn-danger btn-sm" tabindex="-1">Danger</button>
+          </div>
+        </a>
+
+        <a href="components/badge/" class="feature-card" style="display:block">
+          <div class="feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+          </div>
+          <div class="feature-title">Badge</div>
+          <div class="feature-text">Parallelogram data-chip indicators with radar scan sweep. 7 semantic variants · pulse · outline.</div>
+          <div style="margin-top:1.25rem;display:flex;flex-wrap:wrap;gap:0.4rem">
+            <span class="badge badge-success badge-pulse">Online</span>
+            <span class="badge badge-danger">Critical</span>
+            <span class="badge badge-info">Info</span>
+            <span class="badge badge-warning">Alert</span>
+          </div>
+        </a>
+
+        <a href="components/card/" class="feature-card" style="display:block">
+          <div class="feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/></svg>
+          </div>
+          <div class="feature-title">Card</div>
+          <div class="feature-text">HUD-panel containers with corner bracket marks, mono header, and deep glass depth. 4 variants.</div>
+          <div style="margin-top:1.25rem">
+            <div class="card card-compact" style="max-width:220px">
+              <div class="card-header">Data</div>
+              <div class="card-body">
+                <p class="card-title" style="font-size:0.9rem">Mission Report</p>
+                <span class="badge badge-success">Active</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="components/alert/" class="feature-card" style="display:block">
+          <div class="feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="feature-title">Alert</div>
+          <div class="feature-text">Terminal notifications with a left luminescent bar. 6 semantic variants with icon support.</div>
+          <div style="margin-top:1.25rem;display:flex;flex-direction:column;gap:0.4rem">
+            <div class="alert alert-success" style="padding:0.5rem 0.875rem">
+              <div><p class="alert-title" style="font-size:0.58rem">Uplink OK</p></div>
+            </div>
+            <div class="alert alert-danger" style="padding:0.5rem 0.875rem">
+              <div><p class="alert-title" style="font-size:0.58rem">Breach Detected</p></div>
+            </div>
+          </div>
+        </a>
+
+      </div>
+
+      <!-- Keep the old hidden container structure intact -->
+      <div style="display:none">
+
+          <!-- BUTTON -->
+          <div class="comp-section reveal" id="comp-btn">
+            <h3 class="comp-name">Button</h3>
+            <p class="comp-desc">Chamfered-corner buttons with a scan-fill hover effect and glow physics. Use <code style="color:var(--gold)">.btn</code> with a variant modifier: 4 variants, 3 sizes, icon mode.</p>
+
+            <div class="component-tabs">
+              <button class="tab-btn active" onclick="switchTab(this, 'btn-preview')">Preview</button>
+              <button class="tab-btn" onclick="switchTab(this, 'btn-code')">Code</button>
+            </div>
+
+            <div id="btn-preview" class="tab-panel active">
+              <div class="comp-preview">
+                <button class="btn btn-primary">Primary</button>
+                <button class="btn btn-secondary">Secondary</button>
+                <button class="btn btn-ghost">Ghost</button>
+                <button class="btn btn-danger">Danger</button>
+                <button class="btn btn-primary" disabled>Disabled</button>
+              </div>
+              <div style="margin-top:1rem">
+                <div class="comp-preview" style="min-height:auto;padding:1.5rem 2rem">
+                  <button class="btn btn-primary btn-sm">Small</button>
+                  <button class="btn btn-primary">Default</button>
+                  <button class="btn btn-primary btn-lg">Large</button>
+                </div>
+              </div>
+            </div>
+
+            <div id="btn-code" class="tab-panel">
+              <div class="code-block">
+                <div class="code-header">
+                  <span class="code-filename">index.html</span>
+                  <button class="copy-btn" onclick="copyCode(this, 'btncode')">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                    Copy
+                  </button>
+                </div>
+                <pre id="btncode"><span class="cmt">&lt;!-- Variants --&gt;</span>
+<span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-primary"</span><span class="tag">&gt;</span>Primary<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-secondary"</span><span class="tag">&gt;</span>Secondary<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-ghost"</span><span class="tag">&gt;</span>Ghost<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-danger"</span><span class="tag">&gt;</span>Danger<span class="tag">&lt;/button&gt;</span>
+
+<span class="cmt">&lt;!-- Sizes --&gt;</span>
+<span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-primary btn-sm"</span><span class="tag">&gt;</span>Small<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-primary btn-lg"</span><span class="tag">&gt;</span>Large<span class="tag">&lt;/button&gt;</span>
+
+<span class="cmt">&lt;!-- Disabled --&gt;</span>
+<span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-primary"</span> <span class="atr">disabled</span><span class="tag">&gt;</span>Disabled<span class="tag">&lt;/button&gt;</span></pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- BADGE -->
+          <div class="comp-section reveal" id="comp-badge">
+            <h3 class="comp-name">Badge</h3>
+            <p class="comp-desc">Data-tag style indicators with a left accent bar in luminescent colors. Add <code style="color:var(--gold)">.badge-pulse</code> for an animated status dot.</p>
+
+            <div class="component-tabs">
+              <button class="tab-btn active" onclick="switchTab(this, 'badge-preview')">Preview</button>
+              <button class="tab-btn" onclick="switchTab(this, 'badge-code')">Code</button>
+            </div>
+
+            <div id="badge-preview" class="tab-panel active">
+              <div class="comp-preview" style="flex-direction:column;align-items:flex-start;gap:1rem">
+                <div style="display:flex;flex-wrap:wrap;gap:0.5rem;align-items:center">
+                  <span class="badge badge-primary">Primary</span>
+                  <span class="badge badge-secondary">Secondary</span>
+                  <span class="badge badge-success">Success</span>
+                  <span class="badge badge-danger">Danger</span>
+                  <span class="badge badge-warning">Warning</span>
+                  <span class="badge badge-info">Info</span>
+                  <span class="badge badge-neutral">Neutral</span>
+                </div>
+                <div style="display:flex;flex-wrap:wrap;gap:0.5rem;align-items:center">
+                  <span class="badge badge-success badge-pulse">Online</span>
+                  <span class="badge badge-danger badge-pulse">Critical</span>
+                  <span class="badge badge-info badge-pulse">Syncing</span>
+                  <span class="badge badge-primary badge-lg">Large</span>
+                  <span class="badge badge-success badge-outline">Outline</span>
+                </div>
+              </div>
+            </div>
+
+            <div id="badge-code" class="tab-panel">
+              <div class="code-block">
+                <div class="code-header">
+                  <span class="code-filename">index.html</span>
+                  <button class="copy-btn" onclick="copyCode(this, 'badgecode')">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                    Copy
+                  </button>
+                </div>
+                <pre id="badgecode"><span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="val">"badge badge-primary"</span><span class="tag">&gt;</span>New<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="val">"badge badge-success"</span><span class="tag">&gt;</span>Active<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="val">"badge badge-danger"</span><span class="tag">&gt;</span>Error<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="val">"badge badge-warning"</span><span class="tag">&gt;</span>Pending<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="val">"badge badge-info"</span><span class="tag">&gt;</span>Info<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="val">"badge badge-neutral"</span><span class="tag">&gt;</span>Draft<span class="tag">&lt;/span&gt;</span>
+
+<span class="cmt">&lt;!-- Large --&gt;</span>
+<span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="val">"badge badge-primary badge-lg"</span><span class="tag">&gt;</span>Large<span class="tag">&lt;/span&gt;</span></pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD -->
+          <div class="comp-section reveal" id="comp-card">
+            <h3 class="comp-name">Card</h3>
+            <p class="comp-desc">HUD-panel containers with corner bracket marks, a mono header readout, and deep glass depth. Four variants: base, <code style="color:var(--gold)">.card-dark</code>, <code style="color:var(--gold)">.card-glow</code>, <code style="color:var(--gold)">.card-compact</code>.</p>
+
+            <div class="component-tabs">
+              <button class="tab-btn active" onclick="switchTab(this, 'card-preview')">Preview</button>
+              <button class="tab-btn" onclick="switchTab(this, 'card-code')">Code</button>
+            </div>
+
+            <div id="card-preview" class="tab-panel active">
+              <div class="comp-preview" style="align-items:stretch;flex-wrap:wrap">
+                <div class="card" style="flex:1;min-width:220px;max-width:280px">
+                  <div class="card-header">Workspace</div>
+                  <div class="card-body">
+                    <p class="card-title">Q1 Report</p>
+                    <p class="card-subtitle">Libya Aid Programme · 2024</p>
+                    <span class="badge badge-success badge-pulse">Published</span>
+                  </div>
+                  <div class="card-footer" style="display:flex;gap:0.5rem">
+                    <button class="btn btn-ghost btn-sm">Dismiss</button>
+                    <button class="btn btn-primary btn-sm">View</button>
+                  </div>
+                </div>
+                <div class="card card-dark" style="flex:1;min-width:220px;max-width:280px">
+                  <div class="card-header">Void</div>
+                  <div class="card-body">
+                    <p class="card-title">Dark Variant</p>
+                    <p class="card-subtitle">Deepest layer · dashboard use</p>
+                    <span class="badge badge-secondary">Classified</span>
+                  </div>
+                  <div class="card-footer">
+                    <button class="btn btn-secondary btn-sm">Access</button>
+                  </div>
+                </div>
+                <div class="card card-glow" style="flex:1;min-width:220px;max-width:280px">
+                  <div class="card-header">Priority</div>
+                  <div class="card-body">
+                    <p class="card-title">Glow Variant</p>
+                    <p class="card-subtitle">High-priority surface · focus state</p>
+                    <span class="badge badge-warning">Urgent</span>
+                  </div>
+                  <div class="card-footer">
+                    <button class="btn btn-primary btn-sm">Action</button>
+                  </div>
+                </div>
+                <div class="card card-compact" style="flex:1;min-width:220px;max-width:280px">
+                  <div class="card-header">Compact</div>
+                  <div class="card-body">
+                    <p class="card-title">Compact Variant</p>
+                    <p class="card-subtitle">Reduced padding · dense layouts</p>
+                    <span class="badge badge-info">Dense</span>
+                  </div>
+                  <div class="card-footer" style="display:flex;gap:0.5rem">
+                    <button class="btn btn-ghost btn-sm">Skip</button>
+                    <button class="btn btn-secondary btn-sm">Save</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="card-code" class="tab-panel">
+              <div class="code-block">
+                <div class="code-header">
+                  <span class="code-filename">index.html</span>
+                  <button class="copy-btn" onclick="copyCode(this, 'cardcode')">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                    Copy
+                  </button>
+                </div>
+                <pre id="cardcode"><span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card-header"</span><span class="tag">&gt;</span>Title<span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card-body"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;p</span> <span class="atr">class</span>=<span class="val">"card-title"</span><span class="tag">&gt;</span>Card Title<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;p</span> <span class="atr">class</span>=<span class="val">"card-subtitle"</span><span class="tag">&gt;</span>Subtitle<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;p&gt;</span>Body content here.<span class="tag">&lt;/p&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card-footer"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-primary btn-sm"</span><span class="tag">&gt;</span>Save<span class="tag">&lt;/button&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="cmt">&lt;!-- Dark variant --&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card card-dark"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+
+<span class="cmt">&lt;!-- Glow variant --&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card card-glow"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+
+<span class="cmt">&lt;!-- Compact variant — reduced padding for dense layouts --&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card card-compact"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span></pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- ALERT -->
+          <div class="comp-section reveal" id="comp-alert">
+            <h3 class="comp-name">Alert</h3>
+            <p class="comp-desc">System terminal notifications with a left luminous bar, translucent tint, and no radius. Luminescent semantic colors instead of conventional ones.</p>
+
+            <div class="component-tabs">
+              <button class="tab-btn active" onclick="switchTab(this, 'alert-preview')">Preview</button>
+              <button class="tab-btn" onclick="switchTab(this, 'alert-code')">Code</button>
+            </div>
+
+            <div id="alert-preview" class="tab-panel active">
+              <div class="comp-preview" style="flex-direction:column;align-items:stretch">
+                <div class="alert alert-success">
+                  <div><p class="alert-title">Uplink Established</p><p>Secure transmission confirmed. All nodes synchronized.</p></div>
+                </div>
+                <div class="alert alert-danger">
+                  <div><p class="alert-title">System Breach</p><p>Unauthorized access detected. Isolating affected modules.</p></div>
+                </div>
+                <div class="alert alert-warning">
+                  <div><p class="alert-title">Irreversible</p><p>This action cannot be undone. Confirm before proceeding.</p></div>
+                </div>
+                <div class="alert alert-info">
+                  <div><p class="alert-title">Signal Received</p><p>New transmission available. Protocol v2.1 inbound.</p></div>
+                </div>
+                <div class="alert alert-neutral">
+                  <div><p class="alert-title">Standby</p><p>No active events. System is idle and awaiting instructions.</p></div>
+                </div>
+                <div class="alert alert-dark">
+                  <div><p class="alert-title">Classified</p><p>Access restricted. Clearance level insufficient for this record.</p></div>
+                </div>
+              </div>
+            </div>
+
+            <div id="alert-code" class="tab-panel">
+              <div class="code-block">
+                <div class="code-header">
+                  <span class="code-filename">index.html</span>
+                  <button class="copy-btn" onclick="copyCode(this, 'alertcode')">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                    Copy
+                  </button>
+                </div>
+                <pre id="alertcode"><span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-success"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;p</span> <span class="atr">class</span>=<span class="val">"alert-title"</span><span class="tag">&gt;</span>Success<span class="tag">&lt;/p&gt;</span>
+  <span class="tag">&lt;p&gt;</span>Changes saved.<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-danger"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-warning"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-info"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-neutral"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-dark"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span></pre>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CHART CTA ── -->
+  <section style="padding:6rem 0;background:var(--bg)">
+    <div class="container" style="text-align:center">
+      <div class="reveal">
+        <span class="section-label">Data Visualisation</span>
+        <h2 class="section-title">5 Chart Web Components<br><span style="color:var(--text2);font-weight:300">ready to drop anywhere</span></h2>
+        <p class="section-sub" style="margin:1rem auto 2.5rem">Waffle, Timeline, Nightingale, Lollipop, and Orbital. All drawn from real data infographics, built with D3 v7.</p>
+        <a href="charts/waffle/" class="btn btn-primary" style="margin:0 auto">
+          Explore chart components
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- Mini chart previews -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:0.75rem;margin-top:3.5rem;max-width:700px;margin-left:auto;margin-right:auto" class="reveal">
+        <a href="charts/waffle/" class="chart-mini-card" style="text-decoration:none">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="margin-bottom:0.5rem;color:var(--gold)" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          <div style="font-size:0.75rem;font-weight:700;color:var(--text2)">Waffle</div>
+          <div style="font-size:0.65rem;color:var(--text3);margin-top:0.25rem">zyna-waffle</div>
+        </a>
+        <a href="charts/timeline/" class="chart-mini-card" style="text-decoration:none">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="margin-bottom:0.5rem;color:var(--gold)" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="12" x2="21" y2="12"/><circle cx="6" cy="12" r="2" fill="currentColor"/><circle cx="12" cy="7" r="2" fill="currentColor"/><circle cx="18" cy="12" r="2" fill="currentColor"/></svg>
+          <div style="font-size:0.75rem;font-weight:700;color:var(--text2)">Timeline</div>
+          <div style="font-size:0.65rem;color:var(--text3);margin-top:0.25rem">zyna-timeline</div>
+        </a>
+        <a href="charts/nightingale/" class="chart-mini-card" style="text-decoration:none">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="margin-bottom:0.5rem;color:var(--gold)" stroke="currentColor" stroke-width="1.5"><path d="M12 12 L12 3 A9 9 0 0 1 20.5 7.5 Z" fill="currentColor" opacity="0.4"/><path d="M12 12 L20.5 7.5 A9 9 0 0 1 21 12 Z" fill="currentColor" opacity="0.6"/><path d="M12 12 L21 12 A9 9 0 0 1 3 12 Z" fill="currentColor" opacity="0.3"/><circle cx="12" cy="12" r="9"/></svg>
+          <div style="font-size:0.75rem;font-weight:700;color:var(--text2)">Nightingale</div>
+          <div style="font-size:0.65rem;color:var(--text3);margin-top:0.25rem">zyna-nightingale</div>
+        </a>
+        <a href="charts/lollipop/" class="chart-mini-card" style="text-decoration:none">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="margin-bottom:0.5rem;color:var(--gold)" stroke="currentColor" stroke-width="1.5"><line x1="5" y1="6" x2="17" y2="6"/><circle cx="17" cy="6" r="2" fill="currentColor"/><line x1="5" y1="12" x2="13" y2="12"/><circle cx="13" cy="12" r="2" fill="currentColor"/><line x1="5" y1="18" x2="9" y2="18"/><circle cx="9" cy="18" r="2" fill="currentColor"/></svg>
+          <div style="font-size:0.75rem;font-weight:700;color:var(--text2)">Lollipop</div>
+          <div style="font-size:0.65rem;color:var(--text3);margin-top:0.25rem">zyna-lollipop</div>
+        </a>
+        <a href="charts/orbital/" class="chart-mini-card" style="text-decoration:none">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="margin-bottom:0.5rem;color:var(--gold)" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="3"/></svg>
+          <div style="font-size:0.75rem;font-weight:700;color:var(--text2)">Orbital</div>
+          <div style="font-size:0.65rem;color:var(--text3);margin-top:0.25rem">zyna-orbital</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── INSTALLATION ── -->
+  <section class="install-section" id="install">
+    <div class="container">
+      <div class="reveal" style="text-align:center;margin-bottom:4rem">
+        <span class="section-label">Get Started</span>
+        <h2 class="section-title">Up and running<br>in 60 seconds</h2>
+      </div>
+
+      <div style="max-width:680px;margin:0 auto">
+
+        <!-- Step 1: Install -->
+        <div class="install-step-row reveal">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h3>Install the package</h3>
+            <div class="pkg-bar" id="idx-pkg-bar">
+              <button class="pkg-btn active" onclick="idxPkgTab(this,'npm')">npm</button>
+              <button class="pkg-btn" onclick="idxPkgTab(this,'pnpm')">pnpm</button>
+              <button class="pkg-btn" onclick="idxPkgTab(this,'yarn')">yarn</button>
+              <button class="pkg-btn" onclick="idxPkgTab(this,'bun')">bun</button>
+            </div>
+            <div class="install-block">
+              <div class="install-cmd" id="idx-pkg-npm">
+                <code>npm install zynaui</code>
+                <button class="copy-btn" onclick="copyText(this,'npm install zynaui')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+              </div>
+              <div class="install-cmd" id="idx-pkg-pnpm" style="display:none">
+                <code>pnpm add zynaui</code>
+                <button class="copy-btn" onclick="copyText(this,'pnpm add zynaui')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+              </div>
+              <div class="install-cmd" id="idx-pkg-yarn" style="display:none">
+                <code>yarn add zynaui</code>
+                <button class="copy-btn" onclick="copyText(this,'yarn add zynaui')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+              </div>
+              <div class="install-cmd" id="idx-pkg-bun" style="display:none">
+                <code>bun add zynaui</code>
+                <button class="copy-btn" onclick="copyText(this,'bun add zynaui')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Configure -->
+        <div class="install-step-row reveal reveal-delay-1">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h3>Add the plugin to your Tailwind config</h3>
+            <div class="file-bar" id="idx-cfg-bar">
+              <button class="file-tab active" onclick="idxCfgTab(this,'v3')">tailwind.config.js</button>
+              <button class="file-tab" onclick="idxCfgTab(this,'v4')">CSS (v4)</button>
+            </div>
+            <div class="install-block">
+              <div class="file-content active" id="idx-cfg-v3">
+                <div style="display:flex;justify-content:flex-end;padding:0.5rem 1rem 0">
+                  <button class="copy-btn" onclick="copyCode(this,'idx-cfg-v3-code')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+                </div>
+                <pre id="idx-cfg-v3-code"><span class="kw">const</span> <span class="cls">zynaUI</span> = <span class="kw">require</span>(<span class="str">'zynaui'</span>)
+
+<span class="cls">module</span>.exports = {
+  plugins: [<span class="cls">zynaUI</span>],
+}</pre>
+              </div>
+              <div class="file-content" id="idx-cfg-v4">
+                <div style="display:flex;justify-content:flex-end;padding:0.5rem 1rem 0">
+                  <button class="copy-btn" onclick="copyCode(this,'idx-cfg-v4-code')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+                </div>
+                <pre id="idx-cfg-v4-code"><span class="atr">@import</span> <span class="str">"tailwindcss"</span><span class="tag">;</span>
+<span class="atr">@plugin</span> <span class="str">"zynaui"</span><span class="tag">;</span></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Use components -->
+        <div class="install-step-row reveal reveal-delay-2">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h3>Use the components</h3>
+            <div class="code-block">
+              <div class="code-header">
+                <span class="code-filename">index.html</span>
+                <button class="copy-btn" onclick="copyCode(this,'idx-usage-code')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+              </div>
+              <pre id="idx-usage-code"><span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-primary"</span><span class="tag">&gt;</span>Execute<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-secondary"</span><span class="tag">&gt;</span>Standby<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="val">"badge badge-success badge-pulse"</span><span class="tag">&gt;</span>Online<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card card-glow"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-success"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Charts (optional) -->
+        <div class="install-step-row reveal reveal-delay-3">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h3>Optional: add D3 chart Web Components</h3>
+            <div class="file-bar" id="idx-chart-bar">
+              <button class="file-tab active" onclick="idxChartTab(this,'all')">All charts</button>
+              <button class="file-tab" onclick="idxChartTab(this,'one')">One chart</button>
+              <button class="file-tab" onclick="idxChartTab(this,'cdn')">CDN</button>
+            </div>
+            <div class="install-block">
+              <div class="file-content active" id="idx-chart-all">
+                <div style="display:flex;justify-content:flex-end;padding:0.5rem 1rem 0">
+                  <button class="copy-btn" onclick="copyCode(this,'idx-chart-all-code')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+                </div>
+                <pre id="idx-chart-all-code"><span class="cmt">// main.js — registers all 5 chart components</span>
+<span class="kw">import</span> <span class="str">'zynaui/charts'</span>
+
+<span class="cmt">// Then use anywhere in HTML:</span>
+<span class="tag">&lt;zyna-waffle</span>
+  <span class="atr">data</span>=<span class="val">'[{"label":"A","value":40,"color":"#C9A84C"},{"label":"B","value":30,"color":"#7A6230"},{"label":"C","value":30,"color":"#5A4820"}]'</span>
+  <span class="atr">cols</span>=<span class="val">"10"</span>
+<span class="tag">&gt;&lt;/zyna-waffle&gt;</span></pre>
+              </div>
+              <div class="file-content" id="idx-chart-one">
+                <div style="display:flex;justify-content:flex-end;padding:0.5rem 1rem 0">
+                  <button class="copy-btn" onclick="copyCode(this,'idx-chart-one-code')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+                </div>
+                <pre id="idx-chart-one-code"><span class="cmt">// Import only what you need</span>
+<span class="kw">import</span> <span class="str">'zynaui/charts/waffle'</span>
+<span class="kw">import</span> <span class="str">'zynaui/charts/nightingale'</span></pre>
+              </div>
+              <div class="file-content" id="idx-chart-cdn">
+                <div style="display:flex;justify-content:flex-end;padding:0.5rem 1rem 0">
+                  <button class="copy-btn" onclick="copyCode(this,'idx-chart-cdn-code')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+                </div>
+                <pre id="idx-chart-cdn-code"><span class="cmt">&lt;!-- No bundler needed — D3 is included --&gt;</span>
+<span class="tag">&lt;script</span> <span class="atr">src</span>=<span class="val">"https://cdn.jsdelivr.net/npm/zynaui/dist/zyna-charts.iife.js"</span><span class="tag">&gt;&lt;/script&gt;</span></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FRAMEWORKS ── -->
+  <section class="frameworks">
+    <div class="container">
+      <div style="text-align:center" class="reveal">
+        <span class="section-label">Compatibility</span>
+        <p style="color:var(--text2);font-size:0.95rem;margin-top:0.5rem">Works in every framework and plain HTML.</p>
+      </div>
+      <div class="framework-logos reveal">
+        <div class="fw-logo"><img src="https://cdn.simpleicons.org/react/61DAFB" width="16" height="16" alt="React">React</div>
+        <div class="fw-logo"><img src="https://cdn.simpleicons.org/vuedotjs/4FC08D" width="16" height="16" alt="Vue">Vue</div>
+        <div class="fw-logo"><img src="https://cdn.simpleicons.org/svelte/FF3E00" width="16" height="16" alt="Svelte">Svelte</div>
+        <div class="fw-logo"><img src="https://cdn.simpleicons.org/laravel/FF2D20" width="16" height="16" alt="Laravel">Blade / Laravel</div>
+        <div class="fw-logo"><img src="https://cdn.simpleicons.org/angular/DD0031" width="16" height="16" alt="Angular">Angular</div>
+        <div class="fw-logo"><img src="https://cdn.simpleicons.org/nextdotjs/FFFFFF" width="16" height="16" alt="Next.js">Next.js</div>
+        <div class="fw-logo"><img src="https://cdn.simpleicons.org/astro/FFFFFF" width="16" height="16" alt="Astro">Astro</div>
+        <div class="fw-logo"><img src="https://cdn.simpleicons.org/nuxt/00DC82" width="16" height="16" alt="Nuxt">Nuxt</div>
+        <div class="fw-logo"><img src="https://cdn.simpleicons.org/html5/E34F26" width="16" height="16" alt="HTML5">Plain HTML</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="navbar-logo" style="position:static">
+            <div class="logo-mark">Z</div>
+            <span>zyna<span style="color:var(--gold)">ui</span></span>
+          </div>
+          <p class="footer-brand">
+            Open-source Tailwind CSS component library and D3 chart Web Components.<br>
+            Built by <a href="https://binary.ly" style="color:var(--gold)">Binary Tech Ltd</a>. Free to use, MIT licensed. · <a href="https://zyna.dev" style="color:var(--gold)">zyna.dev</a>
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>Components</h4>
+          <a href="components/btn/">Button</a>
+          <a href="components/badge/">Badge</a>
+          <a href="components/card/">Card</a>
+          <a href="components/alert/">Alert</a>
+        </div>
+        <div class="footer-col">
+          <h4>Charts</h4>
+          <a href="charts/waffle/">Waffle</a>
+          <a href="charts/timeline/">Timeline</a>
+          <a href="charts/nightingale/">Nightingale</a>
+          <a href="charts/lollipop/">Lollipop</a>
+          <a href="charts/orbital/">Orbital</a>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <a href="https://github.com/binary-ly/zynaui" target="_blank">GitHub</a>
+          <a href="https://www.npmjs.com/package/zynaui" target="_blank">npm</a>
+          <a href="https://binary.ly" target="_blank">Binary Tech Ltd</a>
+          <a href="#install">Installation</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Binary Tech Ltd. MIT License.</span>
+        <span>Semantic class naming inspired by <a href="https://daisyui.com" target="_blank" rel="noopener" style="color:var(--gold)">DaisyUI</a> · Made with ♥ in Libya</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── Navbar scroll effect ──
+    const navbar = document.getElementById('navbar')
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 20)
+    }, { passive: true })
+
+    // ── Tab switching ──
+    function switchTab(btn, panelId) {
+      const tabGroup = btn.closest('.component-tabs')
+      const compSection = btn.closest('.comp-section')
+      tabGroup.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      compSection.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'))
+      compSection.querySelector('#' + panelId).classList.add('active')
+    }
+
+    // ── Scroll to component ──
+    function scrollToComp(id, el) {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      document.querySelectorAll('.comp-nav-item').forEach(a => a.classList.remove('active'))
+      el.classList.add('active')
+    }
+
+    // ── Copy code ──
+    function copyCode(btn, preId) {
+      const pre = document.getElementById(preId)
+      const text = pre.innerText
+      navigator.clipboard.writeText(text).then(() => {
+        btn.classList.add('copied')
+        btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!'
+        setTimeout(() => {
+          btn.classList.remove('copied')
+          btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy'
+        }, 2000)
+      })
+    }
+
+    // ── Copy raw text ──
+    function copyText(btn, text) {
+      navigator.clipboard.writeText(text).then(() => {
+        btn.classList.add('copied')
+        btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!'
+        setTimeout(() => {
+          btn.classList.remove('copied')
+          btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy'
+        }, 2000)
+      })
+    }
+
+    // ── Install pkg tabs ──
+    function idxPkgTab(btn, pkg) {
+      document.querySelectorAll('#idx-pkg-bar .pkg-btn').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      ;['npm','pnpm','yarn','bun'].forEach(p => {
+        const el = document.getElementById('idx-pkg-' + p)
+        if (el) el.style.display = (p === pkg) ? 'flex' : 'none'
+      })
+    }
+
+    // ── Config file tabs ──
+    function idxCfgTab(btn, tab) {
+      document.querySelectorAll('#idx-cfg-bar .file-tab').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      ;['v3','v4'].forEach(t => {
+        const el = document.getElementById('idx-cfg-' + t)
+        if (el) el.classList.toggle('active', t === tab)
+      })
+    }
+
+    // ── Chart import tabs ──
+    function idxChartTab(btn, tab) {
+      document.querySelectorAll('#idx-chart-bar .file-tab').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      ;['all','one','cdn'].forEach(t => {
+        const el = document.getElementById('idx-chart-' + t)
+        if (el) el.classList.toggle('active', t === tab)
+      })
+    }
+
+    // ── Scroll reveal (IntersectionObserver) ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target) } })
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' })
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el))
+
+    // ── Active nav on scroll ──
+    const compSections = ['comp-btn','comp-badge','comp-card','comp-alert']
+    const navItems = document.querySelectorAll('.comp-nav-item')
+    const sectionMap = {}
+    compSections.forEach((id, i) => { const el = document.getElementById(id); if (el) sectionMap[id] = { el, nav: navItems[i] } })
+
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY + 120
+      compSections.forEach(id => {
+        const s = sectionMap[id]
+        if (!s) return
+        const top = s.el.offsetTop
+        const bot = top + s.el.offsetHeight
+        if (y >= top && y < bot) {
+          navItems.forEach(n => n.classList.remove('active'))
+          s.nav?.classList.add('active')
+        }
+      })
+    }, { passive: true })
+  </script>
+</body>
+</html>
