@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Button — Zyna UI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../zynaui.css">
+  <link rel="stylesheet" href="../../docs.css">
+</head>
+<body>
+  <div id="topbar"></div>
+  <div id="docs-layout">
+    <aside id="sidebar"></aside>
+    <main id="content">
+
+      <div class="page-header">
+        <div class="breadcrumb">
+          <span>Actions</span>
+          <span class="breadcrumb-sep">›</span>
+          <span>Button</span>
+        </div>
+        <h1 class="page-title">Button</h1>
+        <p class="page-desc">Chamfered-corner buttons with a scan-fill hover effect and glow physics. Use <code style="color:var(--gold);background:rgba(201,168,76,0.1);padding:0.1rem 0.4rem;border-radius:4px;font-family:var(--mono);font-size:0.85em">.btn</code> with a variant modifier: 4 variants, 3 sizes, icon mode.</p>
+      </div>
+
+      <!-- Variants -->
+      <div class="doc-section">
+        <h2 class="section-title">Variants</h2>
+        <div class="tabs-bar">
+          <button class="tab-btn active" onclick="tab(this,'btn-v-p')">Preview</button>
+          <button class="tab-btn" onclick="tab(this,'btn-v-c')">Code</button>
+        </div>
+        <div>
+          <div id="btn-v-p" class="tab-panel active">
+            <div class="preview-box">
+              <button class="btn btn-primary">Primary</button>
+              <button class="btn btn-secondary">Secondary</button>
+              <button class="btn btn-ghost">Ghost</button>
+              <button class="btn btn-danger">Danger</button>
+            </div>
+          </div>
+          <div id="btn-v-c" class="tab-panel">
+            <div class="code-box">
+              <div class="code-toolbar">
+                <span class="code-lang">HTML</span>
+                <button class="copy-btn" onclick="cp(this,'btn-v-code')">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                  Copy
+                </button>
+              </div>
+              <pre id="btn-v-code"><span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-primary"</span><span class="tag">&gt;</span>Primary<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-secondary"</span><span class="tag">&gt;</span>Secondary<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-ghost"</span><span class="tag">&gt;</span>Ghost<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-danger"</span><span class="tag">&gt;</span>Danger<span class="tag">&lt;/button&gt;</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sizes -->
+      <div class="doc-section">
+        <h2 class="section-title">Sizes</h2>
+        <div class="tabs-bar">
+          <button class="tab-btn active" onclick="tab(this,'btn-s-p')">Preview</button>
+          <button class="tab-btn" onclick="tab(this,'btn-s-c')">Code</button>
+        </div>
+        <div>
+          <div id="btn-s-p" class="tab-panel active">
+            <div class="preview-box">
+              <button class="btn btn-primary btn-sm">Small</button>
+              <button class="btn btn-primary">Default</button>
+              <button class="btn btn-primary btn-lg">Large</button>
+              <button class="btn btn-primary btn-icon" aria-label="Add">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
+            </div>
+          </div>
+          <div id="btn-s-c" class="tab-panel">
+            <div class="code-box">
+              <div class="code-toolbar">
+                <span class="code-lang">HTML</span>
+                <button class="copy-btn" onclick="cp(this,'btn-s-code')">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                  Copy
+                </button>
+              </div>
+              <pre id="btn-s-code"><span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-primary btn-sm"</span><span class="tag">&gt;</span>Small<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-primary"</span><span class="tag">&gt;</span>Default<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-primary btn-lg"</span><span class="tag">&gt;</span>Large<span class="tag">&lt;/button&gt;</span>
+
+<span class="cmt">&lt;!-- Icon-only — square clip-path, provide aria-label --&gt;</span>
+<span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-primary btn-icon"</span> <span class="atr">aria-label</span>=<span class="val">"Add"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;svg</span> <span class="atr">width</span>=<span class="val">"14"</span> <span class="atr">height</span>=<span class="val">"14"</span> <span class="atr">viewBox</span>=<span class="val">"0 0 24 24"</span> <span class="atr">fill</span>=<span class="val">"none"</span>
+       <span class="atr">stroke</span>=<span class="val">"currentColor"</span> <span class="atr">stroke-width</span>=<span class="val">"2.5"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;path</span> <span class="atr">d</span>=<span class="val">"M12 5v14M5 12h14"</span><span class="tag">/&gt;</span>
+  <span class="tag">&lt;/svg&gt;</span>
+<span class="tag">&lt;/button&gt;</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- States -->
+      <div class="doc-section">
+        <h2 class="section-title">States</h2>
+        <div class="tabs-bar">
+          <button class="tab-btn active" onclick="tab(this,'btn-st-p')">Preview</button>
+          <button class="tab-btn" onclick="tab(this,'btn-st-c')">Code</button>
+        </div>
+        <div>
+          <div id="btn-st-p" class="tab-panel active">
+            <div class="preview-box">
+              <button class="btn btn-primary" disabled>Disabled (native)</button>
+              <button class="btn btn-primary" aria-disabled="true" tabindex="-1">Disabled (aria)</button>
+              <button class="btn btn-secondary" disabled>Secondary off</button>
+            </div>
+          </div>
+          <div id="btn-st-c" class="tab-panel">
+            <div class="code-box">
+              <div class="code-toolbar">
+                <span class="code-lang">HTML</span>
+                <button class="copy-btn" onclick="cp(this,'btn-st-code')">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                  Copy
+                </button>
+              </div>
+              <pre id="btn-st-code"><span class="cmt">&lt;!-- Native disabled — removes from tab order --&gt;</span>
+<span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-primary"</span> <span class="atr">disabled</span><span class="tag">&gt;</span>Disabled<span class="tag">&lt;/button&gt;</span>
+
+<span class="cmt">&lt;!-- aria-disabled — stays in tab order, announces state to screen readers --&gt;</span>
+<span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-primary"</span> <span class="atr">aria-disabled</span>=<span class="val">"true"</span> <span class="atr">tabindex</span>=<span class="val">"-1"</span><span class="tag">&gt;</span>Disabled<span class="tag">&lt;/button&gt;</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CSS Variable API -->
+      <div class="doc-section">
+        <h2 class="section-title">CSS Variable API</h2>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Variable</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="t-var">--btn-bg</td><td class="t-def">rgba(255,255,255,0.04)</td><td>Background (solid, gradient, or multi-layer)</td></tr>
+            <tr><td class="t-var">--btn-color</td><td class="t-def">rgba(240,235,224,0.55)</td><td>Text colour</td></tr>
+            <tr><td class="t-var">--btn-filter</td><td class="t-def">none</td><td>Resting drop-shadow / glow</td></tr>
+            <tr><td class="t-var">--btn-scan-color</td><td class="t-def">rgba(255,255,255,0.07)</td><td>Scan-fill accent colour</td></tr>
+            <tr><td class="t-var">--btn-hover-bg</td><td class="t-def"><em>falls back to --btn-bg</em></td><td>Hover background</td></tr>
+            <tr><td class="t-var">--btn-hover-color</td><td class="t-def">rgba(240,235,224,0.90)</td><td>Hover text colour</td></tr>
+            <tr><td class="t-var">--btn-hover-filter</td><td class="t-def">none</td><td>Hover glow + brightness</td></tr>
+            <tr><td class="t-var">--btn-hover-text-shadow</td><td class="t-def">none</td><td>Hover text luminescence</td></tr>
+            <tr><td class="t-var">--btn-active-filter</td><td class="t-def">none</td><td>Active-press filter</td></tr>
+            <tr><td class="t-var">--btn-interior</td><td class="t-def">transparent</td><td>Inner fill for outlined variants</td></tr>
+            <tr><td class="t-var">--btn-inner-clip</td><td class="t-def">none</td><td>Inner polygon for outlined variants (size classes set automatically)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Custom Variant -->
+      <div class="doc-section">
+        <h2 class="section-title">Custom Variant</h2>
+        <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.25rem">Override only the variables you need. The plasma example below creates a purple neon button.</p>
+
+        <div style="margin-bottom:1.5rem">
+          <style>
+            .btn-plasma {
+              --btn-bg:                rgba(139, 0, 255, 0.38);
+              --btn-color:             #BF5FFF;
+              --btn-filter:            drop-shadow(0 0 8px rgba(139,0,255,0.45));
+              --btn-scan-color:        rgba(139, 0, 255, 0.18);
+              --btn-hover-filter:      drop-shadow(0 0 22px rgba(139,0,255,1)) brightness(1.10);
+              --btn-hover-text-shadow: 0 0 16px rgba(200,100,255,0.7);
+            }
+          </style>
+          <div class="preview-box">
+            <button class="btn btn-plasma">Plasma</button>
+          </div>
+        </div>
+
+        <div class="code-box" style="border-top:1px solid var(--border);border-radius:var(--radius)">
+          <div class="code-toolbar">
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn" onclick="cp(this,'btn-custom-code')">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              Copy
+            </button>
+          </div>
+          <pre id="btn-custom-code"><span class="cls">.btn-plasma</span> {
+  <span class="atr">--btn-bg</span>:                <span class="val">rgba(139, 0, 255, 0.38)</span>;
+  <span class="atr">--btn-color</span>:             <span class="val">#BF5FFF</span>;
+  <span class="atr">--btn-filter</span>:            <span class="val">drop-shadow(0 0 8px rgba(139,0,255,0.45))</span>;
+  <span class="atr">--btn-scan-color</span>:        <span class="val">rgba(139, 0, 255, 0.18)</span>;
+  <span class="atr">--btn-hover-filter</span>:      <span class="val">drop-shadow(0 0 22px rgba(139,0,255,1)) brightness(1.10)</span>;
+  <span class="atr">--btn-hover-text-shadow</span>: <span class="val">0 0 16px rgba(200,100,255,0.7)</span>;
+}</pre>
+        </div>
+      </div>
+
+      <!-- When to Use -->
+      <div class="doc-section">
+        <h2 class="section-title">When to Use</h2>
+        <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.5rem">Use buttons for actions that trigger an immediate operation: submitting a form, opening a dialog, or running a command. Don't use them for navigation between pages.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div style="background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.18);border-radius:var(--radius);padding:1.25rem">
+            <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;color:#4ade80;text-transform:uppercase;font-family:var(--mono);margin-bottom:0.875rem">✓  Do</div>
+            <ul style="padding-left:1.1rem;display:flex;flex-direction:column;gap:0.45rem;font-size:0.85rem;color:var(--text2);line-height:1.6">
+              <li>Use <code style="font-family:var(--mono);font-size:0.82em">.btn-primary</code> for the single most important action in a view</li>
+              <li>Pair with <code style="font-family:var(--mono);font-size:0.82em">.btn-ghost</code> or <code style="font-family:var(--mono);font-size:0.82em">.btn-secondary</code> for secondary/cancel actions</li>
+              <li>Use <code style="font-family:var(--mono);font-size:0.82em">.btn-icon</code> when space is tight and the action is universally understood</li>
+              <li>Keep labels short: 1–3 words, active voice (Save, Delete, Confirm)</li>
+              <li>Use <code style="font-family:var(--mono);font-size:0.82em">.btn-lg</code> for touch targets on mobile or hero CTAs</li>
+            </ul>
+          </div>
+          <div style="background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.18);border-radius:var(--radius);padding:1.25rem">
+            <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;color:#f87171;text-transform:uppercase;font-family:var(--mono);margin-bottom:0.875rem">✗  Don't</div>
+            <ul style="padding-left:1.1rem;display:flex;flex-direction:column;gap:0.45rem;font-size:0.85rem;color:var(--text2);line-height:1.6">
+              <li>Don't place more than one <code style="font-family:var(--mono);font-size:0.82em">.btn-primary</code> in the same visual region</li>
+              <li>Don't use for navigation. Use <code style="font-family:var(--mono);font-size:0.82em">&lt;a&gt;</code> tags for links.</li>
+              <li>Don't use vague labels like "Click here" or "Submit"</li>
+              <li>Don't disable without explaining why (use <code style="font-family:var(--mono);font-size:0.82em">aria-describedby</code> or a tooltip)</li>
+              <li>Don't use <code style="font-family:var(--mono);font-size:0.82em">.btn-danger</code> for anything other than destructive, irreversible actions</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script type="module" src="../../_nav.js"></script>
+  <script>
+    function tab(btn, panelId) {
+      const bar = btn.parentElement
+      bar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      const container = bar.nextElementSibling
+      container.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'))
+      document.getElementById(panelId).classList.add('active')
+    }
+    function cp(btn, id) {
+      const txt = document.getElementById(id).innerText
+      navigator.clipboard.writeText(txt).then(() => {
+        btn.classList.add('ok')
+        btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!'
+        setTimeout(() => {
+          btn.classList.remove('ok')
+          btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy'
+        }, 2000)
+      })
+    }
+  </script>
+</body>
+</html>

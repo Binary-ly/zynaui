@@ -1,0 +1,113 @@
+{
+  "name": "zynaui",
+  "version": "0.1.0-beta.1",
+  "description": "Tailwind CSS component library + D3 chart Web Components by Binary Tech Ltd",
+  "author": "Binary Tech Ltd <hello@binary.ly>",
+  "license": "MIT",
+  "homepage": "https://zyna.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/binary-ly/zynaui"
+  },
+  "keywords": [
+    "tailwind",
+    "tailwindcss",
+    "tailwind-plugin",
+    "ui",
+    "components",
+    "design-system",
+    "d3",
+    "charts",
+    "web-components",
+    "custom-elements",
+    "dark-mode",
+    "css-variables"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "main": "dist/zyna-plugin.cjs",
+  "module": "dist/zyna-plugin.js",
+  "types": "types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/zyna-plugin.cjs",
+      "import": "./dist/zyna-plugin.js",
+      "types": "./types/index.d.ts"
+    },
+    "./charts": {
+      "import": "./dist/zyna-charts.js",
+      "types": "./types/charts.d.ts"
+    },
+    "./charts/waffle": "./dist/charts/waffle.js",
+    "./charts/timeline": "./dist/charts/timeline.js",
+    "./charts/nightingale": "./dist/charts/nightingale.js",
+    "./charts/lollipop": "./dist/charts/lollipop.js",
+    "./charts/orbital": "./dist/charts/orbital.js"
+  },
+  "files": [
+    "dist",
+    "src",
+    "types"
+  ],
+  "sideEffects": [
+    "./dist/zyna-charts.js",
+    "./dist/zyna-charts.cjs",
+    "./dist/zyna-charts.iife.js",
+    "./dist/charts/waffle.js",
+    "./dist/charts/timeline.js",
+    "./dist/charts/nightingale.js",
+    "./dist/charts/lollipop.js",
+    "./dist/charts/orbital.js"
+  ],
+  "scripts": {
+    "build": "vite build && vite build --config vite.iife.config.js && npm run build:css",
+    "build:lib": "vite build",
+    "build:iife": "vite build --config vite.iife.config.js",
+    "build:css": "tailwindcss -i ./docs/input.css -o ./docs/zynaui.css --config tailwind.docs.config.js && cp dist/zyna-charts.iife.js docs/dist/zyna-charts.iife.js",
+    "dev": "vite build --watch",
+    "preview": "vite preview --open docs/index.html",
+    "dev:docs": "vite --config vite.docs.config.js",
+    "preview:docs": "vite preview --config vite.docs.config.js",
+    "test": "npm run test:plugin && npm run test:charts",
+    "test:plugin": "vitest run",
+    "test:charts": "web-test-runner"
+  },
+  "peerDependencies": {
+    "d3-array": "^3.0.0",
+    "d3-scale": "^4.0.0",
+    "d3-selection": "^3.0.0",
+    "d3-shape": "^3.0.0",
+    "tailwindcss": ">=3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "tailwindcss": {
+      "optional": true
+    },
+    "d3-selection": {
+      "optional": true
+    },
+    "d3-array": {
+      "optional": true
+    },
+    "d3-shape": {
+      "optional": true
+    },
+    "d3-scale": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@open-wc/testing": "^4.0.0",
+    "@remcovaes/web-test-runner-vite-plugin": "^1.2.0",
+    "@web/test-runner": "^0.19.0",
+    "d3-array": "^3.2.4",
+    "d3-scale": "^4.0.2",
+    "d3-selection": "^3.0.0",
+    "d3-shape": "^3.2.0",
+    "postcss": "^8.4.0",
+    "tailwindcss": "^3.0.0",
+    "vite": "^5.0.0",
+    "vitest": "^2.0.0"
+  }
+}

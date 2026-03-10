@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Badge — Zyna UI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../zynaui.css">
+  <link rel="stylesheet" href="../../docs.css">
+</head>
+<body>
+  <div id="topbar"></div>
+  <div id="docs-layout">
+    <aside id="sidebar"></aside>
+    <main id="content">
+
+      <div class="page-header">
+        <div class="breadcrumb">
+          <span>Data Display</span>
+          <span class="breadcrumb-sep">›</span>
+          <span>Badge</span>
+        </div>
+        <h1 class="page-title">Badge</h1>
+        <p class="page-desc">Parallelogram data-chip indicators with a periodic radar scan sweep. Seven semantic variants, animated pulse status dot, and outline style.</p>
+      </div>
+
+      <!-- Semantic Variants -->
+      <div class="doc-section">
+        <h2 class="section-title">Semantic Variants</h2>
+        <div class="tabs-bar">
+          <button class="tab-btn active" onclick="tab(this,'badge-v-p')">Preview</button>
+          <button class="tab-btn" onclick="tab(this,'badge-v-c')">Code</button>
+        </div>
+        <div>
+          <div id="badge-v-p" class="tab-panel active">
+            <div class="preview-box" style="flex-wrap:wrap;gap:0.75rem">
+              <span class="badge badge-primary">Primary</span>
+              <span class="badge badge-secondary">Secondary</span>
+              <span class="badge badge-success">Success</span>
+              <span class="badge badge-danger">Danger</span>
+              <span class="badge badge-warning">Warning</span>
+              <span class="badge badge-info">Info</span>
+              <span class="badge badge-neutral">Neutral</span>
+            </div>
+          </div>
+          <div id="badge-v-c" class="tab-panel">
+            <div class="code-box">
+              <div class="code-toolbar">
+                <span class="code-lang">HTML</span>
+                <button class="copy-btn" onclick="cp(this,'badge-v-code')">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                  Copy
+                </button>
+              </div>
+              <pre id="badge-v-code"><span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="val">"badge badge-primary"</span><span class="tag">&gt;</span>Primary<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="val">"badge badge-secondary"</span><span class="tag">&gt;</span>Secondary<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="val">"badge badge-success"</span><span class="tag">&gt;</span>Success<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="val">"badge badge-danger"</span><span class="tag">&gt;</span>Danger<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="val">"badge badge-warning"</span><span class="tag">&gt;</span>Warning<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="val">"badge badge-info"</span><span class="tag">&gt;</span>Info<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="val">"badge badge-neutral"</span><span class="tag">&gt;</span>Neutral<span class="tag">&lt;/span&gt;</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pulse & Outline -->
+      <div class="doc-section">
+        <h2 class="section-title">Pulse &amp; Outline</h2>
+        <div class="tabs-bar">
+          <button class="tab-btn active" onclick="tab(this,'badge-p-p')">Preview</button>
+          <button class="tab-btn" onclick="tab(this,'badge-p-c')">Code</button>
+        </div>
+        <div>
+          <div id="badge-p-p" class="tab-panel active">
+            <div class="preview-box" style="flex-wrap:wrap;gap:0.75rem">
+              <span class="badge badge-success badge-pulse">Online</span>
+              <span class="badge badge-danger badge-pulse">Critical</span>
+              <span class="badge badge-info badge-pulse">Syncing</span>
+              <span class="badge badge-warning badge-outline">Outline</span>
+              <span class="badge badge-primary badge-outline">Primary</span>
+            </div>
+          </div>
+          <div id="badge-p-c" class="tab-panel">
+            <div class="code-box">
+              <div class="code-toolbar">
+                <span class="code-lang">HTML</span>
+                <button class="copy-btn" onclick="cp(this,'badge-p-code')">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                  Copy
+                </button>
+              </div>
+              <pre id="badge-p-code"><span class="cmt">&lt;!-- Pulse — animated expanding ring status dot --&gt;</span>
+<span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="val">"badge badge-success badge-pulse"</span><span class="tag">&gt;</span>Online<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="val">"badge badge-danger badge-pulse"</span><span class="tag">&gt;</span>Critical<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="val">"badge badge-info badge-pulse"</span><span class="tag">&gt;</span>Syncing<span class="tag">&lt;/span&gt;</span>
+
+<span class="cmt">&lt;!-- Outline — top + bottom strokes only (no fill) --&gt;</span>
+<span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="val">"badge badge-warning badge-outline"</span><span class="tag">&gt;</span>Outline<span class="tag">&lt;/span&gt;</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sizes -->
+      <div class="doc-section">
+        <h2 class="section-title">Sizes</h2>
+        <div class="tabs-bar">
+          <button class="tab-btn active" onclick="tab(this,'badge-s-p')">Preview</button>
+          <button class="tab-btn" onclick="tab(this,'badge-s-c')">Code</button>
+        </div>
+        <div>
+          <div id="badge-s-p" class="tab-panel active">
+            <div class="preview-box" style="gap:0.75rem;align-items:center">
+              <span class="badge badge-primary">Default</span>
+              <span class="badge badge-primary badge-lg">Large</span>
+            </div>
+          </div>
+          <div id="badge-s-c" class="tab-panel">
+            <div class="code-box">
+              <div class="code-toolbar">
+                <span class="code-lang">HTML</span>
+                <button class="copy-btn" onclick="cp(this,'badge-s-code')">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                  Copy
+                </button>
+              </div>
+              <pre id="badge-s-code"><span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="val">"badge badge-primary"</span><span class="tag">&gt;</span>Default<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="val">"badge badge-primary badge-lg"</span><span class="tag">&gt;</span>Large<span class="tag">&lt;/span&gt;</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CSS Variable API -->
+      <div class="doc-section">
+        <h2 class="section-title">CSS Variable API</h2>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Variable</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="t-var">--badge-bg</td><td class="t-def">rgba(255,255,255,0.04)</td><td>Background tint</td></tr>
+            <tr><td class="t-var">--badge-color</td><td class="t-def">rgba(240,235,224,0.55)</td><td>Text and dot colour</td></tr>
+            <tr><td class="t-var">--badge-glow</td><td class="t-def">none</td><td>drop-shadow filter (traces the parallelogram shape)</td></tr>
+            <tr><td class="t-var">--badge-scan-color</td><td class="t-def">rgba(255,255,255,0.18)</td><td>Periodic scan-sweep highlight colour</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Custom Variant -->
+      <div class="doc-section">
+        <h2 class="section-title">Custom Variant</h2>
+        <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.25rem">Only four variables to override. The plasma example creates a purple neon badge.</p>
+
+        <div style="margin-bottom:1.5rem">
+          <style>
+            .badge-plasma {
+              --badge-bg:    rgba(139, 0, 255, 0.10);
+              --badge-color: #BF5FFF;
+              --badge-glow:  drop-shadow(0 0 5px rgba(139,0,255,0.45))
+                             drop-shadow(0 0 14px rgba(139,0,255,0.14));
+            }
+          </style>
+          <div class="preview-box">
+            <span class="badge badge-plasma">Plasma</span>
+            <span class="badge badge-plasma badge-pulse">Pulsing</span>
+          </div>
+        </div>
+
+        <div class="code-box" style="border-top:1px solid var(--border);border-radius:var(--radius)">
+          <div class="code-toolbar">
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn" onclick="cp(this,'badge-custom-code')">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              Copy
+            </button>
+          </div>
+          <pre id="badge-custom-code"><span class="cls">.badge-plasma</span> {
+  <span class="atr">--badge-bg</span>:    <span class="val">rgba(139, 0, 255, 0.10)</span>;
+  <span class="atr">--badge-color</span>: <span class="val">#BF5FFF</span>;
+  <span class="atr">--badge-glow</span>:  <span class="val">drop-shadow(0 0 5px rgba(139,0,255,0.45))
+                 drop-shadow(0 0 14px rgba(139,0,255,0.14))</span>;
+}</pre>
+        </div>
+      </div>
+
+      <!-- When to Use -->
+      <div class="doc-section">
+        <h2 class="section-title">When to Use</h2>
+        <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.5rem">Use badges for short, scannable metadata: statuses, categories, or counts. They should supplement other content, not stand alone as the only indicator.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div style="background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.18);border-radius:var(--radius);padding:1.25rem">
+            <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;color:#4ade80;text-transform:uppercase;font-family:var(--mono);margin-bottom:0.875rem">✓  Do</div>
+            <ul style="padding-left:1.1rem;display:flex;flex-direction:column;gap:0.45rem;font-size:0.85rem;color:var(--text2);line-height:1.6">
+              <li>Use semantic variants that match the meaning (success = OK, danger = error)</li>
+              <li>Keep label text 1–2 words maximum</li>
+              <li>Use <code style="font-family:var(--mono);font-size:0.82em">.badge-pulse</code> only for live, actively changing statuses (Online, Live, Active)</li>
+              <li>Pair with cards, table rows, or nav items where status needs quick scanning</li>
+              <li>Use <code style="font-family:var(--mono);font-size:0.82em">.badge-outline</code> when the badge is decorative or needs less visual weight</li>
+            </ul>
+          </div>
+          <div style="background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.18);border-radius:var(--radius);padding:1.25rem">
+            <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;color:#f87171;text-transform:uppercase;font-family:var(--mono);margin-bottom:0.875rem">✗  Don't</div>
+            <ul style="padding-left:1.1rem;display:flex;flex-direction:column;gap:0.45rem;font-size:0.85rem;color:var(--text2);line-height:1.6">
+              <li>Don't use more than 2–3 badges in a single compact element</li>
+              <li>Don't use similar colors for different semantic meanings</li>
+              <li>Don't write full sentences inside a badge</li>
+              <li>Don't use <code style="font-family:var(--mono);font-size:0.82em">.badge-pulse</code> for static or historical data</li>
+              <li>Don't swap semantic variants based on aesthetics alone</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script type="module" src="../../_nav.js"></script>
+  <script>
+    function tab(btn, panelId) {
+      const bar = btn.parentElement
+      bar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      const container = bar.nextElementSibling
+      container.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'))
+      document.getElementById(panelId).classList.add('active')
+    }
+    function cp(btn, id) {
+      const txt = document.getElementById(id).innerText
+      navigator.clipboard.writeText(txt).then(() => {
+        btn.classList.add('ok')
+        btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!'
+        setTimeout(() => {
+          btn.classList.remove('ok')
+          btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy'
+        }, 2000)
+      })
+    }
+  </script>
+</body>
+</html>

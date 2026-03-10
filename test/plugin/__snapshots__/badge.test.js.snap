@@ -1,0 +1,50 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`.badge component > full badge output matches snapshot 1`] = `
+":root { --zyna: #C9A84C; --zyna-dark: #7A6230;
+} @property --btn-bg { syntax: "*"; inherits: false; initial-value: transparent;
+} @property --btn-color { syntax: "<color>"; inherits: false; initial-value: rgba(240,235,224,0.55);
+} @property --btn-hover-color { syntax: "<color>"; inherits: false; initial-value: rgba(240,235,224,0.9);
+} @property --btn-scan-color { syntax: "<color>"; inherits: false; initial-value: rgba(255,255,255,0.07);
+} @property --btn-interior { syntax: "<color>"; inherits: false; initial-value: transparent;
+} @property --card-border-color { syntax: "<color>"; inherits: false; initial-value: rgba(255,255,255,0.05);
+} @property --card-bracket-size { syntax: "<length>"; inherits: false; initial-value: 20px;
+} @property --card-glow-lo { syntax: "<color>"; inherits: false; initial-value: rgba(0,0,0,0);
+} @property --card-glow-hi { syntax: "<color>"; inherits: false; initial-value: rgba(0,0,0,0);
+} @keyframes zyna-badge-scan { 0%, 18% { transform: translateX(0);
+    } 52%, 100% { transform: translateX(340%);
+    }
+} @keyframes zyna-pulse-ring { 0% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 currentColor;
+    } 45% { opacity: 0.65; transform: scale(1.15); box-shadow: 0 0 0 4px transparent;
+    } 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 transparent;
+    }
+} @keyframes zyna-pulse { 0%, 100% { opacity: 1; transform: scale(1);
+    } 50% { opacity: 0.35; transform: scale(0.7);
+    }
+} @keyframes zyna-scan { 0% { transform: translateX(-100%);
+    } 100% { transform: translateX(200%);
+    }
+} @keyframes zyna-card-pulse { 0%, 100% { filter: drop-shadow(0 0 18px var(--card-glow-lo)) drop-shadow(0 0 6px var(--card-glow-lo));
+    } 50% { filter: drop-shadow(0 0 38px var(--card-glow-hi)) drop-shadow(0 0 14px var(--card-glow-hi));
+    }
+} [role="button"] { --btn-bg: rgba(255,255,255,0.04); --btn-color: rgba(240,235,224,0.55); --btn-filter: none; --btn-scan-color: rgba(255,255,255,0.07); --btn-hover-color: rgba(240,235,224,0.90); --btn-hover-filter: none; --btn-hover-text-shadow: none; --btn-active-filter: none; --btn-focus-color: color-mix(in srgb, var(--zyna) 65%, transparent); --btn-interior: transparent; --btn-inner-clip: none; position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem; padding: 0.65rem 1.5rem; font-family: 'DM Mono', 'Fira Code', ui-monospace, monospace; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap; cursor: pointer; user-select: none; border: none; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px)); transition: filter 0.22s ease, color 0.18s ease, background 0.18s ease, transform 0.08s ease; background: var(--btn-bg); color: var(--btn-color); filter: var(--btn-filter);
+} [role="button"]::before { content: ""; position: absolute; inset: 0; clip-path: var(--btn-inner-clip); background: var(--btn-interior); z-index: -1; pointer-events: none;
+} [role="button"]::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--btn-scan-color) 0%, transparent 70%); opacity: 0; transform: scaleX(0); transform-origin: left center; transition: transform 0.28s ease, opacity 0.28s ease; pointer-events: none;
+} [role="button"]:hover { background: var(--btn-hover-bg, var(--btn-bg)); color: var(--btn-hover-color, var(--btn-color)); filter: var(--btn-hover-filter); text-shadow: var(--btn-hover-text-shadow); will-change: filter, transform;
+} [role="button"]:hover::before { background: var(--btn-hover-interior, var(--btn-interior));
+} [role="button"]:hover::after { opacity: 1; transform: scaleX(1);
+} [role="button"]:active { transform: scale(0.96); filter: var(--btn-active-filter);
+} [role="button"]:focus-visible { outline: 1.5px solid var(--btn-focus-color); outline-offset: 3px; will-change: filter, transform;
+} [role="button"]:disabled, [role="button"][aria-disabled="true"] { opacity: 0.28; cursor: not-allowed; pointer-events: none;
+} .badge { --badge-bg: rgba(255,255,255,0.04); --badge-color: rgba(240,235,224,0.55); --badge-glow: none; --badge-scan-color: rgba(255,255,255,0.18); display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.22rem 0.85rem; font-family: 'DM Mono', 'Fira Code', ui-monospace, monospace; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; white-space: nowrap; position: relative; clip-path: polygon(0.55rem 0%, 100% 0%, calc(100% - 0.55rem) 100%, 0% 100%); background: var(--badge-bg); color: var(--badge-color); filter: var(--badge-glow);
+} .badge:focus-visible { outline: 1.5px solid var(--badge-color); outline-offset: 3px;
+} .badge::after { content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 50%; background: linear-gradient(90deg, transparent, var(--badge-scan-color), transparent); animation: zyna-badge-scan 5s ease-in-out infinite; pointer-events: none;
+} .badge-success { --badge-bg: rgba(0,255,178,0.10); --badge-color: #00FFB2; --badge-glow: drop-shadow(0 0 5px rgba(0,255,178,0.45)) drop-shadow(0 0 14px rgba(0,255,178,0.14));
+} .badge-danger { --badge-bg: rgba(255,51,102,0.10); --badge-color: #FF3366; --badge-glow: drop-shadow(0 0 5px rgba(255,51,102,0.45)) drop-shadow(0 0 14px rgba(255,51,102,0.14));
+} .badge-warning { --badge-bg: rgba(255,184,0,0.10); --badge-color: #FFB800; --badge-glow: drop-shadow(0 0 5px rgba(255,184,0,0.40)) drop-shadow(0 0 12px rgba(255,184,0,0.12));
+} .badge-info { --badge-bg: rgba(0,212,255,0.10); --badge-color: #00D4FF; --badge-glow: drop-shadow(0 0 5px rgba(0,212,255,0.45)) drop-shadow(0 0 14px rgba(0,212,255,0.14));
+} .badge-outline { background: transparent; border-top: 1px solid currentColor; border-bottom: 1px solid currentColor; opacity: 0.75;
+} .badge-pulse::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex-shrink: 0; animation: zyna-pulse-ring 2s ease-out infinite;
+} [role="alert"] { --alert-bar-color: rgba(255,255,255,0.10); --alert-bg: rgba(255,255,255,0.02); --alert-color: rgba(240,235,224,0.65); --alert-shadow: none; --alert-title-shadow: none; display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.875rem 1.25rem; border-radius: 0 3px 3px 0; border-left: 3px solid var(--alert-bar-color); background: var(--alert-bg); color: var(--alert-color); font-size: 0.82rem; line-height: 1.65; position: relative; box-shadow: var(--alert-shadow);
+}"
+`;

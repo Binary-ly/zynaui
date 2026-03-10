@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Card — Zyna UI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../zynaui.css">
+  <link rel="stylesheet" href="../../docs.css">
+</head>
+<body>
+  <div id="topbar"></div>
+  <div id="docs-layout">
+    <aside id="sidebar"></aside>
+    <main id="content">
+
+      <div class="page-header">
+        <div class="breadcrumb">
+          <span>Data Display</span>
+          <span class="breadcrumb-sep">›</span>
+          <span>Card</span>
+        </div>
+        <h1 class="page-title">Card</h1>
+        <p class="page-desc">HUD-panel containers with corner bracket marks, a mono header readout, and deep glass depth. Four variants: base, <code style="color:var(--gold);background:rgba(201,168,76,0.1);padding:0.1rem 0.4rem;border-radius:4px;font-family:var(--mono);font-size:0.85em">.card-dark</code>, <code style="color:var(--gold);background:rgba(201,168,76,0.1);padding:0.1rem 0.4rem;border-radius:4px;font-family:var(--mono);font-size:0.85em">.card-glow</code>, <code style="color:var(--gold);background:rgba(201,168,76,0.1);padding:0.1rem 0.4rem;border-radius:4px;font-family:var(--mono);font-size:0.85em">.card-compact</code>.</p>
+      </div>
+
+      <!-- Variants -->
+      <div class="doc-section">
+        <h2 class="section-title">Variants</h2>
+        <div class="tabs-bar">
+          <button class="tab-btn active" onclick="tab(this,'card-v-p')">Preview</button>
+          <button class="tab-btn" onclick="tab(this,'card-v-c')">Code</button>
+        </div>
+        <div>
+          <div id="card-v-p" class="tab-panel active">
+            <div class="preview-box stretch" style="flex-wrap:wrap;align-items:stretch;padding:2rem">
+              <div class="card" style="flex:1;min-width:200px;max-width:260px">
+                <div class="card-header">Workspace</div>
+                <div class="card-body">
+                  <p class="card-title">Q1 Report</p>
+                  <p class="card-subtitle">Libya Aid Programme · 2024</p>
+                  <span class="badge badge-success badge-pulse">Published</span>
+                </div>
+                <div class="card-footer" style="display:flex;gap:0.5rem">
+                  <button class="btn btn-ghost btn-sm">Dismiss</button>
+                  <button class="btn btn-primary btn-sm">View</button>
+                </div>
+              </div>
+              <div class="card card-dark" style="flex:1;min-width:200px;max-width:260px">
+                <div class="card-header">Void</div>
+                <div class="card-body">
+                  <p class="card-title">Dark Variant</p>
+                  <p class="card-subtitle">Deepest layer · dashboard use</p>
+                  <span class="badge badge-secondary">Classified</span>
+                </div>
+                <div class="card-footer">
+                  <button class="btn btn-secondary btn-sm">Access</button>
+                </div>
+              </div>
+              <div class="card card-glow" style="flex:1;min-width:200px;max-width:260px">
+                <div class="card-header">Priority</div>
+                <div class="card-body">
+                  <p class="card-title">Glow Variant</p>
+                  <p class="card-subtitle">High-priority surface · animated</p>
+                  <span class="badge badge-warning">Urgent</span>
+                </div>
+                <div class="card-footer">
+                  <button class="btn btn-primary btn-sm">Action</button>
+                </div>
+              </div>
+              <div class="card card-compact" style="flex:1;min-width:200px;max-width:260px">
+                <div class="card-header">Compact</div>
+                <div class="card-body">
+                  <p class="card-title">Compact Variant</p>
+                  <p class="card-subtitle">Reduced padding · dense layouts</p>
+                  <span class="badge badge-info">Dense</span>
+                </div>
+                <div class="card-footer" style="display:flex;gap:0.5rem">
+                  <button class="btn btn-ghost btn-sm">Skip</button>
+                  <button class="btn btn-secondary btn-sm">Save</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="card-v-c" class="tab-panel">
+            <div class="code-box">
+              <div class="code-toolbar">
+                <span class="code-lang">HTML</span>
+                <button class="copy-btn" onclick="cp(this,'card-v-code')">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                  Copy
+                </button>
+              </div>
+              <pre id="card-v-code"><span class="cmt">&lt;!-- Base --&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card-header"</span><span class="tag">&gt;</span>Title<span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card-body"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;p</span> <span class="atr">class</span>=<span class="val">"card-title"</span><span class="tag">&gt;</span>Card Title<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;p</span> <span class="atr">class</span>=<span class="val">"card-subtitle"</span><span class="tag">&gt;</span>Subtitle<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;p&gt;</span>Body content here.<span class="tag">&lt;/p&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card-footer"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-primary btn-sm"</span><span class="tag">&gt;</span>Save<span class="tag">&lt;/button&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="cmt">&lt;!-- Dark variant — deepest background layer --&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card card-dark"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+
+<span class="cmt">&lt;!-- Glow variant — animated gold pulse border --&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card card-glow"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+
+<span class="cmt">&lt;!-- Compact variant — reduced padding for dense layouts --&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card card-compact"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CSS Variable API -->
+      <div class="doc-section">
+        <h2 class="section-title">CSS Variable API</h2>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Variable</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="t-var">--card-gradient</td><td class="t-def">linear-gradient(145deg, rgba(18,16,28,0.97)…)</td><td>Base colour gradient (scanlines overlay automatically)</td></tr>
+            <tr><td class="t-var">--card-border-color</td><td class="t-def">rgba(255,255,255,0.05)</td><td>Border colour</td></tr>
+            <tr><td class="t-var">--card-shadow</td><td class="t-def">0 24px 70px rgba(0,0,0,0.60)…</td><td>Box shadow</td></tr>
+            <tr><td class="t-var">--card-bracket-color</td><td class="t-def">color-mix(in srgb, var(--zyna) 42%, transparent)</td><td>Corner L-bracket stroke colour</td></tr>
+            <tr><td class="t-var">--card-bracket-size</td><td class="t-def">20px</td><td>Corner bracket arm length</td></tr>
+            <tr><td class="t-var">--card-bar-gradient</td><td class="t-def">linear-gradient(90deg, …)</td><td>Top luminescent power-bar gradient</td></tr>
+            <tr><td class="t-var">--card-animation</td><td class="t-def">none</td><td>CSS animation shorthand (e.g. zyna-card-pulse 4s ease-in-out infinite)</td></tr>
+            <tr><td class="t-var">--card-glow-lo</td><td class="t-def">rgba(0,0,0,0)</td><td>Pulse glow colour at rest (used by zyna-card-pulse keyframe)</td></tr>
+            <tr><td class="t-var">--card-glow-hi</td><td class="t-def">rgba(0,0,0,0)</td><td>Pulse glow colour at peak (used by zyna-card-pulse keyframe)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Custom Variant -->
+      <div class="doc-section">
+        <h2 class="section-title">Custom Variant</h2>
+        <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.25rem">Override only the variables you need. The cyan "cyber" example below creates an electric-blue card.</p>
+
+        <div style="margin-bottom:1.5rem">
+          <style>
+            .card-cyber {
+              --card-gradient:      linear-gradient(145deg, rgba(0,20,30,0.97) 0%, rgba(0,10,18,0.97) 100%);
+              --card-border-color:  rgba(0,212,255,0.22);
+              --card-bracket-color: rgba(0,212,255,0.55);
+              --card-bar-gradient:  linear-gradient(90deg, transparent 0%, rgba(0,212,255,0.55) 25%, rgba(0,212,255,0.55) 75%, transparent 100%);
+              --card-glow-lo:       rgba(0,212,255,0.12);
+              --card-glow-hi:       rgba(0,212,255,0.26);
+              --card-animation:     zyna-card-pulse 4s ease-in-out infinite;
+            }
+          </style>
+          <div class="preview-box" style="padding:2rem">
+            <div class="card card-cyber" style="max-width:280px;width:100%">
+              <div class="card-header" style="color:rgba(0,212,255,0.9)">Cyber</div>
+              <div class="card-body">
+                <p class="card-title">Cyber Variant</p>
+                <p class="card-subtitle">Custom cyan theme</p>
+                <span class="badge badge-info">Active</span>
+              </div>
+              <div class="card-footer">
+                <button class="btn btn-primary btn-sm">Connect</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-box" style="border-top:1px solid var(--border);border-radius:var(--radius)">
+          <div class="code-toolbar">
+            <span class="code-lang">CSS</span>
+            <button class="copy-btn" onclick="cp(this,'card-custom-code')">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              Copy
+            </button>
+          </div>
+          <pre id="card-custom-code"><span class="cls">.card-cyber</span> {
+  <span class="atr">--card-gradient</span>:      <span class="val">linear-gradient(145deg, rgba(0,20,30,0.97) 0%, rgba(0,10,18,0.97) 100%)</span>;
+  <span class="atr">--card-border-color</span>:  <span class="val">rgba(0,212,255,0.22)</span>;
+  <span class="atr">--card-bracket-color</span>: <span class="val">rgba(0,212,255,0.55)</span>;
+  <span class="atr">--card-bar-gradient</span>:  <span class="val">linear-gradient(90deg, transparent 0%, rgba(0,212,255,0.55) 25%, rgba(0,212,255,0.55) 75%, transparent 100%)</span>;
+  <span class="atr">--card-glow-lo</span>:       <span class="val">rgba(0,212,255,0.12)</span>;
+  <span class="atr">--card-glow-hi</span>:       <span class="val">rgba(0,212,255,0.26)</span>;
+  <span class="atr">--card-animation</span>:     <span class="val">zyna-card-pulse 4s ease-in-out infinite</span>;
+}</pre>
+        </div>
+      </div>
+
+      <!-- When to Use -->
+      <div class="doc-section">
+        <h2 class="section-title">When to Use</h2>
+        <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.5rem">Use cards to group semantically related information: a record, a report, an entity. Cards create visual containers that let users compare items in a grid.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div style="background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.18);border-radius:var(--radius);padding:1.25rem">
+            <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;color:#4ade80;text-transform:uppercase;font-family:var(--mono);margin-bottom:0.875rem">✓  Do</div>
+            <ul style="padding-left:1.1rem;display:flex;flex-direction:column;gap:0.45rem;font-size:0.85rem;color:var(--text2);line-height:1.6">
+              <li>Use <code style="font-family:var(--mono);font-size:0.82em">.card-glow</code> for featured, selected, or highlighted items</li>
+              <li>Use <code style="font-family:var(--mono);font-size:0.82em">.card-dark</code> for embedded cards on lighter backgrounds</li>
+              <li>Use <code style="font-family:var(--mono);font-size:0.82em">.card-compact</code> for dense list-style layouts</li>
+              <li>Include a <code style="font-family:var(--mono);font-size:0.82em">card-header</code> to label the data context</li>
+              <li>Keep card content focused: one primary piece of info with supporting detail</li>
+            </ul>
+          </div>
+          <div style="background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.18);border-radius:var(--radius);padding:1.25rem">
+            <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;color:#f87171;text-transform:uppercase;font-family:var(--mono);margin-bottom:0.875rem">✗  Don't</div>
+            <ul style="padding-left:1.1rem;display:flex;flex-direction:column;gap:0.45rem;font-size:0.85rem;color:var(--text2);line-height:1.6">
+              <li>Don't nest cards inside cards</li>
+              <li>Don't omit the <code style="font-family:var(--mono);font-size:0.82em">card-header</code> when the data context isn't obvious from the content</li>
+              <li>Don't mix variants in the same grid without a clear reason</li>
+              <li>Don't overload a card with more than 2–3 data points. Use a detail page instead.</li>
+              <li>Don't use cards as navigation elements unless you add a clear CTA</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script type="module" src="../../_nav.js"></script>
+  <script>
+    function tab(btn, panelId) {
+      const bar = btn.parentElement
+      bar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      const container = bar.nextElementSibling
+      container.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'))
+      document.getElementById(panelId).classList.add('active')
+    }
+    function cp(btn, id) {
+      const txt = document.getElementById(id).innerText
+      navigator.clipboard.writeText(txt).then(() => {
+        btn.classList.add('ok')
+        btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!'
+        setTimeout(() => {
+          btn.classList.remove('ok')
+          btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy'
+        }, 2000)
+      })
+    }
+  </script>
+</body>
+</html>

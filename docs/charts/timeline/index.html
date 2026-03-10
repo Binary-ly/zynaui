@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timeline — Zyna UI Charts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="/dist/zyna-charts.iife.js"></script>
+  <link rel="stylesheet" href="../../zynaui.css">
+  <link rel="stylesheet" href="../../docs.css">
+</head>
+<body>
+  <div id="topbar"></div>
+  <div id="docs-layout">
+    <aside id="sidebar"></aside>
+    <main id="content">
+
+      <div class="page-header">
+        <div class="breadcrumb">
+          <span>Charts</span>
+          <span class="breadcrumb-sep">›</span>
+          <span>Timeline</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap">
+          <h1 class="page-title" style="margin-bottom:0">Timeline</h1>
+          <code style="font-family:var(--mono);font-size:0.78rem;padding:0.2rem 0.6rem;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--gold)">&lt;zyna-timeline&gt;</code>
+        </div>
+        <p class="page-desc">Proportional-circle timeline where bubble area encodes value. Annotations appear on a rail above the baseline.</p>
+      </div>
+
+      <!-- Demo Section -->
+      <div class="doc-section">
+        <h2 class="section-title">Demo</h2>
+        <div class="tabs-bar">
+          <button class="tab-btn active" onclick="tab(this,'tl-p')">Preview</button>
+          <button class="tab-btn" onclick="tab(this,'tl-c')">Code</button>
+          <button class="tab-btn" onclick="tab(this,'tl-a')">Attributes</button>
+        </div>
+        <div>
+          <div id="tl-p" class="tab-panel active">
+            <div class="preview-box col" style="min-height:300px;padding:1.5rem;align-items:flex-start">
+              <p style="font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:1rem">Libya humanitarian funding 2019–2024 (USD millions)</p>
+              <zyna-timeline
+                data='[{"label":"2019","value":310},{"label":"2020","value":259,"note":"Ceasefire"},{"label":"2021","value":285,"note":"Berlin II"},{"label":"2022","value":419,"note":"Peak Crisis"},{"label":"2023","value":315,"note":"Derna Floods"},{"label":"2024","value":273}]'
+                highlight='2022'
+                color='#C9A84C'
+                theme='dark'
+                style="display:block;width:100%">
+              </zyna-timeline>
+            </div>
+          </div>
+
+          <div id="tl-c" class="tab-panel">
+            <div class="code-box">
+              <div class="code-toolbar">
+                <span class="code-lang">html</span>
+                <button class="copy-btn" onclick="cp(this,'tl-code')">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy
+                </button>
+              </div>
+              <pre id="tl-code"><span class="tag">&lt;zyna-timeline</span>
+  <span class="atr">data</span>=<span class="val">'[
+    {"label":"2019", "value":310},
+    {"label":"2020", "value":259, "note":"Ceasefire"},
+    {"label":"2021", "value":285, "note":"Berlin II"},
+    {"label":"2022", "value":419, "note":"Peak Crisis"},
+    {"label":"2023", "value":315, "note":"Derna Floods"},
+    {"label":"2024", "value":273}
+  ]'</span>
+  <span class="atr">highlight</span>=<span class="val">'2022'</span>
+  <span class="atr">color</span>=<span class="val">'#C9A84C'</span>
+  <span class="atr">theme</span>=<span class="val">'dark'</span>
+  <span class="atr">style</span>=<span class="val">"display:block;width:100%"</span><span class="tag">&gt;
+&lt;/zyna-timeline&gt;</span></pre>
+            </div>
+          </div>
+
+          <div id="tl-a" class="tab-panel">
+            <div style="border:1px solid var(--border);border-top:none;border-bottom-left-radius:var(--radius);border-bottom-right-radius:var(--radius);overflow:hidden">
+              <table class="api-table" style="border:none;border-radius:0">
+                <thead>
+                  <tr>
+                    <th>Attribute</th>
+                    <th>Type</th>
+                    <th>Default</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="t-var">data</td>
+                    <td class="t-type">JSON array</td>
+                    <td class="t-def">—</td>
+                    <td>Array of <code style="font-family:var(--mono);font-size:0.75rem;color:var(--text)">{ label, value, note? }</code>. label = x-axis, note = annotation.</td>
+                  </tr>
+                  <tr>
+                    <td class="t-var">color</td>
+                    <td class="t-type">hex</td>
+                    <td class="t-def">#C9A84C</td>
+                    <td>Accent colour for the highlighted bubble.</td>
+                  </tr>
+                  <tr>
+                    <td class="t-var">theme</td>
+                    <td class="t-type">dark | light</td>
+                    <td class="t-def">dark</td>
+                    <td>Controls background and text colour scheme.</td>
+                  </tr>
+                  <tr>
+                    <td class="t-var">highlight</td>
+                    <td class="t-type">string</td>
+                    <td class="t-def">auto (max value)</td>
+                    <td>The label of the item to emphasize in accent colour.</td>
+                  </tr>
+                  <tr>
+                    <td class="t-var">muted-color</td>
+                    <td class="t-type">hex</td>
+                    <td class="t-def">#8A8478</td>
+                    <td>Colour for non-highlighted bubbles, stems and labels.</td>
+                  </tr>
+                  <tr>
+                    <td class="t-var">height</td>
+                    <td class="t-type">number</td>
+                    <td class="t-def">—</td>
+                    <td>Explicit height in px. Auto-derived from width when omitted.</td>
+                  </tr>
+                  <tr>
+                    <td class="t-var">show-values</td>
+                    <td class="t-type">boolean</td>
+                    <td class="t-def">true</td>
+                    <td>Set to <code style="font-family:var(--mono);font-size:0.75rem">"false"</code> to hide the numeric value label below each bubble.</td>
+                  </tr>
+                  <tr>
+                    <td class="t-var">label-format</td>
+                    <td class="t-type">string</td>
+                    <td class="t-def">—</td>
+                    <td>D3-style number format (e.g. <code style="font-family:var(--mono);font-size:0.75rem">$,.0f</code>, <code style="font-family:var(--mono);font-size:0.75rem">.1%</code>, <code style="font-family:var(--mono);font-size:0.75rem">,.2f</code>). Raw value shown when omitted.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Light Theme Section -->
+      <div class="doc-section">
+        <h2 class="section-title">Light Theme</h2>
+        <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.25rem;line-height:1.7">Set <code style="font-family:var(--mono);font-size:0.78rem;color:var(--gold)">theme="light"</code> for use on light backgrounds. The component adjusts all internal colours automatically.</p>
+
+        <div class="tabs-bar">
+          <button class="tab-btn active" onclick="tab(this,'tl-lt-p')">Preview</button>
+          <button class="tab-btn" onclick="tab(this,'tl-lt-c')">Code</button>
+        </div>
+        <div>
+          <div id="tl-lt-p" class="tab-panel active">
+            <div class="preview-box col" style="min-height:300px;padding:1.5rem;align-items:flex-start">
+              <p style="font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:1rem">Libya humanitarian funding 2019–2024 (light theme)</p>
+              <div style="background:#F8F6F2;border-radius:0.75rem;padding:1.25rem;width:100%">
+                <zyna-timeline
+                  data='[{"label":"2019","value":310},{"label":"2020","value":259,"note":"Ceasefire"},{"label":"2021","value":285,"note":"Berlin II"},{"label":"2022","value":419,"note":"Peak Crisis"},{"label":"2023","value":315,"note":"Derna Floods"},{"label":"2024","value":273}]'
+                  highlight='2022'
+                  color='#C9A84C'
+                  theme='light'
+                  style="display:block;width:100%">
+                </zyna-timeline>
+              </div>
+            </div>
+          </div>
+
+          <div id="tl-lt-c" class="tab-panel">
+            <div class="code-box">
+              <div class="code-toolbar">
+                <span class="code-lang">html</span>
+                <button class="copy-btn" onclick="cp(this,'tl-lt-code')">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy
+                </button>
+              </div>
+              <pre id="tl-lt-code"><span class="tag">&lt;zyna-timeline</span>
+  <span class="atr">data</span>=<span class="val">'[
+    {"label":"2019", "value":310},
+    {"label":"2020", "value":259, "note":"Ceasefire"},
+    {"label":"2021", "value":285, "note":"Berlin II"},
+    {"label":"2022", "value":419, "note":"Peak Crisis"},
+    {"label":"2023", "value":315, "note":"Derna Floods"},
+    {"label":"2024", "value":273}
+  ]'</span>
+  <span class="atr">highlight</span>=<span class="val">'2022'</span>
+  <span class="atr">color</span>=<span class="val">'#C9A84C'</span>
+  <span class="atr">theme</span>=<span class="val">'light'</span>
+  <span class="atr">style</span>=<span class="val">"display:block;width:100%"</span><span class="tag">&gt;
+&lt;/zyna-timeline&gt;</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Usage Tips -->
+      <div class="doc-section">
+        <h2 class="section-title">Usage Tips</h2>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;font-size:0.875rem;color:var(--text2);line-height:1.75">
+          <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:0.4rem">
+            <li>Use <code style="font-family:var(--mono);font-size:0.8rem">highlight</code> to draw attention to the most significant event; defaults to the highest-value point</li>
+            <li>Keep labels short — years, quarters, or 1–2 word event names work best</li>
+            <li>Notes on the rail should be 1–3 words maximum</li>
+            <li>Best for 5–10 data points; fewer than 4 loses the timeline feel, more than 12 gets crowded</li>
+            <li>Don't use for ranked comparison — the horizontal layout implies time order, not magnitude</li>
+          </ul>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script type="module" src="../../_nav.js"></script>
+  <script>
+    function tab(btn, panelId) {
+      const bar = btn.parentElement
+      bar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      const container = bar.nextElementSibling
+      container.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'))
+      document.getElementById(panelId).classList.add('active')
+    }
+    function cp(btn, id) {
+      const txt = document.getElementById(id).innerText
+      navigator.clipboard.writeText(txt).then(() => {
+        btn.classList.add('ok')
+        btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!'
+        setTimeout(() => {
+          btn.classList.remove('ok')
+          btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy'
+        }, 2000)
+      })
+    }
+  </script>
+</body>
+</html>
