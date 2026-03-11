@@ -1,56 +1,1094 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`.btn component > full btn output matches snapshot 1`] = `
-":root { --zyna: #C9A84C; --zyna-dark: #7A6230;
-} @property --btn-bg { syntax: "*"; inherits: false; initial-value: transparent;
-} @property --btn-color { syntax: "<color>"; inherits: false; initial-value: rgba(240,235,224,0.55);
-} @property --btn-hover-color { syntax: "<color>"; inherits: false; initial-value: rgba(240,235,224,0.9);
-} @property --btn-scan-color { syntax: "<color>"; inherits: false; initial-value: rgba(255,255,255,0.07);
-} @property --btn-interior { syntax: "<color>"; inherits: false; initial-value: transparent;
-} @property --card-border-color { syntax: "<color>"; inherits: false; initial-value: rgba(255,255,255,0.05);
-} @property --card-bracket-size { syntax: "<length>"; inherits: false; initial-value: 20px;
-} @property --card-glow-lo { syntax: "<color>"; inherits: false; initial-value: rgba(0,0,0,0);
-} @property --card-glow-hi { syntax: "<color>"; inherits: false; initial-value: rgba(0,0,0,0);
-} @keyframes zyna-badge-scan { 0%, 18% { transform: translateX(0);
-    } 52%, 100% { transform: translateX(340%);
+"/*! tailwindcss v4.2.1 | MIT License | https://tailwindcss.com */
+@layer theme, base, components, utilities;
+@layer theme {
+  :root, :host {
+    --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+      "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+      "Courier New", monospace;
+    --default-font-family: var(--font-sans);
+    --default-mono-font-family: var(--font-mono);
+  }
+}
+@layer base {
+  *, ::after, ::before, ::backdrop, ::file-selector-button {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0 solid;
+  }
+  html, :host {
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    tab-size: 4;
+    font-family: var(--default-font-family, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji");
+    font-feature-settings: var(--default-font-feature-settings, normal);
+    font-variation-settings: var(--default-font-variation-settings, normal);
+    -webkit-tap-highlight-color: transparent;
+  }
+  hr {
+    height: 0;
+    color: inherit;
+    border-top-width: 1px;
+  }
+  abbr:where([title]) {
+    -webkit-text-decoration: underline dotted;
+    text-decoration: underline dotted;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-size: inherit;
+    font-weight: inherit;
+  }
+  a {
+    color: inherit;
+    -webkit-text-decoration: inherit;
+    text-decoration: inherit;
+  }
+  b, strong {
+    font-weight: bolder;
+  }
+  code, kbd, samp, pre {
+    font-family: var(--default-mono-font-family, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
+    font-feature-settings: var(--default-mono-font-feature-settings, normal);
+    font-variation-settings: var(--default-mono-font-variation-settings, normal);
+    font-size: 1em;
+  }
+  small {
+    font-size: 80%;
+  }
+  sub, sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+  sub {
+    bottom: -0.25em;
+  }
+  sup {
+    top: -0.5em;
+  }
+  table {
+    text-indent: 0;
+    border-color: inherit;
+    border-collapse: collapse;
+  }
+  :-moz-focusring {
+    outline: auto;
+  }
+  progress {
+    vertical-align: baseline;
+  }
+  summary {
+    display: list-item;
+  }
+  ol, ul, menu {
+    list-style: none;
+  }
+  img, svg, video, canvas, audio, iframe, embed, object {
+    display: block;
+    vertical-align: middle;
+  }
+  img, video {
+    max-width: 100%;
+    height: auto;
+  }
+  button, input, select, optgroup, textarea, ::file-selector-button {
+    font: inherit;
+    font-feature-settings: inherit;
+    font-variation-settings: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    border-radius: 0;
+    background-color: transparent;
+    opacity: 1;
+  }
+  :where(select:is([multiple], [size])) optgroup {
+    font-weight: bolder;
+  }
+  :where(select:is([multiple], [size])) optgroup option {
+    padding-inline-start: 20px;
+  }
+  ::file-selector-button {
+    margin-inline-end: 4px;
+  }
+  ::placeholder {
+    opacity: 1;
+  }
+  @supports (not (-webkit-appearance: -apple-pay-button))  or (contain-intrinsic-size: 1px) {
+    ::placeholder {
+      color: currentcolor;
+      @supports (color: color-mix(in lab, red, red)) {
+        color: color-mix(in oklab, currentcolor 50%, transparent);
+      }
     }
-} @keyframes zyna-pulse-ring { 0% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 currentColor;
-    } 45% { opacity: 0.65; transform: scale(1.15); box-shadow: 0 0 0 4px transparent;
-    } 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 transparent;
+  }
+  textarea {
+    resize: vertical;
+  }
+  ::-webkit-search-decoration {
+    -webkit-appearance: none;
+  }
+  ::-webkit-date-and-time-value {
+    min-height: 1lh;
+    text-align: inherit;
+  }
+  ::-webkit-datetime-edit {
+    display: inline-flex;
+  }
+  ::-webkit-datetime-edit-fields-wrapper {
+    padding: 0;
+  }
+  ::-webkit-datetime-edit, ::-webkit-datetime-edit-year-field, ::-webkit-datetime-edit-month-field, ::-webkit-datetime-edit-day-field, ::-webkit-datetime-edit-hour-field, ::-webkit-datetime-edit-minute-field, ::-webkit-datetime-edit-second-field, ::-webkit-datetime-edit-millisecond-field, ::-webkit-datetime-edit-meridiem-field {
+    padding-block: 0;
+  }
+  ::-webkit-calendar-picker-indicator {
+    line-height: 1;
+  }
+  :-moz-ui-invalid {
+    box-shadow: none;
+  }
+  button, input:where([type="button"], [type="reset"], [type="submit"]), ::file-selector-button {
+    appearance: button;
+  }
+  ::-webkit-inner-spin-button, ::-webkit-outer-spin-button {
+    height: auto;
+  }
+  [hidden]:where(:not([hidden="until-found"])) {
+    display: none !important;
+  }
+}
+@layer utilities;
+@layer base {
+  :root {
+    --zyna: #C9A84C;
+    --zyna-dark: #7A6230;
+    --zp-corner-sm: 7px;
+    --zp-corner-md: 10px;
+    --zp-corner-lg: 13px;
+    --zp-corner-xl: 16px;
+    --zp-corner-badge: 5px;
+    --zp-corner-badge-lg: 6px;
+    --zp-corner-card: 16px;
+    --zp-ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+    --zp-ease-snap: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --zp-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --z-corner-sm: var(--zp-corner-sm);
+    --z-corner: var(--zp-corner-md);
+    --z-corner-lg: var(--zp-corner-lg);
+    --z-corner-xl: var(--zp-corner-xl);
+    --z-ease: var(--zp-ease-standard);
+    --z-ease-snap: var(--zp-ease-snap);
+    --z-ease-out: var(--zp-ease-out);
+    --z-duration-fast: 0.18s;
+    --z-duration-base: 0.22s;
+    --z-duration-slow: 0.28s;
+    --zp-success: #00FFB2;
+    --zp-danger: #FF3366;
+    --zp-warning: #FFB800;
+    --zp-info: #00D4FF;
+    --zp-text: #F0EBE0;
+    --z-font-mono: 'DM Mono', 'Fira Code', ui-monospace, monospace;
+    --z-color-text: var(--zp-text);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-color-text: color-mix(in srgb, var(--zp-text) 90%, transparent);
     }
-} @keyframes zyna-pulse { 0%, 100% { opacity: 1; transform: scale(1);
-    } 50% { opacity: 0.35; transform: scale(0.7);
+    --z-color-text-muted: var(--zp-text);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-color-text-muted: color-mix(in srgb, var(--zp-text) 55%, transparent);
     }
-} @keyframes zyna-scan { 0% { transform: translateX(-100%);
-    } 100% { transform: translateX(200%);
+    --z-color-text-dim: var(--zp-text);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-color-text-dim: color-mix(in srgb, var(--zp-text) 65%, transparent);
     }
-} @keyframes zyna-card-pulse { 0%, 100% { filter: drop-shadow(0 0 18px var(--card-glow-lo)) drop-shadow(0 0 6px var(--card-glow-lo));
-    } 50% { filter: drop-shadow(0 0 38px var(--card-glow-hi)) drop-shadow(0 0 14px var(--card-glow-hi));
+    --z-color-text-solid: var(--zp-text);
+    --z-color-text-inverse: #050407;
+    --z-color-success: var(--zp-success);
+    --z-color-danger: var(--zp-danger);
+    --z-color-warning: var(--zp-warning);
+    --z-color-info: var(--zp-info);
+    --z-color-border: rgba(255,255,255,0.05);
+    --z-color-border-dim: rgba(255,255,255,0.035);
+    --z-color-overlay: rgba(255,255,255,0.04);
+    --z-surface-inset: #0C0B14;
+    --z-surface-inset-hover: #0E0D18;
+    --z-surface-inset-danger: #0C0508;
+    --z-surface-inset-danger-hover: #100608;
+    --z-surface-card: linear-gradient(145deg, rgba(18,16,28,0.97) 0%, rgba(10,9,18,0.97) 100%);
+    --z-surface-card-deep: linear-gradient(145deg, rgba(5,4,10,0.99) 0%, rgba(3,2,7,0.99) 100%);
+    --z-shadow-card: 0 24px 70px rgba(0,0,0,0.60), 0 0 0 1px rgba(255,255,255,0.02);
+    --z-shadow-card-deep: 0 30px 80px rgba(0,0,0,0.80), inset 0 1px 0 rgba(255,255,255,0.02);
+  }
+  @property --btn-bg {
+    syntax: "*";
+    inherits: false;
+    initial-value: transparent;
+  }
+  @property --btn-color {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: rgba(240,235,224,0.55);
+  }
+  @property --btn-hover-color {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: rgba(240,235,224,0.9);
+  }
+  @property --btn-scan-color {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: rgba(255,255,255,0.07);
+  }
+  @property --btn-interior {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: transparent;
+  }
+  @property --card-border-color {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: rgba(255,255,255,0.05);
+  }
+  @property --card-bracket-size {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 20px;
+  }
+  @property --card-glow-lo {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: rgba(0,0,0,0);
+  }
+  @property --card-glow-hi {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: rgba(0,0,0,0);
+  }
+  @property --btn-corner {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 10px;
+  }
+  @property --badge-offset {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 0.55rem;
+  }
+  @keyframes zyna-badge-scan {
+    0%, 18% {
+      transform: translateX(0);
     }
-} .btn { --btn-bg: rgba(255,255,255,0.04); --btn-color: rgba(240,235,224,0.55); --btn-filter: none; --btn-scan-color: rgba(255,255,255,0.07); --btn-hover-color: rgba(240,235,224,0.90); --btn-hover-filter: none; --btn-hover-text-shadow: none; --btn-active-filter: none; --btn-focus-color: color-mix(in srgb, var(--zyna) 65%, transparent); --btn-interior: transparent; --btn-inner-clip: none; position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem; padding: 0.65rem 1.5rem; font-family: 'DM Mono', 'Fira Code', ui-monospace, monospace; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap; cursor: pointer; user-select: none; border: none; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px)); transition: filter 0.22s ease, color 0.18s ease, background 0.18s ease, transform 0.08s ease; background: var(--btn-bg); color: var(--btn-color); filter: var(--btn-filter);
-} .btn::before { content: ""; position: absolute; inset: 0; clip-path: var(--btn-inner-clip); background: var(--btn-interior); z-index: -1; pointer-events: none;
-} .btn::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--btn-scan-color) 0%, transparent 70%); opacity: 0; transform: scaleX(0); transform-origin: left center; transition: transform 0.28s ease, opacity 0.28s ease; pointer-events: none;
-} .btn:hover { background: var(--btn-hover-bg, var(--btn-bg)); color: var(--btn-hover-color, var(--btn-color)); filter: var(--btn-hover-filter); text-shadow: var(--btn-hover-text-shadow); will-change: filter, transform;
-} .btn:hover::before { background: var(--btn-hover-interior, var(--btn-interior));
-} .btn:hover::after { opacity: 1; transform: scaleX(1);
-} .btn:active { transform: scale(0.96); filter: var(--btn-active-filter);
-} .btn:focus-visible { outline: 1.5px solid var(--btn-focus-color); outline-offset: 3px; will-change: filter, transform;
-} .btn:disabled, .btn[aria-disabled="true"] { opacity: 0.28; cursor: not-allowed; pointer-events: none;
-} [role="button"] { --btn-bg: rgba(255,255,255,0.04); --btn-color: rgba(240,235,224,0.55); --btn-filter: none; --btn-scan-color: rgba(255,255,255,0.07); --btn-hover-color: rgba(240,235,224,0.90); --btn-hover-filter: none; --btn-hover-text-shadow: none; --btn-active-filter: none; --btn-focus-color: color-mix(in srgb, var(--zyna) 65%, transparent); --btn-interior: transparent; --btn-inner-clip: none; position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem; padding: 0.65rem 1.5rem; font-family: 'DM Mono', 'Fira Code', ui-monospace, monospace; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap; cursor: pointer; user-select: none; border: none; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px)); transition: filter 0.22s ease, color 0.18s ease, background 0.18s ease, transform 0.08s ease; background: var(--btn-bg); color: var(--btn-color); filter: var(--btn-filter);
-} [role="button"]::before { content: ""; position: absolute; inset: 0; clip-path: var(--btn-inner-clip); background: var(--btn-interior); z-index: -1; pointer-events: none;
-} [role="button"]::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--btn-scan-color) 0%, transparent 70%); opacity: 0; transform: scaleX(0); transform-origin: left center; transition: transform 0.28s ease, opacity 0.28s ease; pointer-events: none;
-} [role="button"]:hover { background: var(--btn-hover-bg, var(--btn-bg)); color: var(--btn-hover-color, var(--btn-color)); filter: var(--btn-hover-filter); text-shadow: var(--btn-hover-text-shadow); will-change: filter, transform;
-} [role="button"]:hover::before { background: var(--btn-hover-interior, var(--btn-interior));
-} [role="button"]:hover::after { opacity: 1; transform: scaleX(1);
-} [role="button"]:active { transform: scale(0.96); filter: var(--btn-active-filter);
-} [role="button"]:focus-visible { outline: 1.5px solid var(--btn-focus-color); outline-offset: 3px; will-change: filter, transform;
-} [role="button"]:disabled, [role="button"][aria-disabled="true"] { opacity: 0.28; cursor: not-allowed; pointer-events: none;
-} .btn-primary { --btn-bg: repeating-linear-gradient(110deg, transparent 0px, transparent 3px, rgba(255,255,255,0.055) 3px, rgba(255,255,255,0.055) 4px), linear-gradient(135deg, color-mix(in srgb, var(--zyna) 85%, white) 0%, var(--zyna-dark) 100%); --btn-color: #050407; --btn-scan-color: rgba(255,255,255,0.26); --btn-filter: drop-shadow(0 0 8px color-mix(in srgb, var(--zyna) 45%, transparent)) drop-shadow(0 0 22px color-mix(in srgb, var(--zyna) 18%, transparent)); --btn-hover-color: #050407; --btn-hover-filter: drop-shadow(0 0 22px var(--zyna)) drop-shadow(0 0 60px color-mix(in srgb, var(--zyna) 45%, transparent)) brightness(1.10); --btn-hover-text-shadow: 0 0 20px color-mix(in srgb, var(--zyna) 55%, white); --btn-active-filter: brightness(0.80) drop-shadow(0 0 8px color-mix(in srgb, var(--zyna) 60%, transparent));
-} .btn-secondary { --btn-bg: color-mix(in srgb, var(--zyna) 45%, transparent); --btn-color: var(--zyna); --btn-scan-color: color-mix(in srgb, var(--zyna) 18%, transparent); --btn-inner-clip: polygon(1px 1px, calc(100% - 11px) 1px, calc(100% - 1px) 11px, calc(100% - 1px) calc(100% - 1px), 11px calc(100% - 1px), 1px calc(100% - 11px)); --btn-interior: #0C0B14; --btn-hover-bg: color-mix(in srgb, var(--zyna) 92%, transparent); --btn-hover-color: color-mix(in srgb, var(--zyna) 90%, white); --btn-hover-filter: drop-shadow(0 0 14px color-mix(in srgb, var(--zyna) 85%, transparent)) drop-shadow(0 0 42px color-mix(in srgb, var(--zyna) 30%, transparent)); --btn-hover-text-shadow: 0 0 14px color-mix(in srgb, var(--zyna) 80%, transparent); --btn-hover-interior: #0E0D18;
-} .btn-ghost { --btn-bg: transparent; --btn-color: rgba(240,235,224,0.55); --btn-scan-color: rgba(255,255,255,0.055); --btn-hover-bg: rgba(255,255,255,0.05); --btn-hover-color: rgba(240,235,224,0.90); --btn-hover-filter: drop-shadow(0 0 8px rgba(255,255,255,0.10)); --btn-hover-text-shadow: 0 0 10px rgba(240,235,224,0.35);
-} .btn-danger { --btn-bg: rgba(255,51,102,0.42); --btn-color: #FF3366; --btn-scan-color: rgba(255,51,102,0.18); --btn-inner-clip: polygon(1px 1px, calc(100% - 11px) 1px, calc(100% - 1px) 11px, calc(100% - 1px) calc(100% - 1px), 11px calc(100% - 1px), 1px calc(100% - 11px)); --btn-interior: #0C0508; --btn-hover-bg: rgba(255,51,102,0.92); --btn-hover-color: #FF80A0; --btn-hover-filter: drop-shadow(0 0 16px rgba(255,51,102,0.90)) drop-shadow(0 0 44px rgba(255,51,102,0.32)); --btn-hover-text-shadow: 0 0 16px rgba(255,51,102,0.95); --btn-hover-interior: #100608;
-} .btn-sm { padding: 0.42rem 1rem; font-size: 0.63rem; letter-spacing: 0.12em; clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 7px 100%, 0 calc(100% - 7px)); --btn-inner-clip: polygon(1px 1px, calc(100% - 8px) 1px, calc(100% - 1px) 8px, calc(100% - 1px) calc(100% - 1px), 8px calc(100% - 1px), 1px calc(100% - 8px));
-} .btn-lg { padding: 0.9rem 2.1rem; font-size: 0.78rem; clip-path: polygon(0 0, calc(100% - 13px) 0, 100% 13px, 100% 100%, 13px 100%, 0 calc(100% - 13px)); --btn-inner-clip: polygon(1px 1px, calc(100% - 14px) 1px, calc(100% - 1px) 14px, calc(100% - 1px) calc(100% - 1px), 14px calc(100% - 1px), 1px calc(100% - 14px));
-} [role="alert"] { --alert-bar-color: rgba(255,255,255,0.10); --alert-bg: rgba(255,255,255,0.02); --alert-color: rgba(240,235,224,0.65); --alert-shadow: none; --alert-title-shadow: none; display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.875rem 1.25rem; border-radius: 0 3px 3px 0; border-left: 3px solid var(--alert-bar-color); background: var(--alert-bg); color: var(--alert-color); font-size: 0.82rem; line-height: 1.65; position: relative; box-shadow: var(--alert-shadow);
-}"
+    52%, 100% {
+      transform: translateX(340%);
+    }
+  }
+  @keyframes zyna-pulse-ring {
+    0% {
+      opacity: 1;
+      transform: scale(1);
+      box-shadow: 0 0 0 0 currentColor;
+    }
+    45% {
+      opacity: 0.65;
+      transform: scale(1.15);
+      box-shadow: 0 0 0 4px transparent;
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+      box-shadow: 0 0 0 0 transparent;
+    }
+  }
+  @keyframes zyna-pulse {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.35;
+      transform: scale(0.7);
+    }
+  }
+  @keyframes zyna-scan {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(200%);
+    }
+  }
+  @keyframes zyna-card-pulse {
+    0%, 100% {
+      filter: drop-shadow(0 0 18px var(--card-glow-lo)) drop-shadow(0 0 6px var(--card-glow-lo));
+    }
+    50% {
+      filter: drop-shadow(0 0 38px var(--card-glow-hi)) drop-shadow(0 0 14px var(--card-glow-hi));
+    }
+  }
+}
+@layer base {
+  .btn {
+    --btn-bg: var(--z-color-overlay);
+    --btn-color: var(--z-color-text-muted);
+    --btn-filter: none;
+    --btn-scan-color: color-mix(in srgb, white 7%, transparent);
+    --btn-hover-color: var(--z-color-text);
+    --btn-hover-filter: none;
+    --btn-hover-text-shadow: none;
+    --btn-active-filter: none;
+    --btn-focus-color: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --btn-focus-color: color-mix(in srgb, var(--zyna) 65%, transparent);
+    }
+    --btn-corner: var(--z-corner);
+    --btn-interior: transparent;
+    --btn-inner-clip: polygon(1px 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--btn-corner) + 1px)));
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.65rem 1.5rem;
+    font-family: var(--z-font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    border: none;
+    clip-path: polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)));
+    transition: filter 0.22s ease, color 0.18s ease, background 0.18s ease, transform 0.08s ease;
+    background: var(--btn-bg);
+    color: var(--btn-color);
+    filter: var(--btn-filter);
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      clip-path: var(--btn-inner-clip);
+      background: var(--btn-interior);
+      z-index: -1;
+      pointer-events: none;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, var(--btn-scan-color) 0%, transparent 70%);
+      opacity: 0;
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform 0.28s ease, opacity 0.28s ease;
+      pointer-events: none;
+    }
+    &:hover {
+      background: var(--btn-hover-bg, var(--btn-bg));
+      color: var(--btn-hover-color, var(--btn-color));
+      filter: var(--btn-hover-filter);
+      text-shadow: var(--btn-hover-text-shadow);
+    }
+    &:hover::before {
+      background: var(--btn-hover-interior, var(--btn-interior));
+    }
+    &:hover::after {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+    &:active {
+      transform: scale(0.96);
+      filter: var(--btn-active-filter);
+    }
+    &:focus-visible {
+      outline: 1.5px solid var(--btn-focus-color);
+      outline-offset: 3px;
+    }
+    &:disabled, &[aria-disabled="true"] {
+      opacity: 0.28;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  }
+  [role="button"] {
+    --btn-bg: var(--z-color-overlay);
+    --btn-color: var(--z-color-text-muted);
+    --btn-filter: none;
+    --btn-scan-color: color-mix(in srgb, white 7%, transparent);
+    --btn-hover-color: var(--z-color-text);
+    --btn-hover-filter: none;
+    --btn-hover-text-shadow: none;
+    --btn-active-filter: none;
+    --btn-focus-color: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --btn-focus-color: color-mix(in srgb, var(--zyna) 65%, transparent);
+    }
+    --btn-corner: var(--z-corner);
+    --btn-interior: transparent;
+    --btn-inner-clip: polygon(1px 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--btn-corner) + 1px)));
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.65rem 1.5rem;
+    font-family: var(--z-font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    border: none;
+    clip-path: polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)));
+    transition: filter 0.22s ease, color 0.18s ease, background 0.18s ease, transform 0.08s ease;
+    background: var(--btn-bg);
+    color: var(--btn-color);
+    filter: var(--btn-filter);
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      clip-path: var(--btn-inner-clip);
+      background: var(--btn-interior);
+      z-index: -1;
+      pointer-events: none;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, var(--btn-scan-color) 0%, transparent 70%);
+      opacity: 0;
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform 0.28s ease, opacity 0.28s ease;
+      pointer-events: none;
+    }
+    &:hover {
+      background: var(--btn-hover-bg, var(--btn-bg));
+      color: var(--btn-hover-color, var(--btn-color));
+      filter: var(--btn-hover-filter);
+      text-shadow: var(--btn-hover-text-shadow);
+    }
+    &:hover::before {
+      background: var(--btn-hover-interior, var(--btn-interior));
+    }
+    &:hover::after {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+    &:active {
+      transform: scale(0.96);
+      filter: var(--btn-active-filter);
+    }
+    &:focus-visible {
+      outline: 1.5px solid var(--btn-focus-color);
+      outline-offset: 3px;
+    }
+    &:disabled, &[aria-disabled="true"] {
+      opacity: 0.28;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  }
+  .btn-primary {
+    --btn-bg: repeating-linear-gradient(110deg, transparent 0px, transparent 3px, color-mix(in srgb, white 5.5%, transparent) 3px, color-mix(in srgb, white 5.5%, transparent) 4px), linear-gradient(135deg, var(--zyna) 0%, var(--zyna-dark) 100%);
+    @supports (color: color-mix(in lab, red, red)) {
+      --btn-bg: repeating-linear-gradient(110deg, transparent 0px, transparent 3px, color-mix(in srgb, white 5.5%, transparent) 3px, color-mix(in srgb, white 5.5%, transparent) 4px), linear-gradient(135deg, color-mix(in srgb, var(--zyna) 85%, white) 0%, var(--zyna-dark) 100%);
+    }
+    --btn-color: var(--z-color-text-inverse);
+    --btn-scan-color: color-mix(in srgb, white 26%, transparent);
+    --btn-filter: drop-shadow(0 0 8px var(--zyna)) drop-shadow(0 0 22px var(--zyna));
+    @supports (color: color-mix(in lab, red, red)) {
+      --btn-filter: drop-shadow(0 0 8px color-mix(in srgb, var(--zyna) 45%, transparent)) drop-shadow(0 0 22px color-mix(in srgb, var(--zyna) 18%, transparent));
+    }
+    --btn-hover-color: var(--z-color-text-inverse);
+    --btn-hover-filter: drop-shadow(0 0 22px var(--zyna)) drop-shadow(0 0 60px var(--zyna)) brightness(1.10);
+    @supports (color: color-mix(in lab, red, red)) {
+      --btn-hover-filter: drop-shadow(0 0 22px var(--zyna)) drop-shadow(0 0 60px color-mix(in srgb, var(--zyna) 45%, transparent)) brightness(1.10);
+    }
+    --btn-hover-text-shadow: 0 0 20px var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --btn-hover-text-shadow: 0 0 20px color-mix(in srgb, var(--zyna) 55%, white);
+    }
+    --btn-active-filter: brightness(0.80) drop-shadow(0 0 8px var(--zyna));
+    @supports (color: color-mix(in lab, red, red)) {
+      --btn-active-filter: brightness(0.80) drop-shadow(0 0 8px color-mix(in srgb, var(--zyna) 60%, transparent));
+    }
+  }
+  .btn-secondary {
+    --btn-bg: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --btn-bg: color-mix(in srgb, var(--zyna) 45%, transparent);
+    }
+    --btn-color: var(--zyna);
+    --btn-scan-color: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --btn-scan-color: color-mix(in srgb, var(--zyna) 18%, transparent);
+    }
+    --btn-interior: var(--z-surface-inset);
+    --btn-hover-bg: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --btn-hover-bg: color-mix(in srgb, var(--zyna) 92%, transparent);
+    }
+    --btn-hover-color: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --btn-hover-color: color-mix(in srgb, var(--zyna) 90%, white);
+    }
+    --btn-hover-filter: drop-shadow(0 0 14px var(--zyna)) drop-shadow(0 0 42px var(--zyna));
+    @supports (color: color-mix(in lab, red, red)) {
+      --btn-hover-filter: drop-shadow(0 0 14px color-mix(in srgb, var(--zyna) 85%, transparent)) drop-shadow(0 0 42px color-mix(in srgb, var(--zyna) 30%, transparent));
+    }
+    --btn-hover-text-shadow: 0 0 14px var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --btn-hover-text-shadow: 0 0 14px color-mix(in srgb, var(--zyna) 80%, transparent);
+    }
+    --btn-hover-interior: var(--z-surface-inset-hover);
+  }
+  .btn-ghost {
+    --btn-bg: transparent;
+    --btn-color: var(--z-color-text-muted);
+    --btn-scan-color: color-mix(in srgb, white 5.5%, transparent);
+    --btn-hover-bg: var(--z-color-border);
+    --btn-hover-color: var(--z-color-text);
+    --btn-hover-filter: drop-shadow(0 0 8px color-mix(in srgb, white 10%, transparent));
+    --btn-hover-text-shadow: 0 0 10px var(--zp-text);
+    @supports (color: color-mix(in lab, red, red)) {
+      --btn-hover-text-shadow: 0 0 10px color-mix(in srgb, var(--zp-text) 35%, transparent);
+    }
+  }
+  .btn-danger {
+    --btn-bg: var(--z-color-danger);
+    @supports (color: color-mix(in lab, red, red)) {
+      --btn-bg: color-mix(in srgb, var(--z-color-danger) 42%, transparent);
+    }
+    --btn-color: var(--z-color-danger);
+    --btn-scan-color: var(--z-color-danger);
+    @supports (color: color-mix(in lab, red, red)) {
+      --btn-scan-color: color-mix(in srgb, var(--z-color-danger) 18%, transparent);
+    }
+    --btn-interior: var(--z-surface-inset-danger);
+    --btn-hover-bg: var(--z-color-danger);
+    @supports (color: color-mix(in lab, red, red)) {
+      --btn-hover-bg: color-mix(in srgb, var(--z-color-danger) 92%, transparent);
+    }
+    --btn-hover-color: var(--z-color-danger);
+    @supports (color: color-mix(in lab, red, red)) {
+      --btn-hover-color: color-mix(in srgb, var(--z-color-danger) 75%, white);
+    }
+    --btn-hover-filter: drop-shadow(0 0 16px var(--z-color-danger)) drop-shadow(0 0 44px var(--z-color-danger));
+    @supports (color: color-mix(in lab, red, red)) {
+      --btn-hover-filter: drop-shadow(0 0 16px color-mix(in srgb, var(--z-color-danger) 90%, transparent)) drop-shadow(0 0 44px color-mix(in srgb, var(--z-color-danger) 32%, transparent));
+    }
+    --btn-hover-text-shadow: 0 0 16px var(--z-color-danger);
+    @supports (color: color-mix(in lab, red, red)) {
+      --btn-hover-text-shadow: 0 0 16px color-mix(in srgb, var(--z-color-danger) 95%, transparent);
+    }
+    --btn-hover-interior: var(--z-surface-inset-danger-hover);
+  }
+  .btn-sm {
+    padding: 0.42rem 1rem;
+    font-size: 0.63rem;
+    letter-spacing: 0.12em;
+    --btn-corner: var(--z-corner-sm);
+  }
+  .btn-lg {
+    padding: 0.9rem 2.1rem;
+    font-size: 0.78rem;
+    --btn-corner: var(--z-corner-lg);
+  }
+  .btn-icon {
+    padding: 0.65rem;
+    aspect-ratio: 1;
+    --btn-corner: var(--z-corner-sm);
+  }
+  .btn-chamfer {
+    clip-path: polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)));
+    border-radius: 0;
+    --btn-inner-clip: polygon(1px 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--btn-corner) + 1px)));
+  }
+  .btn-notch {
+    clip-path: polygon(var(--btn-corner) 0%, calc(100% - var(--btn-corner)) 0%, 100% var(--btn-corner), 100% calc(100% - var(--btn-corner)), calc(100% - var(--btn-corner)) 100%, var(--btn-corner) 100%, 0% calc(100% - var(--btn-corner)), 0% var(--btn-corner));
+    --btn-inner-clip: polygon(calc(var(--btn-corner) + 1px) 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - calc(var(--btn-corner) + 1px)), calc(100% - calc(var(--btn-corner) + 1px)) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--btn-corner) + 1px)), 1px calc(var(--btn-corner) + 1px));
+  }
+  .btn-pill {
+    clip-path: inset(0 round 9999px);
+    border-radius: 9999px;
+    --btn-inner-clip: inset(1.5px round 9999px);
+  }
+  .btn-sharp {
+    clip-path: inset(0);
+    border-radius: 0;
+    --btn-inner-clip: inset(1.5px);
+  }
+  .card {
+    --card-gradient: var(--z-surface-card);
+    --card-border-color: var(--z-color-border);
+    --card-shadow: var(--z-shadow-card);
+    --card-bracket-color: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --card-bracket-color: color-mix(in srgb, var(--zyna) 42%, transparent);
+    }
+    --card-bracket-size: 20px;
+    --card-bar-gradient: linear-gradient(90deg, transparent 0%, var(--zyna) 25%, var(--zyna) 75%, transparent 100%);
+    @supports (color: color-mix(in lab, red, red)) {
+      --card-bar-gradient: linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--zyna) 30%, transparent) 25%, color-mix(in srgb, var(--zyna) 30%, transparent) 75%, transparent 100%);
+    }
+    --card-animation: none;
+    --card-glow-lo: rgba(0,0,0,0);
+    --card-glow-hi: rgba(0,0,0,0);
+    position: relative;
+    contain: layout style;
+    background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.012) 3px, rgba(255,255,255,0.012) 4px), var(--card-gradient);
+    border: 1px solid var(--card-border-color);
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    animation: var(--card-animation);
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(to right,  var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to bottom, var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to left,   var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to bottom, var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to right,  var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to top,    var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to left,   var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to top,    var(--card-bracket-color), var(--card-bracket-color));
+      background-size: var(--card-bracket-size) 1.5px, 1.5px var(--card-bracket-size), var(--card-bracket-size) 1.5px, 1.5px var(--card-bracket-size), var(--card-bracket-size) 1.5px, 1.5px var(--card-bracket-size), var(--card-bracket-size) 1.5px, 1.5px var(--card-bracket-size);
+      background-position: 0 0, 0 0, 100% 0, 100% 0, 0 100%, 0 100%, 100% 100%, 100% 100%;
+      background-repeat: no-repeat;
+      z-index: 1;
+      pointer-events: none;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--card-bar-gradient);
+      z-index: 1;
+      pointer-events: none;
+    }
+  }
+  .card-body {
+    padding: 1.5rem;
+    position: relative;
+  }
+  .card-header {
+    padding: 0.7rem 1.25rem;
+    border-bottom: 1px solid var(--z-color-border);
+    font-family: var(--z-font-mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      color: color-mix(in srgb, var(--zyna) 75%, transparent);
+    }
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+    &::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--zyna);
+      @supports (color: color-mix(in lab, red, red)) {
+        background: color-mix(in srgb, var(--zyna) 65%, transparent);
+      }
+      flex-shrink: 0;
+      box-shadow: 0 0 6px var(--zyna), 0 0 16px var(--zyna);
+      @supports (color: color-mix(in lab, red, red)) {
+        box-shadow: 0 0 6px color-mix(in srgb, var(--zyna) 65%, transparent), 0 0 16px color-mix(in srgb, var(--zyna) 30%, transparent);
+      }
+    }
+  }
+  .card-footer {
+    padding: 0.7rem 1.25rem;
+    border-top: 1px solid var(--z-color-border);
+  }
+  .card-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.3;
+    color: var(--z-color-text-solid);
+    margin-bottom: 0.2rem;
+  }
+  .card-subtitle {
+    font-size: 0.78rem;
+    color: var(--z-color-text-muted);
+    letter-spacing: 0.01em;
+    margin-bottom: 0.85rem;
+  }
+  .card-dark {
+    --card-gradient: var(--z-surface-card-deep);
+    --card-border-color: var(--z-color-border-dim);
+    --card-shadow: var(--z-shadow-card-deep);
+    --card-bracket-color: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --card-bracket-color: color-mix(in srgb, var(--zyna) 28%, transparent);
+    }
+    --card-bar-gradient: linear-gradient(90deg, transparent 0%, var(--zyna) 25%, var(--zyna) 75%, transparent 100%);
+    @supports (color: color-mix(in lab, red, red)) {
+      --card-bar-gradient: linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--zyna) 18%, transparent) 25%, color-mix(in srgb, var(--zyna) 18%, transparent) 75%, transparent 100%);
+    }
+  }
+  .card-glow {
+    --card-border-color: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --card-border-color: color-mix(in srgb, var(--zyna) 22%, transparent);
+    }
+    --card-bracket-color: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --card-bracket-color: color-mix(in srgb, var(--zyna) 70%, transparent);
+    }
+    --card-bracket-size: 22px;
+    --card-bar-gradient: linear-gradient(90deg, transparent 0%, var(--zyna) 20%, var(--zyna) 80%, transparent 100%);
+    @supports (color: color-mix(in lab, red, red)) {
+      --card-bar-gradient: linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--zyna) 60%, transparent) 20%, color-mix(in srgb, var(--zyna) 60%, transparent) 80%, transparent 100%);
+    }
+    --card-animation: zyna-card-pulse 4s ease-in-out infinite;
+    --card-glow-lo: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --card-glow-lo: color-mix(in srgb, var(--zyna) 12%, transparent);
+    }
+    --card-glow-hi: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --card-glow-hi: color-mix(in srgb, var(--zyna) 26%, transparent);
+    }
+  }
+  .card-compact .card-header {
+    padding: 0.4rem 0.85rem;
+  }
+  .card-compact .card-body {
+    padding: 0.75rem 0.85rem;
+  }
+  .card-compact .card-footer {
+    padding: 0.4rem 0.85rem;
+  }
+  .card-compact .card-title {
+    font-size: 0.85rem;
+    margin-bottom: 0.1rem;
+  }
+  .card-compact .card-subtitle {
+    font-size: 0.68rem;
+    margin-bottom: 0.55rem;
+  }
+  .card-rounded {
+    border-radius: var(--z-corner-xl);
+  }
+  .card-notch {
+    clip-path: polygon(var(--zp-corner-card) 0%, calc(100% - var(--zp-corner-card)) 0%, 100% var(--zp-corner-card), 100% calc(100% - var(--zp-corner-card)), calc(100% - var(--zp-corner-card)) 100%, var(--zp-corner-card) 100%, 0% calc(100% - var(--zp-corner-card)), 0% var(--zp-corner-card));
+    border-radius: 0;
+  }
+  .badge {
+    --badge-bg: var(--z-color-overlay);
+    --badge-color: var(--z-color-text-muted);
+    --badge-glow: none;
+    --badge-scan-color: color-mix(in srgb, white 18%, transparent);
+    --badge-offset: var(--zp-corner-badge);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.22rem 0.85rem;
+    font-family: var(--z-font-mono);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    position: relative;
+    clip-path: polygon(var(--badge-offset) 0%, 100% 0%, calc(100% - var(--badge-offset)) 100%, 0% 100%);
+    background: var(--badge-bg);
+    color: var(--badge-color);
+    filter: var(--badge-glow);
+    &:focus-visible {
+      outline: 1.5px solid var(--badge-color);
+      outline-offset: 3px;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: -60%;
+      width: 50%;
+      background: linear-gradient(90deg, transparent, var(--badge-scan-color), transparent);
+      animation: zyna-badge-scan 5s ease-in-out infinite;
+      pointer-events: none;
+    }
+  }
+  .badge-primary {
+    --badge-bg: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in srgb, var(--zyna) 13%, transparent);
+    }
+    --badge-color: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-color: color-mix(in srgb, var(--zyna) 90%, white);
+    }
+    --badge-glow: drop-shadow(0 0 5px var(--zyna)) drop-shadow(0 0 14px var(--zyna));
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-glow: drop-shadow(0 0 5px color-mix(in srgb, var(--zyna) 40%, transparent)) drop-shadow(0 0 14px color-mix(in srgb, var(--zyna) 14%, transparent));
+    }
+  }
+  .badge-secondary {
+    --badge-bg: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in srgb, var(--zyna) 5%, transparent);
+    }
+    --badge-color: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-color: color-mix(in srgb, var(--zyna) 80%, transparent);
+    }
+  }
+  .badge-success {
+    --badge-bg: var(--z-color-success);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in srgb, var(--z-color-success) 10%, transparent);
+    }
+    --badge-color: var(--z-color-success);
+    --badge-glow: drop-shadow(0 0 5px var(--z-color-success)) drop-shadow(0 0 14px var(--z-color-success));
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-glow: drop-shadow(0 0 5px color-mix(in srgb, var(--z-color-success) 45%, transparent)) drop-shadow(0 0 14px color-mix(in srgb, var(--z-color-success) 14%, transparent));
+    }
+  }
+  .badge-danger {
+    --badge-bg: var(--z-color-danger);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in srgb, var(--z-color-danger) 10%, transparent);
+    }
+    --badge-color: var(--z-color-danger);
+    --badge-glow: drop-shadow(0 0 5px var(--z-color-danger)) drop-shadow(0 0 14px var(--z-color-danger));
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-glow: drop-shadow(0 0 5px color-mix(in srgb, var(--z-color-danger) 45%, transparent)) drop-shadow(0 0 14px color-mix(in srgb, var(--z-color-danger) 14%, transparent));
+    }
+  }
+  .badge-warning {
+    --badge-bg: var(--z-color-warning);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in srgb, var(--z-color-warning) 10%, transparent);
+    }
+    --badge-color: var(--z-color-warning);
+    --badge-glow: drop-shadow(0 0 5px var(--z-color-warning)) drop-shadow(0 0 12px var(--z-color-warning));
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-glow: drop-shadow(0 0 5px color-mix(in srgb, var(--z-color-warning) 40%, transparent)) drop-shadow(0 0 12px color-mix(in srgb, var(--z-color-warning) 12%, transparent));
+    }
+  }
+  .badge-info {
+    --badge-bg: var(--z-color-info);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in srgb, var(--z-color-info) 10%, transparent);
+    }
+    --badge-color: var(--z-color-info);
+    --badge-glow: drop-shadow(0 0 5px var(--z-color-info)) drop-shadow(0 0 14px var(--z-color-info));
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-glow: drop-shadow(0 0 5px color-mix(in srgb, var(--z-color-info) 45%, transparent)) drop-shadow(0 0 14px color-mix(in srgb, var(--z-color-info) 14%, transparent));
+    }
+  }
+  .badge-neutral {
+    --badge-bg: var(--z-color-overlay);
+    --badge-color: var(--z-color-text-muted);
+  }
+  .badge-outline {
+    background: transparent;
+    border-top: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+    opacity: 0.75;
+  }
+  .badge-pulse {
+    &::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+      animation: zyna-pulse-ring 2s ease-out infinite;
+    }
+  }
+  .badge-lg {
+    padding: 0.32rem 1.05rem;
+    font-size: 0.68rem;
+    --badge-offset: var(--zp-corner-badge-lg);
+  }
+  .badge-sharp {
+    clip-path: inset(0 round 3px);
+    border-radius: 3px;
+  }
+  .badge-pill {
+    clip-path: inset(0 round 9999px);
+    border-radius: 9999px;
+  }
+  .badge-notch {
+    clip-path: polygon(var(--badge-offset) 0%, calc(100% - var(--badge-offset)) 0%, 100% var(--badge-offset), 100% calc(100% - var(--badge-offset)), calc(100% - var(--badge-offset)) 100%, var(--badge-offset) 100%, 0% calc(100% - var(--badge-offset)), 0% var(--badge-offset));
+  }
+  .alert {
+    --alert-bar-color: rgba(255,255,255,0.10);
+    --alert-bg: rgba(255,255,255,0.02);
+    --alert-color: var(--z-color-text-dim);
+    --alert-shadow: none;
+    --alert-title-shadow: none;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.875rem 1.25rem;
+    border-radius: 0 3px 3px 0;
+    border-left: 3px solid var(--alert-bar-color);
+    background: var(--alert-bg);
+    color: var(--alert-color);
+    font-size: 0.82rem;
+    line-height: 1.65;
+    position: relative;
+    box-shadow: var(--alert-shadow);
+  }
+  [role="alert"] {
+    --alert-bar-color: rgba(255,255,255,0.10);
+    --alert-bg: rgba(255,255,255,0.02);
+    --alert-color: var(--z-color-text-dim);
+    --alert-shadow: none;
+    --alert-title-shadow: none;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.875rem 1.25rem;
+    border-radius: 0 3px 3px 0;
+    border-left: 3px solid var(--alert-bar-color);
+    background: var(--alert-bg);
+    color: var(--alert-color);
+    font-size: 0.82rem;
+    line-height: 1.65;
+    position: relative;
+    box-shadow: var(--alert-shadow);
+  }
+  .alert-icon {
+    flex-shrink: 0;
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-top: 0.1rem;
+  }
+  .alert-title {
+    font-family: var(--z-font-mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    margin-bottom: 0.2rem;
+    text-shadow: var(--alert-title-shadow);
+    &::before {
+      content: "// ";
+      color: currentColor;
+      opacity: 0.38;
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+  }
+  .alert-success {
+    --alert-bar-color: var(--z-color-success);
+    --alert-bg: var(--z-color-success);
+    @supports (color: color-mix(in lab, red, red)) {
+      --alert-bg: color-mix(in srgb, var(--z-color-success) 5.5%, transparent);
+    }
+    --alert-color: var(--z-color-success);
+    @supports (color: color-mix(in lab, red, red)) {
+      --alert-color: color-mix(in srgb, var(--z-color-success) 88%, transparent);
+    }
+    --alert-shadow: 0 0 30px var(--z-color-success), inset 4px 0 18px var(--z-color-success), inset 0 0 40px var(--z-color-success);
+    @supports (color: color-mix(in lab, red, red)) {
+      --alert-shadow: 0 0 30px color-mix(in srgb, var(--z-color-success) 8%, transparent), inset 4px 0 18px color-mix(in srgb, var(--z-color-success) 5%, transparent), inset 0 0 40px color-mix(in srgb, var(--z-color-success) 2.5%, transparent);
+    }
+    --alert-title-shadow: 0 0 12px var(--z-color-success);
+    @supports (color: color-mix(in lab, red, red)) {
+      --alert-title-shadow: 0 0 12px color-mix(in srgb, var(--z-color-success) 65%, transparent);
+    }
+  }
+  .alert-danger {
+    --alert-bar-color: var(--z-color-danger);
+    --alert-bg: var(--z-color-danger);
+    @supports (color: color-mix(in lab, red, red)) {
+      --alert-bg: color-mix(in srgb, var(--z-color-danger) 5.5%, transparent);
+    }
+    --alert-color: var(--z-color-danger);
+    @supports (color: color-mix(in lab, red, red)) {
+      --alert-color: color-mix(in srgb, var(--z-color-danger) 88%, transparent);
+    }
+    --alert-shadow: 0 0 30px var(--z-color-danger), inset 4px 0 18px var(--z-color-danger), inset 0 0 40px var(--z-color-danger);
+    @supports (color: color-mix(in lab, red, red)) {
+      --alert-shadow: 0 0 30px color-mix(in srgb, var(--z-color-danger) 8%, transparent), inset 4px 0 18px color-mix(in srgb, var(--z-color-danger) 5%, transparent), inset 0 0 40px color-mix(in srgb, var(--z-color-danger) 2.5%, transparent);
+    }
+    --alert-title-shadow: 0 0 12px var(--z-color-danger);
+    @supports (color: color-mix(in lab, red, red)) {
+      --alert-title-shadow: 0 0 12px color-mix(in srgb, var(--z-color-danger) 65%, transparent);
+    }
+  }
+  .alert-warning {
+    --alert-bar-color: var(--z-color-warning);
+    --alert-bg: var(--z-color-warning);
+    @supports (color: color-mix(in lab, red, red)) {
+      --alert-bg: color-mix(in srgb, var(--z-color-warning) 5.5%, transparent);
+    }
+    --alert-color: var(--z-color-warning);
+    @supports (color: color-mix(in lab, red, red)) {
+      --alert-color: color-mix(in srgb, var(--z-color-warning) 88%, transparent);
+    }
+    --alert-shadow: 0 0 24px var(--z-color-warning), inset 4px 0 14px var(--z-color-warning);
+    @supports (color: color-mix(in lab, red, red)) {
+      --alert-shadow: 0 0 24px color-mix(in srgb, var(--z-color-warning) 7%, transparent), inset 4px 0 14px color-mix(in srgb, var(--z-color-warning) 4%, transparent);
+    }
+    --alert-title-shadow: 0 0 10px var(--z-color-warning);
+    @supports (color: color-mix(in lab, red, red)) {
+      --alert-title-shadow: 0 0 10px color-mix(in srgb, var(--z-color-warning) 55%, transparent);
+    }
+  }
+  .alert-info {
+    --alert-bar-color: var(--z-color-info);
+    --alert-bg: var(--z-color-info);
+    @supports (color: color-mix(in lab, red, red)) {
+      --alert-bg: color-mix(in srgb, var(--z-color-info) 5.5%, transparent);
+    }
+    --alert-color: var(--z-color-info);
+    @supports (color: color-mix(in lab, red, red)) {
+      --alert-color: color-mix(in srgb, var(--z-color-info) 88%, transparent);
+    }
+    --alert-shadow: 0 0 30px var(--z-color-info), inset 4px 0 18px var(--z-color-info), inset 0 0 40px var(--z-color-info);
+    @supports (color: color-mix(in lab, red, red)) {
+      --alert-shadow: 0 0 30px color-mix(in srgb, var(--z-color-info) 8%, transparent), inset 4px 0 18px color-mix(in srgb, var(--z-color-info) 5%, transparent), inset 0 0 40px color-mix(in srgb, var(--z-color-info) 2.5%, transparent);
+    }
+    --alert-title-shadow: 0 0 12px var(--z-color-info);
+    @supports (color: color-mix(in lab, red, red)) {
+      --alert-title-shadow: 0 0 12px color-mix(in srgb, var(--z-color-info) 65%, transparent);
+    }
+  }
+  .alert-neutral {
+    --alert-bar-color: var(--z-color-border-dim);
+    --alert-bg: var(--z-color-overlay);
+    --alert-color: var(--z-color-text-dim);
+  }
+  .alert-dark {
+    --alert-bar-color: color-mix(in srgb, white 14%, transparent);
+    --alert-bg: color-mix(in srgb, white 3%, transparent);
+    --alert-color: var(--zp-text);
+    @supports (color: color-mix(in lab, red, red)) {
+      --alert-color: color-mix(in srgb, var(--zp-text) 70%, transparent);
+    }
+  }
+  .alert-sharp {
+    border-radius: 0;
+    overflow: hidden;
+  }
+  .alert-pill {
+    border-radius: 9999px;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    border-left: none;
+    box-shadow: inset 0 0 0 2px var(--alert-bar-color);
+  }
+}
+"
 `;

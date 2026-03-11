@@ -48,33 +48,25 @@
  *   • The base .btn rule also applies to [role="button"] so non-<button>
  *     elements get the same visual treatment when correctly marked up.
  */
-module.exports = function(theme) {
-  // Outer clip-path polygons (chamfered top-right + bottom-left)
-  const outer   = 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-  const outerSm = 'polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 7px 100%, 0 calc(100% - 7px))'
-  const outerLg = 'polygon(0 0, calc(100% - 13px) 0, 100% 13px, 100% 100%, 13px 100%, 0 calc(100% - 13px))'
+import shapes from '../shapes.js'
 
-  // Inner polygons (1px inset) — used by outlined variants for the polygon-border technique.
-  // Size classes set --btn-inner-clip to the matching polygon so any outlined
-  // variant (including user-defined ones) automatically gets the right inner clip.
-  const inner   = 'polygon(1px 1px, calc(100% - 11px) 1px, calc(100% - 1px) 11px, calc(100% - 1px) calc(100% - 1px), 11px calc(100% - 1px), 1px calc(100% - 11px))'
-  const innerSm = 'polygon(1px 1px, calc(100% - 8px) 1px, calc(100% - 1px) 8px, calc(100% - 1px) calc(100% - 1px), 8px calc(100% - 1px), 1px calc(100% - 8px))'
-  const innerLg = 'polygon(1px 1px, calc(100% - 14px) 1px, calc(100% - 1px) 14px, calc(100% - 1px) calc(100% - 1px), 14px calc(100% - 1px), 1px calc(100% - 14px))'
-
+export default function(theme) {
   const base = {
     // CSS variable defaults — variants override only what they need
-    '--btn-bg':                'rgba(255,255,255,0.04)',
-    '--btn-color':             'rgba(240,235,224,0.55)',  // ≥4.5:1 on dark bg
+    '--btn-bg':                'var(--z-color-overlay)',
+    '--btn-color':             'var(--z-color-text-muted)',  // ≥4.5:1 on dark bg
     '--btn-filter':            'none',
-    '--btn-scan-color':        'rgba(255,255,255,0.07)',
-    '--btn-hover-color':       'rgba(240,235,224,0.90)',
+    '--btn-scan-color':        'color-mix(in srgb, white 7%, transparent)',
+    '--btn-hover-color':       'var(--z-color-text)',
     '--btn-hover-filter':      'none',
     '--btn-hover-text-shadow': 'none',
     '--btn-active-filter':     'none',
     '--btn-focus-color':       'color-mix(in srgb, var(--zyna) 65%, transparent)',
+    // Shape — drives clip-path polygon geometry via CSS variable
+    '--btn-corner':            'var(--z-corner)',
     // Outlined technique defaults — transparent so solid buttons are unaffected
     '--btn-interior':          'transparent',
-    '--btn-inner-clip':        'none',
+    '--btn-inner-clip':        shapes.chamfer('var(--btn-corner)').inner,
 
     // Structure
     position: 'relative',
@@ -83,7 +75,7 @@ module.exports = function(theme) {
     justifyContent: 'center',
     gap: '0.45rem',
     padding: '0.65rem 1.5rem',
-    fontFamily: "'DM Mono', 'Fira Code', ui-monospace, monospace",
+    fontFamily: 'var(--z-font-mono)',
     fontSize: '0.7rem',
     fontWeight: '700',
     letterSpacing: '0.14em',
@@ -92,7 +84,7 @@ module.exports = function(theme) {
     cursor: 'pointer',
     userSelect: 'none',
     border: 'none',
-    clipPath: outer,
+    clipPath: shapes.chamfer('var(--btn-corner)').outer,
     transition: 'filter 0.22s ease, color 0.18s ease, background 0.18s ease, transform 0.08s ease',
     background: 'var(--btn-bg)',
     color: 'var(--btn-color)',
@@ -129,9 +121,6 @@ module.exports = function(theme) {
       color: 'var(--btn-hover-color, var(--btn-color))',
       filter: 'var(--btn-hover-filter)',
       textShadow: 'var(--btn-hover-text-shadow)',
-      // Promotes to GPU compositing layer only while the transition is active —
-      // avoids the ~150KB/button permanent VRAM cost of putting will-change on the base class
-      willChange: 'filter, transform',
     },
 
     '&:hover::before': {
@@ -152,7 +141,6 @@ module.exports = function(theme) {
     '&:focus-visible': {
       outline: '1.5px solid var(--btn-focus-color)',
       outlineOffset: '3px',
-      willChange: 'filter, transform',
     },
 
     '&:disabled, &[aria-disabled="true"]': {
@@ -169,11 +157,11 @@ module.exports = function(theme) {
 
     // ── Primary: gold solid fill ──────────────────────────────────────────────
     '.btn-primary': {
-      '--btn-bg':                `repeating-linear-gradient(110deg, transparent 0px, transparent 3px, rgba(255,255,255,0.055) 3px, rgba(255,255,255,0.055) 4px), linear-gradient(135deg, color-mix(in srgb, var(--zyna) 85%, white) 0%, var(--zyna-dark) 100%)`,
-      '--btn-color':             '#050407',
-      '--btn-scan-color':        'rgba(255,255,255,0.26)',
+      '--btn-bg':                `repeating-linear-gradient(110deg, transparent 0px, transparent 3px, color-mix(in srgb, white 5.5%, transparent) 3px, color-mix(in srgb, white 5.5%, transparent) 4px), linear-gradient(135deg, color-mix(in srgb, var(--zyna) 85%, white) 0%, var(--zyna-dark) 100%)`,
+      '--btn-color':             'var(--z-color-text-inverse)',
+      '--btn-scan-color':        'color-mix(in srgb, white 26%, transparent)',
       '--btn-filter':            `drop-shadow(0 0 8px color-mix(in srgb, var(--zyna) 45%, transparent)) drop-shadow(0 0 22px color-mix(in srgb, var(--zyna) 18%, transparent))`,
-      '--btn-hover-color':       '#050407',
+      '--btn-hover-color':       'var(--z-color-text-inverse)',
       '--btn-hover-filter':      `drop-shadow(0 0 22px var(--zyna)) drop-shadow(0 0 60px color-mix(in srgb, var(--zyna) 45%, transparent)) brightness(1.10)`,
       '--btn-hover-text-shadow': `0 0 20px color-mix(in srgb, var(--zyna) 55%, white)`,
       '--btn-active-filter':     `brightness(0.80) drop-shadow(0 0 8px color-mix(in srgb, var(--zyna) 60%, transparent))`,
@@ -184,62 +172,84 @@ module.exports = function(theme) {
       '--btn-bg':                'color-mix(in srgb, var(--zyna) 45%, transparent)',
       '--btn-color':             'var(--zyna)',
       '--btn-scan-color':        'color-mix(in srgb, var(--zyna) 18%, transparent)',
-      '--btn-inner-clip':        inner,
-      '--btn-interior':          '#0C0B14',
+      '--btn-interior':          'var(--z-surface-inset)',
       '--btn-hover-bg':          'color-mix(in srgb, var(--zyna) 92%, transparent)',
       '--btn-hover-color':       'color-mix(in srgb, var(--zyna) 90%, white)',
       '--btn-hover-filter':      `drop-shadow(0 0 14px color-mix(in srgb, var(--zyna) 85%, transparent)) drop-shadow(0 0 42px color-mix(in srgb, var(--zyna) 30%, transparent))`,
       '--btn-hover-text-shadow': `0 0 14px color-mix(in srgb, var(--zyna) 80%, transparent)`,
-      '--btn-hover-interior':    '#0E0D18',
+      '--btn-hover-interior':    'var(--z-surface-inset-hover)',
     },
 
     // ── Ghost: near-invisible — text meets AA at 0.55 opacity ─────────────────
     '.btn-ghost': {
       '--btn-bg':                'transparent',
-      '--btn-color':             'rgba(240,235,224,0.55)',  // WCAG AA ≥4.5:1 on dark
-      '--btn-scan-color':        'rgba(255,255,255,0.055)',
-      '--btn-hover-bg':          'rgba(255,255,255,0.05)',
-      '--btn-hover-color':       'rgba(240,235,224,0.90)',
-      '--btn-hover-filter':      'drop-shadow(0 0 8px rgba(255,255,255,0.10))',
-      '--btn-hover-text-shadow': '0 0 10px rgba(240,235,224,0.35)',
+      '--btn-color':             'var(--z-color-text-muted)',  // WCAG AA ≥4.5:1 on dark
+      '--btn-scan-color':        'color-mix(in srgb, white 5.5%, transparent)',
+      '--btn-hover-bg':          'var(--z-color-border)',
+      '--btn-hover-color':       'var(--z-color-text)',
+      '--btn-hover-filter':      'drop-shadow(0 0 8px color-mix(in srgb, white 10%, transparent))',
+      '--btn-hover-text-shadow': `0 0 10px color-mix(in srgb, var(--zp-text) 35%, transparent)`,
     },
 
     // ── Danger: neon crimson — polygon border technique ───────────────────────
     '.btn-danger': {
-      '--btn-bg':                'rgba(255,51,102,0.42)',
-      '--btn-color':             '#FF3366',
-      '--btn-scan-color':        'rgba(255,51,102,0.18)',
-      '--btn-inner-clip':        inner,
-      '--btn-interior':          '#0C0508',
-      '--btn-hover-bg':          'rgba(255,51,102,0.92)',
-      '--btn-hover-color':       '#FF80A0',
-      '--btn-hover-filter':      'drop-shadow(0 0 16px rgba(255,51,102,0.90)) drop-shadow(0 0 44px rgba(255,51,102,0.32))',
-      '--btn-hover-text-shadow': '0 0 16px rgba(255,51,102,0.95)',
-      '--btn-hover-interior':    '#100608',
+      '--btn-bg':                'color-mix(in srgb, var(--z-color-danger) 42%, transparent)',
+      '--btn-color':             'var(--z-color-danger)',
+      '--btn-scan-color':        'color-mix(in srgb, var(--z-color-danger) 18%, transparent)',
+      '--btn-interior':          'var(--z-surface-inset-danger)',
+      '--btn-hover-bg':          'color-mix(in srgb, var(--z-color-danger) 92%, transparent)',
+      '--btn-hover-color':       'color-mix(in srgb, var(--z-color-danger) 75%, white)',
+      '--btn-hover-filter':      'drop-shadow(0 0 16px color-mix(in srgb, var(--z-color-danger) 90%, transparent)) drop-shadow(0 0 44px color-mix(in srgb, var(--z-color-danger) 32%, transparent))',
+      '--btn-hover-text-shadow': '0 0 16px color-mix(in srgb, var(--z-color-danger) 95%, transparent)',
+      '--btn-hover-interior':    'var(--z-surface-inset-danger-hover)',
     },
 
     // ── Sizes ─────────────────────────────────────────────────────────────────
-    // Each size class overrides --btn-inner-clip so ANY outlined variant
-    // (built-in or user-defined) automatically gets the correct inner polygon.
+    // Each size class sets --btn-corner. The base clip-path polygon references
+    // var(--btn-corner) so the geometry updates automatically — no repeated
+    // polygon strings, no compound selectors needed for shape × size combos.
     '.btn-sm': {
       padding: '0.42rem 1rem',
       fontSize: '0.63rem',
       letterSpacing: '0.12em',
-      clipPath: outerSm,
-      '--btn-inner-clip': innerSm,
+      '--btn-corner': 'var(--z-corner-sm)',
     },
 
     '.btn-lg': {
       padding: '0.9rem 2.1rem',
       fontSize: '0.78rem',
-      clipPath: outerLg,
-      '--btn-inner-clip': innerLg,
+      '--btn-corner': 'var(--z-corner-lg)',
     },
 
     '.btn-icon': {
       padding: '0.65rem',
       aspectRatio: '1',
-      clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))',
+      '--btn-corner': 'var(--z-corner-sm)',
+    },
+
+    // ── Shape modifiers ────────────────────────────────────────────────────────
+    // Size classes set --btn-corner; shape modifiers change the polygon formula.
+    // Combined (e.g. .btn-notch.btn-sm) works without compound selectors because
+    // .btn-sm updates --btn-corner and the notch polygon uses it automatically.
+
+    '.btn-chamfer': {
+      clipPath: shapes.chamfer('var(--btn-corner)').outer,
+      borderRadius: '0',
+      '--btn-inner-clip': shapes.chamfer('var(--btn-corner)').inner,
+    },
+    '.btn-notch': {
+      clipPath: shapes.notch('var(--btn-corner)').outer,
+      '--btn-inner-clip': shapes.notch('var(--btn-corner)').inner,
+    },
+    '.btn-pill': {
+      clipPath: shapes.pill.clipPath,  // inset(0 round 9999px) — ensures filter traces pill, not rect
+      borderRadius: '9999px',          // keeps native focus ring pill-shaped in browsers that read border-radius
+      '--btn-inner-clip': shapes.pill.innerClip,
+    },
+    '.btn-sharp': {
+      clipPath: shapes.sharp.clipPath,  // inset(0) — ensures filter traces element before compositing
+      borderRadius: shapes.sharp.borderRadius,
+      '--btn-inner-clip': shapes.sharp.innerClip,
     },
   }
 }

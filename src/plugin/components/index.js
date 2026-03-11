@@ -1,9 +1,9 @@
-const btn   = require('./btn')
-const card  = require('./card')
-const badge = require('./badge')
-const alert = require('./alert')
+import btn   from './btn.js'
+import card  from './card.js'
+import badge from './badge.js'
+import alert from './alert.js'
 
-module.exports = function(theme) {
+export default function(theme) {
   return Object.assign(
     {},
     btn(theme),

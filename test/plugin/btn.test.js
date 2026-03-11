@@ -19,12 +19,14 @@ describe('.btn component', () => {
 
   test('generates ::before pseudo-element', async () => {
     const css = await generateCSS('<div class="btn">')
-    expect(css).toMatch(/\.btn::before\s*\{/)
+    // v4 outputs native CSS nesting (&::before) rather than expanded selectors
+    expect(css).toMatch(/(?:\.btn::before|&::before)\s*\{/)
   })
 
   test('generates hover state with filter', async () => {
     const css = await generateCSS('<div class="btn">')
-    expect(css).toMatch(/\.btn:hover/)
+    // v4 outputs native CSS nesting (&:hover) rather than expanded selectors
+    expect(css).toMatch(/(?:\.btn:hover|&:hover)/)
   })
 
   test('generates .btn-primary variant', async () => {

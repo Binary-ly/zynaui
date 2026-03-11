@@ -1,17 +1,18 @@
 import postcss from 'postcss'
-import tailwindcss from 'tailwindcss'
-import zynaPlugin from '../../src/plugin/index.js'
+import tailwindcss from '@tailwindcss/postcss'
+import { fileURLToPath } from 'url'
+import { resolve } from 'path'
 
-export async function generateCSS(contentClasses, pluginOptions = {}, configOverrides = {}) {
-  const result = await postcss(
-    tailwindcss({
-      corePlugins: false,
-      content: [{ raw: contentClasses }],
-      plugins: [zynaPlugin],
-      ...configOverrides,
-    })
-  ).process('@tailwind base; @tailwind components; @tailwind utilities;', {
-    from: undefined,
+const __dirname = fileURLToPath(new URL('.', import.meta.url))
+const pluginPath = resolve(__dirname, '../../src/plugin/index.js')
+
+export async function generateCSS(contentClasses) {
+  const css = `
+@import "tailwindcss" source(none);
+@plugin "${pluginPath}";
+`
+  const result = await postcss([tailwindcss()]).process(css, {
+    from: resolve(__dirname, 'input.css'),
   })
   return result.css
 }

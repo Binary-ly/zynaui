@@ -24,11 +24,11 @@
  *     --alert-title-shadow: 0 0 12px rgba(191,95,255,0.65);
  *   }
  */
-module.exports = function(theme) {
+export default function(theme) {
   const base = {
     '--alert-bar-color':    'rgba(255,255,255,0.10)',
     '--alert-bg':           'rgba(255,255,255,0.02)',
-    '--alert-color':        'rgba(240,235,224,0.65)',  // WCAG AA ≥4.5:1 on dark
+    '--alert-color':        'var(--z-color-text-dim)',  // WCAG AA ≥4.5:1 on dark
     '--alert-shadow':       'none',
     '--alert-title-shadow': 'none',
 
@@ -60,7 +60,7 @@ module.exports = function(theme) {
 
     // Terminal-style title with // comment prefix
     '.alert-title': {
-      fontFamily: "'DM Mono', 'Fira Code', ui-monospace, monospace",
+      fontFamily: 'var(--z-font-mono)',
       fontSize: '0.62rem',
       fontWeight: '700',
       letterSpacing: '0.13em',
@@ -81,51 +81,61 @@ module.exports = function(theme) {
 
     // Alien mint — system online
     '.alert-success': {
-      '--alert-bar-color':    '#00FFB2',
-      '--alert-bg':           'rgba(0,255,178,0.055)',
-      '--alert-color':        'rgba(0,255,178,0.88)',
-      '--alert-shadow':       '0 0 30px rgba(0,255,178,0.08), inset 4px 0 18px rgba(0,255,178,0.05), inset 0 0 40px rgba(0,255,178,0.025)',
-      '--alert-title-shadow': '0 0 12px rgba(0,255,178,0.65)',
+      '--alert-bar-color':    'var(--z-color-success)',
+      '--alert-bg':           'color-mix(in srgb, var(--z-color-success) 5.5%, transparent)',
+      '--alert-color':        'color-mix(in srgb, var(--z-color-success) 88%, transparent)',
+      '--alert-shadow':       '0 0 30px color-mix(in srgb, var(--z-color-success) 8%, transparent), inset 4px 0 18px color-mix(in srgb, var(--z-color-success) 5%, transparent), inset 0 0 40px color-mix(in srgb, var(--z-color-success) 2.5%, transparent)',
+      '--alert-title-shadow': '0 0 12px color-mix(in srgb, var(--z-color-success) 65%, transparent)',
     },
 
     // Neon crimson — breach detected
     '.alert-danger': {
-      '--alert-bar-color':    '#FF3366',
-      '--alert-bg':           'rgba(255,51,102,0.055)',
-      '--alert-color':        'rgba(255,51,102,0.88)',
-      '--alert-shadow':       '0 0 30px rgba(255,51,102,0.08), inset 4px 0 18px rgba(255,51,102,0.05), inset 0 0 40px rgba(255,51,102,0.025)',
-      '--alert-title-shadow': '0 0 12px rgba(255,51,102,0.65)',
+      '--alert-bar-color':    'var(--z-color-danger)',
+      '--alert-bg':           'color-mix(in srgb, var(--z-color-danger) 5.5%, transparent)',
+      '--alert-color':        'color-mix(in srgb, var(--z-color-danger) 88%, transparent)',
+      '--alert-shadow':       '0 0 30px color-mix(in srgb, var(--z-color-danger) 8%, transparent), inset 4px 0 18px color-mix(in srgb, var(--z-color-danger) 5%, transparent), inset 0 0 40px color-mix(in srgb, var(--z-color-danger) 2.5%, transparent)',
+      '--alert-title-shadow': '0 0 12px color-mix(in srgb, var(--z-color-danger) 65%, transparent)',
     },
 
     // Amber — caution state
     '.alert-warning': {
-      '--alert-bar-color':    '#FFB800',
-      '--alert-bg':           'rgba(255,184,0,0.055)',
-      '--alert-color':        'rgba(255,184,0,0.88)',
-      '--alert-shadow':       '0 0 24px rgba(255,184,0,0.07), inset 4px 0 14px rgba(255,184,0,0.04)',
-      '--alert-title-shadow': '0 0 10px rgba(255,184,0,0.55)',
+      '--alert-bar-color':    'var(--z-color-warning)',
+      '--alert-bg':           'color-mix(in srgb, var(--z-color-warning) 5.5%, transparent)',
+      '--alert-color':        'color-mix(in srgb, var(--z-color-warning) 88%, transparent)',
+      '--alert-shadow':       '0 0 24px color-mix(in srgb, var(--z-color-warning) 7%, transparent), inset 4px 0 14px color-mix(in srgb, var(--z-color-warning) 4%, transparent)',
+      '--alert-title-shadow': '0 0 10px color-mix(in srgb, var(--z-color-warning) 55%, transparent)',
     },
 
     // Electric cyan — incoming signal
     '.alert-info': {
-      '--alert-bar-color':    '#00D4FF',
-      '--alert-bg':           'rgba(0,212,255,0.055)',
-      '--alert-color':        'rgba(0,212,255,0.88)',
-      '--alert-shadow':       '0 0 30px rgba(0,212,255,0.08), inset 4px 0 18px rgba(0,212,255,0.05), inset 0 0 40px rgba(0,212,255,0.025)',
-      '--alert-title-shadow': '0 0 12px rgba(0,212,255,0.65)',
+      '--alert-bar-color':    'var(--z-color-info)',
+      '--alert-bg':           'color-mix(in srgb, var(--z-color-info) 5.5%, transparent)',
+      '--alert-color':        'color-mix(in srgb, var(--z-color-info) 88%, transparent)',
+      '--alert-shadow':       '0 0 30px color-mix(in srgb, var(--z-color-info) 8%, transparent), inset 4px 0 18px color-mix(in srgb, var(--z-color-info) 5%, transparent), inset 0 0 40px color-mix(in srgb, var(--z-color-info) 2.5%, transparent)',
+      '--alert-title-shadow': '0 0 12px color-mix(in srgb, var(--z-color-info) 65%, transparent)',
     },
 
     // WCAG AA: bumped from 0.50 → 0.65
     '.alert-neutral': {
-      '--alert-bar-color': 'rgba(255,255,255,0.12)',
-      '--alert-bg':        'rgba(255,255,255,0.025)',
-      '--alert-color':     'rgba(240,235,224,0.65)',
+      '--alert-bar-color': 'var(--z-color-border-dim)',
+      '--alert-bg':        'var(--z-color-overlay)',
+      '--alert-color':     'var(--z-color-text-dim)',
     },
 
     '.alert-dark': {
-      '--alert-bar-color': 'rgba(255,255,255,0.14)',
-      '--alert-bg':        'rgba(255,255,255,0.03)',
-      '--alert-color':     'rgba(240,235,224,0.70)',
+      '--alert-bar-color': 'color-mix(in srgb, white 14%, transparent)',
+      '--alert-bg':        'color-mix(in srgb, white 3%, transparent)',
+      '--alert-color':     'color-mix(in srgb, var(--zp-text) 70%, transparent)',
+    },
+
+    // ── Shape modifiers ────────────────────────────────────────────────────────
+    '.alert-sharp': { borderRadius: '0', overflow: 'hidden' },
+    '.alert-pill': {
+      borderRadius: '9999px',
+      paddingLeft: '1.25rem',
+      paddingRight: '1.25rem',
+      borderLeft: 'none',
+      boxShadow: 'inset 0 0 0 2px var(--alert-bar-color)',
     },
   }
 }

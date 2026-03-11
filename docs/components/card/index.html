@@ -119,6 +119,46 @@
         </div>
       </div>
 
+      <!-- Shapes -->
+      <div class="doc-section">
+        <h2 class="section-title">Shapes</h2>
+        <div class="tabs-bar">
+          <button class="tab-btn active" onclick="tab(this,'card-sh-p')">Preview</button>
+          <button class="tab-btn" onclick="tab(this,'card-sh-c')">Code</button>
+        </div>
+        <div>
+          <div id="card-sh-p" class="tab-panel active">
+            <div class="preview-box" style="flex-wrap:wrap;gap:1.5rem;padding:2rem;align-items:flex-start">
+              <div class="card card-notch" style="max-width:200px;width:100%">
+                <div class="card-header">Notch</div>
+                <div class="card-body" style="padding:0.85rem 1rem">
+                  <p class="card-subtitle" style="margin:0">All-4-corner chamfer</p>
+                </div>
+              </div>
+              <div class="card card-rounded" style="max-width:200px;width:100%">
+                <div class="card-header">Rounded</div>
+                <div class="card-body" style="padding:0.85rem 1rem">
+                  <p class="card-subtitle" style="margin:0">Border-radius variant</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="card-sh-c" class="tab-panel">
+            <div class="code-box">
+              <div class="code-toolbar">
+                <span class="code-lang">HTML</span>
+                <button class="copy-btn" onclick="cp(this,'card-sh-code')">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                  Copy
+                </button>
+              </div>
+              <pre id="card-sh-code"><span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card card-notch"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card card-rounded"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- CSS Variable API -->
       <div class="doc-section">
         <h2 class="section-title">CSS Variable API</h2>
@@ -148,43 +188,47 @@
       <div class="doc-section">
         <h2 class="section-title">Custom Variant</h2>
         <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.25rem">Override only the variables you need. The cyan "cyber" example below creates an electric-blue card.</p>
-
-        <div style="margin-bottom:1.5rem">
-          <style>
-            .card-cyber {
-              --card-gradient:      linear-gradient(145deg, rgba(0,20,30,0.97) 0%, rgba(0,10,18,0.97) 100%);
-              --card-border-color:  rgba(0,212,255,0.22);
-              --card-bracket-color: rgba(0,212,255,0.55);
-              --card-bar-gradient:  linear-gradient(90deg, transparent 0%, rgba(0,212,255,0.55) 25%, rgba(0,212,255,0.55) 75%, transparent 100%);
-              --card-glow-lo:       rgba(0,212,255,0.12);
-              --card-glow-hi:       rgba(0,212,255,0.26);
-              --card-animation:     zyna-card-pulse 4s ease-in-out infinite;
-            }
-          </style>
-          <div class="preview-box" style="padding:2rem">
-            <div class="card card-cyber" style="max-width:280px;width:100%">
-              <div class="card-header" style="color:rgba(0,212,255,0.9)">Cyber</div>
-              <div class="card-body">
-                <p class="card-title">Cyber Variant</p>
-                <p class="card-subtitle">Custom cyan theme</p>
-                <span class="badge badge-info">Active</span>
-              </div>
-              <div class="card-footer">
-                <button class="btn btn-primary btn-sm">Connect</button>
+        <style>
+          .card-cyber {
+            --card-gradient:      linear-gradient(145deg, rgba(0,20,30,0.97) 0%, rgba(0,10,18,0.97) 100%);
+            --card-border-color:  rgba(0,212,255,0.22);
+            --card-bracket-color: rgba(0,212,255,0.55);
+            --card-bar-gradient:  linear-gradient(90deg, transparent 0%, rgba(0,212,255,0.55) 25%, rgba(0,212,255,0.55) 75%, transparent 100%);
+            --card-glow-lo:       rgba(0,212,255,0.12);
+            --card-glow-hi:       rgba(0,212,255,0.26);
+            --card-animation:     zyna-card-pulse 4s ease-in-out infinite;
+          }
+        </style>
+        <div class="tabs-bar">
+          <button class="tab-btn active" onclick="tab(this,'card-cv-p')">Preview</button>
+          <button class="tab-btn" onclick="tab(this,'card-cv-c')">Code</button>
+        </div>
+        <div>
+          <div id="card-cv-p" class="tab-panel active">
+            <div class="preview-box" style="padding:2rem">
+              <div class="card card-cyber" style="max-width:280px;width:100%">
+                <div class="card-header" style="color:rgba(0,212,255,0.9)">Cyber</div>
+                <div class="card-body">
+                  <p class="card-title">Cyber Variant</p>
+                  <p class="card-subtitle">Custom cyan theme</p>
+                  <span class="badge badge-info">Active</span>
+                </div>
+                <div class="card-footer">
+                  <button class="btn btn-primary btn-sm">Connect</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-
-        <div class="code-box" style="border-top:1px solid var(--border);border-radius:var(--radius)">
-          <div class="code-toolbar">
-            <span class="code-lang">CSS</span>
-            <button class="copy-btn" onclick="cp(this,'card-custom-code')">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-              Copy
-            </button>
-          </div>
-          <pre id="card-custom-code"><span class="cls">.card-cyber</span> {
+          <div id="card-cv-c" class="tab-panel">
+            <div class="code-box">
+              <div class="code-toolbar">
+                <span class="code-lang">CSS</span>
+                <button class="copy-btn" onclick="cp(this,'card-custom-code')">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                  Copy
+                </button>
+              </div>
+              <pre id="card-custom-code"><span class="cls">.card-cyber</span> {
   <span class="atr">--card-gradient</span>:      <span class="val">linear-gradient(145deg, rgba(0,20,30,0.97) 0%, rgba(0,10,18,0.97) 100%)</span>;
   <span class="atr">--card-border-color</span>:  <span class="val">rgba(0,212,255,0.22)</span>;
   <span class="atr">--card-bracket-color</span>: <span class="val">rgba(0,212,255,0.55)</span>;
@@ -193,6 +237,8 @@
   <span class="atr">--card-glow-hi</span>:       <span class="val">rgba(0,212,255,0.26)</span>;
   <span class="atr">--card-animation</span>:     <span class="val">zyna-card-pulse 4s ease-in-out infinite</span>;
 }</pre>
+            </div>
+          </div>
         </div>
       </div>
 

@@ -34,7 +34,8 @@ describe('.card component', () => {
 
   test('generates ::before pseudo-element on .card', async () => {
     const css = await generateCSS('<div class="card">')
-    expect(css).toMatch(/\.card::before\s*\{/)
+    // v4 outputs native CSS nesting (&::before) rather than expanded selectors
+    expect(css).toMatch(/(?:\.card::before|&::before)\s*\{/)
   })
 
   test('registers @keyframes zyna-card-pulse', async () => {

@@ -27,7 +27,9 @@
  *     --card-animation:     zyna-card-pulse 4s ease-in-out infinite;
  *   }
  */
-module.exports = function(theme) {
+import shapes from '../shapes.js'
+
+export default function(theme) {
   // All 4 corner L-brackets drawn as 8 stacked background-image gradients
   // on a single pseudo-element. Uses --card-bracket-color and --card-bracket-size
   // so any variant just sets those two variables.
@@ -54,9 +56,9 @@ module.exports = function(theme) {
   return {
     // ── Base ─────────────────────────────────────────────────────────────────
     '.card': {
-      '--card-gradient':      'linear-gradient(145deg, rgba(18,16,28,0.97) 0%, rgba(10,9,18,0.97) 100%)',
-      '--card-border-color':  'rgba(255,255,255,0.05)',
-      '--card-shadow':        '0 24px 70px rgba(0,0,0,0.60), 0 0 0 1px rgba(255,255,255,0.02)',
+      '--card-gradient':      'var(--z-surface-card)',
+      '--card-border-color':  'var(--z-color-border)',
+      '--card-shadow':        'var(--z-shadow-card)',
       '--card-bracket-color': 'color-mix(in srgb, var(--zyna) 42%, transparent)',
       '--card-bracket-size':  '20px',
       '--card-bar-gradient':  'linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--zyna) 30%, transparent) 25%, color-mix(in srgb, var(--zyna) 30%, transparent) 75%, transparent 100%)',
@@ -110,8 +112,8 @@ module.exports = function(theme) {
     // HUD readout header — status dot + mono uppercase label
     '.card-header': {
       padding: '0.7rem 1.25rem',
-      borderBottom: '1px solid rgba(255,255,255,0.05)',
-      fontFamily: "'DM Mono', 'Fira Code', ui-monospace, monospace",
+      borderBottom: '1px solid var(--z-color-border)',
+      fontFamily: 'var(--z-font-mono)',
       fontSize: '0.62rem',
       fontWeight: '700',
       letterSpacing: '0.14em',
@@ -135,7 +137,7 @@ module.exports = function(theme) {
 
     '.card-footer': {
       padding: '0.7rem 1.25rem',
-      borderTop: '1px solid rgba(255,255,255,0.05)',
+      borderTop: '1px solid var(--z-color-border)',
     },
 
     '.card-title': {
@@ -143,23 +145,23 @@ module.exports = function(theme) {
       fontWeight: '800',
       letterSpacing: '-0.025em',
       lineHeight: '1.3',
-      color: '#F0EBE0',
+      color: 'var(--z-color-text-solid)',
       marginBottom: '0.2rem',
     },
 
     // WCAG AA: bumped from 0.38 → 0.55 opacity (~5.6:1 contrast on dark card bg)
     '.card-subtitle': {
       fontSize: '0.78rem',
-      color: 'rgba(240,235,224,0.55)',
+      color: 'var(--z-color-text-muted)',
       letterSpacing: '0.01em',
       marginBottom: '0.85rem',
     },
 
     // ── Deep void variant — just overrides variables ───────────────────────────
     '.card-dark': {
-      '--card-gradient':      'linear-gradient(145deg, rgba(5,4,10,0.99) 0%, rgba(3,2,7,0.99) 100%)',
-      '--card-border-color':  'rgba(255,255,255,0.035)',
-      '--card-shadow':        '0 30px 80px rgba(0,0,0,0.80), inset 0 1px 0 rgba(255,255,255,0.02)',
+      '--card-gradient':      'var(--z-surface-card-deep)',
+      '--card-border-color':  'var(--z-color-border-dim)',
+      '--card-shadow':        'var(--z-shadow-card-deep)',
       '--card-bracket-color': 'color-mix(in srgb, var(--zyna) 28%, transparent)',
       '--card-bar-gradient':  'linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--zyna) 18%, transparent) 25%, color-mix(in srgb, var(--zyna) 18%, transparent) 75%, transparent 100%)',
     },
@@ -198,5 +200,9 @@ module.exports = function(theme) {
       fontSize: '0.68rem',
       marginBottom: '0.55rem',
     },
+
+    // ── Shape modifiers ────────────────────────────────────────────────────────
+    '.card-rounded': { borderRadius: 'var(--z-corner-xl)' },
+    '.card-notch':   { clipPath: shapes.notch('var(--zp-corner-card)').outer, borderRadius: '0' },
   }
 }

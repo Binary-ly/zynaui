@@ -19,25 +19,27 @@
  *                    drop-shadow(0 0 14px rgba(139,0,255,0.14));
  *   }
  */
-module.exports = function(theme) {
-  // Parallelogram: both sides angled — military data-chip aesthetic.
-  // filter: drop-shadow() on the element traces these angled edges.
-  const chip   = 'polygon(0.55rem 0%, 100% 0%, calc(100% - 0.55rem) 100%, 0% 100%)'
-  const chipLg = 'polygon(0.65rem 0%, 100% 0%, calc(100% - 0.65rem) 100%, 0% 100%)'
+import shapes from '../shapes.js'
+
+export default function(theme) {
+  // Parallelogram formula driven by --badge-offset CSS variable.
+  // .badge-lg just sets --badge-offset to a larger value; same formula applies.
+  const chip = shapes.parallelogram('var(--badge-offset)')
 
   return {
     // ── Base ─────────────────────────────────────────────────────────────────
     '.badge': {
-      '--badge-bg':         'rgba(255,255,255,0.04)',
-      '--badge-color':      'rgba(240,235,224,0.55)',  // WCAG AA ≥4.5:1 on dark
+      '--badge-bg':         'var(--z-color-overlay)',
+      '--badge-color':      'var(--z-color-text-muted)',  // WCAG AA ≥4.5:1 on dark
       '--badge-glow':       'none',
-      '--badge-scan-color': 'rgba(255,255,255,0.18)',
+      '--badge-scan-color': 'color-mix(in srgb, white 18%, transparent)',
+      '--badge-offset':     'var(--zp-corner-badge)',
 
       display: 'inline-flex',
       alignItems: 'center',
       gap: '0.35rem',
       padding: '0.22rem 0.85rem',
-      fontFamily: "'DM Mono', 'Fira Code', ui-monospace, monospace",
+      fontFamily: 'var(--z-font-mono)',
       fontSize: '0.6rem',
       fontWeight: '700',
       letterSpacing: '0.13em',
@@ -85,36 +87,36 @@ module.exports = function(theme) {
 
     // Alien mint
     '.badge-success': {
-      '--badge-bg':    'rgba(0,255,178,0.10)',
-      '--badge-color': '#00FFB2',
-      '--badge-glow':  'drop-shadow(0 0 5px rgba(0,255,178,0.45)) drop-shadow(0 0 14px rgba(0,255,178,0.14))',
+      '--badge-bg':    'color-mix(in srgb, var(--z-color-success) 10%, transparent)',
+      '--badge-color': 'var(--z-color-success)',
+      '--badge-glow':  'drop-shadow(0 0 5px color-mix(in srgb, var(--z-color-success) 45%, transparent)) drop-shadow(0 0 14px color-mix(in srgb, var(--z-color-success) 14%, transparent))',
     },
 
     // Neon crimson
     '.badge-danger': {
-      '--badge-bg':    'rgba(255,51,102,0.10)',
-      '--badge-color': '#FF3366',
-      '--badge-glow':  'drop-shadow(0 0 5px rgba(255,51,102,0.45)) drop-shadow(0 0 14px rgba(255,51,102,0.14))',
+      '--badge-bg':    'color-mix(in srgb, var(--z-color-danger) 10%, transparent)',
+      '--badge-color': 'var(--z-color-danger)',
+      '--badge-glow':  'drop-shadow(0 0 5px color-mix(in srgb, var(--z-color-danger) 45%, transparent)) drop-shadow(0 0 14px color-mix(in srgb, var(--z-color-danger) 14%, transparent))',
     },
 
     // Amber
     '.badge-warning': {
-      '--badge-bg':    'rgba(255,184,0,0.10)',
-      '--badge-color': '#FFB800',
-      '--badge-glow':  'drop-shadow(0 0 5px rgba(255,184,0,0.40)) drop-shadow(0 0 12px rgba(255,184,0,0.12))',
+      '--badge-bg':    'color-mix(in srgb, var(--z-color-warning) 10%, transparent)',
+      '--badge-color': 'var(--z-color-warning)',
+      '--badge-glow':  'drop-shadow(0 0 5px color-mix(in srgb, var(--z-color-warning) 40%, transparent)) drop-shadow(0 0 12px color-mix(in srgb, var(--z-color-warning) 12%, transparent))',
     },
 
     // Electric cyan
     '.badge-info': {
-      '--badge-bg':    'rgba(0,212,255,0.10)',
-      '--badge-color': '#00D4FF',
-      '--badge-glow':  'drop-shadow(0 0 5px rgba(0,212,255,0.45)) drop-shadow(0 0 14px rgba(0,212,255,0.14))',
+      '--badge-bg':    'color-mix(in srgb, var(--z-color-info) 10%, transparent)',
+      '--badge-color': 'var(--z-color-info)',
+      '--badge-glow':  'drop-shadow(0 0 5px color-mix(in srgb, var(--z-color-info) 45%, transparent)) drop-shadow(0 0 14px color-mix(in srgb, var(--z-color-info) 14%, transparent))',
     },
 
     // WCAG AA: bumped from 0.35 → 0.55 opacity
     '.badge-neutral': {
-      '--badge-bg':    'rgba(255,255,255,0.04)',
-      '--badge-color': 'rgba(240,235,224,0.55)',
+      '--badge-bg':    'var(--z-color-overlay)',
+      '--badge-color': 'var(--z-color-text-muted)',
     },
 
     // Top + bottom strokes through the parallelogram — corners are clipped away
@@ -141,7 +143,14 @@ module.exports = function(theme) {
     '.badge-lg': {
       padding: '0.32rem 1.05rem',
       fontSize: '0.68rem',
-      clipPath: chipLg,
+      '--badge-offset': 'var(--zp-corner-badge-lg)',
     },
+
+    // ── Shape modifiers ────────────────────────────────────────────────────────
+    // .badge-notch.badge-lg works automatically — .badge-lg sets --badge-offset,
+    // the notch polygon uses it. No compound selector needed.
+    '.badge-sharp': { clipPath: 'inset(0 round 3px)', borderRadius: '3px' },
+    '.badge-pill':  { clipPath: 'inset(0 round 9999px)', borderRadius: '9999px' },
+    '.badge-notch': { clipPath: shapes.notch('var(--badge-offset)').outer },
   }
 }

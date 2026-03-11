@@ -130,6 +130,43 @@
         </div>
       </div>
 
+      <!-- Shapes -->
+      <div class="doc-section">
+        <h2 class="section-title">Shapes</h2>
+        <div class="tabs-bar">
+          <button class="tab-btn active" onclick="tab(this,'alert-sh-p')">Preview</button>
+          <button class="tab-btn" onclick="tab(this,'alert-sh-c')">Code</button>
+        </div>
+        <div>
+          <div id="alert-sh-p" class="tab-panel active">
+            <div class="preview-box col" style="gap:0.5rem;padding:2rem">
+              <div class="alert alert-success alert-sharp" style="width:100%">
+                <div class="alert-title">Sharp</div>Zero border-radius variant.
+              </div>
+              <div class="alert alert-info alert-pill" style="width:100%">
+                <div class="alert-title">Pill</div>Full-radius with inset ring border.
+              </div>
+            </div>
+          </div>
+          <div id="alert-sh-c" class="tab-panel">
+            <div class="code-box">
+              <div class="code-toolbar">
+                <span class="code-lang">HTML</span>
+                <button class="copy-btn" onclick="cp(this,'alert-sh-code')">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                  Copy
+                </button>
+              </div>
+              <pre id="alert-sh-code"><span class="cmt">&lt;!-- Sharp — zero border-radius --&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-success alert-sharp"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+
+<span class="cmt">&lt;!-- Pill — full radius, inset ring replaces left bar --&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-info alert-pill"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- CSS Variable API -->
       <div class="doc-section">
         <h2 class="section-title">CSS Variable API</h2>
@@ -155,33 +192,37 @@
       <div class="doc-section">
         <h2 class="section-title">Custom Variant</h2>
         <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.25rem">Five variables to override. The plasma example creates a purple notification.</p>
-
-        <div style="margin-bottom:1.5rem">
-          <style>
-            .alert-plasma {
-              --alert-bar-color:    #BF5FFF;
-              --alert-bg:           rgba(139, 0, 255, 0.055);
-              --alert-color:        rgba(191, 95, 255, 0.88);
-              --alert-shadow:       0 0 30px rgba(139,0,255,0.08), inset 4px 0 18px rgba(139,0,255,0.05);
-              --alert-title-shadow: 0 0 12px rgba(191,95,255,0.65);
-            }
-          </style>
-          <div class="preview-box col" style="gap:0.5rem;padding:2rem">
-            <div class="alert alert-plasma">
-              <div><p class="alert-title">Plasma Signal</p><p>Quantum channel established. Reality distortion nominal.</p></div>
+        <style>
+          .alert-plasma {
+            --alert-bar-color:    #BF5FFF;
+            --alert-bg:           rgba(139, 0, 255, 0.055);
+            --alert-color:        rgba(191, 95, 255, 0.88);
+            --alert-shadow:       0 0 30px rgba(139,0,255,0.08), inset 4px 0 18px rgba(139,0,255,0.05);
+            --alert-title-shadow: 0 0 12px rgba(191,95,255,0.65);
+          }
+        </style>
+        <div class="tabs-bar">
+          <button class="tab-btn active" onclick="tab(this,'alert-cv-p')">Preview</button>
+          <button class="tab-btn" onclick="tab(this,'alert-cv-c')">Code</button>
+        </div>
+        <div>
+          <div id="alert-cv-p" class="tab-panel active">
+            <div class="preview-box col" style="gap:0.5rem;padding:2rem">
+              <div class="alert alert-plasma" style="width:100%">
+                <div><p class="alert-title">Plasma Signal</p><p>Quantum channel established. Reality distortion nominal.</p></div>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div class="code-box" style="border-top:1px solid var(--border);border-radius:var(--radius)">
-          <div class="code-toolbar">
-            <span class="code-lang">CSS</span>
-            <button class="copy-btn" onclick="cp(this,'alert-custom-code')">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-              Copy
-            </button>
-          </div>
-          <pre id="alert-custom-code"><span class="cls">.alert-plasma</span> {
+          <div id="alert-cv-c" class="tab-panel">
+            <div class="code-box">
+              <div class="code-toolbar">
+                <span class="code-lang">CSS</span>
+                <button class="copy-btn" onclick="cp(this,'alert-custom-code')">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                  Copy
+                </button>
+              </div>
+              <pre id="alert-custom-code"><span class="cls">.alert-plasma</span> {
   <span class="atr">--alert-bar-color</span>:    <span class="val">#BF5FFF</span>;
   <span class="atr">--alert-bg</span>:           <span class="val">rgba(139, 0, 255, 0.055)</span>;
   <span class="atr">--alert-color</span>:        <span class="val">rgba(191, 95, 255, 0.88)</span>;
@@ -189,6 +230,8 @@
                         inset 4px 0 18px rgba(139,0,255,0.05)</span>;
   <span class="atr">--alert-title-shadow</span>: <span class="val">0 0 12px rgba(191,95,255,0.65)</span>;
 }</pre>
+            </div>
+          </div>
         </div>
       </div>
 

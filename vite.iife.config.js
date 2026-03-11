@@ -1,5 +1,8 @@
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
+import { fileURLToPath } from 'url'
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
 // IIFE build — bundles d3 inline so the file works as a standalone <script src>.
 // For ESM / CJS builds (vite.config.js), d3 is externalized to avoid duplication

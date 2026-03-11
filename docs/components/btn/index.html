@@ -103,6 +103,40 @@
         </div>
       </div>
 
+      <!-- Shapes -->
+      <div class="doc-section">
+        <h2 class="section-title">Shapes</h2>
+        <div class="tabs-bar">
+          <button class="tab-btn active" onclick="tab(this,'btn-sh-p')">Preview</button>
+          <button class="tab-btn" onclick="tab(this,'btn-sh-c')">Code</button>
+        </div>
+        <div>
+          <div id="btn-sh-p" class="tab-panel active">
+            <div class="preview-box">
+              <button class="btn btn-primary">Chamfer</button>
+              <button class="btn btn-primary btn-notch">Notch</button>
+              <button class="btn btn-primary btn-pill">Pill</button>
+              <button class="btn btn-primary btn-sharp">Sharp</button>
+            </div>
+          </div>
+          <div id="btn-sh-c" class="tab-panel">
+            <div class="code-box">
+              <div class="code-toolbar">
+                <span class="code-lang">HTML</span>
+                <button class="copy-btn" onclick="cp(this,'btn-sh-code')">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                  Copy
+                </button>
+              </div>
+              <pre id="btn-sh-code"><span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-primary"</span><span class="tag">&gt;</span>Chamfer<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-primary btn-notch"</span><span class="tag">&gt;</span>Notch<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-primary btn-pill"</span><span class="tag">&gt;</span>Pill<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-primary btn-sharp"</span><span class="tag">&gt;</span>Sharp<span class="tag">&lt;/button&gt;</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- States -->
       <div class="doc-section">
         <h2 class="section-title">States</h2>
@@ -168,32 +202,36 @@
       <div class="doc-section">
         <h2 class="section-title">Custom Variant</h2>
         <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.25rem">Override only the variables you need. The plasma example below creates a purple neon button.</p>
-
-        <div style="margin-bottom:1.5rem">
-          <style>
-            .btn-plasma {
-              --btn-bg:                rgba(139, 0, 255, 0.38);
-              --btn-color:             #BF5FFF;
-              --btn-filter:            drop-shadow(0 0 8px rgba(139,0,255,0.45));
-              --btn-scan-color:        rgba(139, 0, 255, 0.18);
-              --btn-hover-filter:      drop-shadow(0 0 22px rgba(139,0,255,1)) brightness(1.10);
-              --btn-hover-text-shadow: 0 0 16px rgba(200,100,255,0.7);
-            }
-          </style>
-          <div class="preview-box">
-            <button class="btn btn-plasma">Plasma</button>
-          </div>
+        <style>
+          .btn-plasma {
+            --btn-bg:                rgba(139, 0, 255, 0.38);
+            --btn-color:             #BF5FFF;
+            --btn-filter:            drop-shadow(0 0 8px rgba(139,0,255,0.45));
+            --btn-scan-color:        rgba(139, 0, 255, 0.18);
+            --btn-hover-filter:      drop-shadow(0 0 22px rgba(139,0,255,1)) brightness(1.10);
+            --btn-hover-text-shadow: 0 0 16px rgba(200,100,255,0.7);
+          }
+        </style>
+        <div class="tabs-bar">
+          <button class="tab-btn active" onclick="tab(this,'btn-cv-p')">Preview</button>
+          <button class="tab-btn" onclick="tab(this,'btn-cv-c')">Code</button>
         </div>
-
-        <div class="code-box" style="border-top:1px solid var(--border);border-radius:var(--radius)">
-          <div class="code-toolbar">
-            <span class="code-lang">CSS</span>
-            <button class="copy-btn" onclick="cp(this,'btn-custom-code')">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-              Copy
-            </button>
+        <div>
+          <div id="btn-cv-p" class="tab-panel active">
+            <div class="preview-box">
+              <button class="btn btn-plasma">Plasma</button>
+            </div>
           </div>
-          <pre id="btn-custom-code"><span class="cls">.btn-plasma</span> {
+          <div id="btn-cv-c" class="tab-panel">
+            <div class="code-box">
+              <div class="code-toolbar">
+                <span class="code-lang">CSS</span>
+                <button class="copy-btn" onclick="cp(this,'btn-custom-code')">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                  Copy
+                </button>
+              </div>
+              <pre id="btn-custom-code"><span class="cls">.btn-plasma</span> {
   <span class="atr">--btn-bg</span>:                <span class="val">rgba(139, 0, 255, 0.38)</span>;
   <span class="atr">--btn-color</span>:             <span class="val">#BF5FFF</span>;
   <span class="atr">--btn-filter</span>:            <span class="val">drop-shadow(0 0 8px rgba(139,0,255,0.45))</span>;
@@ -201,6 +239,8 @@
   <span class="atr">--btn-hover-filter</span>:      <span class="val">drop-shadow(0 0 22px rgba(139,0,255,1)) brightness(1.10)</span>;
   <span class="atr">--btn-hover-text-shadow</span>: <span class="val">0 0 16px rgba(200,100,255,0.7)</span>;
 }</pre>
+            </div>
+          </div>
         </div>
       </div>
 
