@@ -62,11 +62,15 @@ export default function(theme) {
     '--btn-hover-text-shadow': 'none',
     '--btn-active-filter':     'none',
     '--btn-focus-color':       'color-mix(in srgb, var(--zyna) 65%, transparent)',
-    // Shape — drives clip-path polygon geometry via CSS variable
-    '--btn-corner':            'var(--z-corner)',
+    // Shape — reads genre-structural token; genre can override --z-btn-corner on :root
+    '--btn-corner':            'var(--z-btn-corner, var(--z-corner))',
     // Outlined technique defaults — transparent so solid buttons are unaffected
     '--btn-interior':          'transparent',
-    '--btn-inner-clip':        shapes.chamfer('var(--btn-corner)').inner,
+    // --z-btn-inner-clip: genre structural token. Syncs the outlined interior clip with the
+    // genre's default shape so outlined buttons stay visually consistent (e.g. Cyberpunk
+    // sets inset(1.5px) so the dark interior fill is rectangular, not chamfer-clipped).
+    // Explicit shape modifiers (.btn-sharp, .btn-chamfer, etc.) override this directly.
+    '--btn-inner-clip':        'var(--z-btn-inner-clip, ' + shapes.chamfer('var(--btn-corner)').inner + ')',
 
     // Structure
     position: 'relative',
@@ -84,7 +88,8 @@ export default function(theme) {
     cursor: 'pointer',
     userSelect: 'none',
     border: 'none',
-    clipPath: shapes.chamfer('var(--btn-corner)').outer,
+    // --z-btn-clip is defined in :root (defaults to chamfer polygon); genres override it on :root
+    clipPath: 'var(--z-btn-clip)',
     transition: 'filter 0.22s ease, color 0.18s ease, background 0.18s ease, transform 0.08s ease',
     background: 'var(--btn-bg)',
     color: 'var(--btn-color)',
@@ -121,6 +126,8 @@ export default function(theme) {
       color: 'var(--btn-hover-color, var(--btn-color))',
       filter: 'var(--btn-hover-filter)',
       textShadow: 'var(--btn-hover-text-shadow)',
+      // --z-btn-hover-shadow: genre structural token — defaults to none (fallback)
+      boxShadow: 'var(--z-btn-hover-shadow, none)',
     },
 
     '&:hover::before': {
@@ -189,6 +196,9 @@ export default function(theme) {
       '--btn-hover-color':       'var(--z-color-text)',
       '--btn-hover-filter':      'drop-shadow(0 0 8px color-mix(in srgb, white 10%, transparent))',
       '--btn-hover-text-shadow': `0 0 10px color-mix(in srgb, var(--zp-text) 35%, transparent)`,
+      // Ghost is intentionally quiet — suppress any genre-level hover glow so it
+      // stays muted regardless of genre (class rule beats inherited :root token).
+      '--z-btn-hover-shadow':    'none',
     },
 
     // ── Danger: neon crimson — polygon border technique ───────────────────────
@@ -202,6 +212,10 @@ export default function(theme) {
       '--btn-hover-filter':      'drop-shadow(0 0 16px color-mix(in srgb, var(--z-color-danger) 90%, transparent)) drop-shadow(0 0 44px color-mix(in srgb, var(--z-color-danger) 32%, transparent))',
       '--btn-hover-text-shadow': '0 0 16px color-mix(in srgb, var(--z-color-danger) 95%, transparent)',
       '--btn-hover-interior':    'var(--z-surface-inset-danger-hover)',
+      // Danger has its own semantically-colored hover glow (--btn-hover-filter, crimson).
+      // Suppress genre-level hover shadow to prevent a brand-color glow (e.g. neon green
+      // in Cyberpunk) from conflicting with the danger color identity.
+      '--z-btn-hover-shadow':    'none',
     },
 
     // ── Sizes ─────────────────────────────────────────────────────────────────

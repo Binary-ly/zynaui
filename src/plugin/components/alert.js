@@ -36,8 +36,9 @@ export default function(theme) {
     alignItems: 'flex-start',
     gap: '0.75rem',
     padding: '0.875rem 1.25rem',
-    borderRadius: '0 3px 3px 0',
-    borderLeft: '3px solid var(--alert-bar-color)',
+    // --z-alert-radius / --z-alert-bar-width: genre structural tokens (set in :root)
+    borderRadius: 'var(--z-alert-radius)',
+    borderLeft: 'var(--z-alert-bar-width) solid var(--alert-bar-color)',
     background: 'var(--alert-bg)',
     color: 'var(--alert-color)',
     fontSize: '0.82rem',
@@ -69,7 +70,8 @@ export default function(theme) {
       textShadow: 'var(--alert-title-shadow)',
 
       '&::before': {
-        content: '"// "',
+        // --z-alert-prefix: genre structural token — Ops = "// ", Cyberpunk = "> "
+        content: 'var(--z-alert-prefix)',
         color: 'currentColor',
         opacity: '0.38',
         fontWeight: '400',
@@ -125,7 +127,7 @@ export default function(theme) {
     '.alert-dark': {
       '--alert-bar-color': 'color-mix(in srgb, white 14%, transparent)',
       '--alert-bg':        'color-mix(in srgb, white 3%, transparent)',
-      '--alert-color':     'color-mix(in srgb, var(--zp-text) 70%, transparent)',
+      '--alert-color':     'var(--z-color-text-dim)',
     },
 
     // ── Shape modifiers ────────────────────────────────────────────────────────

@@ -1,3 +1,8 @@
+import { GENRES, applyGenre, loadGenre } from './_genres.js'
+
+// Apply genre immediately (before DOMContentLoaded) to prevent FOUC
+loadGenre()
+
 const NAV = [
   {
     label: 'Getting Started',
@@ -41,11 +46,22 @@ function topbarHTML() {
   return `
     <a href="/" class="topbar-logo">
       <div class="logo-mark">Z</div>
-      <span>zyna<span style="color:var(--gold)">ui</span></span>
+      <span>zyna<span style="color:var(--brand)">ui</span></span>
     </a>
     <div class="topbar-divider"></div>
     <div class="topbar-right">
       <span class="badge-version">v0.1.0-beta</span>
+      <div class="genre-selector" id="genre-selector">
+        <button class="genre-trigger" id="genre-trigger" aria-haspopup="true" aria-expanded="false">
+          <span class="genre-trigger-label">[ <span id="genre-active-name">OPS</span> ]</span>
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor" aria-hidden="true">
+            <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="genre-panel" id="genre-panel" role="listbox" aria-label="Select genre">
+          <!-- populated by initGenreSwitcher() -->
+        </div>
+      </div>
       <a href="https://github.com/binary-ly/zynaui" class="btn-topbar btn-github-topbar" target="_blank" rel="noopener">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
         GitHub
@@ -68,7 +84,6 @@ function sidebarHTML(currentPath) {
   }
 
   // Default: open the category of the active page
-  const activeHref = NAV.flatMap(c => c.items).find(i => i.href === currentPath)?.href
   NAV.forEach(cat => {
     if (cat.items.some(i => i.href === currentPath)) {
       openCategories.add(cat.label)
@@ -116,6 +131,80 @@ function getCurrentPath() {
   return path
 }
 
+function initGenreSwitcher() {
+  const trigger = document.getElementById('genre-trigger')
+  const panel   = document.getElementById('genre-panel')
+  const nameEl  = document.getElementById('genre-active-name')
+  if (!trigger || !panel) return
+
+  let activeName
+  try { activeName = localStorage.getItem('zyna-genre') || 'Ops' } catch { activeName = 'Ops' }
+
+  function setTriggerColor(genre) {
+    const color = genre.swatches.brand
+    trigger.style.setProperty('--genre-trigger-color', color)
+  }
+
+  function buildPanel() {
+    panel.innerHTML = GENRES.map(genre => {
+      const isActive = genre.name === activeName
+      const swatches = Object.values(genre.swatches).map(color =>
+        `<span class="genre-swatch" style="background:${color}"></span>`
+      ).join('')
+      return `<div class="genre-option" role="option" aria-selected="${isActive}" data-genre="${genre.name}">
+        <span>${genre.name}</span>
+        <span class="genre-swatches">${swatches}</span>
+      </div>`
+    }).join('')
+  }
+
+  function updateActive(name) {
+    activeName = name
+    nameEl.textContent = name.toUpperCase()
+    const genre = GENRES.find(g => g.name === name)
+    if (genre) setTriggerColor(genre)
+    panel.querySelectorAll('.genre-option').forEach(el => {
+      el.setAttribute('aria-selected', String(el.dataset.genre === name))
+    })
+  }
+
+  function openPanel() {
+    panel.classList.add('open')
+    trigger.setAttribute('aria-expanded', 'true')
+  }
+
+  function closePanel() {
+    panel.classList.remove('open')
+    trigger.setAttribute('aria-expanded', 'false')
+  }
+
+  buildPanel()
+  updateActive(activeName)
+
+  trigger.addEventListener('click', () => {
+    const isOpen = panel.classList.contains('open')
+    isOpen ? closePanel() : openPanel()
+  })
+
+  panel.addEventListener('click', e => {
+    const option = e.target.closest('.genre-option')
+    if (!option) return
+    const name = option.dataset.genre
+    applyGenre(name)
+    updateActive(name)
+    closePanel()
+  })
+
+  document.addEventListener('click', e => {
+    const selector = document.getElementById('genre-selector')
+    if (selector && !selector.contains(e.target)) closePanel()
+  })
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closePanel()
+  })
+}
+
 export function init() {
   document.addEventListener('DOMContentLoaded', () => {
     const currentPath = getCurrentPath()
@@ -127,6 +216,9 @@ export function init() {
     // Inject sidebar
     const sidebarEl = document.getElementById('sidebar')
     if (sidebarEl) sidebarEl.innerHTML = sidebarHTML(currentPath)
+
+    // Init genre switcher
+    initGenreSwitcher()
 
     // Persist category open/close state
     document.querySelectorAll('.sidebar-category').forEach(details => {

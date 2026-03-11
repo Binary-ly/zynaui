@@ -57,8 +57,11 @@ export default function(theme) {
     // ── Base ─────────────────────────────────────────────────────────────────
     '.card': {
       '--card-gradient':      'var(--z-surface-card)',
-      '--card-border-color':  'var(--z-color-border)',
-      '--card-shadow':        'var(--z-shadow-card)',
+      // --z-card-border-color / --z-card-shadow: genre structural tokens.
+      // Genres set them on :root; they inherit to .card where these component
+      // tokens pick them up. Fallbacks match Ops defaults.
+      '--card-border-color':  'var(--z-card-border-color, var(--z-color-border))',
+      '--card-shadow':        'var(--z-card-shadow, var(--z-shadow-card))',
       '--card-bracket-color': 'color-mix(in srgb, var(--zyna) 42%, transparent)',
       '--card-bracket-size':  '20px',
       '--card-bar-gradient':  'linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--zyna) 30%, transparent) 25%, color-mix(in srgb, var(--zyna) 30%, transparent) 75%, transparent 100%)',
@@ -73,6 +76,12 @@ export default function(theme) {
       // context that prevents ::before bracket pseudo-elements from painting correctly
       // when the card is near the viewport edge.
       contain: 'layout style',
+      // --z-card-clip: genre structural token — Ops = none, Cyberpunk = notch polygon
+      clipPath: 'var(--z-card-clip)',
+      // --z-card-filter: genre structural token.
+      // box-shadow is clipped by clip-path, so genres that add clip-path shapes
+      // use filter:drop-shadow() here instead — it traces the notch outline.
+      filter: 'var(--z-card-filter, none)',
       // Scanline texture stacked on top of the colour gradient via CSS multi-background
       background: 'repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.012) 3px, rgba(255,255,255,0.012) 4px), var(--card-gradient)',
       border: '1px solid var(--card-border-color)',
@@ -91,14 +100,17 @@ export default function(theme) {
       },
 
       // Top luminescent power bar
+      // --z-card-bar-height / --z-card-bar-bg / --z-card-bar-shadow: genre structural tokens.
+      // Fallbacks preserve Ops defaults. Genres set these on :root to thicken/recolor the bar.
       '&::after': {
         content: '""',
         position: 'absolute',
         top: '0',
         left: '0',
         right: '0',
-        height: '1px',
-        background: 'var(--card-bar-gradient)',
+        height: 'var(--z-card-bar-height, 1px)',
+        background: 'var(--z-card-bar-bg, var(--card-bar-gradient))',
+        boxShadow: 'var(--z-card-bar-shadow, none)',
         zIndex: '1',
         pointerEvents: 'none',
       },
@@ -113,6 +125,8 @@ export default function(theme) {
     '.card-header': {
       padding: '0.7rem 1.25rem',
       borderBottom: '1px solid var(--z-color-border)',
+      // --z-card-header-bg: genre structural token — Ops = transparent, Cyberpunk = tinted neon
+      background: 'var(--z-card-header-bg, transparent)',
       fontFamily: 'var(--z-font-mono)',
       fontSize: '0.62rem',
       fontWeight: '700',
@@ -202,7 +216,7 @@ export default function(theme) {
     },
 
     // ── Shape modifiers ────────────────────────────────────────────────────────
-    '.card-rounded': { borderRadius: 'var(--z-corner-xl)' },
+    '.card-rounded': { borderRadius: 'var(--z-corner-xl)', clipPath: 'none' },
     '.card-notch':   { clipPath: shapes.notch('var(--zp-corner-card)').outer, borderRadius: '0' },
   }
 }
