@@ -1,5 +1,6 @@
 /* ── Reset & Base ── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* Note: box-sizing, margin, padding reset is handled by Tailwind v4 preflight in @layer base.
+   Repeating it here as an unlayered rule would beat @layer base and override zyna component padding. */
 
 :root {
   --bg:        #0C0C0F;
@@ -27,7 +28,9 @@
 html { font-family: var(--font); background: var(--bg); color: var(--text); }
 body { min-height: 100vh; overflow-x: hidden; }
 a { text-decoration: none; color: inherit; }
-button { cursor: pointer; font-family: inherit; border: none; background: none; }
+/* Scoped to non-zyna buttons only — unlayered rules beat @layer base, so applying
+   background:none to all buttons would override .btn styles from the plugin. */
+button:not(.btn):not([class*="btn-"]) { cursor: pointer; font-family: inherit; border: none; background: none; }
 pre, code { font-family: var(--mono); }
 
 ::-webkit-scrollbar { width: 6px; }
