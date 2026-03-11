@@ -175,6 +175,9 @@
   .absolute {
     position: absolute;
   }
+  .fixed {
+    position: fixed;
+  }
   .relative {
     position: relative;
   }
@@ -348,6 +351,12 @@
     --z-surface-card-deep: linear-gradient(145deg, rgba(5,4,10,0.99) 0%, rgba(3,2,7,0.99) 100%);
     --z-shadow-card: 0 24px 70px rgba(0,0,0,0.60), 0 0 0 1px rgba(255,255,255,0.02);
     --z-shadow-card-deep: 0 30px 80px rgba(0,0,0,0.80), inset 0 1px 0 rgba(255,255,255,0.02);
+    --z-btn-clip: polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)));
+    --z-alert-radius: 0 3px 3px 0;
+    --z-alert-bar-width: 3px;
+    --z-alert-prefix: "// ";
+    --z-card-clip: none;
+    --z-card-filter: none;
   }
   @property --btn-bg {
     syntax: "*";
@@ -470,9 +479,9 @@
     @supports (color: color-mix(in lab, red, red)) {
       --btn-focus-color: color-mix(in srgb, var(--zyna) 65%, transparent);
     }
-    --btn-corner: var(--z-corner);
+    --btn-corner: var(--z-btn-corner, var(--z-corner));
     --btn-interior: transparent;
-    --btn-inner-clip: polygon(1px 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--btn-corner) + 1px)));
+    --btn-inner-clip: var(--z-btn-inner-clip, polygon(1px 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--btn-corner) + 1px))));
     position: relative;
     display: inline-flex;
     align-items: center;
@@ -488,7 +497,7 @@
     cursor: pointer;
     user-select: none;
     border: none;
-    clip-path: polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)));
+    clip-path: var(--z-btn-clip);
     transition: filter 0.22s ease, color 0.18s ease, background 0.18s ease, transform 0.08s ease;
     background: var(--btn-bg);
     color: var(--btn-color);
@@ -518,6 +527,7 @@
       color: var(--btn-hover-color, var(--btn-color));
       filter: var(--btn-hover-filter);
       text-shadow: var(--btn-hover-text-shadow);
+      box-shadow: var(--z-btn-hover-shadow, none);
     }
     &:hover::before {
       background: var(--btn-hover-interior, var(--btn-interior));
@@ -553,9 +563,9 @@
     @supports (color: color-mix(in lab, red, red)) {
       --btn-focus-color: color-mix(in srgb, var(--zyna) 65%, transparent);
     }
-    --btn-corner: var(--z-corner);
+    --btn-corner: var(--z-btn-corner, var(--z-corner));
     --btn-interior: transparent;
-    --btn-inner-clip: polygon(1px 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--btn-corner) + 1px)));
+    --btn-inner-clip: var(--z-btn-inner-clip, polygon(1px 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--btn-corner) + 1px))));
     position: relative;
     display: inline-flex;
     align-items: center;
@@ -571,7 +581,7 @@
     cursor: pointer;
     user-select: none;
     border: none;
-    clip-path: polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)));
+    clip-path: var(--z-btn-clip);
     transition: filter 0.22s ease, color 0.18s ease, background 0.18s ease, transform 0.08s ease;
     background: var(--btn-bg);
     color: var(--btn-color);
@@ -601,6 +611,7 @@
       color: var(--btn-hover-color, var(--btn-color));
       filter: var(--btn-hover-filter);
       text-shadow: var(--btn-hover-text-shadow);
+      box-shadow: var(--z-btn-hover-shadow, none);
     }
     &:hover::before {
       background: var(--btn-hover-interior, var(--btn-interior));
@@ -688,6 +699,7 @@
     @supports (color: color-mix(in lab, red, red)) {
       --btn-hover-text-shadow: 0 0 10px color-mix(in srgb, var(--zp-text) 35%, transparent);
     }
+    --z-btn-hover-shadow: none;
   }
   .btn-danger {
     --btn-bg: var(--z-color-danger);
@@ -717,6 +729,7 @@
       --btn-hover-text-shadow: 0 0 16px color-mix(in srgb, var(--z-color-danger) 95%, transparent);
     }
     --btn-hover-interior: var(--z-surface-inset-danger-hover);
+    --z-btn-hover-shadow: none;
   }
   .btn-sm {
     padding: 0.42rem 1rem;
@@ -755,8 +768,8 @@
   }
   .card {
     --card-gradient: var(--z-surface-card);
-    --card-border-color: var(--z-color-border);
-    --card-shadow: var(--z-shadow-card);
+    --card-border-color: var(--z-card-border-color, var(--z-color-border));
+    --card-shadow: var(--z-card-shadow, var(--z-shadow-card));
     --card-bracket-color: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
       --card-bracket-color: color-mix(in srgb, var(--zyna) 42%, transparent);
@@ -771,6 +784,8 @@
     --card-glow-hi: rgba(0,0,0,0);
     position: relative;
     contain: layout style;
+    clip-path: var(--z-card-clip);
+    filter: var(--z-card-filter, none);
     background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.012) 3px, rgba(255,255,255,0.012) 4px), var(--card-gradient);
     border: 1px solid var(--card-border-color);
     box-shadow: var(--card-shadow);
@@ -793,8 +808,9 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 1px;
-      background: var(--card-bar-gradient);
+      height: var(--z-card-bar-height, 1px);
+      background: var(--z-card-bar-bg, var(--card-bar-gradient));
+      box-shadow: var(--z-card-bar-shadow, none);
       z-index: 1;
       pointer-events: none;
     }
@@ -806,6 +822,7 @@
   .card-header {
     padding: 0.7rem 1.25rem;
     border-bottom: 1px solid var(--z-color-border);
+    background: var(--z-card-header-bg, transparent);
     font-family: var(--z-font-mono);
     font-size: 0.62rem;
     font-weight: 700;
@@ -909,6 +926,7 @@
   }
   .card-rounded {
     border-radius: var(--z-corner-xl);
+    clip-path: none;
   }
   .card-notch {
     clip-path: polygon(var(--zp-corner-card) 0%, calc(100% - var(--zp-corner-card)) 0%, 100% var(--zp-corner-card), 100% calc(100% - var(--zp-corner-card)), calc(100% - var(--zp-corner-card)) 100%, var(--zp-corner-card) 100%, 0% calc(100% - var(--zp-corner-card)), 0% var(--zp-corner-card));
@@ -1066,8 +1084,8 @@
     align-items: flex-start;
     gap: 0.75rem;
     padding: 0.875rem 1.25rem;
-    border-radius: 0 3px 3px 0;
-    border-left: 3px solid var(--alert-bar-color);
+    border-radius: var(--z-alert-radius);
+    border-left: var(--z-alert-bar-width) solid var(--alert-bar-color);
     background: var(--alert-bg);
     color: var(--alert-color);
     font-size: 0.82rem;
@@ -1085,8 +1103,8 @@
     align-items: flex-start;
     gap: 0.75rem;
     padding: 0.875rem 1.25rem;
-    border-radius: 0 3px 3px 0;
-    border-left: 3px solid var(--alert-bar-color);
+    border-radius: var(--z-alert-radius);
+    border-left: var(--z-alert-bar-width) solid var(--alert-bar-color);
     background: var(--alert-bg);
     color: var(--alert-color);
     font-size: 0.82rem;
@@ -1109,7 +1127,7 @@
     margin-bottom: 0.2rem;
     text-shadow: var(--alert-title-shadow);
     &::before {
-      content: "// ";
+      content: var(--z-alert-prefix);
       color: currentColor;
       opacity: 0.38;
       font-weight: 400;
@@ -1200,10 +1218,7 @@
   .alert-dark {
     --alert-bar-color: color-mix(in srgb, white 14%, transparent);
     --alert-bg: color-mix(in srgb, white 3%, transparent);
-    --alert-color: var(--zp-text);
-    @supports (color: color-mix(in lab, red, red)) {
-      --alert-color: color-mix(in srgb, var(--zp-text) 70%, transparent);
-    }
+    --alert-color: var(--z-color-text-dim);
   }
   .alert-sharp {
     border-radius: 0;
@@ -1215,6 +1230,19 @@
     padding-right: 1.25rem;
     border-left: none;
     box-shadow: inset 0 0 0 2px var(--alert-bar-color);
+  }
+}
+@layer base {
+  html[data-genre="cyberpunk"] body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, var(--zyna) 2px, var(--zyna) 3px);
+    @supports (color: color-mix(in lab, red, red)) {
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in srgb, var(--zyna) 3%, transparent) 2px, color-mix(in srgb, var(--zyna) 3%, transparent) 3px);
+    }
   }
 }
 @property --tw-rotate-x {
