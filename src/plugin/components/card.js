@@ -3,15 +3,45 @@
  *
  * To create a new card style, set these variables on your class:
  *
- *   --card-gradient       Base colour gradient (scanlines are always added on top)
- *   --card-border-color   Border colour
- *   --card-shadow         box-shadow
- *   --card-bracket-color  Corner L-bracket stroke colour
- *   --card-bracket-size   Corner bracket arm length (default: 20px)
- *   --card-bar-gradient   Top luminescent power-bar gradient
- *   --card-animation      CSS animation shorthand (e.g. zyna-card-pulse 4s ease-in-out infinite)
- *   --card-glow-lo        Pulse glow colour at rest  (used by zyna-card-pulse keyframe)
- *   --card-glow-hi        Pulse glow colour at peak  (used by zyna-card-pulse keyframe)
+ *   --card-gradient        Base colour gradient (texture + genre overlay are stacked on top)
+ *   --card-border-color    Border colour
+ *   --card-shadow          box-shadow
+ *   --card-bracket-color   Corner L-bracket stroke colour
+ *   --card-bracket-size    Corner bracket arm length (default: 20px)
+ *   --card-bracket-stroke  Corner bracket line thickness (default: 1.5px)
+ *   --card-bar-gradient    Top luminescent power-bar gradient
+ *   --card-animation       CSS animation shorthand (e.g. zyna-card-pulse 4s ease-in-out infinite)
+ *   --card-glow-lo         Pulse glow colour at rest  (used by zyna-card-pulse keyframe)
+ *   --card-glow-hi         Pulse glow colour at peak  (used by zyna-card-pulse keyframe)
+ *
+ * Genre structural tokens (set on :root by ops.js defaults, overridden by other genres):
+ *
+ *   --z-card-clip                    clip-path polygon string (Ops = none)
+ *   --z-card-filter                  filter: drop-shadow() for clip-path shaped cards
+ *   --z-card-gradient                Base colour surface (Cyberpunk = green-tinted)
+ *   --z-card-border-color            Border colour
+ *   --z-card-shadow                  box-shadow
+ *   --z-card-bar-height              Top power bar height (Ops = 1px, Cyberpunk = 3px)
+ *   --z-card-bar-bg                  Top power bar background. Reads --card-bar-gradient
+ *                                    via lazy CSS evaluation so variants auto-update.
+ *   --z-card-bar-shadow              Top power bar box-shadow glow
+ *   --z-card-header-bg               Header background tint
+ *   --z-card-header-border           Header bottom border colour
+ *   --z-card-header-color            Header text colour
+ *   --z-card-header-letter-spacing   Header letter-spacing
+ *   --z-card-header-text-shadow      Header text-shadow (Ops = none, Cyberpunk = neon glow)
+ *   --z-card-header-dot-size         Status dot diameter (Ops = 5px, Cyberpunk = 7px)
+ *   --z-card-header-dot-bg           Status dot background colour
+ *   --z-card-header-dot-shadow       Status dot box-shadow glow
+ *   --z-card-header-dot-animation    Status dot animation (Ops = none, Cyberpunk = pulse)
+ *   --z-card-bracket-color           Corner L-bracket colour
+ *   --z-card-bracket-size            Corner L-bracket arm length
+ *   --z-card-bracket-stroke          Corner L-bracket line thickness (Ops = 1.5px, Cyberpunk = 2px)
+ *   --z-card-texture                 Surface overlay (Ops = transparent, Cyberpunk = scanlines)
+ *   --z-card-title-text-shadow       .card-title text-shadow
+ *   --z-card-glow-duration           .card-glow animation duration (Ops = 4s, Cyberpunk = 5s)
+ *   --z-card-default-glow-lo         Base card resting glow colour (transparent in Ops)
+ *   --z-card-default-glow-hi         Base card peak glow colour (transparent in Ops)
  *
  * All built-in gold colours reference var(--zyna) so the entire card palette
  * adapts when users override `colors.zyna.DEFAULT` in their Tailwind config.
@@ -36,6 +66,7 @@ export default function(theme) {
   function cornerBrackets() {
     const c = 'var(--card-bracket-color)'
     const s = 'var(--card-bracket-size)'
+    const t = 'var(--card-bracket-stroke)'
     return {
       backgroundImage: [
         `linear-gradient(to right,  ${c}, ${c})`,   // TL — horizontal
@@ -47,7 +78,7 @@ export default function(theme) {
         `linear-gradient(to left,   ${c}, ${c})`,   // BR — horizontal
         `linear-gradient(to top,    ${c}, ${c})`,   // BR — vertical
       ].join(', '),
-      backgroundSize:     `${s} 1.5px, 1.5px ${s}, ${s} 1.5px, 1.5px ${s}, ${s} 1.5px, 1.5px ${s}, ${s} 1.5px, 1.5px ${s}`,
+      backgroundSize:     `${s} ${t}, ${t} ${s}, ${s} ${t}, ${t} ${s}, ${s} ${t}, ${t} ${s}, ${s} ${t}, ${t} ${s}`,
       backgroundPosition: '0 0, 0 0, 100% 0, 100% 0, 0 100%, 0 100%, 100% 100%, 100% 100%',
       backgroundRepeat:   'no-repeat',
     }
@@ -56,18 +87,20 @@ export default function(theme) {
   return {
     // ── Base ─────────────────────────────────────────────────────────────────
     '.card': {
-      '--card-gradient':      'var(--z-surface-card)',
-      // --z-card-border-color / --z-card-shadow: genre structural tokens.
-      // Genres set them on :root; they inherit to .card where these component
-      // tokens pick them up. Fallbacks match Ops defaults.
-      '--card-border-color':  'var(--z-card-border-color, var(--z-color-border))',
-      '--card-shadow':        'var(--z-card-shadow, var(--z-shadow-card))',
-      '--card-bracket-color': 'color-mix(in srgb, var(--zyna) 42%, transparent)',
-      '--card-bracket-size':  '20px',
+      '--card-gradient':      'var(--z-card-gradient)',
+      '--card-border-color':  'var(--z-card-border-color)',
+      '--card-shadow':        'var(--z-card-shadow)',
+      // --card-bracket-size is registered @property inherits:false — must be set explicitly
+      // via a class rule reading the inheritable intermediary --z-card-bracket-size.
+      '--card-bracket-color':  'var(--z-card-bracket-color)',
+      '--card-bracket-size':   'var(--z-card-bracket-size)',
+      '--card-bracket-stroke': 'var(--z-card-bracket-stroke)',
       '--card-bar-gradient':  'linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--zyna) 30%, transparent) 25%, color-mix(in srgb, var(--zyna) 30%, transparent) 75%, transparent 100%)',
       '--card-animation':     'none',
-      '--card-glow-lo':       'rgba(0,0,0,0)',
-      '--card-glow-hi':       'rgba(0,0,0,0)',
+      // --z-card-default-glow-lo/hi: genre structural tokens. Ops = transparent (no base pulse).
+      // Cyberpunk sets neon values so that .card-glow glows in the right colour automatically.
+      '--card-glow-lo':       'var(--z-card-default-glow-lo)',
+      '--card-glow-hi':       'var(--z-card-default-glow-hi)',
 
       position: 'relative',
       // Scopes layout and style to this element so the browser skips costly
@@ -76,14 +109,19 @@ export default function(theme) {
       // context that prevents ::before bracket pseudo-elements from painting correctly
       // when the card is near the viewport edge.
       contain: 'layout style',
-      // --z-card-clip: genre structural token — Ops = none, Cyberpunk = notch polygon
       clipPath: 'var(--z-card-clip)',
-      // --z-card-filter: genre structural token.
       // box-shadow is clipped by clip-path, so genres that add clip-path shapes
-      // use filter:drop-shadow() here instead — it traces the notch outline.
-      filter: 'var(--z-card-filter, none)',
-      // Scanline texture stacked on top of the colour gradient via CSS multi-background
-      background: 'repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.012) 3px, rgba(255,255,255,0.012) 4px), var(--card-gradient)',
+      // use filter:drop-shadow() via --z-card-filter instead — it traces the outline.
+      filter: 'var(--z-card-filter)',
+      // Three background layers (front to back):
+      //   1. --z-card-texture  — genre-specific surface overlay (Cyberpunk = neon scanlines)
+      //   2. Ops scanline      — subtle horizontal stripe texture always present
+      //   3. --card-gradient   — base colour gradient
+      background: [
+        'var(--z-card-texture)',
+        'repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.012) 3px, rgba(255,255,255,0.012) 4px)',
+        'var(--card-gradient)',
+      ].join(', '),
       border: '1px solid var(--card-border-color)',
       boxShadow: 'var(--card-shadow)',
       overflow: 'hidden',
@@ -100,17 +138,15 @@ export default function(theme) {
       },
 
       // Top luminescent power bar
-      // --z-card-bar-height / --z-card-bar-bg / --z-card-bar-shadow: genre structural tokens.
-      // Fallbacks preserve Ops defaults. Genres set these on :root to thicken/recolor the bar.
       '&::after': {
         content: '""',
         position: 'absolute',
         top: '0',
         left: '0',
         right: '0',
-        height: 'var(--z-card-bar-height, 1px)',
-        background: 'var(--z-card-bar-bg, var(--card-bar-gradient))',
-        boxShadow: 'var(--z-card-bar-shadow, none)',
+        height: 'var(--z-card-bar-height)',
+        background: 'var(--z-card-bar-bg)',
+        boxShadow: 'var(--z-card-bar-shadow)',
         zIndex: '1',
         pointerEvents: 'none',
       },
@@ -124,15 +160,15 @@ export default function(theme) {
     // HUD readout header — status dot + mono uppercase label
     '.card-header': {
       padding: '0.7rem 1.25rem',
-      borderBottom: '1px solid var(--z-color-border)',
-      // --z-card-header-bg: genre structural token — Ops = transparent, Cyberpunk = tinted neon
-      background: 'var(--z-card-header-bg, transparent)',
+      borderBottom: '1px solid var(--z-card-header-border)',
+      background: 'var(--z-card-header-bg)',
       fontFamily: 'var(--z-font-mono)',
       fontSize: '0.62rem',
       fontWeight: '700',
-      letterSpacing: '0.14em',
+      letterSpacing: 'var(--z-card-header-letter-spacing)',
       textTransform: 'uppercase',
-      color: 'color-mix(in srgb, var(--zyna) 75%, transparent)',
+      color: 'var(--z-card-header-color)',
+      textShadow: 'var(--z-card-header-text-shadow)',
       display: 'flex',
       alignItems: 'center',
       gap: '0.5rem',
@@ -140,18 +176,19 @@ export default function(theme) {
 
       '&::before': {
         content: '""',
-        width: '5px',
-        height: '5px',
+        width: 'var(--z-card-header-dot-size)',
+        height: 'var(--z-card-header-dot-size)',
         borderRadius: '50%',
-        background: 'color-mix(in srgb, var(--zyna) 65%, transparent)',
+        background: 'var(--z-card-header-dot-bg)',
         flexShrink: '0',
-        boxShadow: '0 0 6px color-mix(in srgb, var(--zyna) 65%, transparent), 0 0 16px color-mix(in srgb, var(--zyna) 30%, transparent)',
+        boxShadow: 'var(--z-card-header-dot-shadow)',
+        animation: 'var(--z-card-header-dot-animation)',
       },
     },
 
     '.card-footer': {
       padding: '0.7rem 1.25rem',
-      borderTop: '1px solid var(--z-color-border)',
+      borderTop: '1px solid var(--z-card-header-border)',
     },
 
     '.card-title': {
@@ -160,6 +197,7 @@ export default function(theme) {
       letterSpacing: '-0.025em',
       lineHeight: '1.3',
       color: 'var(--z-color-text-solid)',
+      textShadow: 'var(--z-card-title-text-shadow)',
       marginBottom: '0.2rem',
     },
 
@@ -183,12 +221,14 @@ export default function(theme) {
     // ── Animated gold-glow variant — just overrides variables ─────────────────
     // The zyna-card-pulse keyframe uses --card-glow-lo and --card-glow-hi,
     // so any custom variant can produce a different-coloured pulse.
+    // In Cyberpunk, --zyna = #39FF14 so these color-mix expressions automatically
+    // produce neon-green pulse glows without any additional genre overrides.
     '.card-glow': {
       '--card-border-color':  'color-mix(in srgb, var(--zyna) 22%, transparent)',
       '--card-bracket-color': 'color-mix(in srgb, var(--zyna) 70%, transparent)',
       '--card-bracket-size':  '22px',
       '--card-bar-gradient':  'linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--zyna) 60%, transparent) 20%, color-mix(in srgb, var(--zyna) 60%, transparent) 80%, transparent 100%)',
-      '--card-animation':     'zyna-card-pulse 4s ease-in-out infinite',
+      '--card-animation':     'zyna-card-pulse var(--z-card-glow-duration) var(--z-ease-spring) infinite',
       '--card-glow-lo':       'color-mix(in srgb, var(--zyna) 12%, transparent)',
       '--card-glow-hi':       'color-mix(in srgb, var(--zyna) 26%, transparent)',
     },
@@ -216,7 +256,7 @@ export default function(theme) {
     },
 
     // ── Shape modifiers ────────────────────────────────────────────────────────
-    '.card-rounded': { borderRadius: 'var(--z-corner-xl)', clipPath: 'none' },
-    '.card-notch':   { clipPath: shapes.notch('var(--zp-corner-card)').outer, borderRadius: '0' },
+    '.card-alpha': { borderRadius: 'var(--z-corner-xl)', clipPath: 'none' },
+    '.card-beta':   { clipPath: shapes.bevel('var(--zp-corner-card)').outer, borderRadius: '0' },
   }
 }

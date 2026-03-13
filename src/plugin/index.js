@@ -9,7 +9,8 @@
  */
 import plugin from 'tailwindcss/plugin'
 import components from './components/index.js'
-import genres from './genres.js'
+import genres from './genres/index.js'
+import ops from './genres/ops.js'
 
 export default plugin(
   function({ addBase, theme }) {
@@ -42,12 +43,10 @@ export default plugin(
         '--z-corner-xl': 'var(--zp-corner-xl)',
 
         // ── Tier 2: Semantic motion tokens (genre-swappable) ────────────────
-        '--z-ease':          'var(--zp-ease-standard)',
-        '--z-ease-snap':     'var(--zp-ease-snap)',
-        '--z-ease-out':      'var(--zp-ease-out)',
-        '--z-duration-fast': '0.18s',
-        '--z-duration-base': '0.22s',
-        '--z-duration-slow': '0.28s',
+        '--z-ease':      'var(--zp-ease-standard)',
+        '--z-ease-snap': 'var(--zp-ease-snap)',
+        '--z-ease-out':  'var(--zp-ease-out)',
+        // --z-duration-* come from ops.tokens spread below
 
         // ── Tier 1: Color primitives ──────────────────────────────────────────
         '--zp-success': '#00FFB2',
@@ -91,24 +90,10 @@ export default plugin(
         '--z-shadow-card':      '0 24px 70px rgba(0,0,0,0.60), 0 0 0 1px rgba(255,255,255,0.02)',
         '--z-shadow-card-deep': '0 30px 80px rgba(0,0,0,0.80), inset 0 1px 0 rgba(255,255,255,0.02)',
 
-        // ── Tier 2: Genre structural tokens ──────────────────────────────────
-        // Un-registered CSS custom properties — they inherit down the DOM tree.
-        // Genres set these on :root via JS; components read them via var().
-        // When a genre is cleared (Ops), they are removed and CSS fallbacks kick in.
-
-        // Button — default clip-path is chamfer shape; genre overrides replace this string
-        '--z-btn-clip': `polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)))`,
-
-        // Alert structural defaults — Cyberpunk overrides radius, bar width, title prefix
-        '--z-alert-radius':    '0 3px 3px 0',
-        '--z-alert-bar-width': '3px',
-        '--z-alert-prefix':    '"// "',
-
-        // Card — default clip = none; Cyberpunk overrides to notch polygon
-        '--z-card-clip':    'none',
-        // Card filter — box-shadow is clipped by clip-path, so notch-shaped cards
-        // need drop-shadow() for an outer glow. Default none; Cyberpunk overrides.
-        '--z-card-filter':  'none',
+        // ── Structural genre tokens — Ops defaults ────────────────────────────
+        // ops.js is the single source of truth for all structural defaults.
+        // Cyberpunk (and any future genre) overrides these via JS setProperty.
+        ...ops.tokens,
       },
 
       // Register component CSS variables with explicit types so the browser can:

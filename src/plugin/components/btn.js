@@ -12,6 +12,14 @@
  *   --btn-hover-filter       Hover glow + brightness
  *   --btn-hover-text-shadow  Hover text luminescence
  *   --btn-active-filter      Active-press filter
+ *
+ * Genre structural tokens (set on :root by ops.js defaults, overridden by other genres):
+ *
+ *   --z-btn-active-scale     transform: scale() on :active (Ops = 0.96, Cyberpunk = 0.94)
+ *   --z-btn-scan-stop        Scan gradient fade-out stop (Ops = 70%, Cyberpunk = 55%)
+ *   --z-ease-enter           Easing when entering hover (Ops = smooth landing, Cyberpunk = slam in)
+ *   --z-ease-exit            Easing when leaving hover (Ops = lift off, Cyberpunk = hard cut)
+ *   --z-ease-spring          Easing for spring/overshoot animations
  *   --btn-interior           Interior fill for outlined variants (default: transparent)
  *   --btn-hover-interior     Hover interior fill (falls back to --btn-interior)
  *   --btn-inner-clip         Inner polygon for outlined variants (size classes set this automatically)
@@ -62,15 +70,14 @@ export default function(theme) {
     '--btn-hover-text-shadow': 'none',
     '--btn-active-filter':     'none',
     '--btn-focus-color':       'color-mix(in srgb, var(--zyna) 65%, transparent)',
-    // Shape — reads genre-structural token; genre can override --z-btn-corner on :root
-    '--btn-corner':            'var(--z-btn-corner, var(--z-corner))',
+    // Shape — reads genre-structural token; genres override --z-btn-corner on :root
+    '--btn-corner':     'var(--z-btn-corner)',
     // Outlined technique defaults — transparent so solid buttons are unaffected
-    '--btn-interior':          'transparent',
+    '--btn-interior':   'transparent',
     // --z-btn-inner-clip: genre structural token. Syncs the outlined interior clip with the
-    // genre's default shape so outlined buttons stay visually consistent (e.g. Cyberpunk
-    // sets inset(1.5px) so the dark interior fill is rectangular, not chamfer-clipped).
-    // Explicit shape modifiers (.btn-sharp, .btn-chamfer, etc.) override this directly.
-    '--btn-inner-clip':        'var(--z-btn-inner-clip, ' + shapes.chamfer('var(--btn-corner)').inner + ')',
+    // genre's default shape (Cyberpunk = inset(1.5px) for rectangular interior fill).
+    // Explicit shape modifiers (.btn-delta, .btn-alpha, etc.) override this directly.
+    '--btn-inner-clip': 'var(--z-btn-inner-clip)',
 
     // Structure
     position: 'relative',
@@ -88,9 +95,12 @@ export default function(theme) {
     cursor: 'pointer',
     userSelect: 'none',
     border: 'none',
-    // --z-btn-clip is defined in :root (defaults to chamfer polygon); genres override it on :root
+    // --z-btn-clip is defined in :root (defaults to diagonal polygon); genres override it on :root
     clipPath: 'var(--z-btn-clip)',
-    transition: 'filter 0.22s ease, color 0.18s ease, background 0.18s ease, transform 0.08s ease',
+    // Base transition = hover-out easing. CSS reads the transition from the state being
+    // transitioned TO — :hover overrides this with var(--z-ease-enter) so hover-in uses
+    // enter easing and hover-out uses exit easing. No JS or specificity tricks needed.
+    transition: 'filter var(--z-duration-base) var(--z-ease-exit), color var(--z-duration-fast) var(--z-ease-exit), background var(--z-duration-fast) var(--z-ease-exit), transform var(--z-duration-fast) var(--z-ease-exit)',
     background: 'var(--btn-bg)',
     color: 'var(--btn-color)',
     filter: 'var(--btn-filter)',
@@ -111,11 +121,11 @@ export default function(theme) {
       content: '""',
       position: 'absolute',
       inset: '0',
-      background: 'linear-gradient(90deg, var(--btn-scan-color) 0%, transparent 70%)',
+      background: 'linear-gradient(90deg, var(--btn-scan-color) 0%, transparent var(--z-btn-scan-stop))',
       opacity: '0',
       transform: 'scaleX(0)',
       transformOrigin: 'left center',
-      transition: 'transform 0.28s ease, opacity 0.28s ease',
+      transition: 'transform var(--z-duration-slow) var(--z-ease-exit), opacity var(--z-duration-slow) var(--z-ease-exit)',
       pointerEvents: 'none',
     },
 
@@ -126,8 +136,9 @@ export default function(theme) {
       color: 'var(--btn-hover-color, var(--btn-color))',
       filter: 'var(--btn-hover-filter)',
       textShadow: 'var(--btn-hover-text-shadow)',
-      // --z-btn-hover-shadow: genre structural token — defaults to none (fallback)
-      boxShadow: 'var(--z-btn-hover-shadow, none)',
+      boxShadow: 'var(--z-btn-hover-shadow)',
+      // Hover-in transition — CSS reads this because :hover is the destination state.
+      transition: 'filter var(--z-duration-base) var(--z-ease-enter), color var(--z-duration-fast) var(--z-ease-enter), background var(--z-duration-fast) var(--z-ease-enter), transform var(--z-duration-fast) var(--z-ease-enter)',
     },
 
     '&:hover::before': {
@@ -138,10 +149,12 @@ export default function(theme) {
     '&:hover::after': {
       opacity: '1',
       transform: 'scaleX(1)',
+      // Scan sweep enter transition
+      transition: 'transform var(--z-duration-slow) var(--z-ease-enter), opacity var(--z-duration-slow) var(--z-ease-enter)',
     },
 
     '&:active': {
-      transform: 'scale(0.96)',
+      transform: 'scale(var(--z-btn-active-scale))',
       filter: 'var(--btn-active-filter)',
     },
 
@@ -243,27 +256,12 @@ export default function(theme) {
 
     // ── Shape modifiers ────────────────────────────────────────────────────────
     // Size classes set --btn-corner; shape modifiers change the polygon formula.
-    // Combined (e.g. .btn-notch.btn-sm) works without compound selectors because
-    // .btn-sm updates --btn-corner and the notch polygon uses it automatically.
+    // Combined (e.g. .btn-beta.btn-sm) works without compound selectors because
+    // .btn-sm updates --btn-corner and the cut polygon uses it automatically.
 
-    '.btn-chamfer': {
-      clipPath: shapes.chamfer('var(--btn-corner)').outer,
-      borderRadius: '0',
-      '--btn-inner-clip': shapes.chamfer('var(--btn-corner)').inner,
-    },
-    '.btn-notch': {
-      clipPath: shapes.notch('var(--btn-corner)').outer,
-      '--btn-inner-clip': shapes.notch('var(--btn-corner)').inner,
-    },
-    '.btn-pill': {
-      clipPath: shapes.pill.clipPath,  // inset(0 round 9999px) — ensures filter traces pill, not rect
-      borderRadius: '9999px',          // keeps native focus ring pill-shaped in browsers that read border-radius
-      '--btn-inner-clip': shapes.pill.innerClip,
-    },
-    '.btn-sharp': {
-      clipPath: shapes.sharp.clipPath,  // inset(0) — ensures filter traces element before compositing
-      borderRadius: shapes.sharp.borderRadius,
-      '--btn-inner-clip': shapes.sharp.innerClip,
-    },
+    '.btn-alpha': (({ outer, inner }) => ({ clipPath: outer, borderRadius: '0', '--btn-inner-clip': inner }))(shapes.diagonal('var(--btn-corner)')),
+    '.btn-beta':  (({ outer, inner }) => ({ clipPath: outer, '--btn-inner-clip': inner }))(shapes.bevel('var(--btn-corner)')),
+    '.btn-gamma': { clipPath: shapes.rounded.clipPath, borderRadius: '9999px', '--btn-inner-clip': shapes.rounded.innerClip },
+    '.btn-delta': { clipPath: shapes.rect.clipPath, borderRadius: shapes.rect.borderRadius, '--btn-inner-clip': shapes.rect.innerClip },
   }
 }

@@ -3,11 +3,37 @@
  *
  * To create a new alert style, set these variables on your class:
  *
- *   --alert-bar-color    Left luminescent bar colour
- *   --alert-bg           Background tint
+ *   --alert-bar-color    Left accent bar colour
+ *   --alert-bg           Background tint (override directly for custom variants)
  *   --alert-color        Text colour
  *   --alert-shadow       box-shadow (near glow + inset depth)
  *   --alert-title-shadow .alert-title text-shadow luminescence
+ *
+ * Genre structural tokens (set on :root by ops.js defaults, overridden by other genres):
+ *
+ *   --z-alert-radius         border-radius (Ops = 0 3px 3px 0, Cyberpunk = 0)
+ *   --z-alert-bar-width      Bar thickness (Ops = 3px, Cyberpunk = 5px)
+ *   --z-alert-prefix         .alert-title::before content (Ops = "// ", Cyberpunk = "> ")
+ *   --z-alert-bg-opacity     Semantic variant background fill intensity.
+ *                            Built-in variants use color-mix with this percentage so
+ *                            genres can ramp the fill from subtle (Ops) to vivid (Cyberpunk)
+ *                            without overriding every individual variant.
+ *                            (Ops = 5.5%, Cyberpunk = 14%)
+ *   --z-alert-border         Full-perimeter border (Ops = none, Cyberpunk = 1px neon-tinted).
+ *                            Supports var(--alert-bar-color) — lazy CSS evaluation resolves
+ *                            the component-level variable even though the token is on :root.
+ *   --z-alert-prefix-opacity Opacity of the .alert-title::before prefix ("// " in Ops, "> " in Cyberpunk).
+ *                            (Ops = 0.38, Cyberpunk = 0.55)
+ *   --z-alert-bar-glow       box-shadow on the bar ::before pseudo-element.
+ *                            Supports var(--alert-bar-color) for the same reason.
+ *                            (Ops = none, Cyberpunk = neon glow)
+ *   --z-alert-texture        background-image overlay (Ops = none, Cyberpunk = scan-lines)
+ *   --z-alert-padding-top    Padding top (Ops = 0.875rem, Cyberpunk = top-bar-adjusted)
+ *   --z-alert-padding-left   Padding left (Ops = bar-adjusted, Cyberpunk = 1.25rem)
+ *   --z-alert-bar-inset      inset shorthand for bar position (Ops = left, Cyberpunk = top)
+ *   --z-alert-bar-w          Bar element width (Ops = bar-width, Cyberpunk = 100%)
+ *   --z-alert-bar-h          Bar element height (Ops = 100%, Cyberpunk = bar-width)
+ *   --z-alert-bar-radius     Bar border-radius (Ops = rounded start, Cyberpunk = 0)
  *
  * Accessibility: the base rule also targets [role="alert"] so elements with
  * correct ARIA markup receive the same visual styles without needing the class.
@@ -35,16 +61,41 @@ export default function(theme) {
     display: 'flex',
     alignItems: 'flex-start',
     gap: '0.75rem',
-    padding: '0.875rem 1.25rem',
-    // --z-alert-radius / --z-alert-bar-width: genre structural tokens (set in :root)
+    // --z-alert-padding-top/left: genre structural tokens. Ops = left bar pushes left padding.
+    // Cyberpunk = top bar pushes top padding instead; left padding resets to 1.25rem.
+    padding: 'var(--z-alert-padding-top) 1.25rem 0.875rem var(--z-alert-padding-left)',
     borderRadius: 'var(--z-alert-radius)',
-    borderLeft: 'var(--z-alert-bar-width) solid var(--alert-bar-color)',
-    background: 'var(--alert-bg)',
+    // --z-alert-border: genre structural token. Ops = none. Cyberpunk = full-perimeter
+    // neon border using the variant's bar colour (lazy CSS evaluation resolves
+    // var(--alert-bar-color) at the element level even though the token is on :root).
+    border: 'var(--z-alert-border)',
+    // --z-alert-texture: genre structural token — Cyberpunk overlays scan-line texture.
+    // backgroundImage stacks above backgroundColor so the texture composites cleanly.
+    backgroundImage: 'var(--z-alert-texture)',
+    backgroundColor: 'var(--alert-bg)',
     color: 'var(--alert-color)',
     fontSize: '0.82rem',
     lineHeight: '1.65',
     position: 'relative',
+    overflow: 'hidden',
     boxShadow: 'var(--alert-shadow)',
+
+    // Accent bar as a pseudo-element so it supports box-shadow (glow).
+    // border-left cannot produce a glow; ::before with absolute positioning can.
+    // All bar geometry is tokenised so genres can reposition the bar (Ops = left,
+    // Cyberpunk = top) without any scoped CSS overrides.
+    '&::before': {
+      content: '""',
+      position: 'absolute',
+      // --z-alert-bar-inset: "top right bottom left". Ops = '0 auto 0 0' (left bar, full height).
+      // Cyberpunk = '0 0 auto 0' (top bar, full width).
+      inset: 'var(--z-alert-bar-inset)',
+      width: 'var(--z-alert-bar-w)',
+      height: 'var(--z-alert-bar-h)',
+      background: 'var(--alert-bar-color)',
+      boxShadow: 'var(--z-alert-bar-glow)',
+      borderRadius: 'var(--z-alert-bar-radius)',
+    },
   }
 
   return {
@@ -73,18 +124,22 @@ export default function(theme) {
         // --z-alert-prefix: genre structural token — Ops = "// ", Cyberpunk = "> "
         content: 'var(--z-alert-prefix)',
         color: 'currentColor',
-        opacity: '0.38',
+        // --z-alert-prefix-opacity: genre structural token — Ops = subdued 0.38, Cyberpunk = 0.55
+        opacity: 'var(--z-alert-prefix-opacity)',
         fontWeight: '400',
         letterSpacing: '0',
       },
     },
 
-    // ── Semantic variants — just override variables ────────────────────────────
+    // ── Semantic variants ─────────────────────────────────────────────────────
+    // --alert-bg uses var(--z-alert-bg-opacity) so genres control fill intensity
+    // without overriding each variant individually.
+    // Ops default: 5.5% (subtle tint). Cyberpunk: 14% (vivid, saturated fill).
 
     // Alien mint — system online
     '.alert-success': {
       '--alert-bar-color':    'var(--z-color-success)',
-      '--alert-bg':           'color-mix(in srgb, var(--z-color-success) 5.5%, transparent)',
+      '--alert-bg':           'color-mix(in srgb, var(--z-color-success) var(--z-alert-bg-opacity), transparent)',
       '--alert-color':        'color-mix(in srgb, var(--z-color-success) 88%, transparent)',
       '--alert-shadow':       '0 0 30px color-mix(in srgb, var(--z-color-success) 8%, transparent), inset 4px 0 18px color-mix(in srgb, var(--z-color-success) 5%, transparent), inset 0 0 40px color-mix(in srgb, var(--z-color-success) 2.5%, transparent)',
       '--alert-title-shadow': '0 0 12px color-mix(in srgb, var(--z-color-success) 65%, transparent)',
@@ -93,7 +148,7 @@ export default function(theme) {
     // Neon crimson — breach detected
     '.alert-danger': {
       '--alert-bar-color':    'var(--z-color-danger)',
-      '--alert-bg':           'color-mix(in srgb, var(--z-color-danger) 5.5%, transparent)',
+      '--alert-bg':           'color-mix(in srgb, var(--z-color-danger) var(--z-alert-bg-opacity), transparent)',
       '--alert-color':        'color-mix(in srgb, var(--z-color-danger) 88%, transparent)',
       '--alert-shadow':       '0 0 30px color-mix(in srgb, var(--z-color-danger) 8%, transparent), inset 4px 0 18px color-mix(in srgb, var(--z-color-danger) 5%, transparent), inset 0 0 40px color-mix(in srgb, var(--z-color-danger) 2.5%, transparent)',
       '--alert-title-shadow': '0 0 12px color-mix(in srgb, var(--z-color-danger) 65%, transparent)',
@@ -102,7 +157,7 @@ export default function(theme) {
     // Amber — caution state
     '.alert-warning': {
       '--alert-bar-color':    'var(--z-color-warning)',
-      '--alert-bg':           'color-mix(in srgb, var(--z-color-warning) 5.5%, transparent)',
+      '--alert-bg':           'color-mix(in srgb, var(--z-color-warning) var(--z-alert-bg-opacity), transparent)',
       '--alert-color':        'color-mix(in srgb, var(--z-color-warning) 88%, transparent)',
       '--alert-shadow':       '0 0 24px color-mix(in srgb, var(--z-color-warning) 7%, transparent), inset 4px 0 14px color-mix(in srgb, var(--z-color-warning) 4%, transparent)',
       '--alert-title-shadow': '0 0 10px color-mix(in srgb, var(--z-color-warning) 55%, transparent)',
@@ -111,13 +166,12 @@ export default function(theme) {
     // Electric cyan — incoming signal
     '.alert-info': {
       '--alert-bar-color':    'var(--z-color-info)',
-      '--alert-bg':           'color-mix(in srgb, var(--z-color-info) 5.5%, transparent)',
+      '--alert-bg':           'color-mix(in srgb, var(--z-color-info) var(--z-alert-bg-opacity), transparent)',
       '--alert-color':        'color-mix(in srgb, var(--z-color-info) 88%, transparent)',
       '--alert-shadow':       '0 0 30px color-mix(in srgb, var(--z-color-info) 8%, transparent), inset 4px 0 18px color-mix(in srgb, var(--z-color-info) 5%, transparent), inset 0 0 40px color-mix(in srgb, var(--z-color-info) 2.5%, transparent)',
       '--alert-title-shadow': '0 0 12px color-mix(in srgb, var(--z-color-info) 65%, transparent)',
     },
 
-    // WCAG AA: bumped from 0.50 → 0.65
     '.alert-neutral': {
       '--alert-bar-color': 'var(--z-color-border-dim)',
       '--alert-bg':        'var(--z-color-overlay)',
@@ -131,13 +185,15 @@ export default function(theme) {
     },
 
     // ── Shape modifiers ────────────────────────────────────────────────────────
-    '.alert-sharp': { borderRadius: '0', overflow: 'hidden' },
-    '.alert-pill': {
+    '.alert-alpha': { borderRadius: '0' },
+    '.alert-beta': {
       borderRadius: '9999px',
-      paddingLeft: '1.25rem',
-      paddingRight: '1.25rem',
-      borderLeft: 'none',
-      boxShadow: 'inset 0 0 0 2px var(--alert-bar-color)',
+      // Reset padding-left — beta has no visible bar
+      padding: '0.875rem 1.25rem',
+      border: 'none',
+      boxShadow: 'inset 0 0 0 var(--z-alert-bar-width) var(--alert-bar-color)',
+      // Hide the absolute bar pseudo-element — beta uses inset ring instead
+      '&::before': { display: 'none' },
     },
   }
 }

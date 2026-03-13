@@ -382,3 +382,16 @@ pre {
   from { opacity: 0; transform: translateY(0.75rem); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* ── Genre transition — View Transitions API ─────────────────────────────────
+   apply() runs inside startViewTransition(), so the new genre's
+   --z-ease-enter/exit tokens are live on :root when the browser composites
+   the animation frames. Fallback cubic-bezier values match ops.js defaults. */
+::view-transition-old(root) {
+  animation: 160ms var(--z-ease-exit, cubic-bezier(0.55, 0, 1, 0.45)) both fade-out;
+}
+::view-transition-new(root) {
+  animation: 240ms var(--z-ease-enter, cubic-bezier(0.22, 1, 0.36, 1)) both fade-in;
+}
+@keyframes fade-out { to   { opacity: 0; } }
+@keyframes fade-in  { from { opacity: 0; } }

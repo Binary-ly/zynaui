@@ -7,9 +7,21 @@
  *   --badge-color      Text / dot colour
  *   --badge-glow       drop-shadow filter (traces the parallelogram shape)
  *   --badge-scan-color Scan-sweep highlight colour
+ *   --badge-dot-size   Pulse status dot diameter (default: 5px; .badge-lg sets 6px)
  *
  * All built-in gold colours reference var(--zyna) so the badge palette
  * adapts when users override `colors.zyna.DEFAULT` in their Tailwind config.
+ *
+ * Genre structural tokens (Cyberpunk sets these on :root; Ops leaves --z-badge-clip unset,
+ * activating the direct polygon fallback in the clip-path rule below):
+ *
+ *   --z-badge-clip             clip-path override (unset in Ops → parallelogram via fallback;
+ *                              Cyberpunk sets inset(0) → rectangle)
+ *   --z-badge-radius           border-radius matching the clip shape
+ *   --z-badge-padding          padding shorthand
+ *   --z-badge-letter-spacing   letter-spacing
+ *   --z-badge-inset-shadow     box-shadow (Ops = none, Cyberpunk = inset 1px border)
+ *   --z-badge-scan-duration    Radar scan animation duration (Ops = 5s, Cyberpunk = 2.5s)
  *
  * ─── Example ───────────────────────────────────────────────────────────────
  *   .badge-plasma {
@@ -22,10 +34,6 @@
 import shapes from '../shapes.js'
 
 export default function(theme) {
-  // Parallelogram formula driven by --badge-offset CSS variable.
-  // .badge-lg just sets --badge-offset to a larger value; same formula applies.
-  const chip = shapes.parallelogram('var(--badge-offset)')
-
   return {
     // ── Base ─────────────────────────────────────────────────────────────────
     '.badge': {
@@ -38,18 +46,29 @@ export default function(theme) {
       display: 'inline-flex',
       alignItems: 'center',
       gap: '0.35rem',
-      padding: '0.22rem 0.85rem',
+      // --z-badge-padding/letter-spacing: genre structural tokens.
+      // Cyberpunk uses slightly different values for the rectangular style.
+      padding: 'var(--z-badge-padding)',
       fontFamily: 'var(--z-font-mono)',
       fontSize: '0.6rem',
       fontWeight: '700',
-      letterSpacing: '0.13em',
+      letterSpacing: 'var(--z-badge-letter-spacing)',
       textTransform: 'uppercase',
       whiteSpace: 'nowrap',
       position: 'relative',
-      clipPath: chip,
+      // --z-badge-clip: genre structural token. Ops leaves this unset; the fallback
+      // applies the parallelogram directly on the element (avoids a nested @property
+      // <length> var chain on :root that can break clip-path resolution in Ops).
+      // Cyberpunk sets --z-badge-clip: inset(0) — no nested vars, resolves correctly.
+      // Shape modifiers (.badge-alpha, .badge-beta, etc.) set clipPath directly, which
+      // always wins over this token — no specificity re-scoping needed per genre.
+      clipPath: `var(--z-badge-clip, ${shapes.slant('var(--badge-offset)')})`,
+      borderRadius: 'var(--z-badge-radius)',
       background: 'var(--badge-bg)',
       color: 'var(--badge-color)',
       filter: 'var(--badge-glow)',
+      // --z-badge-inset-shadow: Ops = none. Cyberpunk = inset 1px border in text colour.
+      boxShadow: 'var(--z-badge-inset-shadow)',
 
       // Focus ring — shown when badge is used as an interactive element
       '&:focus-visible': {
@@ -66,7 +85,7 @@ export default function(theme) {
         left: '-60%',
         width: '50%',
         background: 'linear-gradient(90deg, transparent, var(--badge-scan-color), transparent)',
-        animation: 'zyna-badge-scan 5s ease-in-out infinite',
+        animation: 'zyna-badge-scan var(--z-badge-scan-duration) var(--z-ease-spring) infinite',
         pointerEvents: 'none',
       },
     },
@@ -129,28 +148,30 @@ export default function(theme) {
 
     // ── Pulsing status dot — expanding ring via animated box-shadow ───────────
     '.badge-pulse': {
+      '--badge-dot-size': '5px',
       '&::before': {
         content: '""',
-        width: '5px',
-        height: '5px',
+        width: 'var(--badge-dot-size)',
+        height: 'var(--badge-dot-size)',
         borderRadius: '50%',
         background: 'currentColor',
         flexShrink: '0',
-        animation: 'zyna-pulse-ring 2s ease-out infinite',
+        animation: 'zyna-pulse-ring 2s var(--z-ease-enter) infinite',
       },
     },
 
     '.badge-lg': {
       padding: '0.32rem 1.05rem',
       fontSize: '0.68rem',
-      '--badge-offset': 'var(--zp-corner-badge-lg)',
+      '--badge-offset':   'var(--zp-corner-badge-lg)',
+      '--badge-dot-size': '6px',
     },
 
     // ── Shape modifiers ────────────────────────────────────────────────────────
-    // .badge-notch.badge-lg works automatically — .badge-lg sets --badge-offset,
-    // the notch polygon uses it. No compound selector needed.
-    '.badge-sharp': { clipPath: 'inset(0 round 3px)', borderRadius: '3px' },
-    '.badge-pill':  { clipPath: 'inset(0 round 9999px)', borderRadius: '9999px' },
-    '.badge-notch': { clipPath: shapes.notch('var(--badge-offset)').outer },
+    // .badge-beta.badge-lg works — .badge-lg sets --badge-offset, the bevel polygon uses it.
+    '.badge-alpha': { clipPath: shapes.slant('var(--badge-offset)') },
+    '.badge-delta': { clipPath: 'inset(0 round 3px)', borderRadius: '3px' },
+    '.badge-gamma': { clipPath: 'inset(0 round 9999px)', borderRadius: '9999px' },
+    '.badge-beta':    { clipPath: shapes.bevel('var(--badge-offset)').outer },
   }
 }

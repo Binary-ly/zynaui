@@ -3,7 +3,7 @@ import { GENRES, applyGenre, loadGenre } from './_genres.js'
 // Apply genre immediately (before DOMContentLoaded) to prevent FOUC
 loadGenre()
 
-const NAV = [
+const NAV_COMPONENTS = [
   {
     label: 'Getting Started',
     items: [
@@ -11,27 +11,34 @@ const NAV = [
     ]
   },
   {
-    label: 'Actions',
+    label: 'Theming',
     items: [
-      { label: 'Button', href: '/components/btn/' }
+      { label: 'Genre Builder', href: '/genres/' }
     ]
   },
   {
-    label: 'Data Display',
+    label: 'Components',
     items: [
-      { label: 'Card',  href: '/components/card/' },
-      { label: 'Badge', href: '/components/badge/' }
+      { label: 'All Components', href: '/components/' },
+      { label: 'Button',         href: '/components/btn/' },
+      { label: 'Card',           href: '/components/card/' },
+      { label: 'Badge',          href: '/components/badge/' },
+      { label: 'Alert',          href: '/components/alert/' }
     ]
-  },
+  }
+]
+
+const NAV_CHARTS = [
   {
-    label: 'Feedback',
+    label: 'Getting Started',
     items: [
-      { label: 'Alert', href: '/components/alert/' }
+      { label: 'Overview', href: '/' }
     ]
   },
   {
     label: 'Charts',
     items: [
+      { label: 'All Charts',  href: '/charts/' },
       { label: 'Waffle',      href: '/charts/waffle/' },
       { label: 'Timeline',    href: '/charts/timeline/' },
       { label: 'Nightingale', href: '/charts/nightingale/' },
@@ -40,6 +47,11 @@ const NAV = [
     ]
   }
 ]
+
+function getNav(path) {
+  if (path.startsWith('/charts/')) return NAV_CHARTS
+  return NAV_COMPONENTS
+}
 
 // Topbar HTML
 function topbarHTML() {
@@ -83,14 +95,16 @@ function sidebarHTML(currentPath) {
     openCategories = new Set()
   }
 
+  const nav = getNav(currentPath)
+
   // Default: open the category of the active page
-  NAV.forEach(cat => {
+  nav.forEach(cat => {
     if (cat.items.some(i => i.href === currentPath)) {
       openCategories.add(cat.label)
     }
   })
 
-  const categories = NAV.map(cat => {
+  const categories = nav.map(cat => {
     const isOpen = openCategories.has(cat.label)
     const items = cat.items.map(item => {
       const isActive = item.href === currentPath
@@ -109,15 +123,22 @@ function sidebarHTML(currentPath) {
     </details>`
   }).join('\n')
 
+  const isCharts = currentPath.startsWith('/charts/')
+  const snippet = isCharts
+    ? `<code>npm i -D zynaui</code><code>import 'zynaui/charts'</code>`
+    : `<code>npm i -D zynaui</code>`
+  const extraLinks = isCharts
+    ? `<a href="https://d3js.org" class="sidebar-item" target="_blank" rel="noopener" style="font-size:0.8rem">D3.js v7 →</a>`
+    : ''
+
   return `
     ${categories}
     <div class="sidebar-divider"></div>
     <div class="sidebar-snippet">
-      <code>npm i -D zynaui</code>
-      <code>import 'zynaui/charts'</code>
+      ${snippet}
     </div>
     <div style="margin-top:0.75rem">
-      <a href="https://d3js.org" class="sidebar-item" target="_blank" rel="noopener" style="font-size:0.8rem">D3.js v7 →</a>
+      ${extraLinks}
       <a href="https://github.com/binary-ly/zynaui" class="sidebar-item" target="_blank" rel="noopener" style="font-size:0.8rem">GitHub →</a>
     </div>
   `
