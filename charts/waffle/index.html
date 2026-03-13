@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>try{var _zg=localStorage.getItem('zyna-genre');if(_zg&&_zg!=='Ops'){document.documentElement.dataset.genre=_zg.toLowerCase();var _zt=JSON.parse(localStorage.getItem('zyna-genre-tokens')||'{}');for(var _zk in _zt)document.documentElement.style.setProperty(_zk,_zt[_zk])}}catch(e){}</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Waffle Chart — Zyna UI Charts</title>
@@ -9,7 +10,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script src="/dist/zyna-charts.iife.js"></script>
   <link rel="stylesheet" href="../../zynaui.css">
-  <link rel="stylesheet" href="../../docs.css"></head>
+  <link rel="stylesheet" href="../../docs.css">
+  <style>
+    .theme-sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;user-select:none;font-size:.72rem;color:var(--text3);font-weight:600;letter-spacing:.04em;padding:0 4px}
+    .theme-sw input{position:absolute;opacity:0;width:0;height:0}
+    .theme-track{position:relative;display:block;width:32px;height:18px;background:var(--bg3);border:1px solid var(--border);border-radius:9px;transition:background .2s;flex-shrink:0}
+    .theme-track::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:var(--text3);transition:transform .2s}
+    .theme-sw input:checked~.theme-track{background:color-mix(in srgb,var(--zyna) 15%,var(--bg3))}
+    .theme-sw input:checked~.theme-track::after{transform:translateX(14px);background:var(--zyna)}
+  </style>
+</head>
 <body>
   <div id="topbar"></div>
   <div id="docs-layout">
@@ -32,14 +42,19 @@
       <!-- Demo Section -->
       <div class="doc-section">
         <h2 class="section-title">Demo</h2>
-        <div class="tabs-bar">
+        <div class="tabs-bar" style="display:flex;align-items:center">
           <button class="tab-btn active" onclick="tab(this,'wf-p')">Preview</button>
           <button class="tab-btn" onclick="tab(this,'wf-c')">Code</button>
           <button class="tab-btn" onclick="tab(this,'wf-a')">Attributes</button>
+          <label class="theme-sw" style="margin-left:auto">
+            <input type="checkbox" id="theme-chk" onchange="setTheme(this.checked)">
+            <span class="theme-track"></span>
+            <span>Light</span>
+          </label>
         </div>
         <div>
           <div id="wf-p" class="tab-panel active">
-            <div class="preview-box col" style="min-height:300px;padding:1.5rem;align-items:flex-start">
+            <div class="preview-box col" data-chart-bg style="min-height:300px;padding:1.5rem;align-items:flex-start">
               <p style="font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:1rem">Libya humanitarian funding by donor (each cell = 1%)</p>
               <zyna-waffle
                 data='[{"label":"EU NEAR","value":24,"color":"#1A3A6B"},{"label":"EU FPI+ECHO","value":9,"color":"#2A5A9B"},{"label":"UN System","value":28,"color":"#009EDB","outline":true},{"label":"USAID","value":12,"color":"#4A6741","outline":true},{"label":"Other","value":27,"color":"#7A6230","outline":true}]'
@@ -110,7 +125,7 @@
                   <tr>
                     <td class="t-var">color</td>
                     <td class="t-type">hex</td>
-                    <td class="t-def">#C9A84C</td>
+                    <td class="t-def">var(--zyna)</td>
                     <td>Fallback accent color for items without per-item color.</td>
                   </tr>
                   <tr>
@@ -149,19 +164,19 @@
         </div>
         <div>
           <div id="wf-ov-p" class="tab-panel active">
-            <div class="preview-box col" style="min-height:300px;padding:1.5rem;align-items:flex-start">
+            <div class="preview-box col" data-chart-bg style="min-height:300px;padding:1.5rem;align-items:flex-start">
               <p style="font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:1rem">Funding goal progress — 68% reached</p>
               <zyna-waffle
-                data='[{"label":"Goal","value":68,"color":"#C9A84C"},{"label":"Remaining","value":32,"color":"#C9A84C","outline":true}]'
+                data='[{"label":"Goal","value":68},{"label":"Remaining","value":32,"outline":true}]'
                 cols='10' gap='3'
                 style="display:block;width:100%;max-width:360px">
               </zyna-waffle>
               <div style="display:flex;flex-wrap:wrap;gap:0.75rem 1.25rem;margin-top:1.25rem">
                 <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--text2)">
-                  <span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:#C9A84C;flex-shrink:0"></span>Goal (68%)
+                  <span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:var(--zyna);flex-shrink:0"></span>Goal (68%)
                 </div>
                 <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--text2)">
-                  <span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:transparent;border:2px solid #C9A84C;flex-shrink:0"></span>Remaining (32%)
+                  <span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:transparent;border:2px solid var(--zyna);flex-shrink:0"></span>Remaining (32%)
                 </div>
               </div>
             </div>
@@ -177,52 +192,13 @@
               </div>
               <pre id="wf-ov-code"><span class="tag">&lt;zyna-waffle</span>
   <span class="atr">data</span>=<span class="val">'[
-    {"label":"Goal",      "value":68, "color":"#C9A84C"},
-    {"label":"Remaining", "value":32, "color":"#C9A84C", "outline":true}
+    {"label":"Goal",      "value":68},
+    {"label":"Remaining", "value":32, "outline":true}
   ]'</span>
   <span class="atr">cols</span>=<span class="val">'10'</span>
   <span class="atr">gap</span>=<span class="val">'3'</span>
   <span class="atr">style</span>=<span class="val">"display:block;width:100%;max-width:360px"</span><span class="tag">&gt;
 &lt;/zyna-waffle&gt;</span></pre>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Light Theme Section -->
-      <div class="doc-section">
-        <h2 class="section-title">Light Theme</h2>
-        <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.25rem;line-height:1.7">Set <code style="font-family:var(--mono);font-size:0.78rem;color:var(--brand)">theme="light"</code> for use on light backgrounds.</p>
-        <div class="tabs-bar">
-          <button class="tab-btn active" onclick="tab(this,'wf-lt-p')">Preview</button>
-          <button class="tab-btn" onclick="tab(this,'wf-lt-c')">Code</button>
-        </div>
-        <div>
-          <div id="wf-lt-p" class="tab-panel active">
-            <div class="preview-box col" style="min-height:300px;padding:1.5rem;background:#F8F6F2;background-image:none">
-              <p style="font-size:0.7rem;color:#888;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:1rem">Funding goal progress — 68% reached</p>
-              <div style="background:#F8F6F2;border-radius:0.75rem;width:100%">
-                <zyna-waffle
-                  data='[{"label":"Goal","value":68,"color":"#C9A84C"},{"label":"Remaining","value":32,"color":"#C9A84C","outline":true}]'
-                  cols='10' gap='3'
-                  theme='light'
-                  style="display:block;width:100%;max-width:360px">
-                </zyna-waffle>
-              </div>
-            </div>
-          </div>
-          <div id="wf-lt-c" class="tab-panel">
-            <div class="code-box">
-              <div class="code-toolbar">
-                <span class="code-lang">html</span>
-                <button class="copy-btn" onclick="cp(this,'wf-lt-code')">
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy
-                </button>
-              </div>
-              <pre id="wf-lt-code"><span class="tag">&lt;zyna-waffle</span>
-  <span class="atr">data</span>=<span class="val">'[...]'</span>
-  <span class="atr">theme</span>=<span class="val">"light"</span>
-<span class="tag">&gt;&lt;/zyna-waffle&gt;</span></pre>
             </div>
           </div>
         </div>
@@ -245,6 +221,16 @@
   </div>
   <script type="module" src="../../_nav.js"></script>
   <script>
+    function setTheme(isLight) {
+      document.querySelectorAll('zyna-waffle').forEach(el => {
+        if (isLight) el.setAttribute('theme', 'light')
+        else el.removeAttribute('theme')
+      })
+      document.querySelectorAll('[data-chart-bg]').forEach(b => {
+        b.style.background = isLight ? '#F8F6F2' : ''
+        b.style.backgroundImage = isLight ? 'none' : ''
+      })
+    }
     function tab(btn, panelId) {
       const bar = btn.parentElement
       bar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
