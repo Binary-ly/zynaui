@@ -29,12 +29,12 @@
       <!-- Semantic Variants -->
       <div class="doc-section">
         <h2 class="section-title">Semantic Variants</h2>
-        <div class="tabs-bar">
-          <button class="tab-btn active" onclick="tab(this,'badge-v-p')">Preview</button>
-          <button class="tab-btn" onclick="tab(this,'badge-v-c')">Code</button>
+        <div class="tabs-bar" role="tablist" aria-label="Semantic variants example">
+          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="badge-v-p" id="tab-badge-v-p" tabindex="0" onclick="tab(this,'badge-v-p')">Preview</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="badge-v-c" id="tab-badge-v-c" tabindex="-1" onclick="tab(this,'badge-v-c')">Code</button>
         </div>
         <div>
-          <div id="badge-v-p" class="tab-panel active">
+          <div id="badge-v-p" class="tab-panel active" role="tabpanel" aria-labelledby="tab-badge-v-p" tabindex="0">
             <div class="preview-box" style="flex-wrap:wrap;gap:0.75rem">
               <span class="badge badge-primary">Primary</span>
               <span class="badge badge-secondary">Secondary</span>
@@ -45,7 +45,7 @@
               <span class="badge badge-neutral">Neutral</span>
             </div>
           </div>
-          <div id="badge-v-c" class="tab-panel">
+          <div id="badge-v-c" class="tab-panel" role="tabpanel" aria-labelledby="tab-badge-v-c" tabindex="0">
             <div class="code-box">
               <div class="code-toolbar">
                 <span class="code-lang">HTML</span>
@@ -69,12 +69,12 @@
       <!-- Pulse & Outline -->
       <div class="doc-section">
         <h2 class="section-title">Pulse &amp; Outline</h2>
-        <div class="tabs-bar">
-          <button class="tab-btn active" onclick="tab(this,'badge-p-p')">Preview</button>
-          <button class="tab-btn" onclick="tab(this,'badge-p-c')">Code</button>
+        <div class="tabs-bar" role="tablist" aria-label="Pulse and outline example">
+          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="badge-p-p" id="tab-badge-p-p" tabindex="0" onclick="tab(this,'badge-p-p')">Preview</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="badge-p-c" id="tab-badge-p-c" tabindex="-1" onclick="tab(this,'badge-p-c')">Code</button>
         </div>
         <div>
-          <div id="badge-p-p" class="tab-panel active">
+          <div id="badge-p-p" class="tab-panel active" role="tabpanel" aria-labelledby="tab-badge-p-p" tabindex="0">
             <div class="preview-box" style="flex-wrap:wrap;gap:0.75rem">
               <span class="badge badge-success badge-pulse">Online</span>
               <span class="badge badge-danger badge-pulse">Critical</span>
@@ -83,7 +83,7 @@
               <span class="badge badge-primary badge-outline">Primary</span>
             </div>
           </div>
-          <div id="badge-p-c" class="tab-panel">
+          <div id="badge-p-c" class="tab-panel" role="tabpanel" aria-labelledby="tab-badge-p-c" tabindex="0">
             <div class="code-box">
               <div class="code-toolbar">
                 <span class="code-lang">HTML</span>
@@ -108,18 +108,18 @@
       <!-- Sizes -->
       <div class="doc-section">
         <h2 class="section-title">Sizes</h2>
-        <div class="tabs-bar">
-          <button class="tab-btn active" onclick="tab(this,'badge-s-p')">Preview</button>
-          <button class="tab-btn" onclick="tab(this,'badge-s-c')">Code</button>
+        <div class="tabs-bar" role="tablist" aria-label="Sizes example">
+          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="badge-s-p" id="tab-badge-s-p" tabindex="0" onclick="tab(this,'badge-s-p')">Preview</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="badge-s-c" id="tab-badge-s-c" tabindex="-1" onclick="tab(this,'badge-s-c')">Code</button>
         </div>
         <div>
-          <div id="badge-s-p" class="tab-panel active">
+          <div id="badge-s-p" class="tab-panel active" role="tabpanel" aria-labelledby="tab-badge-s-p" tabindex="0">
             <div class="preview-box" style="gap:0.75rem;align-items:center">
               <span class="badge badge-primary">Default</span>
               <span class="badge badge-primary badge-lg">Large</span>
             </div>
           </div>
-          <div id="badge-s-c" class="tab-panel">
+          <div id="badge-s-c" class="tab-panel" role="tabpanel" aria-labelledby="tab-badge-s-c" tabindex="0">
             <div class="code-box">
               <div class="code-toolbar">
                 <span class="code-lang">HTML</span>
@@ -138,12 +138,12 @@
       <!-- Shapes -->
       <div class="doc-section">
         <h2 class="section-title">Shapes</h2>
-        <div class="tabs-bar">
-          <button class="tab-btn active" onclick="tab(this,'badge-sh-p')">Preview</button>
-          <button class="tab-btn" onclick="tab(this,'badge-sh-c')">Code</button>
+        <div class="tabs-bar" role="tablist" aria-label="Shapes example">
+          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="badge-sh-p" id="tab-badge-sh-p" tabindex="0" onclick="tab(this,'badge-sh-p')">Preview</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="badge-sh-c" id="tab-badge-sh-c" tabindex="-1" onclick="tab(this,'badge-sh-c')">Code</button>
         </div>
         <div>
-          <div id="badge-sh-p" class="tab-panel active">
+          <div id="badge-sh-p" class="tab-panel active" role="tabpanel" aria-labelledby="tab-badge-sh-p" tabindex="0">
             <div class="preview-box" style="gap:0.75rem;align-items:center">
               <span class="badge badge-primary badge-slant">Slant</span>
               <span class="badge badge-primary badge-bevel">Bevel</span>
@@ -151,7 +151,7 @@
               <span class="badge badge-primary badge-rect">Rect</span>
             </div>
           </div>
-          <div id="badge-sh-c" class="tab-panel">
+          <div id="badge-sh-c" class="tab-panel" role="tabpanel" aria-labelledby="tab-badge-sh-c" tabindex="0">
             <div class="code-box">
               <div class="code-toolbar">
                 <span class="code-lang">HTML</span>
@@ -201,18 +201,18 @@
                            drop-shadow(0 0 14px rgba(139,0,255,0.14));
           }
         </style>
-        <div class="tabs-bar">
-          <button class="tab-btn active" onclick="tab(this,'badge-cv-p')">Preview</button>
-          <button class="tab-btn" onclick="tab(this,'badge-cv-c')">Code</button>
+        <div class="tabs-bar" role="tablist" aria-label="Custom variant example">
+          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="badge-cv-p" id="tab-badge-cv-p" tabindex="0" onclick="tab(this,'badge-cv-p')">Preview</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="badge-cv-c" id="tab-badge-cv-c" tabindex="-1" onclick="tab(this,'badge-cv-c')">Code</button>
         </div>
         <div>
-          <div id="badge-cv-p" class="tab-panel active">
+          <div id="badge-cv-p" class="tab-panel active" role="tabpanel" aria-labelledby="tab-badge-cv-p" tabindex="0">
             <div class="preview-box" style="gap:0.75rem">
               <span class="badge badge-plasma">Plasma</span>
               <span class="badge badge-plasma badge-pulse">Pulsing</span>
             </div>
           </div>
-          <div id="badge-cv-c" class="tab-panel">
+          <div id="badge-cv-c" class="tab-panel" role="tabpanel" aria-labelledby="tab-badge-cv-c" tabindex="0">
             <div class="code-box">
               <div class="code-toolbar">
                 <span class="code-lang">CSS</span>
@@ -268,12 +268,36 @@
   <script>
     function tab(btn, panelId) {
       const bar = btn.parentElement
-      bar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
+      bar.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('active')
+        b.setAttribute('aria-selected', 'false')
+        b.setAttribute('tabindex', '-1')
+      })
       btn.classList.add('active')
+      btn.setAttribute('aria-selected', 'true')
+      btn.setAttribute('tabindex', '0')
+      btn.focus()
       const container = bar.nextElementSibling
       container.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'))
       document.getElementById(panelId).classList.add('active')
     }
+    document.addEventListener('keydown', function(e) {
+      const btn = e.target.closest('[role="tab"]')
+      if (!btn) return
+      const bar = btn.closest('[role="tablist"]')
+      if (!bar) return
+      const tabs = [...bar.querySelectorAll('[role="tab"]')]
+      const idx = tabs.indexOf(btn)
+      let next
+      if (e.key === 'ArrowRight') next = tabs[(idx + 1) % tabs.length]
+      else if (e.key === 'ArrowLeft') next = tabs[(idx - 1 + tabs.length) % tabs.length]
+      else if (e.key === 'Home') next = tabs[0]
+      else if (e.key === 'End') next = tabs[tabs.length - 1]
+      if (next) {
+        e.preventDefault()
+        next.click()
+      }
+    })
     function cp(btn, id) {
       const txt = document.getElementById(id).innerText
       navigator.clipboard.writeText(txt).then(() => {
