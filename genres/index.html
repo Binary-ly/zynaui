@@ -11,206 +11,583 @@
   <link rel="stylesheet" href="../zynaui.css">
   <link rel="stylesheet" href="../docs.css">
   <style>
-    /* ── Builder layout ── */
-    .builder-wrap {
-      display: grid;
-      grid-template-columns: 320px 1fr;
-      gap: 0;
+    /* ── Layout ── */
+    .gb-wrap {
+      display: flex;
       min-height: calc(100vh - var(--topbar-h));
       margin-top: var(--topbar-h);
     }
 
-    /* ── Controls sidebar ── */
-    .builder-sidebar {
-      background: var(--bg2);
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto;
+    /* ── Left panel ── */
+    .gb-panel {
+      width: 300px;
+      flex-shrink: 0;
       position: sticky;
       top: var(--topbar-h);
       height: calc(100vh - var(--topbar-h));
+      display: flex;
+      flex-direction: column;
+      background: var(--bg2);
+      border-right: 1px solid var(--border);
+      overflow: hidden;
     }
 
-    .builder-sidebar-header {
-      padding: 1.5rem 1.5rem 1rem;
+    .gb-panel-header {
+      padding: 1.25rem 1.25rem 0.9rem;
       border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
     }
 
-    .builder-sidebar-header h1 {
-      font-size: 0.95rem;
+    .gb-panel-header h1 {
+      font-size: 1rem;
       font-weight: 700;
       color: var(--text);
       letter-spacing: -0.01em;
-      margin: 0 0 0.2rem;
+      margin: 0 0 0.15rem;
     }
 
-    .builder-sidebar-header p {
-      font-size: 0.75rem;
+    .gb-panel-header p {
+      font-size: 0.68rem;
       color: var(--text2);
       margin: 0;
-      line-height: 1.5;
+      font-family: var(--mono);
+      letter-spacing: 0.04em;
     }
 
-    .builder-controls {
-      padding: 1rem 1.25rem;
+    /* ── Identity row ── */
+    .gb-identity {
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-end;
+      flex-shrink: 0;
+    }
+
+    .gb-identity-name {
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
+      gap: 0.25rem;
     }
 
-    .builder-section {
+    .gb-identity-color {
+      flex-shrink: 0;
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
+      gap: 0.25rem;
     }
 
-    .builder-section-title {
+    .gb-label {
       font-family: var(--mono);
-      font-size: 0.6rem;
+      font-size: 0.58rem;
       font-weight: 700;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--brand);
-      opacity: 0.75;
-      padding-bottom: 0.35rem;
-      border-bottom: 1px solid var(--border);
+      color: var(--text3);
     }
 
-    .builder-field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-    }
-
-    .builder-label {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      color: var(--text2);
-      letter-spacing: 0.06em;
-    }
-
-    .builder-text-input {
+    .gb-text-input {
       background: var(--bg3);
       border: 1px solid var(--border);
-      border-radius: 4px;
+      border-radius: 3px;
       color: var(--text);
       font-family: var(--mono);
       font-size: 0.75rem;
-      padding: 0.4rem 0.6rem;
+      padding: 0.38rem 0.6rem;
       outline: none;
       transition: border-color 0.15s;
       width: 100%;
       box-sizing: border-box;
     }
 
-    .builder-text-input:focus {
-      border-color: color-mix(in srgb, var(--brand) 60%, transparent);
+    .gb-text-input:focus {
+      border-color: color-mix(in srgb, var(--brand) 55%, transparent);
     }
 
-    /* Color picker row */
-    .builder-color-row {
+    .gb-color-row {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.4rem;
       align-items: center;
     }
 
-    .builder-color-swatch {
-      width: 32px;
-      height: 32px;
-      border-radius: 4px;
+    .gb-swatch {
+      width: 40px;
+      height: 40px;
+      border-radius: 3px;
       border: 1px solid var(--border);
       cursor: pointer;
       padding: 0;
       background: transparent;
       overflow: hidden;
       flex-shrink: 0;
+      position: relative;
     }
 
-    .builder-color-swatch input[type="color"] {
-      width: 200%;
-      height: 200%;
-      margin: -50%;
+    .gb-swatch input[type="color"] {
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      width: calc(100% + 8px);
+      height: calc(100% + 8px);
       border: none;
       cursor: pointer;
       opacity: 1;
+      padding: 0;
     }
 
-    .builder-hex-input {
+    .gb-hex-input {
       background: var(--bg3);
       border: 1px solid var(--border);
-      border-radius: 4px;
+      border-radius: 3px;
       color: var(--text);
       font-family: var(--mono);
-      font-size: 0.75rem;
-      padding: 0.4rem 0.6rem;
+      font-size: 0.72rem;
+      padding: 0.38rem 0.5rem;
       outline: none;
       transition: border-color 0.15s;
-      flex: 1;
+      width: 80px;
     }
 
-    .builder-hex-input:focus {
-      border-color: color-mix(in srgb, var(--brand) 60%, transparent);
+    .gb-hex-input:focus {
+      border-color: color-mix(in srgb, var(--brand) 55%, transparent);
     }
 
-    /* Radio group */
-    .builder-radio-group {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
-      gap: 4px;
-    }
-
-    .builder-radio-group label {
+    /* ── Tab bar ── */
+    .gb-tabs {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.35rem 0.5rem;
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: 4px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .gb-tab {
+      flex: 1;
+      padding: 0.55rem 0;
       font-family: var(--mono);
       font-size: 0.62rem;
-      font-weight: 600;
-      color: var(--text2);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text3);
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
       cursor: pointer;
-      text-align: center;
-      transition: background 0.12s, border-color 0.12s, color 0.12s;
-      white-space: nowrap;
+      transition: color 0.12s, border-color 0.12s;
     }
 
-    .builder-radio-group input[type="radio"] {
+    .gb-tab:hover {
+      color: var(--text2);
+    }
+
+    .gb-tab.active {
+      color: var(--brand);
+      border-bottom-color: var(--brand);
+    }
+
+    /* ── Scrollable token area ── */
+    .gb-token-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0.5rem 0;
+    }
+
+    .gb-tab-content {
       display: none;
     }
 
-    .builder-radio-group input[type="radio"]:checked + span {
-      /* handled on label */
+    .gb-tab-content.active {
+      display: block;
     }
 
-    .builder-radio-group label:has(input:checked) {
-      background: color-mix(in srgb, var(--brand) 15%, transparent);
-      border-color: color-mix(in srgb, var(--brand) 50%, transparent);
+    /* ── Accordions ── */
+    .gb-group {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .gb-group summary {
+      list-style: none;
+      padding: 0.6rem 1.25rem;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
       color: var(--brand);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      user-select: none;
+      opacity: 0.85;
+      transition: opacity 0.12s;
     }
 
-    /* Code output */
-    .builder-code-wrap {
-      padding: 1rem 1.25rem 1.5rem;
-      border-top: 1px solid var(--border);
+    .gb-group summary:hover {
+      opacity: 1;
+    }
+
+    .gb-group summary::-webkit-details-marker { display: none; }
+
+    .gb-group summary::after {
+      content: '▸';
+      font-size: 0.55rem;
+      transition: transform 0.15s;
+      color: var(--text3);
+    }
+
+    .gb-group[open] summary::after {
+      transform: rotate(90deg);
+    }
+
+    .gb-group-body {
+      padding: 0.25rem 1.25rem 0.9rem;
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
+      gap: 0.7rem;
     }
 
-    .builder-code-header {
+    /* ── Field rows ── */
+    .gb-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.28rem;
+    }
+
+    .gb-field-label {
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
-    .builder-code-label {
+    .gb-field-label span {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      color: var(--text2);
+    }
+
+    .gb-val-badge {
       font-family: var(--mono);
       font-size: 0.6rem;
+      color: var(--brand);
+      background: color-mix(in srgb, var(--brand) 10%, transparent);
+      padding: 0.05rem 0.4rem;
+      border-radius: 2px;
+      min-width: 40px;
+      text-align: right;
+    }
+
+    /* Range sliders */
+    .gb-range {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .gb-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: var(--brand);
+      cursor: pointer;
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--brand) 25%, transparent);
+    }
+
+    .gb-range::-moz-range-thumb {
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: var(--brand);
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--brand) 25%, transparent);
+    }
+
+    /* ── Chip selector ── */
+    .gb-chipset {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .gb-chip {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      padding: 0.28rem 0.65rem;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+      background: var(--bg3);
+      color: var(--text2);
+      cursor: pointer;
+      transition: background 0.1s, border-color 0.1s, color 0.1s;
+      white-space: nowrap;
+      line-height: 1;
+    }
+    .gb-chip:hover {
+      border-color: color-mix(in srgb, var(--brand) 40%, transparent);
+      color: var(--text);
+    }
+    .gb-chip.active {
+      background: color-mix(in srgb, var(--brand) 14%, transparent);
+      border-color: color-mix(in srgb, var(--brand) 50%, transparent);
+      color: var(--brand);
+    }
+    .gb-chip-custom {
+      opacity: 0.55;
+      font-style: italic;
+    }
+    .gb-subgroup-label {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--brand);
+      opacity: 0.55;
+      margin: 1rem 0 0.5rem;
+      padding-bottom: 0.3rem;
+      border-bottom: 1px solid color-mix(in srgb, var(--brand) 20%, transparent);
+    }
+    .gb-subgroup-label:first-child {
+      margin-top: 0;
+    }
+    .gb-onoff {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.1rem 0.4rem;
+      font-family: var(--mono);
+      font-size: 0.54rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      background: transparent;
+      color: var(--text3);
+      cursor: pointer;
+      transition: color 0.12s, border-color 0.12s, background 0.12s;
+      flex-shrink: 0;
+    }
+    .gb-onoff.on {
+      border-color: var(--brand);
+      color: var(--brand);
+      background: color-mix(in srgb, var(--brand) 10%, transparent);
+    }
+    .gb-chip-custom:hover, .gb-chip-custom.active {
+      opacity: 1;
+    }
+    .gb-chipset-reveal {
+      margin-top: 6px;
+    }
+    /* Font chips display their own font */
+    .gb-chip-font { font-size: 0.68rem; }
+
+    /* Textarea */
+    .gb-textarea {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      padding: 0.38rem 0.6rem;
+      outline: none;
+      resize: vertical;
+      min-height: 50px;
+      transition: border-color 0.15s;
+      width: 100%;
+      box-sizing: border-box;
+      line-height: 1.5;
+    }
+
+    .gb-textarea:focus {
+      border-color: color-mix(in srgb, var(--brand) 55%, transparent);
+    }
+
+    /* Radio group */
+    .gb-radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .gb-radio-group label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.3rem 0.65rem;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      font-weight: 600;
+      color: var(--text2);
+      cursor: pointer;
+      transition: background 0.1s, border-color 0.1s, color 0.1s;
+      white-space: nowrap;
+    }
+
+    .gb-radio-group input[type="radio"] {
+      display: none;
+    }
+
+    .gb-radio-group label:has(input:checked) {
+      background: color-mix(in srgb, var(--brand) 14%, transparent);
+      border-color: color-mix(in srgb, var(--brand) 48%, transparent);
+      color: var(--brand);
+    }
+
+    /* Toggle pair */
+    .gb-toggle-group {
+      display: flex;
+      gap: 4px;
+    }
+
+    .gb-toggle-group label {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.32rem 0.5rem;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      font-weight: 600;
+      color: var(--text2);
+      cursor: pointer;
+      transition: background 0.1s, border-color 0.1s, color 0.1s;
+    }
+
+    .gb-toggle-group input[type="radio"] {
+      display: none;
+    }
+
+    .gb-toggle-group label:has(input:checked) {
+      background: color-mix(in srgb, var(--brand) 14%, transparent);
+      border-color: color-mix(in srgb, var(--brand) 48%, transparent);
+      color: var(--brand);
+    }
+
+    /* ── Bezier editor ── */
+    .gb-bezier-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .gb-bezier-svg-wrap {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      overflow: hidden;
+    }
+
+    .gb-bezier-svg {
+      display: block;
+      overflow: visible;
+      cursor: crosshair;
+    }
+
+    .gb-bezier-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 4px;
+    }
+
+    .gb-bezier-num {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      padding: 0.28rem 0.35rem;
+      outline: none;
+      text-align: center;
+      width: 100%;
+      box-sizing: border-box;
+      transition: border-color 0.12s;
+    }
+
+    .gb-bezier-num:focus {
+      border-color: color-mix(in srgb, var(--brand) 55%, transparent);
+    }
+
+    .gb-bezier-num-label {
+      font-family: var(--mono);
+      font-size: 0.52rem;
+      color: var(--text3);
+      text-align: center;
+    }
+
+    .gb-bezier-num-col {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    /* ── Visual tab ── */
+    .gb-visual-hint {
+      padding: 0.75rem 1.25rem;
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      color: var(--text3);
+      line-height: 1.6;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .gb-visual-hint button {
+      margin-top: 0.4rem;
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      color: var(--brand);
+      background: color-mix(in srgb, var(--brand) 10%, transparent);
+      border: 1px solid color-mix(in srgb, var(--brand) 28%, transparent);
+      border-radius: 3px;
+      padding: 0.18rem 0.55rem;
+      cursor: pointer;
+      display: block;
+      transition: background 0.1s;
+    }
+
+    .gb-visual-hint button:hover {
+      background: color-mix(in srgb, var(--brand) 16%, transparent);
+    }
+
+    /* ── Code output ── */
+    .gb-code-wrap {
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem 1rem;
+      background: var(--bg2);
+    }
+
+    .gb-code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .gb-code-label {
+      font-family: var(--mono);
+      font-size: 0.58rem;
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -218,348 +595,1169 @@
       opacity: 0.75;
     }
 
-    .builder-copy-btn {
+    .gb-copy-btn {
       font-family: var(--mono);
-      font-size: 0.6rem;
+      font-size: 0.58rem;
       font-weight: 700;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--brand);
       background: color-mix(in srgb, var(--brand) 10%, transparent);
       border: 1px solid color-mix(in srgb, var(--brand) 30%, transparent);
-      border-radius: 4px;
-      padding: 0.2rem 0.6rem;
+      border-radius: 3px;
+      padding: 0.18rem 0.6rem;
       cursor: pointer;
       transition: background 0.12s, box-shadow 0.12s;
     }
 
-    .builder-copy-btn:hover {
+    .gb-copy-btn:hover {
       background: color-mix(in srgb, var(--brand) 18%, transparent);
       box-shadow: 0 0 8px color-mix(in srgb, var(--brand) 20%, transparent);
     }
 
-    .builder-copy-btn.copied {
+    .gb-copy-btn.copied {
       color: #00FFB2;
       border-color: color-mix(in srgb, #00FFB2 35%, transparent);
       background: color-mix(in srgb, #00FFB2 12%, transparent);
     }
 
-    .builder-code-pre {
+    .gb-code-pre {
       background: var(--bg);
       border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 0.75rem;
+      border-radius: 3px;
+      padding: 0.65rem 0.75rem;
       font-family: var(--mono);
-      font-size: 0.62rem;
+      font-size: 0.6rem;
       line-height: 1.65;
       color: var(--text2);
       overflow-x: auto;
-      max-height: 220px;
+      max-height: 190px;
       overflow-y: auto;
       white-space: pre;
       margin: 0;
     }
 
-    .code-key   { color: color-mix(in srgb, var(--brand) 85%, white); }
-    .code-val   { color: #A8D8A8; }
-    .code-str   { color: #DEB887; }
-    .code-kw    { color: #9B9BC4; }
-    .code-fn    { color: var(--brand); }
-    .code-dim   { color: var(--text3); }
+    .code-key { color: color-mix(in srgb, var(--brand) 85%, white); }
+    .code-val { color: #A8D8A8; }
+    .code-str { color: #DEB887; }
+    .code-kw  { color: #9B9BC4; }
+    .code-fn  { color: var(--brand); }
+    .code-dim { color: var(--text3); }
+
+    /* ── Preview button shape fix ──────────────────────────────────────────────
+       The inner border clip goes through an intermediate custom property:
+         @layer base .btn { --btn-inner-clip: var(--z-btn-inner-clip) }
+         @layer base .btn::before { clip-path: var(--btn-inner-clip) }
+       This layered indirection can stale when switching between polygon/inset
+       types. Unlayered rules beat @layer base, so this rule forces ::before to
+       track the root token directly — same pattern as the outer clip-path on .btn.
+    */
+    .gb-preview .btn::before { clip-path: var(--z-btn-inner-clip); }
+    /* Same unlayered override for badge — forces ::before to track :root token directly,
+       bypassing @layer base so genre-builder setProperty calls take effect. */
+    .gb-preview .badge::before { clip-path: var(--z-badge-inner-clip); }
+    /* Card bracket size fix — compiled zynaui.css may still reference the old
+       element-level --card-bracket-size token. This unlayered rule forces ::before
+       to read the root tokens directly, matching what cornerBrackets() outputs. */
+    .gb-preview .card::before {
+      background-size:
+        var(--z-card-bracket-size) var(--z-card-bracket-stroke),
+        var(--z-card-bracket-stroke) var(--z-card-bracket-size),
+        var(--z-card-bracket-size) var(--z-card-bracket-stroke),
+        var(--z-card-bracket-stroke) var(--z-card-bracket-size),
+        var(--z-card-bracket-size) var(--z-card-bracket-stroke),
+        var(--z-card-bracket-stroke) var(--z-card-bracket-size),
+        var(--z-card-bracket-size) var(--z-card-bracket-stroke),
+        var(--z-card-bracket-stroke) var(--z-card-bracket-size);
+    }
 
     /* ── Preview main ── */
-    .builder-preview {
+    .gb-preview {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
       background: var(--bg);
-      padding: 2.5rem 2rem;
-      overflow-y: auto;
+      overflow: hidden;
       min-height: calc(100vh - var(--topbar-h));
     }
 
-    .builder-preview-header {
-      margin-bottom: 2rem;
+    /* ── Component navigation bar ── */
+    .gb-comp-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+      flex-shrink: 0;
+      padding: 0 1.5rem 0 0.5rem;
+      gap: 1rem;
     }
 
-    .builder-preview-header h2 {
-      font-size: 0.75rem;
+    .gb-comp-nav-tabs {
+      display: flex;
+    }
+
+    .gb-comp-tab {
+      padding: 0.65rem 0.9rem;
       font-family: var(--mono);
+      font-size: 0.6rem;
       font-weight: 700;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--text2);
-      margin: 0 0 0.25rem;
+      color: var(--text3);
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: color 0.12s, border-color 0.12s;
+      white-space: nowrap;
     }
 
-    .builder-preview-name {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: var(--text);
-      letter-spacing: -0.02em;
-      margin: 0;
-    }
+    .gb-comp-tab:hover { color: var(--text2); }
 
-    .builder-preview-name span {
+    .gb-comp-tab.active {
       color: var(--brand);
+      border-bottom-color: var(--brand);
+    }
+
+    .gb-preview-name {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text3);
+      font-family: var(--mono);
+      letter-spacing: 0.04em;
+      margin: 0;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .gb-preview-name span {
+      color: var(--brand);
+      font-weight: 800;
+    }
+
+    /* ── Scrollable area ── */
+    .gb-preview-scroll {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Component display area ── */
+    .gb-preview-body {
+      flex: 1;
+      padding: 3rem 2.5rem 2.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
     }
 
     .preview-section {
-      margin-bottom: 2.5rem;
+      width: 100%;
+      max-width: 640px;
+      display: none;
+    }
+
+    .preview-section.active {
+      display: block;
     }
 
     .preview-section-label {
       font-family: var(--mono);
-      font-size: 0.58rem;
+      font-size: 0.56rem;
       font-weight: 700;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--text3);
       margin-bottom: 0.75rem;
     }
 
-    .preview-row {
+    /* restore top border — docs .preview-box omits it (tabs context) */
+    .gb-preview .preview-box {
+      border-top: 1px solid var(--border);
+      border-radius: var(--radius);
+      justify-content: flex-start;
+    }
+
+    /* ── Code output in preview ── */
+    .gb-code-main {
+      border-top: 1px solid var(--border);
+      background: var(--bg2);
+      flex-shrink: 0;
+    }
+
+    .gb-code-main-header {
       display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
       align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1.5rem 0;
     }
 
-    .preview-card-wrap {
-      max-width: 360px;
+    .gb-code-main .gb-code-pre {
+      margin: 0.5rem 1.5rem 1.25rem;
+      max-height: none;
+      font-size: 0.68rem;
+      line-height: 1.7;
     }
 
-    @media (max-width: 900px) {
-      .builder-wrap { grid-template-columns: 1fr; }
-      .builder-sidebar { position: static; height: auto; }
+    /* ── Micro visual indicators ── */
+
+
+
+    /* Alert bar position diagrams inside toggle labels */
+    .gb-alertbar-swatch {
+      display: block;
+      width: 20px; height: 12px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 2px;
+      position: relative;
+      flex-shrink: 0;
+      overflow: hidden;
     }
+    .gb-toggle-group label { gap: 6px; }
+    .gb-alertbar-swatch::before {
+      content: '';
+      position: absolute;
+      background: color-mix(in srgb, var(--brand) 60%, transparent);
+      transition: background 0.12s;
+    }
+    .gb-toggle-group label:has(input:checked) .gb-alertbar-swatch::before { background: var(--brand); }
+    .gb-alertbar-left::before  { left: 0; top: 0; bottom: 0; width: 3px; }
+    .gb-alertbar-top::before   { top: 0; left: 0; right: 0; height: 3px; }
+
+    /* ── Visual mode wraps ── */
+    .gb-comp-wrap {
+      transition: outline-offset 0.1s;
+    }
+
+    .gb-visual .gb-comp-wrap:hover {
+      outline: 2px dashed color-mix(in srgb, var(--brand) 60%, transparent);
+      outline-offset: 8px;
+      cursor: pointer;
+    }
+
+    /* Right panel */
+    .gb-panel-right {
+      border-right: none;
+      border-left: 1px solid var(--border);
+      order: 3;
+    }
+
+    /* Right panel compact header (tab bar only, no title) */
+    .gb-panel-right .gb-panel-header {
+      display: none;
+    }
+
+    .gb-section-cat {
+      padding: 0.5rem 1.25rem 0.25rem;
+      font-family: var(--mono);
+      font-size: 0.52rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text3);
+      opacity: 0.5;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 1100px) {
+      .gb-wrap { flex-direction: column; }
+      .gb-panel { position: static; height: auto; width: 100%; order: 0; }
+      .gb-panel-right { border-left: none; border-top: 1px solid var(--border); }
+    }
+
+    .gb-shape-icon {
+      width: 32px; height: 14px;
+      flex-shrink: 0;
+      color: currentColor;
+    }
+    .gb-radio-group label { gap: 5px; }
+
+    .gb-shape-edit-btn {
+      font-family: var(--mono); font-size: 0.62rem; font-weight: 600;
+      background: color-mix(in srgb, var(--brand) 10%, transparent);
+      border: 1px solid color-mix(in srgb, var(--brand) 25%, transparent);
+      border-radius: 3px; color: var(--brand); padding: 0.3rem 0.7rem;
+      cursor: pointer; letter-spacing: 0.08em; transition: background 0.12s; width: 100%;
+    }
+    .gb-shape-edit-btn:hover { background: color-mix(in srgb, var(--brand) 18%, transparent); }
+    .gb-shape-reset {
+      font-family: var(--mono); font-size: 0.58rem; font-weight: 600;
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 3px; color: var(--text2); padding: 0.2rem 0.5rem; cursor: pointer;
+    }
+    .gb-shape-reset:hover { border-color: color-mix(in srgb,var(--brand) 40%,transparent); color: var(--brand); }
   </style>
 </head>
 <body>
   <div id="topbar"></div>
 
-  <div class="builder-wrap">
+  <div class="gb-wrap">
 
-    <!-- ── Left: Controls ── -->
-    <aside class="builder-sidebar">
-      <div class="builder-sidebar-header">
-        <h1>Genre Builder</h1>
-        <p>Compose a custom genre and export it as a <code style="color:var(--brand);font-size:0.8em">defineGenre()</code> call.</p>
+    <!-- ── Left panel ── -->
+    <aside class="gb-panel" id="gb-panel-left">
+
+      <div class="gb-panel-header">
+        <h1>Zyna UI</h1>
+        <p>Genre Builder</p>
       </div>
 
-      <div class="builder-controls">
-
-        <!-- Identity -->
-        <div class="builder-section">
-          <div class="builder-section-title">Identity</div>
-
-          <div class="builder-field">
-            <div class="builder-label">Name</div>
-            <input id="b-name" class="builder-text-input" type="text" value="Custom" spellcheck="false" />
+      <div class="gb-identity">
+        <div class="gb-identity-name">
+          <div class="gb-label">Name</div>
+          <input id="gb-name" class="gb-text-input" type="text" value="Custom" spellcheck="false" />
+        </div>
+        <div class="gb-identity-color">
+          <div class="gb-label">Brand</div>
+          <div class="gb-color-row">
+            <div class="gb-swatch" id="gb-brand-swatch-wrap">
+              <input type="color" id="gb-brand-picker" value="#C9A84C" />
+            </div>
+            <input id="gb-brand-hex" class="gb-hex-input" type="text" value="#C9A84C" spellcheck="false" maxlength="7" />
           </div>
+        </div>
+      </div>
 
-          <div class="builder-field">
-            <div class="builder-label">Brand Color</div>
-            <div class="builder-color-row">
-              <div class="builder-color-swatch">
-                <input type="color" id="b-color-picker" value="#C9A84C" />
+      <div class="gb-token-scroll">
+
+        <div class="gb-section-cat">Foundation</div>
+
+        <!-- Colors -->
+        <details class="gb-group" id="grp-colors" data-show-on="all" open>
+          <summary>Colors</summary>
+          <div class="gb-group-body">
+
+            <div class="gb-field">
+              <div class="gb-label" style="margin-bottom:0.2rem">Brand <span style="opacity:0.5">--zyna</span></div>
+              <div class="gb-color-row">
+                <div class="gb-swatch"><input type="color" id="gb-c-brand" value="#C9A84C" /></div>
+                <input id="gb-h-brand" class="gb-hex-input" style="flex:1" type="text" value="#C9A84C" maxlength="7" spellcheck="false" />
               </div>
-              <input id="b-color-hex" class="builder-hex-input" type="text" value="#C9A84C" spellcheck="false" maxlength="7" />
+            </div>
+
+            <div class="gb-field">
+              <div class="gb-label" style="margin-bottom:0.2rem">Success <span style="opacity:0.5">--zp-success</span></div>
+              <div class="gb-color-row">
+                <div class="gb-swatch"><input type="color" id="gb-c-success" value="#00FFB2" /></div>
+                <input id="gb-h-success" class="gb-hex-input" style="flex:1" type="text" value="#00FFB2" maxlength="7" spellcheck="false" />
+              </div>
+            </div>
+
+            <div class="gb-field">
+              <div class="gb-label" style="margin-bottom:0.2rem">Danger <span style="opacity:0.5">--zp-danger</span></div>
+              <div class="gb-color-row">
+                <div class="gb-swatch"><input type="color" id="gb-c-danger" value="#FF3366" /></div>
+                <input id="gb-h-danger" class="gb-hex-input" style="flex:1" type="text" value="#FF3366" maxlength="7" spellcheck="false" />
+              </div>
+            </div>
+
+            <div class="gb-field">
+              <div class="gb-label" style="margin-bottom:0.2rem">Warning <span style="opacity:0.5">--zp-warning</span></div>
+              <div class="gb-color-row">
+                <div class="gb-swatch"><input type="color" id="gb-c-warning" value="#FFB800" /></div>
+                <input id="gb-h-warning" class="gb-hex-input" style="flex:1" type="text" value="#FFB800" maxlength="7" spellcheck="false" />
+              </div>
+            </div>
+
+            <div class="gb-field">
+              <div class="gb-label" style="margin-bottom:0.2rem">Info <span style="opacity:0.5">--zp-info</span></div>
+              <div class="gb-color-row">
+                <div class="gb-swatch"><input type="color" id="gb-c-info" value="#00D4FF" /></div>
+                <input id="gb-h-info" class="gb-hex-input" style="flex:1" type="text" value="#00D4FF" maxlength="7" spellcheck="false" />
+              </div>
+            </div>
+
+          </div>
+        </details>
+
+        <!-- Motion: Timing -->
+        <details class="gb-group" id="grp-timing" data-show-on="btn" open>
+          <summary>Motion: Timing</summary>
+          <div class="gb-group-body">
+
+            <div class="gb-field">
+              <div class="gb-field-label">
+                <span>Fast <span style="opacity:0.5">--z-duration-fast</span></span>
+                <span class="gb-val-badge" id="lbl-dur-fast">0.18s</span>
+              </div>
+              <input class="gb-range" type="range" id="gb-dur-fast" min="0.05" max="0.8" step="0.01" value="0.18" />
+            </div>
+
+            <div class="gb-field">
+              <div class="gb-field-label">
+                <span>Base <span style="opacity:0.5">--z-duration-base</span></span>
+                <span class="gb-val-badge" id="lbl-dur-base">0.22s</span>
+              </div>
+              <input class="gb-range" type="range" id="gb-dur-base" min="0.05" max="0.8" step="0.01" value="0.22" />
+            </div>
+
+            <div class="gb-field">
+              <div class="gb-field-label">
+                <span>Slow <span style="opacity:0.5">--z-duration-slow</span></span>
+                <span class="gb-val-badge" id="lbl-dur-slow">0.28s</span>
+              </div>
+              <input class="gb-range" type="range" id="gb-dur-slow" min="0.05" max="0.8" step="0.01" value="0.28" />
+            </div>
+
+          </div>
+        </details>
+
+        <!-- Motion: Easing -->
+        <details class="gb-group" id="grp-easing" data-show-on="btn badge card">
+          <summary>Motion: Easing</summary>
+          <div class="gb-group-body">
+
+            <div class="gb-field">
+              <div class="gb-label" style="margin-bottom:0.4rem">Enter <span style="opacity:0.5">--z-ease-enter</span></div>
+              <div class="gb-bezier-wrap" id="bez-enter"></div>
+            </div>
+
+            <div class="gb-field" style="margin-top:0.5rem">
+              <div class="gb-label" style="margin-bottom:0.4rem">Exit <span style="opacity:0.5">--z-ease-exit</span></div>
+              <div class="gb-bezier-wrap" id="bez-exit"></div>
+            </div>
+
+            <div class="gb-field" style="margin-top:0.5rem">
+              <div class="gb-label" style="margin-bottom:0.4rem">Spring <span style="opacity:0.5">--z-ease-spring</span></div>
+              <div class="gb-bezier-wrap" id="bez-spring"></div>
+            </div>
+
+          </div>
+        </details>
+
+        <!-- Typography -->
+        <details class="gb-group" id="grp-typography" data-show-on="all">
+          <summary>Typography</summary>
+          <div class="gb-group-body">
+            <div class="gb-field">
+              <div class="gb-label" style="margin-bottom:0.3rem">Mono Font <span style="opacity:0.5">--z-font-mono</span></div>
+              <div class="gb-chipset" id="cs-font-mono">
+                <button class="gb-chip gb-chip-font active" data-val="'DM Mono', 'Fira Code', ui-monospace, monospace" style="font-family:'DM Mono',monospace">DM Mono</button>
+                <button class="gb-chip gb-chip-font" data-val="'Share Tech Mono', 'Courier New', monospace" style="font-family:'Share Tech Mono','Courier New',monospace">Share Tech</button>
+                <button class="gb-chip gb-chip-font" data-val="'Courier New', monospace" style="font-family:'Courier New',monospace">Courier New</button>
+                <button class="gb-chip gb-chip-font" data-val="'Fira Code', ui-monospace, monospace" style="font-family:'Fira Code',monospace">Fira Code</button>
+                <button class="gb-chip gb-chip-font" data-val="ui-monospace, monospace">System</button>
+                <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
+              </div>
+              <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-font-mono" style="display:none;margin-top:6px" spellcheck="false" />
             </div>
           </div>
-        </div>
+        </details>
 
-        <!-- Motion Speed -->
-        <div class="builder-section">
-          <div class="builder-section-title">Motion — Speed</div>
-          <div class="builder-radio-group" id="b-speed">
-            <label><input type="radio" name="speed" value="slow" /><span>Slow</span></label>
-            <label><input type="radio" name="speed" value="standard" checked /><span>Standard</span></label>
-            <label><input type="radio" name="speed" value="fast" /><span>Fast</span></label>
-            <label><input type="radio" name="speed" value="instant" /><span>Instant</span></label>
-          </div>
-        </div>
-
-        <!-- Motion Character -->
-        <div class="builder-section">
-          <div class="builder-section-title">Motion — Character</div>
-          <div class="builder-radio-group" id="b-char">
-            <label><input type="radio" name="char" value="smooth" checked /><span>Smooth</span></label>
-            <label><input type="radio" name="char" value="crisp" /><span>Crisp</span></label>
-            <label><input type="radio" name="char" value="aggressive" /><span>Aggressive</span></label>
-          </div>
-        </div>
-
-        <!-- Button Shape -->
-        <div class="builder-section">
-          <div class="builder-section-title">Shape — Button</div>
-          <div class="builder-radio-group" id="b-btnshape">
-            <label><input type="radio" name="btnshape" value="diagonal" checked /><span>Diagonal</span></label>
-            <label><input type="radio" name="btnshape" value="rect" /><span>Rectangle</span></label>
-            <label><input type="radio" name="btnshape" value="bevel" /><span>Bevel</span></label>
-            <label><input type="radio" name="btnshape" value="round" /><span>Round</span></label>
-          </div>
-        </div>
-
-        <!-- Card Bar -->
-        <div class="builder-section">
-          <div class="builder-section-title">Surfaces — Card Bar</div>
-          <div class="builder-radio-group" id="b-cardbar">
-            <label><input type="radio" name="cardbar" value="1px" checked /><span>1px</span></label>
-            <label><input type="radio" name="cardbar" value="2px" /><span>2px</span></label>
-            <label><input type="radio" name="cardbar" value="3px" /><span>3px</span></label>
-            <label><input type="radio" name="cardbar" value="5px" /><span>5px</span></label>
-          </div>
-        </div>
-
-        <!-- Alert Bar -->
-        <div class="builder-section">
-          <div class="builder-section-title">Surfaces — Alert Bar</div>
-          <div class="builder-radio-group" id="b-alertbar">
-            <label><input type="radio" name="alertbar" value="left" checked /><span>Left</span></label>
-            <label><input type="radio" name="alertbar" value="top" /><span>Top</span></label>
-          </div>
-        </div>
-
-      </div><!-- /builder-controls -->
-
-      <!-- Code output -->
-      <div class="builder-code-wrap">
-        <div class="builder-code-header">
-          <span class="builder-code-label">Export</span>
-          <button class="builder-copy-btn" id="b-copy">Copy</button>
-        </div>
-        <pre class="builder-code-pre" id="b-code"></pre>
       </div>
+
     </aside>
 
-    <!-- ── Right: Live Preview ── -->
-    <main class="builder-preview">
-      <div class="builder-preview-header">
-        <h2>Live Preview</h2>
-        <p class="builder-preview-name">Genre: <span id="b-preview-name">Custom</span></p>
+    <!-- ── Right panel ── -->
+    <aside class="gb-panel gb-panel-right" id="gb-panel-right">
+
+      <div class="gb-token-scroll">
+
+          <!-- Button -->
+          <details class="gb-group" id="grp-button" data-show-on="btn" open>
+            <summary>Button</summary>
+            <div class="gb-group-body">
+
+              <div class="gb-subgroup-label">Shape</div>
+
+              <div class="gb-field">
+                <div class="gb-label" style="margin-bottom:0.3rem">Shape</div>
+                <div class="gb-radio-group" id="gb-btnshape">
+                  <label><input type="radio" name="btnshape" value="diagonal" checked /><span>Diagonal</span></label>
+                  <label><input type="radio" name="btnshape" value="rect" /><span>Rect</span></label>
+                  <label><input type="radio" name="btnshape" value="bevel" /><span>Bevel</span></label>
+                  <label><input type="radio" name="btnshape" value="round" /><span>Round</span></label>
+                </div>
+              </div>
+
+              <div class="gb-field">
+                <button class="gb-shape-edit-btn" id="gb-toggle-shape-editor">⬡ Custom Shape</button>
+              </div>
+              <div class="gb-field" id="gb-custom-shape-section" style="display:none">
+                <div class="gb-label" style="margin-bottom:0.3rem">Custom Clip-Path <span style="opacity:0.5">--z-btn-clip</span></div>
+                <div id="gb-shape-editor-wrap"></div>
+                <div class="gb-field-label" style="margin-top:0.75rem">
+                  <span>Corner Rounding</span>
+                  <span class="gb-val-badge" id="lbl-custom-radius">0</span>
+                </div>
+                <input class="gb-range" type="range" id="gb-custom-radius" min="0" max="20" step="0.5" value="0" />
+                <div style="display:flex;gap:0.35rem;margin-top:0.75rem;flex-wrap:wrap">
+                  <button class="gb-shape-reset" data-shape="diagonal">↩ Diagonal</button>
+                  <button class="gb-shape-reset" data-shape="rect">↩ Rect</button>
+                  <button class="gb-shape-reset" data-shape="bevel">↩ Bevel</button>
+                  <button class="gb-shape-reset" data-shape="round">↩ Round</button>
+                </div>
+              </div>
+
+              <div class="gb-subgroup-label">Interaction</div>
+
+              <div class="gb-field">
+                <div class="gb-field-label">
+                  <span>Active Scale <span style="opacity:0.5">--z-btn-active-scale</span></span>
+                  <span class="gb-val-badge" id="lbl-btn-scale">0.96</span>
+                </div>
+                <input class="gb-range" type="range" id="gb-btn-scale" min="0.8" max="1.0" step="0.01" value="0.96" />
+              </div>
+
+              <div class="gb-field">
+                <div class="gb-field-label">
+                  <span>Scan Stop <span style="opacity:0.5">--z-btn-scan-stop</span></span>
+                  <span class="gb-val-badge" id="lbl-btn-scan">70%</span>
+                </div>
+                <input class="gb-range" type="range" id="gb-btn-scan" min="0" max="100" step="1" value="70" />
+              </div>
+
+
+            </div>
+          </details>
+
+          <!-- Badge -->
+          <details class="gb-group" id="grp-badge" data-show-on="badge">
+            <summary>Badge</summary>
+            <div class="gb-group-body">
+
+              <div class="gb-subgroup-label">Shape</div>
+
+              <div class="gb-field">
+                <div class="gb-label" style="margin-bottom:0.3rem">Shape</div>
+                <div class="gb-radio-group" id="gb-badgeshape">
+                  <label><input type="radio" name="badgeshape" value="slant" checked /><span>Slant</span></label>
+                  <label><input type="radio" name="badgeshape" value="rect" /><span>Rect</span></label>
+                  <label><input type="radio" name="badgeshape" value="pill" /><span>Pill</span></label>
+                  <label><input type="radio" name="badgeshape" value="bevel" /><span>Bevel</span></label>
+                </div>
+              </div>
+
+              <div class="gb-field">
+                <button class="gb-shape-edit-btn" id="gb-toggle-badge-shape-editor">⬡ Custom Shape</button>
+              </div>
+              <div class="gb-field" id="gb-badge-custom-shape-section" style="display:none">
+                <div class="gb-label" style="margin-bottom:0.3rem">Custom Clip-Path <span style="opacity:0.5">--z-badge-clip</span></div>
+                <div id="gb-badge-shape-editor-wrap"></div>
+                <div class="gb-field-label" style="margin-top:0.75rem">
+                  <span>Corner Rounding</span>
+                  <span class="gb-val-badge" id="lbl-badge-custom-radius">0</span>
+                </div>
+                <input class="gb-range" type="range" id="gb-badge-custom-radius" min="0" max="20" step="0.5" value="0" />
+                <div style="display:flex;gap:0.35rem;margin-top:0.75rem;flex-wrap:wrap">
+                  <button class="gb-shape-reset" data-shape="slant">↩ Slant</button>
+                  <button class="gb-shape-reset" data-shape="rect">↩ Rect</button>
+                  <button class="gb-shape-reset" data-shape="pill">↩ Pill</button>
+                  <button class="gb-shape-reset" data-shape="bevel">↩ Bevel</button>
+                </div>
+              </div>
+
+              <div class="gb-subgroup-label">Spacing</div>
+
+              <div class="gb-field">
+                <div class="gb-label" style="margin-bottom:0.3rem">Padding <span style="opacity:0.5">--z-badge-padding</span></div>
+                <div class="gb-chipset" id="cs-badge-padding">
+                  <button class="gb-chip" data-val="0.14rem 0.55rem">Compact</button>
+                  <button class="gb-chip active" data-val="0.22rem 0.85rem">Default</button>
+                  <button class="gb-chip" data-val="0.28rem 1.1rem">Loose</button>
+                  <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
+                </div>
+                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-badge-padding-val" style="display:none;margin-top:6px" spellcheck="false" />
+              </div>
+
+              <div class="gb-field">
+                <div class="gb-field-label">
+                  <span>Letter Spacing <span style="opacity:0.5">--z-badge-letter-spacing</span></span>
+                  <span class="gb-val-badge" id="lbl-badge-ls">0.13em</span>
+                </div>
+                <input class="gb-range" type="range" id="gb-badge-ls" min="0" max="0.3" step="0.01" value="0.13" />
+              </div>
+
+              <div class="gb-subgroup-label">Animation</div>
+
+              <div class="gb-field">
+                <div class="gb-field-label">
+                  <span>Scan Duration <span style="opacity:0.5">--z-badge-scan-duration</span></span>
+                  <span class="gb-val-badge" id="lbl-badge-scan">5s</span>
+                </div>
+                <input class="gb-range" type="range" id="gb-badge-scan" min="1" max="15" step="0.5" value="5" />
+              </div>
+
+              <div class="gb-subgroup-label">Style</div>
+
+              <div class="gb-field">
+                <div class="gb-label" style="margin-bottom:0.3rem">Inset Shadow <span style="opacity:0.5">--z-badge-inset-shadow</span></div>
+                <div class="gb-chipset" id="cs-badge-inset">
+                  <button class="gb-chip active" data-val="none">None</button>
+                  <button class="gb-chip" data-val="inset 0 0 0 1px currentColor">Ring</button>
+                  <button class="gb-chip" data-val="inset 0 0 8px color-mix(in srgb, currentColor 40%, transparent)">Inner Glow</button>
+                  <button class="gb-chip" data-val="inset 0 0 0 1px currentColor, inset 0 0 8px color-mix(in srgb, currentColor 30%, transparent)">Ring + Glow</button>
+                  <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
+                </div>
+                <textarea class="gb-textarea gb-chipset-reveal" id="gb-badge-inset" style="display:none" spellcheck="false">none</textarea>
+              </div>
+
+            </div>
+          </details>
+
+          <!-- Alert (merged) -->
+          <details class="gb-group" id="grp-alert" data-show-on="alert">
+            <summary>Alert</summary>
+            <div class="gb-group-body">
+
+              <div class="gb-subgroup-label">Bar</div>
+
+              <div class="gb-field">
+                <div class="gb-label" style="margin-bottom:0.3rem">Bar Position</div>
+                <div class="gb-toggle-group" id="gb-alertbar">
+                  <label><input type="radio" name="alertbar" value="left" checked /><span>Left</span></label>
+                  <label><input type="radio" name="alertbar" value="top" /><span>Top</span></label>
+                </div>
+              </div>
+
+              <div class="gb-field">
+                <div class="gb-field-label">
+                  <span>Bar Width <span style="opacity:0.5">--z-alert-bar-width</span></span>
+                  <span class="gb-val-badge" id="lbl-alert-bw">3px</span>
+                </div>
+                <input class="gb-range" type="range" id="gb-alert-bw" min="1" max="8" step="0.5" value="3" />
+              </div>
+
+              <div class="gb-field">
+                <div class="gb-field-label">
+                  <span>BG Opacity <span style="opacity:0.5">--z-alert-bg-opacity</span></span>
+                  <span class="gb-val-badge" id="lbl-alert-bg">5.5%</span>
+                </div>
+                <input class="gb-range" type="range" id="gb-alert-bg" min="0" max="20" step="0.5" value="5.5" />
+              </div>
+
+              <div class="gb-subgroup-label">Style</div>
+
+              <div class="gb-field">
+                <div class="gb-label" style="margin-bottom:0.3rem">Texture <span style="opacity:0.5">--z-alert-texture</span></div>
+                <div class="gb-chipset" id="cs-alert-texture">
+                  <button class="gb-chip active" data-val="none">None</button>
+                  <button class="gb-chip" data-val="repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.018) 2px, rgba(255,255,255,0.018) 3px)">Scanlines</button>
+                  <button class="gb-chip" data-val="repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.012) 3px, rgba(255,255,255,0.012) 4px)">Subtle</button>
+                  <button class="gb-chip" data-val="url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Ccircle cx='2' cy='2' r='0.6' fill='rgba(255,255,255,0.07)'/%3E%3C/svg%3E&quot;)">Dots</button>
+                  <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
+                </div>
+                <textarea class="gb-textarea gb-chipset-reveal" id="gb-alert-texture" style="display:none" spellcheck="false">none</textarea>
+              </div>
+
+              <div class="gb-subgroup-label">Text</div>
+
+              <div class="gb-field">
+                <div class="gb-label" style="margin-bottom:0.3rem">Prefix <span style="opacity:0.5">--z-alert-prefix</span></div>
+                <div class="gb-chipset" id="cs-alert-prefix">
+                  <button class="gb-chip active" data-val='"// "' style="letter-spacing:0">//&thinsp;</button>
+                  <button class="gb-chip" data-val='"&gt; "' style="letter-spacing:0">&gt;&thinsp;</button>
+                  <button class="gb-chip" data-val='"→ "' style="letter-spacing:0">→&thinsp;</button>
+                  <button class="gb-chip" data-val='"! "' style="letter-spacing:0">!&thinsp;</button>
+                  <button class="gb-chip" data-val='"§ "' style="letter-spacing:0">§&thinsp;</button>
+                  <button class="gb-chip" data-val='""' style="letter-spacing:0">∅</button>
+                  <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
+                </div>
+                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-alert-prefix" style="display:none;margin-top:6px" spellcheck="false" data-quote-wrap="true" />
+              </div>
+
+              <div class="gb-subgroup-label">Shape</div>
+
+              <div class="gb-field">
+                <div class="gb-label" style="margin-bottom:0.3rem">Radius <span style="opacity:0.5">--z-alert-radius</span></div>
+                <div class="gb-chipset" id="cs-alert-radius">
+                  <button class="gb-chip active" data-val="0 3px 3px 0" title="Left bar default">╠ Left</button>
+                  <button class="gb-chip" data-val="0" title="Sharp corners">Sharp</button>
+                  <button class="gb-chip" data-val="3px" title="Slightly rounded">3px</button>
+                  <button class="gb-chip" data-val="6px" title="Soft">6px</button>
+                  <button class="gb-chip" data-val="9999px" title="Pill">Pill</button>
+                  <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
+                </div>
+                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-alert-radius-val" style="display:none;margin-top:6px" spellcheck="false" />
+              </div>
+
+              <div class="gb-field">
+                <div class="gb-label" style="margin-bottom:0.3rem">Border <span style="opacity:0.5">--z-alert-border</span></div>
+                <div class="gb-chipset" id="cs-alert-border">
+                  <button class="gb-chip active" data-val="none">None</button>
+                  <button class="gb-chip" data-val="1px solid color-mix(in srgb, var(--alert-bar-color) 35%, transparent)">Bar Tint</button>
+                  <button class="gb-chip" data-val="1px solid color-mix(in srgb, var(--zyna) 25%, transparent)">Brand</button>
+                  <button class="gb-chip" data-val="1px solid rgba(255,255,255,0.07)">Subtle</button>
+                  <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
+                </div>
+                <textarea class="gb-textarea gb-chipset-reveal" id="gb-alert-border" style="display:none" spellcheck="false">none</textarea>
+              </div>
+
+              <div class="gb-field">
+                <div class="gb-field-label"><span>Prefix Opacity <span style="opacity:0.5">--z-alert-prefix-opacity</span></span><span class="gb-val-badge" id="lbl-alert-pxop">0.38</span></div>
+                <input class="gb-range" type="range" id="gb-alert-pxop" min="0" max="1" step="0.01" value="0.38" />
+              </div>
+
+
+            </div>
+          </details>
+
+          <!-- Card (merged) -->
+          <details class="gb-group" id="grp-card" data-show-on="card">
+            <summary>Card</summary>
+            <div class="gb-group-body">
+
+              <!-- ── Top Bar ── -->
+              <div class="gb-subgroup-label">Top Bar</div>
+
+              <div class="gb-field">
+                <div class="gb-field-label">
+                  <span>Bar Height <span style="opacity:0.5">--z-card-bar-height</span></span>
+                  <span class="gb-val-badge" id="lbl-card-bh">1px</span>
+                </div>
+                <input class="gb-range" type="range" id="gb-card-bh" min="0" max="8" step="0.5" value="1" />
+              </div>
+
+              <div class="gb-field">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.3rem">
+                  <span class="gb-label" style="margin-bottom:0">Bar Shadow <span style="opacity:0.5">--z-card-bar-shadow</span></span>
+                  <button class="gb-onoff" id="onoff-card-bar-shadow">OFF</button>
+                </div>
+                <div id="wrap-card-bar-shadow" style="display:none">
+                  <div class="gb-chipset" id="cs-card-bar-shadow">
+                    <button class="gb-chip active" data-val="0 0 8px color-mix(in srgb, var(--zyna) 50%, transparent)">Soft</button>
+                    <button class="gb-chip" data-val="0 0 14px var(--zyna), 0 0 32px color-mix(in srgb, var(--zyna) 50%, transparent)">Neon</button>
+                    <button class="gb-chip" data-val="0 0 24px var(--zyna), 0 0 60px color-mix(in srgb, var(--zyna) 35%, transparent)">Flare</button>
+                    <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
+                  </div>
+                  <textarea class="gb-textarea gb-chipset-reveal" id="gb-card-bar-shadow" style="display:none" spellcheck="false"></textarea>
+                </div>
+              </div>
+
+              <!-- ── Brackets ── -->
+              <div class="gb-subgroup-label">Brackets</div>
+
+              <div class="gb-field">
+                <div class="gb-field-label">
+                  <span>Bracket Size <span style="opacity:0.5">--z-card-bracket-size</span></span>
+                  <span class="gb-val-badge" id="lbl-card-bs">20px</span>
+                </div>
+                <input class="gb-range" type="range" id="gb-card-bs" min="10" max="40" step="1" value="20" />
+              </div>
+
+              <div class="gb-field">
+                <div class="gb-field-label">
+                  <span>Bracket Stroke <span style="opacity:0.5">--z-card-bracket-stroke</span></span>
+                  <span class="gb-val-badge" id="lbl-card-bstroke">1.5px</span>
+                </div>
+                <input class="gb-range" type="range" id="gb-card-bstroke" min="0.5" max="4" step="0.5" value="1.5" />
+              </div>
+
+              <div class="gb-field">
+                <div class="gb-label" style="margin-bottom:0.3rem">Bracket Color <span style="opacity:0.5">--z-card-bracket-color</span></div>
+                <div class="gb-chipset" id="cs-card-bracket-color">
+                  <button class="gb-chip active" data-val="color-mix(in srgb, var(--zyna) 42%, transparent)">42%</button>
+                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 70%, transparent)">70%</button>
+                  <button class="gb-chip" data-val="var(--zyna)">Full</button>
+                  <button class="gb-chip" data-val="transparent">None</button>
+                  <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
+                </div>
+                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-bracket-color" style="display:none;margin-top:6px" spellcheck="false" />
+              </div>
+
+              <!-- ── Header ── -->
+              <div class="gb-subgroup-label">Header</div>
+
+              <div class="gb-field">
+                <div class="gb-label" style="margin-bottom:0.3rem">Header BG <span style="opacity:0.5">--z-card-header-bg</span></div>
+                <div class="gb-chipset" id="cs-card-header-bg">
+                  <button class="gb-chip active" data-val="transparent">None</button>
+                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 10%, transparent)">Brand Tint</button>
+                  <button class="gb-chip" data-val="rgba(255,255,255,0.03)">Subtle</button>
+                  <button class="gb-chip" data-val="var(--bg2)">Surface</button>
+                  <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
+                </div>
+                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-header-bg" style="display:none;margin-top:6px" spellcheck="false" />
+              </div>
+
+              <div class="gb-field">
+                <div class="gb-label" style="margin-bottom:0.3rem">Header Border <span style="opacity:0.5">--z-card-header-border</span></div>
+                <div class="gb-chipset" id="cs-card-header-border">
+                  <button class="gb-chip active" data-val="var(--z-color-border)">Default</button>
+                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 30%, transparent)">Brand</button>
+                  <button class="gb-chip" data-val="transparent">None</button>
+                  <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
+                </div>
+                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-header-border-val" style="display:none;margin-top:6px" spellcheck="false" />
+              </div>
+
+              <div class="gb-field">
+                <div class="gb-label" style="margin-bottom:0.3rem">Header Color <span style="opacity:0.5">--z-card-header-color</span></div>
+                <div class="gb-chipset" id="cs-card-header-color">
+                  <button class="gb-chip active" data-val="color-mix(in srgb, var(--zyna) 75%, transparent)">75%</button>
+                  <button class="gb-chip" data-val="var(--zyna)">Full</button>
+                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 50%, transparent)">50%</button>
+                  <button class="gb-chip" data-val="var(--z-color-text)">Text</button>
+                  <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
+                </div>
+                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-header-color" style="display:none;margin-top:6px" spellcheck="false" />
+              </div>
+
+              <div class="gb-field">
+                <div class="gb-field-label">
+                  <span>Letter Spacing <span style="opacity:0.5">--z-card-header-letter-spacing</span></span>
+                  <span class="gb-val-badge" id="lbl-card-hls">0.14em</span>
+                </div>
+                <input class="gb-range" type="range" id="gb-card-hls" min="0" max="0.3" step="0.01" value="0.14" />
+              </div>
+
+              <div class="gb-field">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.3rem">
+                  <span class="gb-label" style="margin-bottom:0">Header Text Shadow <span style="opacity:0.5">--z-card-header-text-shadow</span></span>
+                  <button class="gb-onoff" id="onoff-card-header-ts">OFF</button>
+                </div>
+                <div id="wrap-card-header-ts" style="display:none">
+                  <div class="gb-chipset" id="cs-card-header-ts">
+                    <button class="gb-chip active" data-val="0 0 10px color-mix(in srgb, var(--zyna) 60%, transparent)">Soft</button>
+                    <button class="gb-chip" data-val="0 0 18px color-mix(in srgb, var(--zyna) 70%, transparent), 0 0 40px color-mix(in srgb, var(--zyna) 30%, transparent)">Neon</button>
+                    <button class="gb-chip" data-val="0 0 1px rgba(255,255,255,0.9), 0 0 24px color-mix(in srgb, var(--zyna) 80%, transparent)">Bloom</button>
+                    <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
+                  </div>
+                  <textarea class="gb-textarea gb-chipset-reveal" id="gb-card-header-ts" style="display:none" spellcheck="false"></textarea>
+                </div>
+              </div>
+
+              <div class="gb-subgroup-label">Status Dot</div>
+
+              <div class="gb-field">
+                <div class="gb-field-label">
+                  <span>Dot Size <span style="opacity:0.5">--z-card-header-dot-size</span></span>
+                  <span class="gb-val-badge" id="lbl-card-dot-size">5px</span>
+                </div>
+                <input class="gb-range" type="range" id="gb-card-dot-size" min="3" max="12" step="0.5" value="5" />
+              </div>
+
+              <div class="gb-field">
+                <div class="gb-label" style="margin-bottom:0.3rem">Dot Color <span style="opacity:0.5">--z-card-header-dot-bg</span></div>
+                <div class="gb-chipset" id="cs-card-dot-bg">
+                  <button class="gb-chip active" data-val="color-mix(in srgb, var(--zyna) 65%, transparent)">65%</button>
+                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 45%, transparent)">45%</button>
+                  <button class="gb-chip" data-val="var(--zyna)">Full</button>
+                  <button class="gb-chip" data-val="var(--z-color-success)">Success</button>
+                  <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
+                </div>
+                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-dot-bg" style="display:none;margin-top:6px" spellcheck="false" />
+              </div>
+
+              <div class="gb-field">
+                <div class="gb-label" style="margin-bottom:0.3rem">Dot Shadow <span style="opacity:0.5">--z-card-header-dot-shadow</span></div>
+                <div class="gb-chipset" id="cs-card-dot-shadow">
+                  <button class="gb-chip active" data-val="0 0 6px color-mix(in srgb, var(--zyna) 65%, transparent), 0 0 16px color-mix(in srgb, var(--zyna) 30%, transparent)">Default</button>
+                  <button class="gb-chip" data-val="none">None</button>
+                  <button class="gb-chip" data-val="0 0 10px var(--zyna), 0 0 24px color-mix(in srgb, var(--zyna) 50%, transparent)">Neon</button>
+                  <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
+                </div>
+                <textarea class="gb-textarea gb-chipset-reveal" id="gb-card-dot-shadow" style="display:none" spellcheck="false"></textarea>
+              </div>
+
+              <div class="gb-field">
+                <div class="gb-label" style="margin-bottom:0.3rem">Dot Animation <span style="opacity:0.5">--z-card-header-dot-animation</span></div>
+                <div class="gb-chipset" id="cs-card-dot-anim">
+                  <button class="gb-chip active" data-val="none">None</button>
+                  <button class="gb-chip" data-val="zyna-pulse-ring 2s ease-in-out infinite">Pulse Ring</button>
+                  <button class="gb-chip" data-val="zyna-pulse 2s ease-in-out infinite">Pulse</button>
+                  <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
+                </div>
+                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-dot-anim" style="display:none;margin-top:6px" spellcheck="false" />
+              </div>
+
+              <!-- ── Content ── -->
+              <div class="gb-subgroup-label">Content</div>
+
+              <div class="gb-field">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.3rem">
+                  <span class="gb-label" style="margin-bottom:0">Title Text Shadow <span style="opacity:0.5">--z-card-title-text-shadow</span></span>
+                  <button class="gb-onoff" id="onoff-card-title-ts">OFF</button>
+                </div>
+                <div id="wrap-card-title-ts" style="display:none">
+                  <div class="gb-chipset" id="cs-card-title-ts">
+                    <button class="gb-chip active" data-val="0 0 18px color-mix(in srgb, var(--zyna) 22%, transparent)">Soft</button>
+                    <button class="gb-chip" data-val="0 0 24px color-mix(in srgb, var(--zyna) 45%, transparent)">Neon</button>
+                    <button class="gb-chip" data-val="0 0 1px rgba(255,255,255,0.8), 0 0 20px color-mix(in srgb, var(--zyna) 50%, transparent)">Bloom</button>
+                    <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
+                  </div>
+                  <textarea class="gb-textarea gb-chipset-reveal" id="gb-card-title-ts" style="display:none" spellcheck="false"></textarea>
+                </div>
+              </div>
+
+              <!-- ── Glow ── -->
+              <div class="gb-subgroup-label">Glow</div>
+
+              <div class="gb-field">
+                <div class="gb-field-label">
+                  <span>Glow Duration <span style="opacity:0.5">--z-card-glow-duration</span></span>
+                  <span class="gb-val-badge" id="lbl-card-glow">4s</span>
+                </div>
+                <input class="gb-range" type="range" id="gb-card-glow" min="2" max="12" step="0.5" value="4" />
+              </div>
+
+              <div class="gb-field">
+                <div class="gb-label" style="margin-bottom:0.3rem">Glow Low Color <span style="opacity:0.5">--z-card-default-glow-lo</span></div>
+                <div class="gb-chipset" id="cs-card-glow-lo">
+                  <button class="gb-chip active" data-val="rgba(0,0,0,0)">None</button>
+                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 6%, transparent)">Soft</button>
+                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 12%, transparent)">Medium</button>
+                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 20%, transparent)">Strong</button>
+                  <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
+                </div>
+                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-glow-lo" style="display:none;margin-top:6px" spellcheck="false" />
+              </div>
+
+              <div class="gb-field">
+                <div class="gb-label" style="margin-bottom:0.3rem">Glow High Color <span style="opacity:0.5">--z-card-default-glow-hi</span></div>
+                <div class="gb-chipset" id="cs-card-glow-hi">
+                  <button class="gb-chip active" data-val="rgba(0,0,0,0)">None</button>
+                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 14%, transparent)">Soft</button>
+                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 24%, transparent)">Medium</button>
+                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 36%, transparent)">Strong</button>
+                  <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
+                </div>
+                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-glow-hi" style="display:none;margin-top:6px" spellcheck="false" />
+              </div>
+
+              <!-- ── Surface ── -->
+              <div class="gb-subgroup-label">Surface</div>
+
+              <div class="gb-field">
+                <div class="gb-label" style="margin-bottom:0.3rem">Border Color <span style="opacity:0.5">--z-card-border-color</span></div>
+                <div class="gb-chipset" id="cs-card-border-color">
+                  <button class="gb-chip active" data-val="var(--z-color-border)">Default</button>
+                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 60%, transparent)">Brand</button>
+                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 25%, transparent)">Soft</button>
+                  <button class="gb-chip" data-val="transparent">None</button>
+                  <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
+                </div>
+                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-border-color" style="display:none;margin-top:6px" spellcheck="false" />
+              </div>
+
+              <div class="gb-field">
+                <div class="gb-label" style="margin-bottom:0.3rem">Shadow <span style="opacity:0.5">--z-card-shadow</span></div>
+                <div class="gb-chipset" id="cs-card-shadow">
+                  <button class="gb-chip active" data-val="var(--z-shadow-card)">Default</button>
+                  <button class="gb-chip" data-val="none">None</button>
+                  <button class="gb-chip" data-val="0 8px 32px rgba(0,0,0,0.6)">Elevated</button>
+                  <button class="gb-chip" data-val="0 0 0 1px color-mix(in srgb, var(--zyna) 25%, transparent), 0 8px 32px rgba(0,0,0,0.6)">Neon Halo</button>
+                  <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
+                </div>
+                <textarea class="gb-textarea gb-chipset-reveal" id="gb-card-shadow-val" style="display:none" spellcheck="false">var(--z-shadow-card)</textarea>
+              </div>
+
+            </div>
+          </details>
+
+
       </div>
 
-      <!-- Buttons -->
-      <div class="preview-section">
-        <div class="preview-section-label">Buttons</div>
-        <div class="preview-row">
-          <button class="btn btn-primary">Primary</button>
-          <button class="btn btn-secondary">Secondary</button>
-          <button class="btn btn-ghost">Ghost</button>
-          <button class="btn btn-danger">Danger</button>
-          <button class="btn btn-primary btn-sm">Small</button>
-          <button class="btn btn-secondary btn-lg">Large</button>
+    </aside>
+
+    <!-- ── Preview ── -->
+    <main class="gb-preview" id="gb-preview">
+
+      <div class="gb-comp-nav">
+        <div class="gb-comp-nav-tabs">
+          <button class="gb-comp-tab active" data-comp="btn">Buttons</button>
+          <button class="gb-comp-tab" data-comp="badge">Badges</button>
+          <button class="gb-comp-tab" data-comp="alert">Alerts</button>
+          <button class="gb-comp-tab" data-comp="card">Card</button>
         </div>
+        <p class="gb-preview-name">Genre: <span id="gb-preview-name">Custom</span></p>
       </div>
 
-      <!-- Badges -->
-      <div class="preview-section">
-        <div class="preview-section-label">Badges</div>
-        <div class="preview-row">
-          <span class="badge badge-primary">Primary</span>
-          <span class="badge badge-success badge-pulse">Online</span>
-          <span class="badge badge-danger">Danger</span>
-          <span class="badge badge-warning">Warning</span>
-          <span class="badge badge-info">Info</span>
-          <span class="badge badge-secondary">Secondary</span>
-          <span class="badge badge-primary badge-lg">Large</span>
-        </div>
-      </div>
+      <div class="gb-preview-scroll">
 
-      <!-- Alerts -->
-      <div class="preview-section">
-        <div class="preview-section-label">Alerts</div>
-        <div style="display:flex;flex-direction:column;gap:0.6rem;max-width:520px">
-          <div class="alert alert-success">
-            <div>
-              <div class="alert-title">System Online</div>
-              All subsystems nominal. Connection established to secure node.
+        <div class="gb-preview-body">
+
+          <!-- Buttons -->
+          <div class="preview-section gb-comp-wrap active" data-comp="btn">
+            <div class="preview-section-label">Buttons</div>
+            <div class="preview-box">
+              <button class="btn btn-primary">Primary</button>
+              <button class="btn btn-secondary">Secondary</button>
+              <button class="btn btn-ghost">Ghost</button>
+              <button class="btn btn-danger">Danger</button>
+              <button class="btn btn-primary btn-sm">Small</button>
+              <button class="btn btn-secondary btn-lg">Large</button>
+              <button class="btn btn-primary btn-icon" title="Icon button">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
             </div>
           </div>
-          <div class="alert alert-danger">
-            <div>
-              <div class="alert-title">Breach Detected</div>
-              Unauthorized access attempt from external vector. Isolation engaged.
-            </div>
-          </div>
-          <div class="alert alert-warning">
-            <div>
-              <div class="alert-title">Caution</div>
-              Signal degradation detected on channels 4–7. Switching to backup.
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- Card -->
-      <div class="preview-section">
-        <div class="preview-section-label">Card</div>
-        <div class="preview-card-wrap">
-          <div class="card card-glow">
-            <div class="card-header">System Status</div>
-            <div class="card-body">
-              <div class="card-title">Signal Lock Acquired</div>
-              <div class="card-subtitle">Node cluster · Sector 7-G</div>
-              <p style="font-size:0.82rem;color:var(--z-color-text-dim);line-height:1.65;margin:0 0 1rem">
-                All primary channels are active. Uplink latency within acceptable thresholds. Secondary relay is on standby.
-              </p>
-              <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
-                <span class="badge badge-success badge-pulse">Active</span>
-                <span class="badge badge-info">Secure</span>
-                <span class="badge badge-secondary">v2.4.1</span>
+          <!-- Badges -->
+          <div class="preview-section gb-comp-wrap" data-comp="badge">
+            <div class="preview-section-label">Badges</div>
+            <div class="preview-box">
+              <span class="badge badge-primary">Primary</span>
+              <span class="badge badge-success badge-pulse">Online</span>
+              <span class="badge badge-danger">Danger</span>
+              <span class="badge badge-warning">Warning</span>
+              <span class="badge badge-info">Info</span>
+              <span class="badge badge-secondary">Secondary</span>
+              <span class="badge badge-neutral">Neutral</span>
+              <span class="badge badge-outline">Outline</span>
+              <span class="badge badge-primary badge-lg">Large</span>
+            </div>
+          </div>
+
+          <!-- Alerts -->
+          <div class="preview-section gb-comp-wrap" data-comp="alert">
+            <div class="preview-section-label">Alerts</div>
+            <div class="preview-box col" style="gap:0.6rem;max-width:100%">
+              <div class="alert alert-success">
+                <div>
+                  <div class="alert-title">System Online</div>
+                  All subsystems nominal. Connection established to secure node.
+                </div>
+              </div>
+              <div class="alert alert-danger">
+                <div>
+                  <div class="alert-title">Breach Detected</div>
+                  Unauthorized access attempt from external vector. Isolation engaged.
+                </div>
+              </div>
+              <div class="alert alert-warning">
+                <div>
+                  <div class="alert-title">Caution</div>
+                  Signal degradation detected on channels 4–7. Switching to backup.
+                </div>
+              </div>
+              <div class="alert alert-info">
+                <div>
+                  <div class="alert-title">Note</div>
+                  Firmware update available. Schedule maintenance window to apply.
+                </div>
+              </div>
+              <div class="alert alert-neutral">
+                <div>
+                  <div class="alert-title">Status</div>
+                  System is running in read-only mode. No writes permitted.
+                </div>
               </div>
             </div>
-            <div class="card-footer" style="display:flex;gap:0.5rem">
-              <button class="btn btn-primary btn-sm">Connect</button>
-              <button class="btn btn-secondary btn-sm">Details</button>
+          </div>
+
+          <!-- Card -->
+          <div class="preview-section gb-comp-wrap" data-comp="card">
+            <div class="preview-section-label">Card</div>
+            <div class="preview-box" style="flex-wrap:wrap;align-items:flex-start;gap:1rem">
+              <div class="card card-glow" style="max-width:340px;width:100%;min-width:260px">
+                <div class="card-header">System Status</div>
+                <div class="card-body">
+                  <div class="card-title">Signal Lock Acquired</div>
+                  <div class="card-subtitle">Node cluster · Sector 7-G</div>
+                  <p style="font-size:0.82rem;color:var(--z-color-text-dim);line-height:1.65;margin:0 0 1rem">
+                    All primary channels are active. Uplink latency within acceptable thresholds.
+                  </p>
+                  <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+                    <span class="badge badge-success badge-pulse">Active</span>
+                    <span class="badge badge-info">Secure</span>
+                    <span class="badge badge-secondary">v2.4.1</span>
+                  </div>
+                </div>
+                <div class="card-footer" style="display:flex;gap:0.5rem">
+                  <button class="btn btn-primary btn-sm">Connect</button>
+                  <button class="btn btn-secondary btn-sm">Details</button>
+                </div>
+              </div>
+              <div class="card card-dark" style="max-width:340px;width:100%;min-width:260px">
+                <div class="card-header">Deep Archive</div>
+                <div class="card-body">
+                  <div class="card-title">Cold Storage Node</div>
+                  <div class="card-subtitle">Offline · Sector 12-B</div>
+                  <p style="font-size:0.82rem;color:var(--z-color-text-dim);line-height:1.65;margin:0 0 1rem">
+                    Long-term data retention cluster. Access requires elevated clearance.
+                  </p>
+                  <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+                    <span class="badge badge-neutral">Offline</span>
+                    <span class="badge badge-secondary">Encrypted</span>
+                  </div>
+                </div>
+                <div class="card-footer" style="display:flex;gap:0.5rem">
+                  <button class="btn btn-ghost btn-sm">Request Access</button>
+                </div>
+              </div>
             </div>
           </div>
+
         </div>
+
+        <div class="gb-code-main">
+          <div class="gb-code-main-header">
+            <span class="gb-code-label">defineGenre() output</span>
+            <button class="gb-copy-btn" id="gb-copy">Copy</button>
+          </div>
+          <pre class="gb-code-pre" id="gb-code"></pre>
+        </div>
+
       </div>
 
     </main>
-  </div><!-- /builder-wrap -->
+
+  </div>
 
   <script type="module" src="../_nav.js"></script>
   <script type="module" src="../_genres.js"></script>
 
   <script type="module">
-    // ── Preset data ─────────────────────────────────────────────────────────
-    const OPS_TOKENS = {
-      '--z-duration-fast': '0.18s',
-      '--z-duration-base': '0.22s',
-      '--z-duration-slow': '0.28s',
-      '--z-ease-enter':    'cubic-bezier(0.22, 1, 0.36, 1)',
-      '--z-ease-exit':     'cubic-bezier(0.55, 0, 1, 0.45)',
-      '--z-ease-spring':   'cubic-bezier(0.34, 1.4, 0.64, 1)',
-      '--z-btn-clip':      'polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)))',
-      '--z-btn-inner-clip':'polygon(0 var(--btn-corner), var(--btn-corner) 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% calc(100% - var(--btn-corner)), calc(100% - var(--btn-corner)) 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)))',
-      '--z-btn-corner':    'var(--z-corner)',
-      '--z-card-bar-height': '1px',
-      '--z-alert-bar-width': '3px',
-      '--z-alert-bar-inset': '0 auto 0 0',
-      '--z-alert-bar-w':     'var(--z-alert-bar-width)',
-      '--z-alert-bar-h':     'auto',
-      '--z-alert-bar-radius': 'var(--z-alert-radius) 0 0 var(--z-alert-radius)',
-      '--z-alert-padding-top':  '0.875rem',
-      '--z-alert-padding-left': 'calc(1.25rem + var(--z-alert-bar-width))',
-    }
-
-    const SPEED_PRESETS = {
-      slow:     { '--z-duration-fast': '0.28s', '--z-duration-base': '0.32s', '--z-duration-slow': '0.42s' },
-      standard: { '--z-duration-fast': '0.18s', '--z-duration-base': '0.22s', '--z-duration-slow': '0.28s' },
-      fast:     { '--z-duration-fast': '0.12s', '--z-duration-base': '0.15s', '--z-duration-slow': '0.20s' },
-      instant:  { '--z-duration-fast': '0.05s', '--z-duration-base': '0.08s', '--z-duration-slow': '0.12s' },
-    }
-
-    const CHAR_PRESETS = {
-      smooth:     { '--z-ease-enter': 'cubic-bezier(0.22, 1, 0.36, 1)',  '--z-ease-exit': 'cubic-bezier(0.55, 0, 1, 0.45)',  '--z-ease-spring': 'cubic-bezier(0.34, 1.4, 0.64, 1)' },
-      crisp:      { '--z-ease-enter': 'cubic-bezier(0.16, 1, 0.3, 1)',   '--z-ease-exit': 'cubic-bezier(0.7, 0, 1, 0.35)',   '--z-ease-spring': 'cubic-bezier(0.28, 1.2, 0.58, 1)' },
-      aggressive: { '--z-ease-enter': 'cubic-bezier(0, 0.85, 0.1, 1)',   '--z-ease-exit': 'cubic-bezier(0.9, 0, 1, 0.15)',   '--z-ease-spring': 'cubic-bezier(0.5, 1.8, 0.5, 1)'  },
+    import { GENRES } from '../../src/plugin/genres/index.js'
+    // ── OPS_DEFAULTS ────────────────────────────────────────────────────────
+    const OPS_DEFAULTS = {
+      '--zyna':                   '#C9A84C',
+      '--zp-success':             '#00FFB2',
+      '--zp-danger':              '#FF3366',
+      '--zp-warning':             '#FFB800',
+      '--zp-info':                '#00D4FF',
+      '--z-duration-fast':        '0.18s',
+      '--z-duration-base':        '0.22s',
+      '--z-duration-slow':        '0.28s',
+      '--z-ease-enter':           'cubic-bezier(0.22, 1, 0.36, 1)',
+      '--z-ease-exit':            'cubic-bezier(0.55, 0, 1, 0.45)',
+      '--z-ease-spring':          'cubic-bezier(0.34, 1.4, 0.64, 1)',
+      '--z-btn-active-scale':     '0.96',
+      '--z-btn-scan-stop':        '70%',
+      '__badge-shape':            'slant',
+      '--z-badge-padding':        '0.22rem 0.85rem',
+      '--z-badge-letter-spacing': '0.13em',
+      '--z-badge-scan-duration':  '5s',
+      '--z-badge-inset-shadow':   'none',
+      '--z-alert-bar-width':      '3px',
+      '--z-alert-bg-opacity':     '5.5%',
+      '--z-alert-prefix':         '"// "',
+      '--z-card-bar-height':      '1px',
+      '--z-card-bracket-size':    '20px',
+      '--z-card-bracket-stroke':  '1.5px',
+      '--z-card-glow-duration':   '4s',
+      '__btn-shape':              'diagonal',
+      '__alert-bar-pos':          'left',
+      '--z-font-mono':            "'DM Mono', 'Fira Code', ui-monospace, monospace",
+      '--z-alert-radius':         '0 3px 3px 0',
+      '--z-alert-border':         'none',
+      '--z-alert-prefix-opacity': '0.38',
+      '--z-card-border-color':    'var(--z-color-border)',
+      '--z-card-shadow':          'var(--z-shadow-card)',
+      '--z-card-bar-shadow':      'none',
+      '--z-card-header-bg':       'transparent',
+      '--z-card-header-border':   'var(--z-color-border)',
+      '--z-card-header-color':    'color-mix(in srgb, var(--zyna) 75%, transparent)',
+      '--z-card-header-letter-spacing': '0.14em',
+      '--z-card-header-text-shadow': 'none',
+      '--z-card-header-dot-size':  '5px',
+      '--z-card-header-dot-bg':    'color-mix(in srgb, var(--zyna) 65%, transparent)',
+      '--z-card-header-dot-shadow': '0 0 6px color-mix(in srgb, var(--zyna) 65%, transparent), 0 0 16px color-mix(in srgb, var(--zyna) 30%, transparent)',
+      '--z-card-header-dot-animation': 'none',
+      '--z-card-bracket-color':   'color-mix(in srgb, var(--zyna) 42%, transparent)',
+      '--z-card-title-text-shadow':  'none',
+      '--z-card-default-glow-lo':    'rgba(0,0,0,0)',
+      '--z-card-default-glow-hi':    'rgba(0,0,0,0)',
+      '--z-alert-texture':        'none',
     }
 
     const BTNSHAPE_PRESETS = {
       diagonal: {
         '--z-btn-clip':       'polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)))',
-        '--z-btn-inner-clip': 'polygon(0 var(--btn-corner), var(--btn-corner) 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% calc(100% - var(--btn-corner)), calc(100% - var(--btn-corner)) 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)))',
+        '--z-btn-inner-clip': 'polygon(1px 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--btn-corner) + 1px)))',
         '--z-btn-corner':     'var(--z-corner)',
       },
       rect: {
@@ -569,14 +1767,46 @@
       },
       bevel: {
         '--z-btn-clip':       'polygon(var(--btn-corner) 0%, calc(100% - var(--btn-corner)) 0%, 100% var(--btn-corner), 100% calc(100% - var(--btn-corner)), calc(100% - var(--btn-corner)) 100%, var(--btn-corner) 100%, 0% calc(100% - var(--btn-corner)), 0% var(--btn-corner))',
-        '--z-btn-inner-clip': 'polygon(calc(var(--btn-corner) + 2px) 2px, calc(100% - var(--btn-corner) - 2px) 2px, calc(100% - 2px) calc(var(--btn-corner) + 2px), calc(100% - 2px) calc(100% - var(--btn-corner) - 2px), calc(100% - var(--btn-corner) - 2px) calc(100% - 2px), calc(var(--btn-corner) + 2px) calc(100% - 2px), 2px calc(100% - var(--btn-corner) - 2px), 2px calc(var(--btn-corner) + 2px))',
+        '--z-btn-inner-clip': 'polygon(calc(var(--btn-corner) + 1px) 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - calc(var(--btn-corner) + 1px)), calc(100% - calc(var(--btn-corner) + 1px)) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--btn-corner) + 1px)), 1px calc(var(--btn-corner) + 1px))',
         '--z-btn-corner':     'var(--z-corner)',
       },
       round: {
         '--z-btn-clip':       'inset(0 round 9999px)',
-        '--z-btn-inner-clip': 'inset(2px round 9999px)',
+        '--z-btn-inner-clip': 'inset(1.5px round 9999px)',
         '--z-btn-corner':     'var(--z-corner)',
       },
+    }
+
+    const BADGESHAPE_PRESETS = {
+      slant: {
+        '--z-badge-clip':       'polygon(var(--badge-offset) 0%, 100% 0%, calc(100% - var(--badge-offset)) 100%, 0% 100%)',
+        '--z-badge-inner-clip': 'polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), 2px calc(100% - 2px))',
+        '--z-badge-radius':     '0',
+      },
+      rect: {
+        '--z-badge-clip':       'inset(0)',
+        '--z-badge-inner-clip': 'inset(2px)',
+        '--z-badge-radius':     '0',
+      },
+      pill: {
+        '--z-badge-clip':       'inset(0 round 9999px)',
+        '--z-badge-inner-clip': 'inset(2px round 9999px)',
+        '--z-badge-radius':     '9999px',
+      },
+      bevel: {
+        '--z-badge-clip':       'polygon(var(--badge-offset) 0%, calc(100% - var(--badge-offset)) 0%, 100% var(--badge-offset), 100% calc(100% - var(--badge-offset)), calc(100% - var(--badge-offset)) 100%, var(--badge-offset) 100%, 0% calc(100% - var(--badge-offset)), 0% var(--badge-offset))',
+        '--z-badge-inner-clip': 'polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) 2px, calc(100% - 2px) calc(var(--badge-offset) + 2px), calc(100% - 2px) calc(100% - calc(var(--badge-offset) + 2px)), calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), calc(var(--badge-offset) + 2px) calc(100% - 2px), 2px calc(100% - calc(var(--badge-offset) + 2px)), 2px calc(var(--badge-offset) + 2px))',
+        '--z-badge-radius':     '0',
+      },
+    }
+
+    function inferBadgeShape(clip) {
+      if (!clip) return 'slant'
+      const c = clip.trim()
+      if (c === 'inset(0)') return 'rect'
+      if (c === 'inset(0 round 9999px)') return 'pill'
+      if (c.startsWith('polygon') && c.split(',').length === 8) return 'bevel'
+      return 'slant'
     }
 
     const ALERTBAR_PRESETS = {
@@ -598,118 +1828,419 @@
       },
     }
 
-    // ── State ────────────────────────────────────────────────────────────────
-    const state = {
-      name:      'Custom',
-      color:     '#C9A84C',
-      speed:     'standard',
-      char:      'smooth',
-      btnshape:  'diagonal',
-      cardbar:   '1px',
-      alertbar:  'left',
+    // Shape-editor grid presets — must be at module scope so the toggle handler can
+    // initialize from the currently-active shape when opening custom mode.
+    const SHAPE_EDITOR_PRESETS = {
+      diagonal: [{x:0,y:0},{x:184,y:0},{x:200,y:12},{x:200,y:80},{x:16,y:80},{x:0,y:68}],
+      rect:     [{x:0,y:0},{x:200,y:0},{x:200,y:80},{x:0,y:80}],
+      bevel:    [{x:10,y:0},{x:190,y:0},{x:200,y:10},{x:200,y:70},{x:190,y:80},{x:10,y:80},{x:0,y:70},{x:0,y:10}],
+      round:    [{x:40,y:0},{x:160,y:0},{x:200,y:0},{x:200,y:40},{x:200,y:80},{x:160,y:80},{x:40,y:80},{x:0,y:80},{x:0,y:40},{x:0,y:0}],
     }
 
-    // ── Apply tokens to :root for live preview ───────────────────────────────
+    const BADGE_EDITOR_H = 55
+    const BADGE_SHAPE_EDITOR_PRESETS = {
+      slant: [{x:12,y:0},{x:200,y:0},{x:188,y:55},{x:0,y:55}],
+      rect:  [{x:0,y:0},{x:200,y:0},{x:200,y:55},{x:0,y:55}],
+      pill:  [{x:27,y:0},{x:173,y:0},{x:200,y:27},{x:200,y:28},{x:173,y:55},{x:27,y:55},{x:0,y:28},{x:0,y:27}],
+      bevel: [{x:10,y:0},{x:190,y:0},{x:200,y:10},{x:200,y:45},{x:190,y:55},{x:10,y:55},{x:0,y:45},{x:0,y:10}],
+    }
+
+    // ── State ────────────────────────────────────────────────────────────────
+    const state = {
+      name:           'Custom',
+      '--zyna':             '#C9A84C',
+      '--zp-success':       '#00FFB2',
+      '--zp-danger':        '#FF3366',
+      '--zp-warning':       '#FFB800',
+      '--zp-info':          '#00D4FF',
+      '--z-duration-fast':  0.18,
+      '--z-duration-base':  0.22,
+      '--z-duration-slow':  0.28,
+      // easing stored as [x1, y1, x2, y2]
+      '--z-ease-enter':     [0.22, 1, 0.36, 1],
+      '--z-ease-exit':      [0.55, 0, 1, 0.45],
+      '--z-ease-spring':    [0.34, 1.4, 0.64, 1],
+      '__btn-shape':        'diagonal',
+      '--z-btn-active-scale': 0.96,
+      '--z-btn-scan-stop':  70,
+      '__badge-shape':      'slant',
+      '--z-badge-padding':  '0.22rem 0.85rem',
+      '--z-badge-letter-spacing': 0.13,
+      '--z-badge-scan-duration': 5,
+      '--z-badge-inset-shadow': 'none',
+      '__alert-bar-pos':    'left',
+      '--z-alert-bar-width': 3,
+      '--z-alert-bg-opacity': 5.5,
+      '--z-alert-prefix':   '"// "',
+      '--z-card-bar-height': 1,
+      '--z-card-bracket-size': 20,
+      '--z-card-bracket-stroke': 1.5,
+      '--z-card-glow-duration': 4,
+      '__custom-shape-points': null,
+      '__custom-corner-radius': 0,
+      '__badge-custom-shape-points': null,
+      '__badge-custom-corner-radius': 0,
+      '--z-font-mono': "'DM Mono', 'Fira Code', ui-monospace, monospace",
+      '--z-alert-radius': '0 3px 3px 0',
+      '--z-alert-border': 'none',
+      '--z-alert-prefix-opacity': 0.38,
+      '--z-card-border-color': 'var(--z-color-border)',
+      '--z-card-shadow': 'var(--z-shadow-card)',
+      '--z-card-bar-shadow': 'none',
+      '--z-card-header-bg': 'transparent',
+      '--z-card-header-border': 'var(--z-color-border)',
+      '--z-card-header-color': 'color-mix(in srgb, var(--zyna) 75%, transparent)',
+      '--z-card-header-letter-spacing': 0.14,
+      '--z-card-header-text-shadow': 'none',
+      '--z-card-header-dot-size': 5,
+      '--z-card-header-dot-bg': 'color-mix(in srgb, var(--zyna) 65%, transparent)',
+      '--z-card-header-dot-shadow': '0 0 6px color-mix(in srgb, var(--zyna) 65%, transparent), 0 0 16px color-mix(in srgb, var(--zyna) 30%, transparent)',
+      '--z-card-header-dot-animation': 'none',
+      '--z-card-bracket-color': 'color-mix(in srgb, var(--zyna) 42%, transparent)',
+      '--z-card-title-text-shadow':  'none',
+      '--z-card-default-glow-lo': 'rgba(0,0,0,0)',
+      '--z-card-default-glow-hi': 'rgba(0,0,0,0)',
+      '--z-alert-texture': 'none',
+    }
+
+    // ── Utilities ────────────────────────────────────────────────────────────
+    function isValidHex(h) { return /^#[0-9A-Fa-f]{6}$/.test(h) }
+
+    function parseCB(s) {
+      if (!s) return null
+      const m = s.match(/cubic-bezier\(\s*([^,]+),\s*([^,]+),\s*([^,]+),\s*([^)]+)\)/)
+      return m ? [m[1],m[2],m[3],m[4]].map(Number) : null
+    }
+    function inferBtnShape(clip) {
+      if (!clip) return 'diagonal'
+      const c = clip.trim()
+      if (c === 'inset(0 round 9999px)') return 'round'
+      if (c === 'inset(0)') return 'rect'
+      if (c.startsWith('polygon(var(--btn-corner)')) return 'bevel'
+      return 'diagonal'
+    }
+
+    // Compute an inset polygon from percentage-coordinate points.
+    // pts: [{x,y}] in 0-100 pct; btnW/btnH: rendered button px dims; insetPx: inset in px.
+    // Returns [{x,y}] in 0-100 pct.
+    function insetPoly(pts, btnW, btnH, insetPx) {
+      const n = pts.length
+      if (n < 3) return pts
+      // Convert to pixel space
+      const px = pts.map(p => ({ x: p.x / 100 * btnW, y: p.y / 100 * btnH }))
+      // Signed area (shoelace). Positive = CW in screen coords.
+      let area2 = 0
+      for (let i = 0; i < n; i++) { const j = (i + 1) % n; area2 += px[i].x * px[j].y - px[j].x * px[i].y }
+      const sign = area2 > 0 ? 1 : -1  // 1=CW, -1=CCW
+      const MITER_LIMIT = 10           // cap sharp spikes
+      const result = []
+      for (let i = 0; i < n; i++) {
+        const prev = px[(i - 1 + n) % n], curr = px[i], next = px[(i + 1) % n]
+        const e1x = curr.x - prev.x, e1y = curr.y - prev.y
+        const e2x = next.x - curr.x, e2y = next.y - curr.y
+        const len1 = Math.hypot(e1x, e1y), len2 = Math.hypot(e2x, e2y)
+        if (len1 < 0.001 || len2 < 0.001) { result.push({ x: curr.x / btnW * 100, y: curr.y / btnH * 100 }); continue }
+        // Inward normals: for CW polygon, rotate edge 90° CCW = (-dy, dx)/len
+        const n1x = sign * (-e1y / len1), n1y = sign * (e1x / len1)
+        const n2x = sign * (-e2y / len2), n2y = sign * (e2x / len2)
+        // Bisector
+        const bx = n1x + n2x, by = n1y + n2y
+        const blen = Math.hypot(bx, by)
+        let ox, oy
+        if (blen < 0.001) {
+          ox = curr.x + insetPx * n1x; oy = curr.y + insetPx * n1y
+        } else {
+          const dot = (n1x * bx + n1y * by) / blen
+          if (Math.abs(dot) < 0.001) { ox = curr.x + insetPx * n1x; oy = curr.y + insetPx * n1y }
+          else {
+            const m = Math.min(insetPx / dot, insetPx * MITER_LIMIT)
+            ox = curr.x + m * bx / blen; oy = curr.y + m * by / blen
+          }
+        }
+        result.push({ x: ox / btnW * 100, y: oy / btnH * 100 })
+      }
+      return result
+    }
+    // Apply rounded corners to a polygon (200x80 grid space).
+    // Each sharp vertex is replaced by a quadratic-bezier arc sampled at `segs` points.
+    // Works in grid units; the output is still percentage-based when converted —
+    // so the generated polygon() value stays fully responsive (pure CSS, no JS at runtime).
+    function applyRounding(pts, radius, segs = 6) {
+      if (!radius || radius <= 0 || pts.length < 3) return pts
+      const n = pts.length, out = []
+      for (let i = 0; i < n; i++) {
+        const prev = pts[(i - 1 + n) % n], curr = pts[i], next = pts[(i + 1) % n]
+        const d1x = curr.x - prev.x, d1y = curr.y - prev.y
+        const d2x = next.x - curr.x, d2y = next.y - curr.y
+        const len1 = Math.hypot(d1x, d1y), len2 = Math.hypot(d2x, d2y)
+        if (len1 < 0.001 || len2 < 0.001) { out.push({...curr}); continue }
+        const r = Math.min(radius, len1 / 2, len2 / 2)
+        // Step-back points on adjacent edges
+        const p0x = curr.x - r * d1x / len1, p0y = curr.y - r * d1y / len1
+        const p2x = curr.x + r * d2x / len2, p2y = curr.y + r * d2y / len2
+        // Quadratic bezier from p0 → curr (control) → p2
+        for (let s = 0; s <= segs; s++) {
+          const t = s / segs, mt = 1 - t
+          out.push({
+            x: mt*mt*p0x + 2*mt*t*curr.x + t*t*p2x,
+            y: mt*mt*p0y + 2*mt*t*curr.y + t*t*p2y,
+          })
+        }
+      }
+      return out
+    }
+
+    function inferAlertPos(inset) {
+      return (inset || '').trim() === '0 0 auto 0' ? 'top' : 'left'
+    }
+    function setEl(id, val) { const e=document.getElementById(id); if(e) e.value=val }
+    function setLbl(id, txt) { const e=document.getElementById(id); if(e) e.textContent=txt }
+    function setSld(id, lblId, val, fmt) { setEl(id, val); setLbl(lblId, fmt(val)) }
+    function setCP(pid, hid, hex) { setEl(pid, hex); setEl(hid, hex) }
+
+    function darken(hex, amount) {
+      const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16)
+      return '#' + [r,g,b].map(v => Math.round(v*(1-amount)).toString(16).padStart(2,'0')).join('')
+    }
+
+    function cubicBezier1D(t, p0, p1, p2, p3) {
+      const u = 1 - t
+      return u*u*u*p0 + 3*u*u*t*p1 + 3*u*t*t*p2 + t*t*t*p3
+    }
+
+    // ── Apply preview ────────────────────────────────────────────────────────
     function applyPreview() {
       const r = document.documentElement.style
 
-      // Color
-      const hex = state.color
-      r.setProperty('--zyna', hex)
-      r.setProperty('--zyna-dark', darken(hex, 0.45))
+      r.setProperty('--zyna', state['--zyna'])
+      r.setProperty('--zyna-dark', darken(state['--zyna'], 0.45))
+      r.setProperty('--zp-success', state['--zp-success'])
+      r.setProperty('--zp-danger',  state['--zp-danger'])
+      r.setProperty('--zp-warning', state['--zp-warning'])
+      r.setProperty('--zp-info',    state['--zp-info'])
 
-      // Speed
-      Object.entries(SPEED_PRESETS[state.speed]).forEach(([k, v]) => r.setProperty(k, v))
+      r.setProperty('--z-duration-fast', state['--z-duration-fast'] + 's')
+      r.setProperty('--z-duration-base', state['--z-duration-base'] + 's')
+      r.setProperty('--z-duration-slow', state['--z-duration-slow'] + 's')
 
-      // Character
-      Object.entries(CHAR_PRESETS[state.char]).forEach(([k, v]) => r.setProperty(k, v))
+      ;['--z-ease-enter','--z-ease-exit','--z-ease-spring'].forEach(k => {
+        const [x1,y1,x2,y2] = state[k]
+        r.setProperty(k, `cubic-bezier(${x1}, ${y1}, ${x2}, ${y2})`)
+      })
 
-      // Button shape
-      Object.entries(BTNSHAPE_PRESETS[state.btnshape]).forEach(([k, v]) => r.setProperty(k, v))
+      if (state['__btn-shape'] !== 'custom') {
+        Object.entries(BTNSHAPE_PRESETS[state['__btn-shape']]).forEach(([k,v]) => r.setProperty(k,v))
+      }
+      r.setProperty('--z-btn-active-scale', String(state['--z-btn-active-scale']))
+      r.setProperty('--z-btn-scan-stop', state['--z-btn-scan-stop'] + '%')
 
-      // Card bar height
-      r.setProperty('--z-card-bar-height', state.cardbar)
+      if (state['__badge-shape'] !== 'custom') {
+        Object.entries(BADGESHAPE_PRESETS[state['__badge-shape']]).forEach(([k,v]) => r.setProperty(k,v))
+      }
+      if (state['__badge-shape'] === 'custom' && state['__badge-custom-shape-points']) {
+        const rawPts = state['__badge-custom-shape-points']
+        const radius = state['__badge-custom-corner-radius'] || 0
+        const rounded = applyRounding(rawPts, radius)
+        const pctPts = rounded.map(p => ({ x: p.x / 200 * 100, y: p.y / BADGE_EDITOR_H * 100 }))
+        r.setProperty('--z-badge-clip', `polygon(${pctPts.map(p=>`${p.x.toFixed(2)}% ${p.y.toFixed(2)}%`).join(', ')})`)
+        r.setProperty('--z-badge-radius', '0')
+        const badgeEl = document.querySelector('.gb-preview .badge')
+        const badgeW  = badgeEl?.clientWidth  || 80
+        const badgeH  = badgeEl?.clientHeight || 22
+        const innerPts  = insetPoly(pctPts, badgeW, badgeH, 2)
+        const innerPoly = `polygon(${innerPts.map(p=>`${p.x.toFixed(2)}% ${p.y.toFixed(2)}%`).join(', ')})`
+        r.setProperty('--z-badge-inner-clip', innerPoly)
+      }
+      r.setProperty('--z-badge-padding', state['--z-badge-padding'])
+      r.setProperty('--z-badge-letter-spacing', state['--z-badge-letter-spacing'] + 'em')
+      r.setProperty('--z-badge-scan-duration', state['--z-badge-scan-duration'] + 's')
+      r.setProperty('--z-badge-inset-shadow', state['--z-badge-inset-shadow'])
 
-      // Alert bar
-      Object.entries(ALERTBAR_PRESETS[state.alertbar]).forEach(([k, v]) => r.setProperty(k, v))
+      Object.entries(ALERTBAR_PRESETS[state['__alert-bar-pos']]).forEach(([k,v]) => r.setProperty(k,v))
+      r.setProperty('--z-alert-bar-width', state['--z-alert-bar-width'] + 'px')
+      r.setProperty('--z-alert-bg-opacity', state['--z-alert-bg-opacity'] + '%')
+      r.setProperty('--z-alert-prefix', state['--z-alert-prefix'])
+      r.setProperty('--z-alert-texture', state['--z-alert-texture'])
 
-      // Preview name
-      document.getElementById('b-preview-name').textContent = state.name || 'Custom'
+      r.setProperty('--z-card-bar-height', state['--z-card-bar-height'] + 'px')
+      r.setProperty('--z-card-bracket-size', state['--z-card-bracket-size'] + 'px')
+      r.setProperty('--z-card-bracket-stroke', state['--z-card-bracket-stroke'] + 'px')
+      r.setProperty('--z-card-glow-duration', state['--z-card-glow-duration'] + 's')
+
+      r.setProperty('--z-font-mono', state['--z-font-mono'])
+      r.setProperty('--z-alert-radius',           state['--z-alert-radius'])
+      r.setProperty('--z-alert-border',           state['--z-alert-border'])
+      r.setProperty('--z-alert-prefix-opacity',   String(state['--z-alert-prefix-opacity']))
+      r.setProperty('--z-card-border-color',      state['--z-card-border-color'])
+      r.setProperty('--z-card-shadow',            state['--z-card-shadow'])
+      r.setProperty('--z-card-bar-shadow',        state['--z-card-bar-shadow'])
+      r.setProperty('--z-card-header-bg',              state['--z-card-header-bg'])
+      r.setProperty('--z-card-header-border',          state['--z-card-header-border'])
+      r.setProperty('--z-card-header-color',           state['--z-card-header-color'])
+      r.setProperty('--z-card-header-letter-spacing',  state['--z-card-header-letter-spacing'] + 'em')
+      r.setProperty('--z-card-header-text-shadow',     state['--z-card-header-text-shadow'])
+      r.setProperty('--z-card-header-dot-size',        state['--z-card-header-dot-size'] + 'px')
+      r.setProperty('--z-card-header-dot-bg',          state['--z-card-header-dot-bg'])
+      r.setProperty('--z-card-header-dot-shadow',      state['--z-card-header-dot-shadow'])
+      r.setProperty('--z-card-header-dot-animation',   state['--z-card-header-dot-animation'])
+      r.setProperty('--z-card-bracket-color',          state['--z-card-bracket-color'])
+      r.setProperty('--z-card-title-text-shadow',  state['--z-card-title-text-shadow'])
+      r.setProperty('--z-card-default-glow-lo',    state['--z-card-default-glow-lo'])
+      r.setProperty('--z-card-default-glow-hi',    state['--z-card-default-glow-hi'])
+      if (state['__btn-shape'] === 'custom' && state['__custom-shape-points']) {
+        const rawPts  = state['__custom-shape-points']
+        const radius  = state['__custom-corner-radius'] || 0
+        const rounded = applyRounding(rawPts, radius)        // grid space → pct
+        const pctPts  = rounded.map(p => ({ x: p.x / 200 * 100, y: p.y / 80 * 100 }))
+        const poly = `polygon(${pctPts.map(p=>`${p.x.toFixed(2)}% ${p.y.toFixed(2)}%`).join(', ')})`
+        r.setProperty('--z-btn-clip', poly)
+        const btnEl = document.querySelector('.gb-preview .btn')
+        const btnW  = btnEl?.clientWidth  || 120
+        const btnH  = btnEl?.clientHeight || 44
+        const innerPts  = insetPoly(pctPts, btnW, btnH, 1.5)
+        const innerPoly = `polygon(${innerPts.map(p=>`${p.x.toFixed(2)}% ${p.y.toFixed(2)}%`).join(', ')})`
+        r.setProperty('--z-btn-inner-clip', innerPoly)
+      }
+
+      document.getElementById('gb-preview-name').textContent = state.name || 'Custom'
+      document.getElementById('gb-brand-swatch-wrap').style.background = state['--zyna']
 
       updateCode()
     }
 
-    // ── Generate defineGenre() code ──────────────────────────────────────────
+    // ── Code generation ──────────────────────────────────────────────────────
+    function fmtEase(arr) {
+      return `cubic-bezier(${arr.join(', ')})`
+    }
+
+    function getTokenValue(k) {
+      const v = state[k]
+      if (k === '--z-duration-fast') return v + 's'
+      if (k === '--z-duration-base') return v + 's'
+      if (k === '--z-duration-slow') return v + 's'
+      if (k === '--z-ease-enter' || k === '--z-ease-exit' || k === '--z-ease-spring') return fmtEase(v)
+      if (k === '--z-btn-active-scale') return String(v)
+      if (k === '--z-btn-scan-stop') return v + '%'
+      if (k === '--z-badge-letter-spacing') return v + 'em'
+      if (k === '--z-badge-scan-duration') return v + 's'
+      if (k === '--z-badge-inset-shadow') return v
+      if (k === '--z-alert-bar-width') return v + 'px'
+      if (k === '--z-alert-bg-opacity') return v + '%'
+      if (k === '--z-alert-prefix') return v
+      if (k === '--z-card-bar-height') return v + 'px'
+      if (k === '--z-card-bracket-size') return v + 'px'
+      if (k === '--z-card-bracket-stroke') return v + 'px'
+      if (k === '--z-card-glow-duration') return v + 's'
+      if (k === '--z-card-header-letter-spacing') return v + 'em'
+      if (k === '--z-card-header-dot-size') return v + 'px'
+      if (k === '--z-alert-prefix-opacity') return String(v)
+      return String(v)
+    }
+
     function updateCode() {
       const diff = {}
 
-      // Color
-      if (state.color !== '#C9A84C') {
-        diff['--zyna'] = state.color
-        diff['--zyna-dark'] = darken(state.color, 0.45)
+      // simple CSS tokens
+      const cssKeys = [
+        '--zyna','--zp-success','--zp-danger','--zp-warning','--zp-info',
+        '--z-duration-fast','--z-duration-base','--z-duration-slow',
+        '--z-ease-enter','--z-ease-exit','--z-ease-spring',
+        '--z-btn-active-scale','--z-btn-scan-stop',
+        '--z-badge-padding','--z-badge-letter-spacing','--z-badge-scan-duration','--z-badge-inset-shadow',
+        '--z-alert-bar-width','--z-alert-bg-opacity','--z-alert-prefix','--z-alert-texture',
+        '--z-card-bar-height','--z-card-bracket-size','--z-card-bracket-stroke','--z-card-glow-duration',
+        '--z-card-title-text-shadow','--z-card-default-glow-lo','--z-card-default-glow-hi',
+        '--z-font-mono',
+        '--z-alert-radius','--z-alert-border','--z-alert-prefix-opacity',
+        '--z-card-border-color','--z-card-shadow','--z-card-bar-shadow',
+        '--z-card-header-bg','--z-card-header-border','--z-card-header-color',
+        '--z-card-header-letter-spacing','--z-card-header-text-shadow',
+        '--z-card-header-dot-size','--z-card-header-dot-bg','--z-card-header-dot-shadow','--z-card-header-dot-animation',
+        '--z-card-bracket-color',
+      ]
+
+      cssKeys.forEach(k => {
+        const cur = getTokenValue(k)
+        if (cur !== OPS_DEFAULTS[k]) diff[k] = cur
+      })
+
+      // virtual: btn shape ('custom' is handled separately below)
+      if (state['__btn-shape'] !== OPS_DEFAULTS['__btn-shape'] && state['__btn-shape'] !== 'custom') {
+        const shape = state['__btn-shape']
+        const opsShape = OPS_DEFAULTS['__btn-shape']
+        Object.entries(BTNSHAPE_PRESETS[shape]).forEach(([k, v]) => {
+          if (v !== BTNSHAPE_PRESETS[opsShape][k]) diff[k] = v
+        })
       }
 
-      // Speed (compare vs standard/ops)
-      const sp = SPEED_PRESETS[state.speed]
-      const opsSp = SPEED_PRESETS.standard
-      Object.entries(sp).forEach(([k, v]) => { if (v !== opsSp[k]) diff[k] = v })
+      // virtual: badge shape
+      if (state['__badge-shape'] !== OPS_DEFAULTS['__badge-shape'] && state['__badge-shape'] !== 'custom') {
+        const shape = state['__badge-shape']
+        const opsShape = OPS_DEFAULTS['__badge-shape']
+        Object.entries(BADGESHAPE_PRESETS[shape]).forEach(([k, v]) => {
+          if (v !== BADGESHAPE_PRESETS[opsShape][k]) diff[k] = v
+        })
+      }
 
-      // Character
-      const ch = CHAR_PRESETS[state.char]
-      const opsCh = CHAR_PRESETS.smooth
-      Object.entries(ch).forEach(([k, v]) => { if (v !== opsCh[k]) diff[k] = v })
+      // virtual: custom badge shape
+      if (state['__badge-shape'] === 'custom' && state['__badge-custom-shape-points']) {
+        const rawPts = state['__badge-custom-shape-points']
+        const radius = state['__badge-custom-corner-radius'] || 0
+        const rounded = applyRounding(rawPts, radius)
+        const pctPts = rounded.map(p => ({ x: p.x / 200 * 100, y: p.y / BADGE_EDITOR_H * 100 }))
+        diff['--z-badge-clip'] = `polygon(${pctPts.map(p=>`${p.x.toFixed(2)}% ${p.y.toFixed(2)}%`).join(', ')})`
+        const badgeEl = document.querySelector('.gb-preview .badge')
+        const badgeW  = badgeEl?.clientWidth  || 80
+        const badgeH  = badgeEl?.clientHeight || 22
+        const innerPts = insetPoly(pctPts, badgeW, badgeH, 2)
+        diff['--z-badge-inner-clip'] = `polygon(${innerPts.map(p=>`${p.x.toFixed(2)}% ${p.y.toFixed(2)}%`).join(', ')})`
+      }
 
-      // Button shape
-      const bs = BTNSHAPE_PRESETS[state.btnshape]
-      const opsBs = BTNSHAPE_PRESETS.diagonal
-      Object.entries(bs).forEach(([k, v]) => { if (v !== opsBs[k]) diff[k] = v })
+      // virtual: alert bar pos
+      if (state['__alert-bar-pos'] !== OPS_DEFAULTS['__alert-bar-pos']) {
+        const pos = state['__alert-bar-pos']
+        const opsPos = OPS_DEFAULTS['__alert-bar-pos']
+        Object.entries(ALERTBAR_PRESETS[pos]).forEach(([k, v]) => {
+          if (v !== ALERTBAR_PRESETS[opsPos][k]) diff[k] = v
+        })
+      }
 
-      // Card bar
-      if (state.cardbar !== '1px') diff['--z-card-bar-height'] = state.cardbar
-
-      // Alert bar
-      const ab = ALERTBAR_PRESETS[state.alertbar]
-      const opsAb = ALERTBAR_PRESETS.left
-      Object.entries(ab).forEach(([k, v]) => { if (v !== opsAb[k]) diff[k] = v })
-
-      const paletteDiff = {}
-      if (state.color !== '#C9A84C') paletteDiff.brand = state.color
+      // virtual: custom shape
+      if (state['__btn-shape'] === 'custom' && state['__custom-shape-points']) {
+        const rawPts  = state['__custom-shape-points']
+        const radius  = state['__custom-corner-radius'] || 0
+        const rounded = applyRounding(rawPts, radius)
+        const pctPts  = rounded.map(p => ({ x: p.x / 200 * 100, y: p.y / 80 * 100 }))
+        diff['--z-btn-clip'] = `polygon(${pctPts.map(p=>`${p.x.toFixed(2)}% ${p.y.toFixed(2)}%`).join(', ')})`
+        // Bake computed inset so components work in pure CSS (no runtime JS needed).
+        const btnEl = document.querySelector('.gb-preview .btn')
+        const btnW  = btnEl?.clientWidth  || 120
+        const btnH  = btnEl?.clientHeight || 44
+        const innerPts = insetPoly(pctPts, btnW, btnH, 1.5)
+        diff['--z-btn-inner-clip'] = `polygon(${innerPts.map(p=>`${p.x.toFixed(2)}% ${p.y.toFixed(2)}%`).join(', ')})`
+      }
 
       const name = state.name || 'Custom'
-      const hasPalette = Object.keys(paletteDiff).length > 0
       const hasTokens = Object.keys(diff).length > 0
 
-      const codeEl = document.getElementById('b-code')
+      const codeEl = document.getElementById('gb-code')
 
-      if (!hasPalette && !hasTokens) {
+      if (!hasTokens) {
         codeEl.innerHTML = highlight(
           `import { defineGenre } from 'zynaui/genres'\n\n// No overrides — identical to Ops defaults\nexport default defineGenre({\n  name: '${name}',\n})`
         )
         return
       }
 
-      let lines = []
-      lines.push(`import { defineGenre } from 'zynaui/genres'\n`)
-      lines.push(`export default defineGenre({`)
-      lines.push(`  name: '${name}',`)
-
-      if (hasPalette) {
-        lines.push(`  palette: {`)
-        Object.entries(paletteDiff).forEach(([k, v]) => {
-          lines.push(`    ${k}: '${v}',`)
-        })
-        lines.push(`  },`)
-      }
-
-      if (hasTokens) {
-        lines.push(`  tokens: {`)
-        Object.entries(diff).forEach(([k, v]) => {
-          lines.push(`    '${k}': '${v}',`)
-        })
-        lines.push(`  },`)
-      }
-
-      lines.push(`})`)
+      const lines = [
+        `import { defineGenre } from 'zynaui/genres'\n`,
+        `export default defineGenre({`,
+        `  name: '${name}',`,
+        `  tokens: {`,
+        ...Object.entries(diff).map(([k, v]) => `    '${k}': '${v}',`),
+        `  },`,
+        `})`,
+      ]
 
       codeEl.innerHTML = highlight(lines.join('\n'))
     }
@@ -717,95 +2248,931 @@
     // ── Syntax highlighting ──────────────────────────────────────────────────
     function highlight(code) {
       return code
-        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-        .replace(/(import|export|default|from)/g, '<span class="code-kw">$1</span>')
-        .replace(/(defineGenre)/g, '<span class="code-fn">$1</span>')
-        .replace(/('zynaui\/genres')/g, '<span class="code-str">$1</span>')
-        .replace(/('--[^']+')(?=:)/g, '<span class="code-key">$1</span>')
-        .replace(/(?<=:\s*)('[^']*')/g, '<span class="code-val">$1</span>')
-        .replace(/(\/\/[^\n]*)/g, '<span class="code-dim">$1</span>')
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/\b(import|export|default|from)\b/g,'<span class="code-kw">$1</span>')
+        .replace(/(defineGenre)/g,'<span class="code-fn">$1</span>')
+        .replace(/('zynaui\/genres')/g,'<span class="code-str">$1</span>')
+        .replace(/('--[^']+')(?=\s*:)/g,'<span class="code-key">$1</span>')
+        .replace(/(?<=:\s*)('[^']*')/g,'<span class="code-val">$1</span>')
+        .replace(/(\/\/[^\n]*)/g,'<span class="code-dim">$1</span>')
     }
 
-    // ── Colour utility ───────────────────────────────────────────────────────
-    function darken(hex, amount) {
-      const r = parseInt(hex.slice(1, 3), 16)
-      const g = parseInt(hex.slice(3, 5), 16)
-      const b = parseInt(hex.slice(5, 7), 16)
-      const dr = Math.round(r * (1 - amount))
-      const dg = Math.round(g * (1 - amount))
-      const db = Math.round(b * (1 - amount))
-      return '#' + [dr, dg, db].map(v => v.toString(16).padStart(2, '0')).join('')
+    // ── Color pair sync ──────────────────────────────────────────────────────
+    function wireColor(pickerId, hexId, stateKey, onchange) {
+      const picker = document.getElementById(pickerId)
+      const hex    = document.getElementById(hexId)
+      if (!picker || !hex) return
+
+      picker.addEventListener('input', e => {
+        state[stateKey] = e.target.value
+        hex.value = e.target.value
+        if (onchange) onchange()
+        else applyPreview()
+      })
+      hex.addEventListener('input', e => {
+        const val = e.target.value.startsWith('#') ? e.target.value : '#' + e.target.value
+        if (isValidHex(val)) {
+          state[stateKey] = val
+          picker.value = val
+          if (onchange) onchange()
+          else applyPreview()
+        }
+      })
+      hex.addEventListener('blur', () => {
+        if (!isValidHex(hex.value)) hex.value = state[stateKey]
+      })
     }
 
-    function isValidHex(hex) {
-      return /^#[0-9A-Fa-f]{6}$/.test(hex)
+    // ── Bezier editor ────────────────────────────────────────────────────────
+    function buildBezierEditor(containerId, stateKey) {
+      const getColor = () => state['--zyna'] || '#C9A84C'
+      const container = document.getElementById(containerId)
+      const [ix1, iy1, ix2, iy2] = state[stateKey]
+
+      // SVG
+      const svgNS = 'http://www.w3.org/2000/svg'
+      const S = 120
+
+      const svgWrap = document.createElement('div')
+      svgWrap.className = 'gb-bezier-svg-wrap'
+
+      const svg = document.createElementNS(svgNS, 'svg')
+      svg.setAttribute('width', S)
+      svg.setAttribute('height', S)
+      svg.setAttribute('viewBox', `0 0 ${S} ${S}`)
+      svg.classList.add('gb-bezier-svg')
+      svg.style.overflow = 'visible'
+
+      // Grid
+      for (let i = 30; i < S; i += 30) {
+        const hl = document.createElementNS(svgNS,'line')
+        hl.setAttribute('x1','0'); hl.setAttribute('y1',i)
+        hl.setAttribute('x2',S);  hl.setAttribute('y2',i)
+        hl.setAttribute('stroke','rgba(255,255,255,0.05)'); hl.setAttribute('stroke-width','0.5')
+        svg.appendChild(hl)
+        const vl = document.createElementNS(svgNS,'line')
+        vl.setAttribute('x1',i); vl.setAttribute('y1','0')
+        vl.setAttribute('x2',i); vl.setAttribute('y2',S)
+        vl.setAttribute('stroke','rgba(255,255,255,0.05)'); vl.setAttribute('stroke-width','0.5')
+        svg.appendChild(vl)
+      }
+
+      // Diagonal reference
+      const diag = document.createElementNS(svgNS,'line')
+      diag.setAttribute('x1','0'); diag.setAttribute('y1',S)
+      diag.setAttribute('x2',S);  diag.setAttribute('y2','0')
+      diag.setAttribute('stroke','rgba(255,255,255,0.12)'); diag.setAttribute('stroke-width','0.75')
+      diag.setAttribute('stroke-dasharray','4 3')
+      svg.appendChild(diag)
+
+      // Stems
+      const stem1 = document.createElementNS(svgNS,'line')
+      stem1.setAttribute('stroke','rgba(255,255,255,0.18)'); stem1.setAttribute('stroke-width','1')
+      svg.appendChild(stem1)
+
+      const stem2 = document.createElementNS(svgNS,'line')
+      stem2.setAttribute('stroke','rgba(255,255,255,0.18)'); stem2.setAttribute('stroke-width','1')
+      svg.appendChild(stem2)
+
+      // Bezier path
+      const path = document.createElementNS(svgNS,'path')
+      path.setAttribute('fill','none')
+      path.setAttribute('stroke', getColor())
+      path.setAttribute('stroke-width','1.5')
+      svg.appendChild(path)
+
+      // Handles
+      const h1 = document.createElementNS(svgNS,'circle')
+      h1.setAttribute('r','6'); h1.setAttribute('fill', getColor())
+      h1.setAttribute('cursor','grab'); h1.style.filter = 'drop-shadow(0 0 4px ' + getColor() + ')'
+      svg.appendChild(h1)
+
+      const h2 = document.createElementNS(svgNS,'circle')
+      h2.setAttribute('r','6')
+      h2.setAttribute('fill', `color-mix(in srgb, ${getColor()} 55%, #0a0912)`)
+      h2.setAttribute('cursor','grab')
+      svg.appendChild(h2)
+
+      // Animated ball
+      const ball = document.createElementNS(svgNS,'circle')
+      ball.setAttribute('r','4')
+      ball.setAttribute('fill','rgba(255,255,255,0.85)')
+      svg.appendChild(ball)
+
+      svgWrap.appendChild(svg)
+      container.appendChild(svgWrap)
+
+      // Numeric inputs
+      const numRow = document.createElement('div')
+      numRow.className = 'gb-bezier-inputs'
+
+      const numLabels = ['x1','y1','x2','y2']
+      const nums = []
+      numLabels.forEach((lbl, i) => {
+        const col = document.createElement('div')
+        col.className = 'gb-bezier-num-col'
+        const inp = document.createElement('input')
+        inp.type = 'number'; inp.step = '0.01'; inp.min = '-2'; inp.max = '2'
+        inp.className = 'gb-bezier-num'
+        inp.value = state[stateKey][i]
+        nums.push(inp)
+        const labEl = document.createElement('div')
+        labEl.className = 'gb-bezier-num-label'
+        labEl.textContent = lbl
+        col.appendChild(inp)
+        col.appendChild(labEl)
+        numRow.appendChild(col)
+      })
+
+      container.appendChild(numRow)
+
+      // Helpers
+      function clampX(v) { return Math.max(0, Math.min(S, v)) }
+      function clampY(v) { return Math.max(-40, Math.min(160, v)) }
+
+      function toSVG(cx, cy) {
+        return [clampX(cx * S), clampY((1 - cy) * S)]
+      }
+
+      function fromSVG(sx, sy) {
+        return [sx / S, 1 - sy / S]
+      }
+
+      function refresh() {
+        const [x1,y1,x2,y2] = state[stateKey]
+        const [p1x, p1y] = toSVG(x1, y1)
+        const [p2x, p2y] = toSVG(x2, y2)
+
+        stem1.setAttribute('x1','0'); stem1.setAttribute('y1',S)
+        stem1.setAttribute('x2',p1x); stem1.setAttribute('y2',p1y)
+
+        stem2.setAttribute('x1',S); stem2.setAttribute('y1','0')
+        stem2.setAttribute('x2',p2x); stem2.setAttribute('y2',p2y)
+
+        path.setAttribute('d', `M 0 ${S} C ${p1x} ${p1y}, ${p2x} ${p2y}, ${S} 0`)
+
+        h1.setAttribute('cx', p1x); h1.setAttribute('cy', p1y)
+        h2.setAttribute('cx', p2x); h2.setAttribute('cy', p2y)
+
+        nums[0].value = x1; nums[1].value = y1
+        nums[2].value = x2; nums[3].value = y2
+
+        restartBall()
+      }
+
+      // Ball animation
+      let rafId = null
+      let ballStart = null
+      const PLAY_MS = 1200
+      const PAUSE_MS = 400
+      const CYCLE_MS = PLAY_MS + PAUSE_MS
+
+      function animateBall(ts) {
+        if (!ballStart) ballStart = ts
+        const elapsed = (ts - ballStart) % CYCLE_MS
+        if (elapsed < PLAY_MS) {
+          const t = elapsed / PLAY_MS
+          const [x1,y1,x2,y2] = state[stateKey]
+          const bx = cubicBezier1D(t, 0, x1, x2, 1)
+          const by = cubicBezier1D(t, 0, y1, y2, 1)
+          ball.setAttribute('cx', String(clampX(bx * S)))
+          ball.setAttribute('cy', String(clampY((1 - by) * S)))
+        } else {
+          ball.setAttribute('cx', S)
+          ball.setAttribute('cy', '0')
+        }
+        rafId = requestAnimationFrame(animateBall)
+      }
+
+      function restartBall() {
+        if (rafId) cancelAnimationFrame(rafId)
+        ballStart = null
+        rafId = requestAnimationFrame(animateBall)
+      }
+
+      // Drag handles
+      function makeDraggable(handle, idx) {
+        let dragging = false
+        const onMove = (e) => {
+          if (!dragging) return
+          const rect = svg.getBoundingClientRect()
+          const clientX = e.touches ? e.touches[0].clientX : e.clientX
+          const clientY = e.touches ? e.touches[0].clientY : e.clientY
+          const sx = (clientX - rect.left) * (S / rect.width)
+          const sy = (clientY - rect.top)  * (S / rect.height)
+          const [cx, cy] = fromSVG(sx, sy)
+
+          const arr = [...state[stateKey]]
+          if (idx === 0) { arr[0] = Math.round(cx*100)/100; arr[1] = Math.round(cy*100)/100 }
+          else           { arr[2] = Math.round(cx*100)/100; arr[3] = Math.round(cy*100)/100 }
+          state[stateKey] = arr
+          refresh()
+          applyPreview()
+        }
+        const onUp = () => { dragging = false }
+        const onDown = (e) => { dragging = true; e.preventDefault(); e.stopPropagation() }
+
+        handle.addEventListener('mousedown', onDown)
+        handle.addEventListener('touchstart', onDown, {passive:false})
+        window.addEventListener('mousemove', onMove)
+        window.addEventListener('touchmove', onMove, {passive:false})
+        window.addEventListener('mouseup', onUp)
+        window.addEventListener('touchend', onUp)
+      }
+
+      makeDraggable(h1, 0)
+      makeDraggable(h2, 1)
+
+      // Number input wiring
+      nums.forEach((inp, i) => {
+        inp.addEventListener('input', () => {
+          const arr = [...state[stateKey]]
+          arr[i] = parseFloat(inp.value) || 0
+          state[stateKey] = arr
+          refresh()
+          applyPreview()
+        })
+      })
+
+      function setValues(arr) { state[stateKey] = arr; refresh() }
+      function updateColor(hex) {
+        h1.setAttribute('fill', hex); h1.style.filter = `drop-shadow(0 0 4px ${hex})`
+        h2.setAttribute('fill', `color-mix(in srgb, ${hex} 55%, #0a0912)`)
+        path.setAttribute('stroke', hex)
+      }
+      refresh()
+      return { setValues, updateColor }
     }
 
-    // ── Event wiring ─────────────────────────────────────────────────────────
-    document.getElementById('b-name').addEventListener('input', e => {
+    // ── syncAllControls + loadGenreIntoState ─────────────────────────────────
+    function syncAllControls() {
+      setEl('gb-name', state.name)
+
+      const b = state['--zyna']
+      setEl('gb-brand-picker', b); setEl('gb-brand-hex', b)
+      setEl('gb-c-brand', b); setEl('gb-h-brand', b)
+      const sw = document.getElementById('gb-brand-swatch-wrap')
+      if (sw) sw.style.background = b
+      Object.values(bezierEditors).forEach(ed => ed.updateColor(b))
+
+      setCP('gb-c-success','gb-h-success', state['--zp-success'])
+      setCP('gb-c-danger', 'gb-h-danger',  state['--zp-danger'])
+      setCP('gb-c-warning','gb-h-warning', state['--zp-warning'])
+      setCP('gb-c-info',   'gb-h-info',    state['--zp-info'])
+
+      setSld('gb-dur-fast','lbl-dur-fast', state['--z-duration-fast'], v=>v.toFixed(2)+'s')
+      setSld('gb-dur-base','lbl-dur-base', state['--z-duration-base'], v=>v.toFixed(2)+'s')
+      setSld('gb-dur-slow','lbl-dur-slow', state['--z-duration-slow'], v=>v.toFixed(2)+'s')
+
+      bezierEditors['--z-ease-enter']?.setValues(state['--z-ease-enter'])
+      bezierEditors['--z-ease-exit']?.setValues(state['--z-ease-exit'])
+      bezierEditors['--z-ease-spring']?.setValues(state['--z-ease-spring'])
+
+      document.querySelectorAll('[name="btnshape"]').forEach(r => { r.checked = r.value === state['__btn-shape'] })
+      setSld('gb-custom-radius', 'lbl-custom-radius', state['__custom-corner-radius'] || 0, v => v)
+      setSld('gb-btn-scale','lbl-btn-scale', state['--z-btn-active-scale'], v=>v.toFixed(2))
+      setSld('gb-btn-scan', 'lbl-btn-scan',  state['--z-btn-scan-stop'],    v=>Math.round(v)+'%')
+      document.querySelectorAll('[name="badgeshape"]').forEach(r => { r.checked = state['__badge-shape'] !== 'custom' && r.value === state['__badge-shape'] })
+      syncChipset('cs-badge-padding',    'gb-badge-padding-val',state['--z-badge-padding'])
+      setSld('gb-badge-ls',    'lbl-badge-ls',     state['--z-badge-letter-spacing'], v=>v.toFixed(2)+'em')
+      setSld('gb-badge-scan',  'lbl-badge-scan',   state['--z-badge-scan-duration'],  v=>v+'s')
+      syncChipset('cs-badge-inset',      'gb-badge-inset',      state['--z-badge-inset-shadow'])
+
+      document.querySelectorAll('[name="alertbar"]').forEach(r => { r.checked = r.value === state['__alert-bar-pos'] })
+      setSld('gb-alert-bw','lbl-alert-bw', state['--z-alert-bar-width'],  v=>v+'px')
+      setSld('gb-alert-bg','lbl-alert-bg', state['--z-alert-bg-opacity'], v=>v+'%')
+      syncChipset('cs-alert-prefix',     'gb-alert-prefix',     state['--z-alert-prefix'])
+      syncChipset('cs-alert-texture',    'gb-alert-texture',    state['--z-alert-texture'])
+
+      setSld('gb-card-bh',      'lbl-card-bh',     state['--z-card-bar-height'],     v=>v+'px')
+      setSld('gb-card-bs',      'lbl-card-bs',      state['--z-card-bracket-size'],   v=>Math.round(v)+'px')
+      setSld('gb-card-bstroke', 'lbl-card-bstroke', state['--z-card-bracket-stroke'], v=>v+'px')
+      setSld('gb-card-glow',    'lbl-card-glow',    state['--z-card-glow-duration'],  v=>v+'s')
+      syncChipset('cs-card-glow-lo',     'gb-card-glow-lo',     state['--z-card-default-glow-lo'])
+      syncChipset('cs-card-glow-hi',     'gb-card-glow-hi',     state['--z-card-default-glow-hi'])
+
+      syncChipset('cs-font-mono',        'gb-font-mono',        state['--z-font-mono'])
+      syncChipset('cs-alert-radius',     'gb-alert-radius-val', state['--z-alert-radius'])
+      syncChipset('cs-alert-border',     'gb-alert-border',     state['--z-alert-border'])
+      setSld('gb-alert-pxop','lbl-alert-pxop', state['--z-alert-prefix-opacity'], v=>v.toFixed(2))
+      syncChipset('cs-card-border-color','gb-card-border-color',state['--z-card-border-color'])
+      syncChipset('cs-card-shadow',      'gb-card-shadow-val',  state['--z-card-shadow'])
+      syncOnOff('onoff-card-bar-shadow', 'wrap-card-bar-shadow', '--z-card-bar-shadow')
+      syncChipset('cs-card-bar-shadow',  'gb-card-bar-shadow',  state['--z-card-bar-shadow'])
+      syncChipset('cs-card-header-bg',        'gb-card-header-bg',        state['--z-card-header-bg'])
+      syncChipset('cs-card-header-border',    'gb-card-header-border-val',state['--z-card-header-border'])
+      syncChipset('cs-card-header-color',     'gb-card-header-color',     state['--z-card-header-color'])
+      setSld('gb-card-hls', 'lbl-card-hls', state['--z-card-header-letter-spacing'], v => v.toFixed(2)+'em')
+      setSld('gb-card-dot-size', 'lbl-card-dot-size', state['--z-card-header-dot-size'], v => v+'px')
+      syncChipset('cs-card-dot-bg',     'gb-card-dot-bg',     state['--z-card-header-dot-bg'])
+      syncChipset('cs-card-dot-shadow', 'gb-card-dot-shadow', state['--z-card-header-dot-shadow'])
+      syncChipset('cs-card-dot-anim',   'gb-card-dot-anim',   state['--z-card-header-dot-animation'])
+      syncChipset('cs-card-bracket-color','gb-card-bracket-color',state['--z-card-bracket-color'])
+      syncOnOff('onoff-card-header-ts',  'wrap-card-header-ts', '--z-card-header-text-shadow')
+      syncChipset('cs-card-header-ts',   'gb-card-header-ts',   state['--z-card-header-text-shadow'])
+      syncOnOff('onoff-card-title-ts',   'wrap-card-title-ts',  '--z-card-title-text-shadow')
+      syncChipset('cs-card-title-ts',    'gb-card-title-ts',    state['--z-card-title-text-shadow'])
+    }
+
+    function loadGenreIntoState(genreName) {
+      const genre = GENRES.find(g => g.name === genreName)
+      const t = (genre ? genre.tokens : {}) || {}
+      const tok = k => (k in t) ? t[k] : null
+
+      state.name = genreName === 'Ops' ? 'Custom' : genreName
+
+      state['--zyna']       = tok('--zyna')       || '#C9A84C'
+      state['--zp-success'] = tok('--zp-success') || '#00FFB2'
+      state['--zp-danger']  = tok('--zp-danger')  || '#FF3366'
+      state['--zp-warning'] = tok('--zp-warning') || '#FFB800'
+      state['--zp-info']    = tok('--zp-info')    || '#00D4FF'
+
+      state['--z-duration-fast'] = parseFloat(tok('--z-duration-fast') || '0.18')
+      state['--z-duration-base'] = parseFloat(tok('--z-duration-base') || '0.22')
+      state['--z-duration-slow'] = parseFloat(tok('--z-duration-slow') || '0.28')
+
+      state['--z-ease-enter']  = parseCB(tok('--z-ease-enter'))  || [0.22,1,0.36,1]
+      state['--z-ease-exit']   = parseCB(tok('--z-ease-exit'))   || [0.55,0,1,0.45]
+      state['--z-ease-spring'] = parseCB(tok('--z-ease-spring')) || [0.34,1.4,0.64,1]
+
+      state['__btn-shape']            = inferBtnShape(tok('--z-btn-clip'))
+      state['__custom-shape-points']  = null
+      state['__custom-corner-radius'] = 0
+      state['--z-btn-active-scale']   = parseFloat(tok('--z-btn-active-scale') || '0.96')
+      state['--z-btn-scan-stop']      = parseFloat(tok('--z-btn-scan-stop') || '70')
+      state['__badge-shape']              = inferBadgeShape(tok('--z-badge-clip'))
+      state['__badge-custom-shape-points']  = null
+      state['__badge-custom-corner-radius'] = 0
+      state['--z-badge-padding']         = tok('--z-badge-padding') || '0.22rem 0.85rem'
+      state['--z-badge-letter-spacing']  = parseFloat(tok('--z-badge-letter-spacing') || '0.13')
+      state['--z-badge-scan-duration']   = parseFloat(tok('--z-badge-scan-duration') || '5')
+      state['--z-badge-inset-shadow']    = tok('--z-badge-inset-shadow') || 'none'
+
+      state['__alert-bar-pos']      = inferAlertPos(tok('--z-alert-bar-inset'))
+      state['--z-alert-bar-width']  = parseFloat(tok('--z-alert-bar-width') || '3')
+      state['--z-alert-bg-opacity'] = parseFloat(tok('--z-alert-bg-opacity') || '5.5')
+      state['--z-alert-prefix']     = tok('--z-alert-prefix') || '"// "'
+
+      state['--z-card-bar-height']     = parseFloat(tok('--z-card-bar-height') || '1')
+      state['--z-card-bracket-size']   = parseFloat(tok('--z-card-bracket-size') || '20')
+      state['--z-card-bracket-stroke'] = parseFloat(tok('--z-card-bracket-stroke') || '1.5')
+      state['--z-card-glow-duration']  = parseFloat(tok('--z-card-glow-duration') || '4')
+
+      state['--z-font-mono']              = tok('--z-font-mono') || "'DM Mono', 'Fira Code', ui-monospace, monospace"
+      state['--z-alert-radius']           = tok('--z-alert-radius') || '0 3px 3px 0'
+      state['--z-alert-border']           = tok('--z-alert-border') || 'none'
+      state['--z-alert-prefix-opacity']   = parseFloat(tok('--z-alert-prefix-opacity') || '0.38')
+      state['--z-card-border-color']      = tok('--z-card-border-color') || 'var(--z-color-border)'
+      state['--z-card-shadow']            = tok('--z-card-shadow') || 'var(--z-shadow-card)'
+      state['--z-card-bar-shadow']        = tok('--z-card-bar-shadow') || 'none'
+      state['--z-card-header-bg']              = tok('--z-card-header-bg') || 'transparent'
+      state['--z-card-header-border']          = tok('--z-card-header-border') || 'var(--z-color-border)'
+      state['--z-card-header-color']           = tok('--z-card-header-color') || 'color-mix(in srgb, var(--zyna) 75%, transparent)'
+      state['--z-card-header-letter-spacing']  = parseFloat(tok('--z-card-header-letter-spacing') || '0.14')
+      state['--z-card-header-text-shadow']     = tok('--z-card-header-text-shadow') || 'none'
+      state['--z-card-header-dot-size']        = parseFloat(tok('--z-card-header-dot-size') || '5')
+      state['--z-card-header-dot-bg']          = tok('--z-card-header-dot-bg') || 'color-mix(in srgb, var(--zyna) 65%, transparent)'
+      state['--z-card-header-dot-shadow']      = tok('--z-card-header-dot-shadow') || '0 0 6px color-mix(in srgb, var(--zyna) 65%, transparent), 0 0 16px color-mix(in srgb, var(--zyna) 30%, transparent)'
+      state['--z-card-header-dot-animation']   = tok('--z-card-header-dot-animation') || 'none'
+      state['--z-card-bracket-color']          = tok('--z-card-bracket-color') || 'color-mix(in srgb, var(--zyna) 42%, transparent)'
+      state['--z-card-title-text-shadow']      = tok('--z-card-title-text-shadow') || 'none'
+      state['--z-card-default-glow-lo']        = tok('--z-card-default-glow-lo') || 'rgba(0,0,0,0)'
+      state['--z-card-default-glow-hi']        = tok('--z-card-default-glow-hi') || 'rgba(0,0,0,0)'
+      state['--z-alert-texture']               = tok('--z-alert-texture') || 'none'
+
+      syncAllControls()
+      applyPreview()
+    }
+
+    // ── Range + label helper ─────────────────────────────────────────────────
+    function wireRange(id, lblId, stateKey, fmt, applyFn) {
+      const el = document.getElementById(id)
+      const lbl = document.getElementById(lblId)
+      if (!el) return
+      el.addEventListener('input', () => {
+        const v = parseFloat(el.value)
+        state[stateKey] = v
+        if (lbl) lbl.textContent = fmt(v)
+        if (applyFn) applyFn()
+        else applyPreview()
+      })
+    }
+
+    // Map component data-comp to accordion id
+    const COMP_TO_GRP = { btn: 'grp-button', badge: 'grp-badge', alert: 'grp-alert', card: 'grp-card' }
+
+    // ── Component nav tabs ───────────────────────────────────────────────────
+    let activeComp = 'btn'
+
+    function switchComp(comp) {
+      activeComp = comp
+      document.querySelectorAll('.gb-comp-tab').forEach(b => b.classList.toggle('active', b.dataset.comp === comp))
+      document.querySelectorAll('.preview-section').forEach(s => s.classList.toggle('active', s.dataset.comp === comp))
+      document.querySelectorAll('.gb-group[data-show-on]').forEach(grp => {
+        const showOn = grp.dataset.showOn
+        grp.style.display = (showOn === 'all' || showOn.split(' ').includes(comp)) ? '' : 'none'
+      })
+      // Auto-open the matching component accordion, collapse the others
+      const grpId = COMP_TO_GRP[comp]
+      document.querySelectorAll('.gb-group[data-show-on]').forEach(grp => {
+        if (grp.dataset.showOn !== 'all') {
+          if (grp.id === grpId) grp.setAttribute('open', '')
+          else grp.removeAttribute('open')
+        }
+      })
+    }
+
+    switchComp('btn')
+
+    document.querySelectorAll('.gb-comp-tab').forEach(btn => {
+      btn.addEventListener('click', () => switchComp(btn.dataset.comp))
+    })
+
+    // ── Wire all controls ────────────────────────────────────────────────────
+
+    document.getElementById('gb-name').addEventListener('input', e => {
       state.name = e.target.value
       applyPreview()
     })
 
-    // Color picker ↔ hex input sync
-    const picker = document.getElementById('b-color-picker')
-    const hexInp = document.getElementById('b-color-hex')
+    // Identity brand (mirrors into Colors group)
+    const identityPicker = document.getElementById('gb-brand-picker')
+    const identityHex    = document.getElementById('gb-brand-hex')
+    const colorsPicker   = document.getElementById('gb-c-brand')
+    const colorsHex      = document.getElementById('gb-h-brand')
 
-    picker.addEventListener('input', e => {
-      state.color = e.target.value
-      hexInp.value = e.target.value
+    function syncBrandColor(hex) {
+      state['--zyna'] = hex
+      identityPicker.value = hex
+      identityHex.value    = hex
+      colorsPicker.value   = hex
+      colorsHex.value      = hex
+      document.getElementById('gb-brand-swatch-wrap').style.background = hex
+      Object.values(bezierEditors).forEach(ed => ed.updateColor(hex))
       applyPreview()
+    }
+
+    identityPicker.addEventListener('input', e => syncBrandColor(e.target.value))
+    identityHex.addEventListener('input', e => {
+      const v = e.target.value.startsWith('#') ? e.target.value : '#' + e.target.value
+      if (isValidHex(v)) syncBrandColor(v)
+    })
+    identityHex.addEventListener('blur', () => {
+      if (!isValidHex(identityHex.value)) identityHex.value = state['--zyna']
+    })
+    colorsPicker.addEventListener('input', e => syncBrandColor(e.target.value))
+    colorsHex.addEventListener('input', e => {
+      const v = e.target.value.startsWith('#') ? e.target.value : '#' + e.target.value
+      if (isValidHex(v)) syncBrandColor(v)
+    })
+    colorsHex.addEventListener('blur', () => {
+      if (!isValidHex(colorsHex.value)) colorsHex.value = state['--zyna']
     })
 
-    hexInp.addEventListener('input', e => {
-      const val = e.target.value.startsWith('#') ? e.target.value : '#' + e.target.value
-      if (isValidHex(val)) {
-        state.color = val
-        picker.value = val
-        applyPreview()
-      }
-    })
+    wireColor('gb-c-success','gb-h-success','--zp-success')
+    wireColor('gb-c-danger', 'gb-h-danger', '--zp-danger')
+    wireColor('gb-c-warning','gb-h-warning','--zp-warning')
+    wireColor('gb-c-info',   'gb-h-info',   '--zp-info')
 
-    hexInp.addEventListener('blur', e => {
-      if (!isValidHex(hexInp.value)) {
-        hexInp.value = state.color
-      }
-    })
+    wireRange('gb-dur-fast','lbl-dur-fast','--z-duration-fast', v => v.toFixed(2)+'s')
+    wireRange('gb-dur-base','lbl-dur-base','--z-duration-base', v => v.toFixed(2)+'s')
+    wireRange('gb-dur-slow','lbl-dur-slow','--z-duration-slow', v => v.toFixed(2)+'s')
 
-    // Radio groups
-    document.querySelectorAll('[name="speed"]').forEach(r => r.addEventListener('change', e => {
-      if (e.target.checked) { state.speed = e.target.value; applyPreview() }
-    }))
-
-    document.querySelectorAll('[name="char"]').forEach(r => r.addEventListener('change', e => {
-      if (e.target.checked) { state.char = e.target.value; applyPreview() }
-    }))
+    const bezierEditors = {}
+    bezierEditors['--z-ease-enter']  = buildBezierEditor('bez-enter',  '--z-ease-enter')
+    bezierEditors['--z-ease-exit']   = buildBezierEditor('bez-exit',   '--z-ease-exit')
+    bezierEditors['--z-ease-spring'] = buildBezierEditor('bez-spring', '--z-ease-spring')
 
     document.querySelectorAll('[name="btnshape"]').forEach(r => r.addEventListener('change', e => {
-      if (e.target.checked) { state.btnshape = e.target.value; applyPreview() }
+      if (e.target.checked) { state['__btn-shape'] = e.target.value; applyPreview() }
     }))
+    wireRange('gb-btn-scale','lbl-btn-scale','--z-btn-active-scale', v => v.toFixed(2))
+    wireRange('gb-btn-scan', 'lbl-btn-scan', '--z-btn-scan-stop',    v => Math.round(v)+'%')
 
-    document.querySelectorAll('[name="cardbar"]').forEach(r => r.addEventListener('change', e => {
-      if (e.target.checked) { state.cardbar = e.target.value; applyPreview() }
+    document.querySelectorAll('[name="badgeshape"]').forEach(r => r.addEventListener('change', e => {
+      if (e.target.checked) { state['__badge-shape'] = e.target.value; applyPreview() }
     }))
+    wireRange('gb-badge-ls',    'lbl-badge-ls',    '--z-badge-letter-spacing', v => v.toFixed(2)+'em')
+    wireRange('gb-badge-scan',  'lbl-badge-scan',  '--z-badge-scan-duration',  v => v+'s')
+    document.getElementById('gb-badge-inset').addEventListener('input', e => {
+      state['--z-badge-inset-shadow'] = e.target.value; applyPreview()
+    })
 
     document.querySelectorAll('[name="alertbar"]').forEach(r => r.addEventListener('change', e => {
-      if (e.target.checked) { state.alertbar = e.target.value; applyPreview() }
+      if (e.target.checked) { state['__alert-bar-pos'] = e.target.value; applyPreview() }
     }))
+    wireRange('gb-alert-bw','lbl-alert-bw','--z-alert-bar-width',  v => v+'px')
+    wireRange('gb-alert-bg','lbl-alert-bg','--z-alert-bg-opacity', v => v+'%')
 
-    // Copy button
-    document.getElementById('b-copy').addEventListener('click', async () => {
-      const code = document.getElementById('b-code').textContent
+    wireRange('gb-card-bh',     'lbl-card-bh',      '--z-card-bar-height',      v => v+'px')
+    wireRange('gb-card-bs',     'lbl-card-bs',       '--z-card-bracket-size',    v => Math.round(v)+'px')
+    wireRange('gb-card-bstroke','lbl-card-bstroke',  '--z-card-bracket-stroke',  v => v+'px')
+    wireRange('gb-card-glow',   'lbl-card-glow',     '--z-card-glow-duration',   v => v+'s')
+
+    document.getElementById('gb-copy').addEventListener('click', async () => {
+      const code = document.getElementById('gb-code').textContent
       try {
         await navigator.clipboard.writeText(code)
-        const btn = document.getElementById('b-copy')
+        const btn = document.getElementById('gb-copy')
         btn.textContent = 'Copied!'
         btn.classList.add('copied')
         setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied') }, 1800)
       } catch {}
     })
 
-    // ── Init ─────────────────────────────────────────────────────────────────
+    // Genre switch listener — load genre tokens into state + sync UI
+    window.addEventListener('zyna-genre', e => {
+      loadGenreIntoState(e.detail?.name || 'Ops')
+    })
+
+    // ── Custom shape editor ───────────────────────────────────────────────────
+    function buildShapeEditor(container) {
+      const W = 200, H = 80, ns = 'http://www.w3.org/2000/svg'
+      const svg = document.createElementNS(ns,'svg')
+      svg.setAttribute('width', W); svg.setAttribute('height', H)
+      svg.setAttribute('viewBox', `0 0 ${W} ${H}`)
+      svg.style.cssText = 'display:block;border:1px solid rgba(255,255,255,0.08);border-radius:3px;cursor:crosshair;background:rgba(0,0,0,0.3);touch-action:none'
+
+      const polyEl = document.createElementNS(ns,'polygon')
+      polyEl.setAttribute('fill','rgba(201,168,76,0.12)')
+      polyEl.setAttribute('stroke','#C9A84C')
+      polyEl.setAttribute('stroke-width','1')
+      svg.appendChild(polyEl)
+
+      const midGroup = document.createElementNS(ns,'g')
+      svg.appendChild(midGroup)
+      const ptGroup  = document.createElementNS(ns,'g')
+      svg.appendChild(ptGroup)
+      container.appendChild(svg)
+
+      function refresh() {
+        const pts = state['__custom-shape-points'] || SHAPE_EDITOR_PRESETS.diagonal
+        const brand = state['--zyna'] || '#C9A84C'
+        const radius = state['__custom-corner-radius'] || 0
+        const displayPts = applyRounding(pts, radius)
+        polyEl.setAttribute('points', displayPts.map(p=>`${p.x},${p.y}`).join(' '))
+        polyEl.setAttribute('fill', `color-mix(in srgb, ${brand} 15%, transparent)`)
+        polyEl.setAttribute('stroke', brand)
+
+        while (ptGroup.firstChild) ptGroup.removeChild(ptGroup.firstChild)
+        while (midGroup.firstChild) midGroup.removeChild(midGroup.firstChild)
+
+        pts.forEach((pt, i) => {
+          const c = document.createElementNS(ns,'circle')
+          c.setAttribute('cx', pt.x); c.setAttribute('cy', pt.y)
+          c.setAttribute('r','5'); c.setAttribute('fill', brand)
+          c.setAttribute('stroke','rgba(0,0,0,0.4)'); c.setAttribute('stroke-width','1')
+          c.style.cursor = 'grab'
+          let dragging = false
+          const onMove = e => {
+            if (!dragging) return
+            const rect = svg.getBoundingClientRect()
+            const cx = e.touches ? e.touches[0].clientX : e.clientX
+            const cy2 = e.touches ? e.touches[0].clientY : e.clientY
+            const x = Math.max(0, Math.min(W, (cx - rect.left) * (W / rect.width)))
+            const y = Math.max(0, Math.min(H, (cy2 - rect.top) * (H / rect.height)))
+            const arr = [...(state['__custom-shape-points'] || [])]
+            arr[i] = { x: Math.round(x*10)/10, y: Math.round(y*10)/10 }
+            state['__custom-shape-points'] = arr
+            refresh(); applyPreview()
+          }
+          c.addEventListener('mousedown', e => { dragging=true; e.preventDefault(); e.stopPropagation() })
+          c.addEventListener('touchstart', e => { dragging=true; e.preventDefault() }, {passive:false})
+          window.addEventListener('mousemove', onMove)
+          window.addEventListener('touchmove', onMove, {passive:false})
+          window.addEventListener('mouseup', () => { dragging=false })
+          window.addEventListener('touchend', () => { dragging=false })
+          c.addEventListener('dblclick', e => {
+            e.stopPropagation()
+            const arr = [...(state['__custom-shape-points'] || [])]
+            if (arr.length > 3) { arr.splice(i,1); state['__custom-shape-points']=arr; refresh(); applyPreview() }
+          })
+          ptGroup.appendChild(c)
+
+          // midpoint between pt[i] and pt[i+1]
+          const next = pts[(i+1) % pts.length]
+          const mx=(pt.x+next.x)/2, my=(pt.y+next.y)/2
+          const mc = document.createElementNS(ns,'circle')
+          mc.setAttribute('cx',mx); mc.setAttribute('cy',my)
+          mc.setAttribute('r','3'); mc.setAttribute('fill','transparent')
+          mc.setAttribute('stroke', brand); mc.setAttribute('stroke-width','1')
+          mc.setAttribute('stroke-dasharray','2 2'); mc.style.cursor='cell'
+          mc.addEventListener('click', e => {
+            e.stopPropagation()
+            const arr = [...(state['__custom-shape-points'] || [])]
+            arr.splice(i+1, 0, { x:Math.round(mx*10)/10, y:Math.round(my*10)/10 })
+            state['__custom-shape-points']=arr; refresh(); applyPreview()
+          })
+          midGroup.appendChild(mc)
+        })
+      }
+
+      // expose refresh so brand color changes can repaint
+      shapeEditorRefresh = refresh
+
+      if (!state['__custom-shape-points']) state['__custom-shape-points'] = [...SHAPE_EDITOR_PRESETS.diagonal.map(p=>({...p}))]
+      refresh()
+
+      container.parentElement.querySelectorAll('.gb-shape-reset').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const shape = btn.dataset.shape
+          state['__btn-shape'] = shape
+          state['__custom-shape-points'] = [...(SHAPE_EDITOR_PRESETS[shape] || SHAPE_EDITOR_PRESETS.diagonal).map(p=>({...p}))]
+          refresh()
+          document.querySelectorAll('[name="btnshape"]').forEach(r => r.checked = r.value === shape)
+          applyPreview()
+        })
+      })
+    }
+
+    let shapeEditorRefresh = null
+    let prevPresetShape = 'diagonal'   // remembers which preset was active before entering custom mode
+    const shapeEditorWrap = document.getElementById('gb-shape-editor-wrap')
+    if (shapeEditorWrap) buildShapeEditor(shapeEditorWrap)
+
+    document.getElementById('gb-toggle-shape-editor')?.addEventListener('click', () => {
+      const section = document.getElementById('gb-custom-shape-section')
+      const visible = section.style.display !== 'none'
+      if (!visible) {
+        // Capture current preset so we can restore it when closing
+        if (state['__btn-shape'] !== 'custom') prevPresetShape = state['__btn-shape']
+        // Seed the shape editor with the currently-selected preset's points
+        if (!state['__custom-shape-points']) {
+          const seed = SHAPE_EDITOR_PRESETS[prevPresetShape] || SHAPE_EDITOR_PRESETS.diagonal
+          state['__custom-shape-points'] = seed.map(p => ({...p}))
+        }
+        state['__btn-shape'] = 'custom'
+        document.querySelectorAll('[name="btnshape"]').forEach(r => r.checked = false)
+        section.style.display = ''
+        if (shapeEditorRefresh) shapeEditorRefresh()
+      } else {
+        // Restore to the preset that was active before entering custom mode
+        state['__btn-shape'] = prevPresetShape
+        state['__custom-shape-points'] = null
+        state['__custom-corner-radius'] = 0
+        document.querySelectorAll('[name="btnshape"]').forEach(r => r.checked = r.value === prevPresetShape)
+        document.getElementById('gb-custom-radius').value = 0
+        document.getElementById('lbl-custom-radius').textContent = '0'
+        section.style.display = 'none'
+      }
+      applyPreview()
+    })
+
+    // ── Badge custom shape editor ─────────────────────────────────────────────
+    function buildBadgeShapeEditor(container) {
+      const W = 200, H = BADGE_EDITOR_H, ns = 'http://www.w3.org/2000/svg'
+      const svg = document.createElementNS(ns,'svg')
+      svg.setAttribute('width', W); svg.setAttribute('height', H)
+      svg.setAttribute('viewBox', `0 0 ${W} ${H}`)
+      svg.style.cssText = 'display:block;border:1px solid rgba(255,255,255,0.08);border-radius:3px;cursor:crosshair;background:rgba(0,0,0,0.3);touch-action:none'
+
+      const polyEl = document.createElementNS(ns,'polygon')
+      polyEl.setAttribute('fill','rgba(201,168,76,0.12)')
+      polyEl.setAttribute('stroke','#C9A84C')
+      polyEl.setAttribute('stroke-width','1')
+      svg.appendChild(polyEl)
+
+      const midGroup = document.createElementNS(ns,'g')
+      svg.appendChild(midGroup)
+      const ptGroup = document.createElementNS(ns,'g')
+      svg.appendChild(ptGroup)
+      container.appendChild(svg)
+
+      function refresh() {
+        const pts = state['__badge-custom-shape-points'] || BADGE_SHAPE_EDITOR_PRESETS.slant
+        const brand = state['--zyna'] || '#C9A84C'
+        const radius = state['__badge-custom-corner-radius'] || 0
+        const displayPts = applyRounding(pts, radius)
+        polyEl.setAttribute('points', displayPts.map(p=>`${p.x},${p.y}`).join(' '))
+        polyEl.setAttribute('fill', `color-mix(in srgb, ${brand} 15%, transparent)`)
+        polyEl.setAttribute('stroke', brand)
+
+        while (ptGroup.firstChild) ptGroup.removeChild(ptGroup.firstChild)
+        while (midGroup.firstChild) midGroup.removeChild(midGroup.firstChild)
+
+        pts.forEach((pt, i) => {
+          const c = document.createElementNS(ns,'circle')
+          c.setAttribute('cx', pt.x); c.setAttribute('cy', pt.y)
+          c.setAttribute('r','5'); c.setAttribute('fill', brand)
+          c.setAttribute('stroke','rgba(0,0,0,0.4)'); c.setAttribute('stroke-width','1')
+          c.style.cursor = 'grab'
+          let dragging = false
+          const onMove = e => {
+            if (!dragging) return
+            const rect = svg.getBoundingClientRect()
+            const cx = e.touches ? e.touches[0].clientX : e.clientX
+            const cy2 = e.touches ? e.touches[0].clientY : e.clientY
+            const x = Math.max(0, Math.min(W, (cx - rect.left) * (W / rect.width)))
+            const y = Math.max(0, Math.min(H, (cy2 - rect.top) * (H / rect.height)))
+            const arr = [...(state['__badge-custom-shape-points'] || [])]
+            arr[i] = { x: Math.round(x*10)/10, y: Math.round(y*10)/10 }
+            state['__badge-custom-shape-points'] = arr
+            refresh(); applyPreview()
+          }
+          c.addEventListener('mousedown', e => { dragging=true; e.preventDefault(); e.stopPropagation() })
+          c.addEventListener('touchstart', e => { dragging=true; e.preventDefault() }, {passive:false})
+          window.addEventListener('mousemove', onMove)
+          window.addEventListener('touchmove', onMove, {passive:false})
+          window.addEventListener('mouseup', () => { dragging=false })
+          window.addEventListener('touchend', () => { dragging=false })
+          c.addEventListener('dblclick', e => {
+            e.stopPropagation()
+            const arr = [...(state['__badge-custom-shape-points'] || [])]
+            if (arr.length > 3) { arr.splice(i,1); state['__badge-custom-shape-points']=arr; refresh(); applyPreview() }
+          })
+          ptGroup.appendChild(c)
+
+          const next = pts[(i+1) % pts.length]
+          const mx=(pt.x+next.x)/2, my=(pt.y+next.y)/2
+          const mc = document.createElementNS(ns,'circle')
+          mc.setAttribute('cx',mx); mc.setAttribute('cy',my)
+          mc.setAttribute('r','3'); mc.setAttribute('fill','transparent')
+          mc.setAttribute('stroke', brand); mc.setAttribute('stroke-width','1')
+          mc.setAttribute('stroke-dasharray','2 2'); mc.style.cursor='cell'
+          mc.addEventListener('click', e => {
+            e.stopPropagation()
+            const arr = [...(state['__badge-custom-shape-points'] || [])]
+            arr.splice(i+1, 0, { x:Math.round(mx*10)/10, y:Math.round(my*10)/10 })
+            state['__badge-custom-shape-points']=arr; refresh(); applyPreview()
+          })
+          midGroup.appendChild(mc)
+        })
+      }
+
+      badgeShapeEditorRefresh = refresh
+
+      if (!state['__badge-custom-shape-points']) state['__badge-custom-shape-points'] = [...BADGE_SHAPE_EDITOR_PRESETS.slant.map(p=>({...p}))]
+      refresh()
+
+      container.parentElement.querySelectorAll('.gb-shape-reset').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const shape = btn.dataset.shape
+          state['__badge-shape'] = shape
+          state['__badge-custom-shape-points'] = [...(BADGE_SHAPE_EDITOR_PRESETS[shape] || BADGE_SHAPE_EDITOR_PRESETS.slant).map(p=>({...p}))]
+          refresh()
+          document.querySelectorAll('[name="badgeshape"]').forEach(r => r.checked = r.value === shape)
+          applyPreview()
+        })
+      })
+    }
+
+    let badgeShapeEditorRefresh = null
+    let prevBadgePresetShape = 'slant'
+    const badgeShapeEditorWrap = document.getElementById('gb-badge-shape-editor-wrap')
+    if (badgeShapeEditorWrap) buildBadgeShapeEditor(badgeShapeEditorWrap)
+
+    document.getElementById('gb-toggle-badge-shape-editor')?.addEventListener('click', () => {
+      const section = document.getElementById('gb-badge-custom-shape-section')
+      const visible = section.style.display !== 'none'
+      if (!visible) {
+        if (state['__badge-shape'] !== 'custom') prevBadgePresetShape = state['__badge-shape']
+        if (!state['__badge-custom-shape-points']) {
+          const seed = BADGE_SHAPE_EDITOR_PRESETS[prevBadgePresetShape] || BADGE_SHAPE_EDITOR_PRESETS.slant
+          state['__badge-custom-shape-points'] = seed.map(p => ({...p}))
+        }
+        state['__badge-shape'] = 'custom'
+        document.querySelectorAll('[name="badgeshape"]').forEach(r => r.checked = false)
+        section.style.display = ''
+        if (badgeShapeEditorRefresh) badgeShapeEditorRefresh()
+      } else {
+        state['__badge-shape'] = prevBadgePresetShape
+        state['__badge-custom-shape-points'] = null
+        state['__badge-custom-corner-radius'] = 0
+        document.querySelectorAll('[name="badgeshape"]').forEach(r => r.checked = r.value === prevBadgePresetShape)
+        document.getElementById('gb-badge-custom-radius').value = 0
+        document.getElementById('lbl-badge-custom-radius').textContent = '0'
+        section.style.display = 'none'
+      }
+      applyPreview()
+    })
+
+    // ── Chipset system ────────────────────────────────────────────────────────
+    // wireChipset: clicking a chip sets state[stateKey] + applies.
+    // The "Custom ↓" chip reveals the raw input/textarea below the chipset.
+    function wireChipset(chipsetId, revealId, stateKey) {
+      const cs = document.getElementById(chipsetId)
+      const rev = document.getElementById(revealId)
+      if (!cs) return
+      cs.querySelectorAll('.gb-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          cs.querySelectorAll('.gb-chip').forEach(c => c.classList.remove('active'))
+          chip.classList.add('active')
+          if (chip.dataset.val === '__custom__') {
+            if (rev) { rev.style.display = ''; rev.value = '' }
+          } else {
+            if (rev) rev.style.display = 'none'
+            state[stateKey] = chip.dataset.val
+            applyPreview()
+          }
+        })
+      })
+      // Custom input/textarea still fires state update.
+      // data-quote-wrap: auto-wraps typed value in CSS quotes ("…") so the user
+      // types raw text (e.g. $) and the stored value is valid for CSS content (e.g. "$").
+      if (rev) rev.addEventListener('input', e => {
+        state[stateKey] = rev.dataset.quoteWrap ? `"${e.target.value}"` : e.target.value
+        applyPreview()
+      })
+    }
+
+    // syncChipset: called by syncAllControls to reflect state back onto chips
+    function syncChipset(chipsetId, revealId, value) {
+      const cs = document.getElementById(chipsetId)
+      const rev = document.getElementById(revealId)
+      if (!cs) return
+      let matched = false
+      cs.querySelectorAll('.gb-chip').forEach(chip => {
+        const m = chip.dataset.val !== '__custom__' && chip.dataset.val === value
+        chip.classList.toggle('active', m)
+        if (m) matched = true
+      })
+      if (!matched) {
+        const customChip = cs.querySelector('[data-val="__custom__"]')
+        if (customChip) {
+          cs.querySelectorAll('.gb-chip').forEach(c => c.classList.remove('active'))
+          customChip.classList.add('active')
+        }
+        if (rev) {
+          rev.style.display = ''
+          // Strip outer CSS quotes for quote-wrap inputs so the user sees raw text
+          rev.value = rev.dataset.quoteWrap ? value.replace(/^"|"$/g, '') : value
+        }
+      } else {
+        if (rev) rev.style.display = 'none'
+      }
+    }
+
+    // ── ON/OFF toggle for "none by default" controls ──────────────────────────
+    // wireOnOff: toggle button wires state between 'none' (off) and a default value (on).
+    // The chipset wrapper is shown/hidden based on on/off state.
+    function wireOnOff(toggleId, wrapperId, stateKey, defaultVal) {
+      const btn  = document.getElementById(toggleId)
+      const wrap = document.getElementById(wrapperId)
+      if (!btn || !wrap) return
+      btn.addEventListener('click', () => {
+        const isOn = state[stateKey] !== 'none'
+        if (isOn) {
+          state[stateKey] = 'none'
+          wrap.style.display = 'none'
+          btn.textContent = 'OFF'
+          btn.classList.remove('on')
+        } else {
+          state[stateKey] = defaultVal
+          wrap.style.display = ''
+          btn.textContent = 'ON'
+          btn.classList.add('on')
+          // Activate the matching chip in the newly revealed chipset
+          const cs = wrap.querySelector('.gb-chipset')
+          if (cs) cs.querySelectorAll('.gb-chip').forEach(c =>
+            c.classList.toggle('active', c.dataset.val === defaultVal))
+        }
+        applyPreview()
+      })
+    }
+
+    // syncOnOff: called by syncAllControls to reflect state (e.g. after genre switch)
+    function syncOnOff(toggleId, wrapperId, stateKey) {
+      const btn  = document.getElementById(toggleId)
+      const wrap = document.getElementById(wrapperId)
+      if (!btn || !wrap) return
+      const isOn = state[stateKey] !== 'none'
+      btn.textContent = isOn ? 'ON' : 'OFF'
+      btn.classList.toggle('on', isOn)
+      wrap.style.display = isOn ? '' : 'none'
+    }
+
+    // Wire all chipsets
+    wireChipset('cs-badge-padding',    'gb-badge-padding-val','--z-badge-padding')
+    wireChipset('cs-badge-inset',      'gb-badge-inset',      '--z-badge-inset-shadow')
+    wireChipset('cs-alert-prefix',     'gb-alert-prefix',     '--z-alert-prefix')
+    wireChipset('cs-font-mono',        'gb-font-mono',        '--z-font-mono')
+    wireChipset('cs-alert-radius',     'gb-alert-radius-val', '--z-alert-radius')
+    wireChipset('cs-alert-border',     'gb-alert-border',     '--z-alert-border')
+    wireChipset('cs-alert-texture',    'gb-alert-texture',    '--z-alert-texture')
+    wireChipset('cs-card-border-color','gb-card-border-color','--z-card-border-color')
+    wireChipset('cs-card-shadow',      'gb-card-shadow-val',  '--z-card-shadow')
+    wireOnOff('onoff-card-bar-shadow', 'wrap-card-bar-shadow', '--z-card-bar-shadow', '0 0 8px color-mix(in srgb, var(--zyna) 50%, transparent)')
+    wireChipset('cs-card-bar-shadow',  'gb-card-bar-shadow',  '--z-card-bar-shadow')
+    wireChipset('cs-card-header-bg',      'gb-card-header-bg',        '--z-card-header-bg')
+    wireChipset('cs-card-header-border',  'gb-card-header-border-val','--z-card-header-border')
+    wireChipset('cs-card-header-color',   'gb-card-header-color',     '--z-card-header-color')
+    wireChipset('cs-card-bracket-color',  'gb-card-bracket-color',    '--z-card-bracket-color')
+    wireChipset('cs-card-dot-bg',         'gb-card-dot-bg',           '--z-card-header-dot-bg')
+    wireChipset('cs-card-dot-shadow',     'gb-card-dot-shadow',       '--z-card-header-dot-shadow')
+    wireChipset('cs-card-dot-anim',       'gb-card-dot-anim',         '--z-card-header-dot-animation')
+    wireChipset('cs-card-glow-lo',        'gb-card-glow-lo',          '--z-card-default-glow-lo')
+    wireChipset('cs-card-glow-hi',        'gb-card-glow-hi',          '--z-card-default-glow-hi')
+    wireOnOff('onoff-card-header-ts',     'wrap-card-header-ts',      '--z-card-header-text-shadow', '0 0 10px color-mix(in srgb, var(--zyna) 60%, transparent)')
+    wireChipset('cs-card-header-ts',      'gb-card-header-ts',        '--z-card-header-text-shadow')
+    wireOnOff('onoff-card-title-ts',      'wrap-card-title-ts',       '--z-card-title-text-shadow',  '0 0 18px color-mix(in srgb, var(--zyna) 22%, transparent)')
+    wireChipset('cs-card-title-ts',       'gb-card-title-ts',         '--z-card-title-text-shadow')
+
+    wireRange('gb-alert-pxop','lbl-alert-pxop','--z-alert-prefix-opacity', v=>v.toFixed(2))
+    wireRange('gb-card-hls',      'lbl-card-hls',      '--z-card-header-letter-spacing', v => v.toFixed(2)+'em')
+    wireRange('gb-card-dot-size', 'lbl-card-dot-size', '--z-card-header-dot-size',        v => v+'px')
+    wireRange('gb-custom-radius', 'lbl-custom-radius', '__custom-corner-radius', v => v, () => { if (shapeEditorRefresh) shapeEditorRefresh(); applyPreview() })
+    wireRange('gb-badge-custom-radius', 'lbl-badge-custom-radius', '__badge-custom-corner-radius', v => v, () => { if (badgeShapeEditorRefresh) badgeShapeEditorRefresh(); applyPreview() })
+
     applyPreview()
   </script>
 </body>

@@ -9,7 +9,6 @@
       "Courier New", monospace;
     --spacing: 0.25rem;
     --radius-sm: 0.25rem;
-    --ease-out: cubic-bezier(0, 0, 0.2, 1);
     --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
     --default-transition-duration: 150ms;
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -166,6 +165,9 @@
   }
 }
 @layer utilities {
+  .collapse {
+    visibility: collapse;
+  }
   .invisible {
     visibility: hidden;
   }
@@ -360,7 +362,6 @@
     --z-btn-clip: polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)));
     --z-btn-corner: var(--z-corner);
     --z-btn-inner-clip: polygon(1px 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--btn-corner) + 1px)));
-    --z-btn-hover-shadow: none;
     --z-btn-active-scale: 0.96;
     --z-btn-scan-stop: 70%;
     --z-alert-radius: 0 3px 3px 0;
@@ -422,6 +423,7 @@
     --z-badge-letter-spacing: 0.13em;
     --z-badge-inset-shadow: none;
     --z-badge-scan-duration: 5s;
+    --z-badge-inner-clip: polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), 2px calc(100% - 2px));
   }
   @property --btn-bg {
     syntax: "*";
@@ -537,7 +539,7 @@
     --btn-filter: none;
     --btn-scan-color: color-mix(in srgb, white 7%, transparent);
     --btn-hover-color: var(--z-color-text);
-    --btn-hover-filter: none;
+    --btn-hover-filter:  ;
     --btn-hover-text-shadow: none;
     --btn-active-filter: none;
     --btn-focus-color: var(--zyna);
@@ -592,7 +594,6 @@
       color: var(--btn-hover-color, var(--btn-color));
       filter: var(--btn-hover-filter);
       text-shadow: var(--btn-hover-text-shadow);
-      box-shadow: var(--z-btn-hover-shadow);
       transition: filter var(--z-duration-base) var(--z-ease-enter), color var(--z-duration-fast) var(--z-ease-enter), background var(--z-duration-fast) var(--z-ease-enter), transform var(--z-duration-fast) var(--z-ease-enter);
     }
     &:hover::before {
@@ -623,7 +624,7 @@
     --btn-filter: none;
     --btn-scan-color: color-mix(in srgb, white 7%, transparent);
     --btn-hover-color: var(--z-color-text);
-    --btn-hover-filter: none;
+    --btn-hover-filter:  ;
     --btn-hover-text-shadow: none;
     --btn-active-filter: none;
     --btn-focus-color: var(--zyna);
@@ -678,7 +679,6 @@
       color: var(--btn-hover-color, var(--btn-color));
       filter: var(--btn-hover-filter);
       text-shadow: var(--btn-hover-text-shadow);
-      box-shadow: var(--z-btn-hover-shadow);
       transition: filter var(--z-duration-base) var(--z-ease-enter), color var(--z-duration-fast) var(--z-ease-enter), background var(--z-duration-fast) var(--z-ease-enter), transform var(--z-duration-fast) var(--z-ease-enter);
     }
     &:hover::before {
@@ -768,7 +768,6 @@
     @supports (color: color-mix(in lab, red, red)) {
       --btn-hover-text-shadow: 0 0 10px color-mix(in srgb, var(--zp-text) 35%, transparent);
     }
-    --z-btn-hover-shadow: none;
   }
   .btn-danger {
     --btn-bg: var(--z-color-danger);
@@ -798,7 +797,6 @@
       --btn-hover-text-shadow: 0 0 16px color-mix(in srgb, var(--z-color-danger) 95%, transparent);
     }
     --btn-hover-interior: var(--z-surface-inset-danger-hover);
-    --z-btn-hover-shadow: none;
   }
   .btn-sm {
     padding: 0.42rem 1rem;
@@ -999,6 +997,8 @@
     --badge-glow: none;
     --badge-scan-color: color-mix(in srgb, white 18%, transparent);
     --badge-offset: var(--zp-corner-badge);
+    --badge-interior: transparent;
+    --badge-inner-clip: var(--z-badge-inner-clip);
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
@@ -1016,6 +1016,15 @@
     color: var(--badge-color);
     filter: var(--badge-glow);
     box-shadow: var(--z-badge-inset-shadow);
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      clip-path: var(--badge-inner-clip);
+      background: var(--badge-interior);
+      z-index: -1;
+      pointer-events: none;
+    }
     &:focus-visible {
       outline: 1.5px solid var(--badge-color);
       outline-offset: 3px;
@@ -1030,6 +1039,21 @@
       background: linear-gradient(90deg, transparent, var(--badge-scan-color), transparent);
       animation: zyna-badge-scan var(--z-badge-scan-duration) var(--z-ease-spring) infinite;
       pointer-events: none;
+    }
+  }
+  .badge-outline {
+    --badge-color: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-color: color-mix(in srgb, var(--zyna) 85%, white);
+    }
+    --badge-bg: currentColor;
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in srgb, currentColor 80%, transparent);
+    }
+    --badge-interior: var(--z-surface-inset);
+    --badge-glow: drop-shadow(0 0 6px currentColor) drop-shadow(0 0 16px currentColor);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-glow: drop-shadow(0 0 6px color-mix(in srgb, currentColor 55%, transparent)) drop-shadow(0 0 16px color-mix(in srgb, currentColor 20%, transparent));
     }
   }
   .badge-primary {
@@ -1104,20 +1128,18 @@
     --badge-bg: var(--z-color-overlay);
     --badge-color: var(--z-color-text-muted);
   }
-  .badge-outline {
-    background: transparent;
-    border-top: 1px solid currentColor;
-    border-bottom: 1px solid currentColor;
-    opacity: 0.75;
-  }
   .badge-pulse {
     --badge-dot-size: 5px;
     &::before {
       content: "";
+      position: relative;
+      inset: auto;
+      clip-path: none;
+      z-index: auto;
+      background: currentColor;
       width: var(--badge-dot-size);
       height: var(--badge-dot-size);
       border-radius: 50%;
-      background: currentColor;
       flex-shrink: 0;
       animation: zyna-pulse-ring 2s var(--z-ease-enter) infinite;
     }
@@ -1130,17 +1152,21 @@
   }
   .badge-alpha {
     clip-path: polygon(var(--badge-offset) 0%, 100% 0%, calc(100% - var(--badge-offset)) 100%, 0% 100%);
+    --badge-inner-clip: polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), 2px calc(100% - 2px));
   }
   .badge-delta {
     clip-path: inset(0 round 3px);
     border-radius: 3px;
+    --badge-inner-clip: inset(2px round 3px);
   }
   .badge-gamma {
     clip-path: inset(0 round 9999px);
     border-radius: 9999px;
+    --badge-inner-clip: inset(2px round 9999px);
   }
   .badge-beta {
     clip-path: polygon(var(--badge-offset) 0%, calc(100% - var(--badge-offset)) 0%, 100% var(--badge-offset), 100% calc(100% - var(--badge-offset)), calc(100% - var(--badge-offset)) 100%, var(--badge-offset) 100%, 0% calc(100% - var(--badge-offset)), 0% var(--badge-offset));
+    --badge-inner-clip: polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) 2px, calc(100% - 2px) calc(var(--badge-offset) + 2px), calc(100% - 2px) calc(100% - calc(var(--badge-offset) + 2px)), calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), calc(var(--badge-offset) + 2px) calc(100% - 2px), 2px calc(100% - calc(var(--badge-offset) + 2px)), 2px calc(var(--badge-offset) + 2px));
   }
   .alert {
     --alert-bar-color: rgba(255,255,255,0.10);
