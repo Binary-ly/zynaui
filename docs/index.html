@@ -1520,16 +1520,20 @@
 
     window.addEventListener('scroll', () => {
       const y = window.scrollY + 120
+      // Batch reads: collect all geometry before any class writes
+      const rects = []
       compSections.forEach(id => {
         const s = sectionMap[id]
         if (!s) return
-        const top = s.el.offsetTop
-        const bot = top + s.el.offsetHeight
-        if (y >= top && y < bot) {
-          navItems.forEach(n => n.classList.remove('active'))
-          s.nav?.classList.add('active')
-        }
+        rects.push({ id, top: s.el.offsetTop, height: s.el.offsetHeight, nav: s.nav })
       })
+      // Batch writes: apply class changes after all reads are done
+      let activeNav = null
+      rects.forEach(r => {
+        if (y >= r.top && y < r.top + r.height) activeNav = r.nav
+      })
+      navItems.forEach(n => n.classList.remove('active'))
+      if (activeNav) activeNav.classList.add('active')
     }, { passive: true })
   </script>
 

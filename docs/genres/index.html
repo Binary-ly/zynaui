@@ -2021,6 +2021,14 @@
     function applyPreview() {
       const r = document.documentElement.style
 
+      // Batch all layout reads BEFORE any style writes to avoid forced synchronous layout
+      const btnEl = document.querySelector('.gb-preview .btn')
+      const badgeEl = document.querySelector('.gb-preview .badge')
+      const cachedBtnW   = btnEl?.clientWidth   || 120
+      const cachedBtnH   = btnEl?.clientHeight  || 44
+      const cachedBadgeW = badgeEl?.clientWidth  || 80
+      const cachedBadgeH = badgeEl?.clientHeight || 22
+
       r.setProperty('--zyna', state['--zyna'])
       r.setProperty('--zyna-dark', darken(state['--zyna'], 0.45))
       r.setProperty('--zp-success', state['--zp-success'])
@@ -2053,10 +2061,7 @@
         const pctPts = rounded.map(p => ({ x: p.x / 200 * 100, y: p.y / BADGE_EDITOR_H * 100 }))
         r.setProperty('--z-badge-clip', `polygon(${pctPts.map(p=>`${p.x.toFixed(2)}% ${p.y.toFixed(2)}%`).join(', ')})`)
         r.setProperty('--z-badge-radius', '0')
-        const badgeEl = document.querySelector('.gb-preview .badge')
-        const badgeW  = badgeEl?.clientWidth  || 80
-        const badgeH  = badgeEl?.clientHeight || 22
-        const innerPts  = insetPoly(pctPts, badgeW, badgeH, 2)
+        const innerPts  = insetPoly(pctPts, cachedBadgeW, cachedBadgeH, 2)
         const innerPoly = `polygon(${innerPts.map(p=>`${p.x.toFixed(2)}% ${p.y.toFixed(2)}%`).join(', ')})`
         r.setProperty('--z-badge-inner-clip', innerPoly)
       }
@@ -2103,10 +2108,7 @@
         const pctPts  = rounded.map(p => ({ x: p.x / 200 * 100, y: p.y / 80 * 100 }))
         const poly = `polygon(${pctPts.map(p=>`${p.x.toFixed(2)}% ${p.y.toFixed(2)}%`).join(', ')})`
         r.setProperty('--z-btn-clip', poly)
-        const btnEl = document.querySelector('.gb-preview .btn')
-        const btnW  = btnEl?.clientWidth  || 120
-        const btnH  = btnEl?.clientHeight || 44
-        const innerPts  = insetPoly(pctPts, btnW, btnH, 1.5)
+        const innerPts  = insetPoly(pctPts, cachedBtnW, cachedBtnH, 1.5)
         const innerPoly = `polygon(${innerPts.map(p=>`${p.x.toFixed(2)}% ${p.y.toFixed(2)}%`).join(', ')})`
         r.setProperty('--z-btn-inner-clip', innerPoly)
       }
@@ -2115,17 +2117,14 @@
       document.getElementById('gb-brand-swatch-wrap').style.background = state['--zyna']
 
       // Defer non-critical code generation so CSS updates render first
-      scheduleCodeUpdate()
+      scheduleCodeUpdate(cachedBtnW, cachedBtnH, cachedBadgeW, cachedBadgeH)
     }
 
     // ── Code generation (deferred) ──────────────────────────────────────────
-    // updateCode() builds a diff, runs regex highlighting, and sets innerHTML.
-    // This is non-critical work — defer it via setTimeout so user-facing CSS
-    // updates from applyPreview() render without blocking.
     let _codeTimer = 0
-    function scheduleCodeUpdate() {
+    function scheduleCodeUpdate(bw, bh, bdgW, bdgH) {
       clearTimeout(_codeTimer)
-      _codeTimer = setTimeout(updateCode, 0)
+      _codeTimer = setTimeout(() => updateCode(bw, bh, bdgW, bdgH), 0)
     }
 
     function fmtEase(arr) {
@@ -2156,7 +2155,7 @@
       return String(v)
     }
 
-    function updateCode() {
+    function updateCode(cachedBtnW, cachedBtnH, cachedBadgeW, cachedBadgeH) {
       const diff = {}
 
       // simple CSS tokens
@@ -2208,10 +2207,9 @@
         const rounded = applyRounding(rawPts, radius)
         const pctPts = rounded.map(p => ({ x: p.x / 200 * 100, y: p.y / BADGE_EDITOR_H * 100 }))
         diff['--z-badge-clip'] = `polygon(${pctPts.map(p=>`${p.x.toFixed(2)}% ${p.y.toFixed(2)}%`).join(', ')})`
-        const badgeEl = document.querySelector('.gb-preview .badge')
-        const badgeW  = badgeEl?.clientWidth  || 80
-        const badgeH  = badgeEl?.clientHeight || 22
-        const innerPts = insetPoly(pctPts, badgeW, badgeH, 2)
+        const bw = cachedBadgeW || 80
+        const bh = cachedBadgeH || 22
+        const innerPts = insetPoly(pctPts, bw, bh, 2)
         diff['--z-badge-inner-clip'] = `polygon(${innerPts.map(p=>`${p.x.toFixed(2)}% ${p.y.toFixed(2)}%`).join(', ')})`
       }
 
@@ -2232,10 +2230,9 @@
         const pctPts  = rounded.map(p => ({ x: p.x / 200 * 100, y: p.y / 80 * 100 }))
         diff['--z-btn-clip'] = `polygon(${pctPts.map(p=>`${p.x.toFixed(2)}% ${p.y.toFixed(2)}%`).join(', ')})`
         // Bake computed inset so components work in pure CSS (no runtime JS needed).
-        const btnEl = document.querySelector('.gb-preview .btn')
-        const btnW  = btnEl?.clientWidth  || 120
-        const btnH  = btnEl?.clientHeight || 44
-        const innerPts = insetPoly(pctPts, btnW, btnH, 1.5)
+        const bw = cachedBtnW || 120
+        const bh = cachedBtnH || 44
+        const innerPts = insetPoly(pctPts, bw, bh, 1.5)
         diff['--z-btn-inner-clip'] = `polygon(${innerPts.map(p=>`${p.x.toFixed(2)}% ${p.y.toFixed(2)}%`).join(', ')})`
       }
 
