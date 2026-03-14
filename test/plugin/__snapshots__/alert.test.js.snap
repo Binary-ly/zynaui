@@ -221,15 +221,20 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
     --z-duration-fast: 0.18s;
     --z-duration-base: 0.22s;
     --z-duration-slow: 0.28s;
+    --z-ease-enter: cubic-bezier(0.22, 1, 0.36, 1);
+    --z-ease-exit: cubic-bezier(0.55, 0, 1, 0.45);
+    --z-ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
     --z-btn-clip: polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)));
     --z-btn-corner: var(--z-corner);
     --z-btn-inner-clip: polygon(1px 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--btn-corner) + 1px)));
-    --z-btn-hover-shadow: none;
+    --z-btn-active-scale: 0.96;
+    --z-btn-scan-stop: 70%;
     --z-alert-radius: 0 3px 3px 0;
     --z-alert-bar-width: 3px;
     --z-alert-prefix: "// ";
     --z-alert-bg-opacity: 5.5%;
     --z-alert-border: none;
+    --z-alert-prefix-opacity: 0.38;
     --z-alert-bar-glow: none;
     --z-alert-texture: none;
     --z-alert-padding-top: 0.875rem;
@@ -249,8 +254,12 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
       --z-card-bracket-color: color-mix(in srgb, var(--zyna) 42%, transparent);
     }
     --z-card-bracket-size: 20px;
+    --z-card-bracket-stroke: 1.5px;
     --z-card-bar-height: 1px;
-    --z-card-bar-bg: var(--card-bar-gradient);
+    --z-card-bar-bg: linear-gradient(90deg, transparent 0%, var(--zyna) 20%, var(--zyna) 80%, transparent 100%);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-card-bar-bg: linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--zyna) 55%, transparent) 20%, color-mix(in srgb, var(--zyna) 55%, transparent) 80%, transparent 100%);
+    }
     --z-card-bar-shadow: none;
     --z-card-header-bg: transparent;
     --z-card-header-border: var(--z-color-border);
@@ -260,6 +269,7 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
     }
     --z-card-header-letter-spacing: 0.14em;
     --z-card-header-text-shadow: none;
+    --z-card-header-dot-size: 5px;
     --z-card-header-dot-bg: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
       --z-card-header-dot-bg: color-mix(in srgb, var(--zyna) 65%, transparent);
@@ -273,10 +283,15 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
     --z-card-glow-duration: 4s;
     --z-card-default-glow-lo: rgba(0,0,0,0);
     --z-card-default-glow-hi: rgba(0,0,0,0);
+    --z-topbar-border: var(--z-color-border);
+    --z-topbar-glow: none;
+    --z-sidebar-active-shadow: none;
     --z-badge-radius: 0;
     --z-badge-padding: 0.22rem 0.85rem;
     --z-badge-letter-spacing: 0.13em;
     --z-badge-inset-shadow: none;
+    --z-badge-scan-duration: 5s;
+    --z-badge-inner-clip: polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), 2px calc(100% - 2px));
   }
   @property --btn-bg {
     syntax: "*";
@@ -307,11 +322,6 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
     syntax: "<color>";
     inherits: false;
     initial-value: rgba(255,255,255,0.05);
-  }
-  @property --card-bracket-size {
-    syntax: "<length>";
-    inherits: false;
-    initial-value: 20px;
   }
   @property --card-glow-lo {
     syntax: "<color>";
@@ -418,7 +428,7 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
     user-select: none;
     border: none;
     clip-path: var(--z-btn-clip);
-    transition: filter var(--z-duration-base) ease, color var(--z-duration-fast) ease, background var(--z-duration-fast) ease, transform 0.08s ease;
+    transition: filter var(--z-duration-base) var(--z-ease-exit), color var(--z-duration-fast) var(--z-ease-exit), background var(--z-duration-fast) var(--z-ease-exit), transform var(--z-duration-fast) var(--z-ease-exit);
     background: var(--btn-bg);
     color: var(--btn-color);
     filter: var(--btn-filter);
@@ -435,11 +445,11 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(90deg, var(--btn-scan-color) 0%, transparent 70%);
+      background: linear-gradient(90deg, var(--btn-scan-color) 0%, transparent var(--z-btn-scan-stop));
       opacity: 0;
       transform: scaleX(0);
       transform-origin: left center;
-      transition: transform var(--z-duration-slow) ease, opacity var(--z-duration-slow) ease;
+      transition: transform var(--z-duration-slow) var(--z-ease-exit), opacity var(--z-duration-slow) var(--z-ease-exit);
       pointer-events: none;
     }
     &:hover {
@@ -447,7 +457,7 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
       color: var(--btn-hover-color, var(--btn-color));
       filter: var(--btn-hover-filter);
       text-shadow: var(--btn-hover-text-shadow);
-      box-shadow: var(--z-btn-hover-shadow);
+      transition: filter var(--z-duration-base) var(--z-ease-enter), color var(--z-duration-fast) var(--z-ease-enter), background var(--z-duration-fast) var(--z-ease-enter), transform var(--z-duration-fast) var(--z-ease-enter);
     }
     &:hover::before {
       background: var(--btn-hover-interior, var(--btn-interior));
@@ -455,9 +465,10 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
     &:hover::after {
       opacity: 1;
       transform: scaleX(1);
+      transition: transform var(--z-duration-slow) var(--z-ease-enter), opacity var(--z-duration-slow) var(--z-ease-enter);
     }
     &:active {
-      transform: scale(0.96);
+      transform: scale(var(--z-btn-active-scale));
       filter: var(--btn-active-filter);
     }
     &:focus-visible {
@@ -502,7 +513,7 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
     user-select: none;
     border: none;
     clip-path: var(--z-btn-clip);
-    transition: filter var(--z-duration-base) ease, color var(--z-duration-fast) ease, background var(--z-duration-fast) ease, transform 0.08s ease;
+    transition: filter var(--z-duration-base) var(--z-ease-exit), color var(--z-duration-fast) var(--z-ease-exit), background var(--z-duration-fast) var(--z-ease-exit), transform var(--z-duration-fast) var(--z-ease-exit);
     background: var(--btn-bg);
     color: var(--btn-color);
     filter: var(--btn-filter);
@@ -519,11 +530,11 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(90deg, var(--btn-scan-color) 0%, transparent 70%);
+      background: linear-gradient(90deg, var(--btn-scan-color) 0%, transparent var(--z-btn-scan-stop));
       opacity: 0;
       transform: scaleX(0);
       transform-origin: left center;
-      transition: transform var(--z-duration-slow) ease, opacity var(--z-duration-slow) ease;
+      transition: transform var(--z-duration-slow) var(--z-ease-exit), opacity var(--z-duration-slow) var(--z-ease-exit);
       pointer-events: none;
     }
     &:hover {
@@ -531,7 +542,7 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
       color: var(--btn-hover-color, var(--btn-color));
       filter: var(--btn-hover-filter);
       text-shadow: var(--btn-hover-text-shadow);
-      box-shadow: var(--z-btn-hover-shadow);
+      transition: filter var(--z-duration-base) var(--z-ease-enter), color var(--z-duration-fast) var(--z-ease-enter), background var(--z-duration-fast) var(--z-ease-enter), transform var(--z-duration-fast) var(--z-ease-enter);
     }
     &:hover::before {
       background: var(--btn-hover-interior, var(--btn-interior));
@@ -539,9 +550,10 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
     &:hover::after {
       opacity: 1;
       transform: scaleX(1);
+      transition: transform var(--z-duration-slow) var(--z-ease-enter), opacity var(--z-duration-slow) var(--z-ease-enter);
     }
     &:active {
-      transform: scale(0.96);
+      transform: scale(var(--z-btn-active-scale));
       filter: var(--btn-active-filter);
     }
     &:focus-visible {
@@ -619,7 +631,6 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
     @supports (color: color-mix(in lab, red, red)) {
       --btn-hover-text-shadow: 0 0 10px color-mix(in srgb, var(--zp-text) 35%, transparent);
     }
-    --z-btn-hover-shadow: none;
   }
   .btn-danger {
     --btn-bg: var(--z-color-danger);
@@ -649,7 +660,6 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
       --btn-hover-text-shadow: 0 0 16px color-mix(in srgb, var(--z-color-danger) 95%, transparent);
     }
     --btn-hover-interior: var(--z-surface-inset-danger-hover);
-    --z-btn-hover-shadow: none;
   }
   .btn-sm {
     padding: 0.42rem 1rem;
@@ -691,11 +701,6 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
     --card-border-color: var(--z-card-border-color);
     --card-shadow: var(--z-card-shadow);
     --card-bracket-color: var(--z-card-bracket-color);
-    --card-bracket-size: var(--z-card-bracket-size);
-    --card-bar-gradient: linear-gradient(90deg, transparent 0%, var(--zyna) 25%, var(--zyna) 75%, transparent 100%);
-    @supports (color: color-mix(in lab, red, red)) {
-      --card-bar-gradient: linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--zyna) 30%, transparent) 25%, color-mix(in srgb, var(--zyna) 30%, transparent) 75%, transparent 100%);
-    }
     --card-animation: none;
     --card-glow-lo: var(--z-card-default-glow-lo);
     --card-glow-hi: var(--z-card-default-glow-hi);
@@ -706,14 +711,13 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
     background: var(--z-card-texture), repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.012) 3px, rgba(255,255,255,0.012) 4px), var(--card-gradient);
     border: 1px solid var(--card-border-color);
     box-shadow: var(--card-shadow);
-    overflow: hidden;
     animation: var(--card-animation);
     &::before {
       content: "";
       position: absolute;
       inset: 0;
       background-image: linear-gradient(to right,  var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to bottom, var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to left,   var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to bottom, var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to right,  var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to top,    var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to left,   var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to top,    var(--card-bracket-color), var(--card-bracket-color));
-      background-size: var(--card-bracket-size) 1.5px, 1.5px var(--card-bracket-size), var(--card-bracket-size) 1.5px, 1.5px var(--card-bracket-size), var(--card-bracket-size) 1.5px, 1.5px var(--card-bracket-size), var(--card-bracket-size) 1.5px, 1.5px var(--card-bracket-size);
+      background-size: var(--z-card-bracket-size) var(--z-card-bracket-stroke), var(--z-card-bracket-stroke) var(--z-card-bracket-size), var(--z-card-bracket-size) var(--z-card-bracket-stroke), var(--z-card-bracket-stroke) var(--z-card-bracket-size), var(--z-card-bracket-size) var(--z-card-bracket-stroke), var(--z-card-bracket-stroke) var(--z-card-bracket-size), var(--z-card-bracket-size) var(--z-card-bracket-stroke), var(--z-card-bracket-stroke) var(--z-card-bracket-size);
       background-position: 0 0, 0 0, 100% 0, 100% 0, 0 100%, 0 100%, 100% 100%, 100% 100%;
       background-repeat: no-repeat;
       z-index: 1;
@@ -753,8 +757,8 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
     position: relative;
     &::before {
       content: "";
-      width: 5px;
-      height: 5px;
+      width: var(--z-card-header-dot-size);
+      height: var(--z-card-header-dot-size);
       border-radius: 50%;
       background: var(--z-card-header-dot-bg);
       flex-shrink: 0;
@@ -764,7 +768,7 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
   }
   .card-footer {
     padding: 0.7rem 1.25rem;
-    border-top: 1px solid var(--z-color-border);
+    border-top: 1px solid var(--z-card-header-border);
   }
   .card-title {
     font-size: 1.1rem;
@@ -789,9 +793,9 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
     @supports (color: color-mix(in lab, red, red)) {
       --card-bracket-color: color-mix(in srgb, var(--zyna) 28%, transparent);
     }
-    --card-bar-gradient: linear-gradient(90deg, transparent 0%, var(--zyna) 25%, var(--zyna) 75%, transparent 100%);
+    --z-card-bar-bg: linear-gradient(90deg, transparent 0%, var(--zyna) 20%, var(--zyna) 80%, transparent 100%);
     @supports (color: color-mix(in lab, red, red)) {
-      --card-bar-gradient: linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--zyna) 18%, transparent) 25%, color-mix(in srgb, var(--zyna) 18%, transparent) 75%, transparent 100%);
+      --z-card-bar-bg: linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--zyna) 38%, transparent) 20%, color-mix(in srgb, var(--zyna) 38%, transparent) 80%, transparent 100%);
     }
   }
   .card-glow {
@@ -803,12 +807,12 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
     @supports (color: color-mix(in lab, red, red)) {
       --card-bracket-color: color-mix(in srgb, var(--zyna) 70%, transparent);
     }
-    --card-bracket-size: 22px;
-    --card-bar-gradient: linear-gradient(90deg, transparent 0%, var(--zyna) 20%, var(--zyna) 80%, transparent 100%);
+    --z-card-bracket-size: 22px;
+    --z-card-bar-bg: linear-gradient(90deg, transparent 0%, var(--zyna) 20%, var(--zyna) 80%, transparent 100%);
     @supports (color: color-mix(in lab, red, red)) {
-      --card-bar-gradient: linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--zyna) 60%, transparent) 20%, color-mix(in srgb, var(--zyna) 60%, transparent) 80%, transparent 100%);
+      --z-card-bar-bg: linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--zyna) 80%, transparent) 20%, color-mix(in srgb, var(--zyna) 80%, transparent) 80%, transparent 100%);
     }
-    --card-animation: zyna-card-pulse var(--z-card-glow-duration) ease-in-out infinite;
+    --card-animation: zyna-card-pulse var(--z-card-glow-duration) var(--z-ease-spring) infinite;
     --card-glow-lo: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
       --card-glow-lo: color-mix(in srgb, var(--zyna) 12%, transparent);
@@ -849,6 +853,8 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
     --badge-glow: none;
     --badge-scan-color: color-mix(in srgb, white 18%, transparent);
     --badge-offset: var(--zp-corner-badge);
+    --badge-interior: transparent;
+    --badge-inner-clip: var(--z-badge-inner-clip);
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
@@ -866,6 +872,15 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
     color: var(--badge-color);
     filter: var(--badge-glow);
     box-shadow: var(--z-badge-inset-shadow);
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      clip-path: var(--badge-inner-clip);
+      background: var(--badge-interior);
+      z-index: -1;
+      pointer-events: none;
+    }
     &:focus-visible {
       outline: 1.5px solid var(--badge-color);
       outline-offset: 3px;
@@ -878,8 +893,23 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
       left: -60%;
       width: 50%;
       background: linear-gradient(90deg, transparent, var(--badge-scan-color), transparent);
-      animation: zyna-badge-scan 5s ease-in-out infinite;
+      animation: zyna-badge-scan var(--z-badge-scan-duration) var(--z-ease-spring) infinite;
       pointer-events: none;
+    }
+  }
+  .badge-outline {
+    --badge-color: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-color: color-mix(in srgb, var(--zyna) 85%, white);
+    }
+    --badge-bg: currentColor;
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in srgb, currentColor 80%, transparent);
+    }
+    --badge-interior: var(--z-surface-inset);
+    --badge-glow: drop-shadow(0 0 6px currentColor) drop-shadow(0 0 16px currentColor);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-glow: drop-shadow(0 0 6px color-mix(in srgb, currentColor 55%, transparent)) drop-shadow(0 0 16px color-mix(in srgb, currentColor 20%, transparent));
     }
   }
   .badge-primary {
@@ -954,41 +984,45 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
     --badge-bg: var(--z-color-overlay);
     --badge-color: var(--z-color-text-muted);
   }
-  .badge-outline {
-    background: transparent;
-    border-top: 1px solid currentColor;
-    border-bottom: 1px solid currentColor;
-    opacity: 0.75;
-  }
   .badge-pulse {
+    --badge-dot-size: 5px;
     &::before {
       content: "";
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
+      position: relative;
+      inset: auto;
+      clip-path: none;
+      z-index: auto;
       background: currentColor;
+      width: var(--badge-dot-size);
+      height: var(--badge-dot-size);
+      border-radius: 50%;
       flex-shrink: 0;
-      animation: zyna-pulse-ring 2s ease-out infinite;
+      animation: zyna-pulse-ring 2s var(--z-ease-enter) infinite;
     }
   }
   .badge-lg {
     padding: 0.32rem 1.05rem;
     font-size: 0.68rem;
     --badge-offset: var(--zp-corner-badge-lg);
+    --badge-dot-size: 6px;
   }
   .badge-alpha {
     clip-path: polygon(var(--badge-offset) 0%, 100% 0%, calc(100% - var(--badge-offset)) 100%, 0% 100%);
+    --badge-inner-clip: polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), 2px calc(100% - 2px));
   }
   .badge-delta {
     clip-path: inset(0 round 3px);
     border-radius: 3px;
+    --badge-inner-clip: inset(2px round 3px);
   }
   .badge-gamma {
     clip-path: inset(0 round 9999px);
     border-radius: 9999px;
+    --badge-inner-clip: inset(2px round 9999px);
   }
   .badge-beta {
     clip-path: polygon(var(--badge-offset) 0%, calc(100% - var(--badge-offset)) 0%, 100% var(--badge-offset), 100% calc(100% - var(--badge-offset)), calc(100% - var(--badge-offset)) 100%, var(--badge-offset) 100%, 0% calc(100% - var(--badge-offset)), 0% var(--badge-offset));
+    --badge-inner-clip: polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) 2px, calc(100% - 2px) calc(var(--badge-offset) + 2px), calc(100% - 2px) calc(100% - calc(var(--badge-offset) + 2px)), calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), calc(var(--badge-offset) + 2px) calc(100% - 2px), 2px calc(100% - calc(var(--badge-offset) + 2px)), 2px calc(var(--badge-offset) + 2px));
   }
   .alert {
     --alert-bar-color: rgba(255,255,255,0.10);
@@ -1069,7 +1103,7 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
     &::before {
       content: var(--z-alert-prefix);
       color: currentColor;
-      opacity: 0.38;
+      opacity: var(--z-alert-prefix-opacity);
       font-weight: 400;
       letter-spacing: 0;
     }
@@ -1167,7 +1201,7 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
     border-radius: 9999px;
     padding: 0.875rem 1.25rem;
     border: none;
-    box-shadow: inset 0 0 0 2px var(--alert-bar-color);
+    box-shadow: inset 0 0 0 var(--z-alert-bar-width) var(--alert-bar-color);
     &::before {
       display: none;
     }
