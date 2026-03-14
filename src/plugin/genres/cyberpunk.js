@@ -43,7 +43,6 @@ export const tokens = {
   '--z-btn-clip':         'inset(0)',
   '--z-btn-inner-clip':   'inset(1.5px)',
   '--z-btn-corner':       '18px',
-  '--z-btn-hover-shadow': '0 0 24px color-mix(in srgb, var(--zyna) 65%, transparent), 0 0 6px color-mix(in srgb, var(--zyna) 90%, transparent), 0 0 60px color-mix(in srgb, var(--zyna) 20%, transparent)',
   '--z-btn-active-scale': '0.94',
   '--z-btn-scan-stop':    '55%',
 
@@ -54,6 +53,7 @@ export const tokens = {
   '--z-badge-letter-spacing':  '0.16em',
   '--z-badge-inset-shadow':    'inset 0 0 0 1px currentColor',
   '--z-badge-scan-duration':   '2.5s',
+  '--z-badge-inner-clip':      'inset(2px)',
 
   // ── Alert structural ─────────────────────────────────────────────────────────
   '--z-alert-radius':       '0',

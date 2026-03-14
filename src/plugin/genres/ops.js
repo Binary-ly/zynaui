@@ -37,7 +37,6 @@ export const tokens = {
   '--z-btn-clip':         `polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)))`,
   '--z-btn-corner':       'var(--z-corner)',
   '--z-btn-inner-clip':   shapes.diagonal('var(--btn-corner)').inner,
-  '--z-btn-hover-shadow': 'none',
   '--z-btn-active-scale': '0.96',
   '--z-btn-scan-stop':    '70%',
 
@@ -73,9 +72,7 @@ export const tokens = {
   '--z-card-bracket-size':          '20px',
   '--z-card-bracket-stroke':        '1.5px',
   '--z-card-bar-height':            '1px',
-  // Reads --card-bar-gradient (set on .card) via lazy CSS evaluation — variants like
-  // .card-glow override --card-bar-gradient locally so the bar brightens automatically.
-  '--z-card-bar-bg':                'var(--card-bar-gradient)',
+  '--z-card-bar-bg':                'linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--zyna) 55%, transparent) 20%, color-mix(in srgb, var(--zyna) 55%, transparent) 80%, transparent 100%)',
   '--z-card-bar-shadow':            'none',
   '--z-card-header-bg':             'transparent',
   '--z-card-header-border':         'var(--z-color-border)',
@@ -97,7 +94,7 @@ export const tokens = {
   // docs.css references these with CSS fallbacks (e.g. var(--z-topbar-border, var(--border)))
   // so they are optional — but declared here to complete the ops source-of-truth contract
   // and make them discoverable when authoring new genres.
-  '--z-topbar-border':         'var(--border)',
+  '--z-topbar-border':         'var(--z-color-border)',
   '--z-topbar-glow':           'none',
   '--z-sidebar-active-shadow': 'none',
 
@@ -111,6 +108,10 @@ export const tokens = {
   '--z-badge-letter-spacing':  '0.13em',
   '--z-badge-inset-shadow':    'none',
   '--z-badge-scan-duration':   '5s',
+  // Inner clip for .badge-outline — same two-level pattern as --z-btn-inner-clip.
+  // Uses var(--badge-offset) which is an unregistered custom property; lazy CSS
+  // substitution resolves it at the element level (same as --btn-corner in buttons).
+  '--z-badge-inner-clip':      'polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), 2px calc(100% - 2px))',
 }
 
 export default { name, tokens, swatches, styles }

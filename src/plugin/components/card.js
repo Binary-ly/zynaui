@@ -9,7 +9,7 @@
  *   --card-bracket-color   Corner L-bracket stroke colour
  *   --card-bracket-size    Corner bracket arm length (default: 20px)
  *   --card-bracket-stroke  Corner bracket line thickness (default: 1.5px)
- *   --card-bar-gradient    Top luminescent power-bar gradient
+ *   --z-card-bar-bg        Top luminescent power-bar gradient (override on element to change per-variant)
  *   --card-animation       CSS animation shorthand (e.g. zyna-card-pulse 4s ease-in-out infinite)
  *   --card-glow-lo         Pulse glow colour at rest  (used by zyna-card-pulse keyframe)
  *   --card-glow-hi         Pulse glow colour at peak  (used by zyna-card-pulse keyframe)
@@ -65,8 +65,8 @@ export default function(theme) {
   // so any variant just sets those two variables.
   function cornerBrackets() {
     const c = 'var(--card-bracket-color)'
-    const s = 'var(--card-bracket-size)'
-    const t = 'var(--card-bracket-stroke)'
+    const s = 'var(--z-card-bracket-size)'
+    const t = 'var(--z-card-bracket-stroke)'
     return {
       backgroundImage: [
         `linear-gradient(to right,  ${c}, ${c})`,   // TL — horizontal
@@ -90,12 +90,10 @@ export default function(theme) {
       '--card-gradient':      'var(--z-card-gradient)',
       '--card-border-color':  'var(--z-card-border-color)',
       '--card-shadow':        'var(--z-card-shadow)',
-      // --card-bracket-size is registered @property inherits:false — must be set explicitly
-      // via a class rule reading the inheritable intermediary --z-card-bracket-size.
+      // --card-bracket-color is element-level so variants can override it locally.
+      // Size and stroke are read directly from root tokens in cornerBrackets() so the
+      // builder and genre tokens update ::before without @property inheritance issues.
       '--card-bracket-color':  'var(--z-card-bracket-color)',
-      '--card-bracket-size':   'var(--z-card-bracket-size)',
-      '--card-bracket-stroke': 'var(--z-card-bracket-stroke)',
-      '--card-bar-gradient':  'linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--zyna) 30%, transparent) 25%, color-mix(in srgb, var(--zyna) 30%, transparent) 75%, transparent 100%)',
       '--card-animation':     'none',
       // --z-card-default-glow-lo/hi: genre structural tokens. Ops = transparent (no base pulse).
       // Cyberpunk sets neon values so that .card-glow glows in the right colour automatically.
@@ -124,7 +122,6 @@ export default function(theme) {
       ].join(', '),
       border: '1px solid var(--card-border-color)',
       boxShadow: 'var(--card-shadow)',
-      overflow: 'hidden',
       animation: 'var(--card-animation)',
 
       // 4-corner L-brackets via 8 stacked background gradients
@@ -215,7 +212,7 @@ export default function(theme) {
       '--card-border-color':  'var(--z-color-border-dim)',
       '--card-shadow':        'var(--z-shadow-card-deep)',
       '--card-bracket-color': 'color-mix(in srgb, var(--zyna) 28%, transparent)',
-      '--card-bar-gradient':  'linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--zyna) 18%, transparent) 25%, color-mix(in srgb, var(--zyna) 18%, transparent) 75%, transparent 100%)',
+      '--z-card-bar-bg':      'linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--zyna) 38%, transparent) 20%, color-mix(in srgb, var(--zyna) 38%, transparent) 80%, transparent 100%)',
     },
 
     // ── Animated gold-glow variant — just overrides variables ─────────────────
@@ -226,8 +223,8 @@ export default function(theme) {
     '.card-glow': {
       '--card-border-color':  'color-mix(in srgb, var(--zyna) 22%, transparent)',
       '--card-bracket-color': 'color-mix(in srgb, var(--zyna) 70%, transparent)',
-      '--card-bracket-size':  '22px',
-      '--card-bar-gradient':  'linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--zyna) 60%, transparent) 20%, color-mix(in srgb, var(--zyna) 60%, transparent) 80%, transparent 100%)',
+      '--z-card-bracket-size': '22px',
+      '--z-card-bar-bg':      'linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--zyna) 80%, transparent) 20%, color-mix(in srgb, var(--zyna) 80%, transparent) 80%, transparent 100%)',
       '--card-animation':     'zyna-card-pulse var(--z-card-glow-duration) var(--z-ease-spring) infinite',
       '--card-glow-lo':       'color-mix(in srgb, var(--zyna) 12%, transparent)',
       '--card-glow-hi':       'color-mix(in srgb, var(--zyna) 26%, transparent)',

@@ -42,6 +42,13 @@ export default function(theme) {
       '--badge-glow':       'none',
       '--badge-scan-color': 'color-mix(in srgb, white 18%, transparent)',
       '--badge-offset':     'var(--zp-corner-badge)',
+      // Outlined technique defaults — transparent so solid badges are unaffected
+      '--badge-interior':   'transparent',
+      // --z-badge-inner-clip: genre structural token, same two-level pattern as
+      // --btn-inner-clip → var(--z-btn-inner-clip). The genre builder's unlayered
+      // .gb-preview .badge::before rule reads --z-badge-inner-clip directly (same
+      // override trick as buttons) to bypass @layer base cascade ordering.
+      '--badge-inner-clip': 'var(--z-badge-inner-clip)',
 
       display: 'inline-flex',
       alignItems: 'center',
@@ -70,6 +77,17 @@ export default function(theme) {
       // --z-badge-inset-shadow: Ops = none. Cyberpunk = inset 1px border in text colour.
       boxShadow: 'var(--z-badge-inset-shadow)',
 
+      // Interior fill — invisible for solid badges (transparent), dark polygon for outlined
+      '&::before': {
+        content: '""',
+        position: 'absolute',
+        inset: '0',
+        clipPath: 'var(--badge-inner-clip)',
+        background: 'var(--badge-interior)',
+        zIndex: '-1',
+        pointerEvents: 'none',
+      },
+
       // Focus ring — shown when badge is used as an interactive element
       '&:focus-visible': {
         outline: '1.5px solid var(--badge-color)',
@@ -88,6 +106,17 @@ export default function(theme) {
         animation: 'zyna-badge-scan var(--z-badge-scan-duration) var(--z-ease-spring) infinite',
         pointerEvents: 'none',
       },
+    },
+
+    // ── Outline — declared before semantic variants so semantic color wins ───────
+    // The inner-clip technique uses the badge bg as a border rim and ::before to
+    // fill the dark interior. Defaults to brand gold; semantic classes override
+    // --badge-color (and thus currentColor) since they are declared after this rule.
+    '.badge-outline': {
+      '--badge-color':    `color-mix(in srgb, var(--zyna) 85%, white)`,
+      '--badge-bg':       'color-mix(in srgb, currentColor 80%, transparent)',
+      '--badge-interior': 'var(--z-surface-inset)',
+      '--badge-glow':     'drop-shadow(0 0 6px color-mix(in srgb, currentColor 55%, transparent)) drop-shadow(0 0 16px color-mix(in srgb, currentColor 20%, transparent))',
     },
 
     // ── Semantic variants ─────────────────────────────────────────────────────
@@ -138,23 +167,21 @@ export default function(theme) {
       '--badge-color': 'var(--z-color-text-muted)',
     },
 
-    // Top + bottom strokes through the parallelogram — corners are clipped away
-    '.badge-outline': {
-      background: 'transparent',
-      borderTop: '1px solid currentColor',
-      borderBottom: '1px solid currentColor',
-      opacity: '0.75',
-    },
-
     // ── Pulsing status dot — expanding ring via animated box-shadow ───────────
     '.badge-pulse': {
       '--badge-dot-size': '5px',
       '&::before': {
+        // Reset position properties inherited from .badge::before — the dot must
+        // flow as a flex item, not be absolutely positioned inside the badge.
         content: '""',
+        position: 'relative',
+        inset: 'auto',
+        clipPath: 'none',
+        zIndex: 'auto',
+        background: 'currentColor',
         width: 'var(--badge-dot-size)',
         height: 'var(--badge-dot-size)',
         borderRadius: '50%',
-        background: 'currentColor',
         flexShrink: '0',
         animation: 'zyna-pulse-ring 2s var(--z-ease-enter) infinite',
       },
@@ -169,9 +196,24 @@ export default function(theme) {
 
     // ── Shape modifiers ────────────────────────────────────────────────────────
     // .badge-beta.badge-lg works — .badge-lg sets --badge-offset, the bevel polygon uses it.
-    '.badge-alpha': { clipPath: shapes.slant('var(--badge-offset)') },
-    '.badge-delta': { clipPath: 'inset(0 round 3px)', borderRadius: '3px' },
-    '.badge-gamma': { clipPath: 'inset(0 round 9999px)', borderRadius: '9999px' },
-    '.badge-beta':    { clipPath: shapes.bevel('var(--badge-offset)').outer },
+    // Each modifier also sets --badge-inner-clip so .badge-outline traces the correct shape.
+    '.badge-alpha': {
+      clipPath: shapes.slant('var(--badge-offset)'),
+      '--badge-inner-clip': `polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), 2px calc(100% - 2px))`,
+    },
+    '.badge-delta': {
+      clipPath: 'inset(0 round 3px)',
+      borderRadius: '3px',
+      '--badge-inner-clip': 'inset(2px round 3px)',
+    },
+    '.badge-gamma': {
+      clipPath: 'inset(0 round 9999px)',
+      borderRadius: '9999px',
+      '--badge-inner-clip': 'inset(2px round 9999px)',
+    },
+    '.badge-beta': {
+      clipPath: shapes.bevel('var(--badge-offset)').outer,
+      '--badge-inner-clip': `polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) 2px, calc(100% - 2px) calc(var(--badge-offset) + 2px), calc(100% - 2px) calc(100% - calc(var(--badge-offset) + 2px)), calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), calc(var(--badge-offset) + 2px) calc(100% - 2px), 2px calc(100% - calc(var(--badge-offset) + 2px)), 2px calc(var(--badge-offset) + 2px))`,
+    },
   }
 }

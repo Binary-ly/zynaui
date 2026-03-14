@@ -114,7 +114,6 @@ export default plugin(
       // @property initial-value. Omitting the registration is safe — the
       // component rules always set these variables explicitly.
       '@property --card-border-color':     { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(255,255,255,0.05)' },
-      '@property --card-bracket-size':     { syntax: '"<length>"', inherits: 'false', initialValue: '20px' },
       '@property --card-glow-lo':          { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(0,0,0,0)' },
       '@property --card-glow-hi':          { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(0,0,0,0)' },
 

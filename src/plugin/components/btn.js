@@ -136,7 +136,6 @@ export default function(theme) {
       color: 'var(--btn-hover-color, var(--btn-color))',
       filter: 'var(--btn-hover-filter)',
       textShadow: 'var(--btn-hover-text-shadow)',
-      boxShadow: 'var(--z-btn-hover-shadow)',
       // Hover-in transition — CSS reads this because :hover is the destination state.
       transition: 'filter var(--z-duration-base) var(--z-ease-enter), color var(--z-duration-fast) var(--z-ease-enter), background var(--z-duration-fast) var(--z-ease-enter), transform var(--z-duration-fast) var(--z-ease-enter)',
     },
@@ -209,9 +208,6 @@ export default function(theme) {
       '--btn-hover-color':       'var(--z-color-text)',
       '--btn-hover-filter':      'drop-shadow(0 0 8px color-mix(in srgb, white 10%, transparent))',
       '--btn-hover-text-shadow': `0 0 10px color-mix(in srgb, var(--zp-text) 35%, transparent)`,
-      // Ghost is intentionally quiet — suppress any genre-level hover glow so it
-      // stays muted regardless of genre (class rule beats inherited :root token).
-      '--z-btn-hover-shadow':    'none',
     },
 
     // ── Danger: neon crimson — polygon border technique ───────────────────────
@@ -225,10 +221,6 @@ export default function(theme) {
       '--btn-hover-filter':      'drop-shadow(0 0 16px color-mix(in srgb, var(--z-color-danger) 90%, transparent)) drop-shadow(0 0 44px color-mix(in srgb, var(--z-color-danger) 32%, transparent))',
       '--btn-hover-text-shadow': '0 0 16px color-mix(in srgb, var(--z-color-danger) 95%, transparent)',
       '--btn-hover-interior':    'var(--z-surface-inset-danger-hover)',
-      // Danger has its own semantically-colored hover glow (--btn-hover-filter, crimson).
-      // Suppress genre-level hover shadow to prevent a brand-color glow (e.g. neon green
-      // in Cyberpunk) from conflicting with the danger color identity.
-      '--z-btn-hover-shadow':    'none',
     },
 
     // ── Sizes ─────────────────────────────────────────────────────────────────
