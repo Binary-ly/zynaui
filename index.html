@@ -702,13 +702,13 @@
             <div>
               <p style="font-size:0.58rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.14em;font-weight:700;font-family:var(--mono);margin-bottom:0.6rem">// Alerts</p>
               <div style="display:flex;flex-direction:column;gap:0.35rem">
-                <div class="alert alert-success" style="padding:0.5rem 0.875rem">
+                <div class="alert alert-success" role="alert" style="padding:0.5rem 0.875rem">
                   <div><p class="alert-title" style="font-size:0.65rem">Uplink Established</p></div>
                 </div>
-                <div class="alert alert-danger" style="padding:0.5rem 0.875rem">
+                <div class="alert alert-danger" role="alert" style="padding:0.5rem 0.875rem">
                   <div><p class="alert-title" style="font-size:0.65rem">System Breach</p></div>
                 </div>
-                <div class="alert alert-info" style="padding:0.5rem 0.875rem">
+                <div class="alert alert-info" role="alert" style="padding:0.5rem 0.875rem">
                   <div><p class="alert-title" style="font-size:0.65rem">Signal Received</p></div>
                 </div>
               </div>
@@ -908,10 +908,10 @@
           <div class="feature-title">Alert</div>
           <div class="feature-text">Terminal notifications with a left luminescent bar. 6 semantic variants with icon support.</div>
           <div style="margin-top:1.25rem;display:flex;flex-direction:column;gap:0.4rem">
-            <div class="alert alert-success" style="padding:0.5rem 0.875rem">
+            <div class="alert alert-success" role="alert" style="padding:0.5rem 0.875rem">
               <div><p class="alert-title" style="font-size:0.58rem">Uplink OK</p></div>
             </div>
-            <div class="alert alert-danger" style="padding:0.5rem 0.875rem">
+            <div class="alert alert-danger" role="alert" style="padding:0.5rem 0.875rem">
               <div><p class="alert-title" style="font-size:0.58rem">Breach Detected</p></div>
             </div>
           </div>
@@ -1133,22 +1133,22 @@
 
             <div id="alert-preview" class="tab-panel active">
               <div class="comp-preview" style="flex-direction:column;align-items:stretch">
-                <div class="alert alert-success">
+                <div class="alert alert-success" role="alert">
                   <div><p class="alert-title">Uplink Established</p><p>Secure transmission confirmed. All nodes synchronized.</p></div>
                 </div>
-                <div class="alert alert-danger">
+                <div class="alert alert-danger" role="alert">
                   <div><p class="alert-title">System Breach</p><p>Unauthorized access detected. Isolating affected modules.</p></div>
                 </div>
-                <div class="alert alert-warning">
+                <div class="alert alert-warning" role="alert">
                   <div><p class="alert-title">Irreversible</p><p>This action cannot be undone. Confirm before proceeding.</p></div>
                 </div>
-                <div class="alert alert-info">
+                <div class="alert alert-info" role="alert">
                   <div><p class="alert-title">Signal Received</p><p>New transmission available. Protocol v2.1 inbound.</p></div>
                 </div>
-                <div class="alert alert-neutral">
+                <div class="alert alert-neutral" role="alert">
                   <div><p class="alert-title">Standby</p><p>No active events. System is idle and awaiting instructions.</p></div>
                 </div>
-                <div class="alert alert-dark">
+                <div class="alert alert-dark" role="alert">
                   <div><p class="alert-title">Classified</p><p>Access restricted. Clearance level insufficient for this record.</p></div>
                 </div>
               </div>
@@ -1163,16 +1163,16 @@
                     Copy
                   </button>
                 </div>
-                <pre id="alertcode"><span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-success"</span><span class="tag">&gt;</span>
+                <pre id="alertcode"><span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-success"</span> <span class="atr">role</span>=<span class="val">"alert"</span><span class="tag">&gt;</span>
   <span class="tag">&lt;p</span> <span class="atr">class</span>=<span class="val">"alert-title"</span><span class="tag">&gt;</span>Success<span class="tag">&lt;/p&gt;</span>
   <span class="tag">&lt;p&gt;</span>Changes saved.<span class="tag">&lt;/p&gt;</span>
 <span class="tag">&lt;/div&gt;</span>
 
-<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-danger"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
-<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-warning"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
-<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-info"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
-<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-neutral"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
-<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-dark"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span></pre>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-danger"</span> <span class="atr">role</span>=<span class="val">"alert"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-warning"</span> <span class="atr">role</span>=<span class="val">"alert"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-info"</span> <span class="atr">role</span>=<span class="val">"alert"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-neutral"</span> <span class="atr">role</span>=<span class="val">"alert"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-dark"</span> <span class="atr">role</span>=<span class="val">"alert"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span></pre>
               </div>
             </div>
           </div>
@@ -1313,7 +1313,7 @@
 <span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="val">"btn btn-secondary"</span><span class="tag">&gt;</span>Standby<span class="tag">&lt;/button&gt;</span>
 <span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="val">"badge badge-success badge-pulse"</span><span class="tag">&gt;</span>Online<span class="tag">&lt;/span&gt;</span>
 <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card card-glow"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
-<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-success"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span></pre>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-success"</span> <span class="atr">role</span>=<span class="val">"alert"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span></pre>
             </div>
           </div>
         </div>
