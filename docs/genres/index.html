@@ -1702,6 +1702,15 @@
 
   <script type="module">
     import { GENRES } from '../../src/plugin/genres/index.js'
+
+    // ── Yield to main thread (breaks long tasks) ─────────────────────────
+    function yieldToMain() {
+      if (globalThis.scheduler?.yield) {
+        return scheduler.yield();
+      }
+      return new Promise(resolve => setTimeout(resolve, 0));
+    }
+
     // ── OPS_DEFAULTS ────────────────────────────────────────────────────────
     const OPS_DEFAULTS = {
       '--zyna':                   '#C9A84C',
@@ -2105,10 +2114,20 @@
       document.getElementById('gb-preview-name').textContent = state.name || 'Custom'
       document.getElementById('gb-brand-swatch-wrap').style.background = state['--zyna']
 
-      updateCode()
+      // Defer non-critical code generation so CSS updates render first
+      scheduleCodeUpdate()
     }
 
-    // ── Code generation ──────────────────────────────────────────────────────
+    // ── Code generation (deferred) ──────────────────────────────────────────
+    // updateCode() builds a diff, runs regex highlighting, and sets innerHTML.
+    // This is non-critical work — defer it via setTimeout so user-facing CSS
+    // updates from applyPreview() render without blocking.
+    let _codeTimer = 0
+    function scheduleCodeUpdate() {
+      clearTimeout(_codeTimer)
+      _codeTimer = setTimeout(updateCode, 0)
+    }
+
     function fmtEase(arr) {
       return `cubic-bezier(${arr.join(', ')})`
     }
@@ -2574,7 +2593,7 @@
       syncChipset('cs-card-title-ts',    'gb-card-title-ts',    state['--z-card-title-text-shadow'])
     }
 
-    function loadGenreIntoState(genreName) {
+    async function loadGenreIntoState(genreName) {
       const genre = GENRES.find(g => g.name === genreName)
       const t = (genre ? genre.tokens : {}) || {}
       const tok = k => (k in t) ? t[k] : null
@@ -2640,8 +2659,10 @@
       state['--z-card-default-glow-hi']        = tok('--z-card-default-glow-hi') || 'rgba(0,0,0,0)'
       state['--z-alert-texture']               = tok('--z-alert-texture') || 'none'
 
-      syncAllControls()
+      // Apply visual preview first (user-facing), then yield before syncing controls
       applyPreview()
+      await yieldToMain()
+      syncAllControls()
     }
 
     // ── Range + label helper ─────────────────────────────────────────────────
