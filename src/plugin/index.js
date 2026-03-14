@@ -126,11 +126,12 @@ export default plugin(
         '0%, 18%':   { transform: 'translateX(0)' },
         '52%, 100%': { transform: 'translateX(340%)' },
       },
-      // Badge pulse dot — scale + expanding box-shadow ring that fades out
+      // Badge pulse dot — compositor-friendly scale + opacity only.
+      // Avoids animating box-shadow (triggers paint per rendering-pipeline.md).
       '@keyframes zyna-pulse-ring': {
-        '0%':   { opacity: '1',    transform: 'scale(1)',    boxShadow: '0 0 0 0 currentColor' },
-        '45%':  { opacity: '0.65', transform: 'scale(1.15)', boxShadow: '0 0 0 4px transparent' },
-        '100%': { opacity: '1',    transform: 'scale(1)',    boxShadow: '0 0 0 0 transparent' },
+        '0%':   { opacity: '1',    transform: 'scale(1)' },
+        '45%':  { opacity: '0.55', transform: 'scale(1.35)' },
+        '100%': { opacity: '1',    transform: 'scale(1)' },
       },
       // Legacy pulse (kept for compatibility)
       '@keyframes zyna-pulse': {
@@ -153,6 +154,27 @@ export default plugin(
         },
         '50%': {
           filter: 'drop-shadow(0 0 38px var(--card-glow-hi)) drop-shadow(0 0 14px var(--card-glow-hi))',
+        },
+      },
+
+      // ── Reduced motion ──────────────────────────────────────────────────────
+      // All animations in this library are decorative — disable them entirely
+      // when the user has enabled reduced motion on their device.
+      // Transitions are shortened to near-instant so state changes remain
+      // visible but produce no perceptible movement.
+      '@media (prefers-reduced-motion: reduce)': {
+        ':where(.badge)::after':        { animation: 'none' },
+        ':where(.badge-pulse)::before': { animation: 'none' },
+        ':where(.card)':                { animation: 'none' },
+        ':where(.card-header)::before': { animation: 'none' },
+        ':where(.btn), :where([role="button"])': {
+          transition: 'none',
+        },
+        ':where(.btn):hover, :where([role="button"]):hover': {
+          transition: 'none',
+        },
+        ':where(.btn)::after, :where([role="button"])::after': {
+          transition: 'none',
         },
       },
     })
