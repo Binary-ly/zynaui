@@ -59,9 +59,9 @@ export default plugin(
         '--z-font-mono': "'DM Mono', 'Fira Code', ui-monospace, monospace",
 
         // ── Tier 2: Text colors ──────────────────────────────────────────────
-        '--z-color-text':         'color-mix(in srgb, var(--zp-text) 90%, transparent)',
-        '--z-color-text-muted':   'color-mix(in srgb, var(--zp-text) 55%, transparent)',
-        '--z-color-text-dim':     'color-mix(in srgb, var(--zp-text) 65%, transparent)',
+        '--z-color-text':         'color-mix(in oklch, var(--zp-text) 90%, transparent)',
+        '--z-color-text-muted':   'color-mix(in oklch, var(--zp-text) 55%, transparent)',
+        '--z-color-text-dim':     'color-mix(in oklch, var(--zp-text) 65%, transparent)',
         '--z-color-text-solid':   'var(--zp-text)',
         '--z-color-text-inverse': '#050407',
 
@@ -111,7 +111,7 @@ export default plugin(
       '@property --btn-scan-color':        { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(255,255,255,0.07)' },
       '@property --btn-interior':          { syntax: '"<color>"', inherits: 'false', initialValue: 'transparent' },
       // NOTE: --btn-focus-color and --card-bracket-color are intentionally NOT
-      // registered with @property. Their actual values use color-mix(in srgb,
+      // registered with @property. Their actual values use color-mix(in oklch,
       // var(--zyna) …) which is not a static literal and cannot be used as an
       // @property initial-value. Omitting the registration is safe — the
       // component rules always set these variables explicitly.

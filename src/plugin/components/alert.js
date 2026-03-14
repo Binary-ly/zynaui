@@ -77,7 +77,6 @@ export default function(theme) {
     fontSize: '0.82rem',
     lineHeight: '1.65',
     position: 'relative',
-    overflow: 'hidden',
     boxShadow: 'var(--alert-shadow)',
 
     // Accent bar as a pseudo-element so it supports box-shadow (glow).
@@ -139,37 +138,37 @@ export default function(theme) {
     // Alien mint — system online
     '.alert-success': {
       '--alert-bar-color':    'var(--z-color-success)',
-      '--alert-bg':           'color-mix(in srgb, var(--z-color-success) var(--z-alert-bg-opacity), transparent)',
-      '--alert-color':        'color-mix(in srgb, var(--z-color-success) 88%, transparent)',
-      '--alert-shadow':       '0 0 30px color-mix(in srgb, var(--z-color-success) 8%, transparent), inset 4px 0 18px color-mix(in srgb, var(--z-color-success) 5%, transparent), inset 0 0 40px color-mix(in srgb, var(--z-color-success) 2.5%, transparent)',
-      '--alert-title-shadow': '0 0 12px color-mix(in srgb, var(--z-color-success) 65%, transparent)',
+      '--alert-bg':           'color-mix(in oklch, var(--z-color-success) var(--z-alert-bg-opacity), transparent)',
+      '--alert-color':        'color-mix(in oklch, var(--z-color-success) 88%, transparent)',
+      '--alert-shadow':       '0 0 30px color-mix(in oklch, var(--z-color-success) 8%, transparent), inset 4px 0 18px color-mix(in oklch, var(--z-color-success) 5%, transparent), inset 0 0 40px color-mix(in oklch, var(--z-color-success) 2.5%, transparent)',
+      '--alert-title-shadow': '0 0 12px color-mix(in oklch, var(--z-color-success) 65%, transparent)',
     },
 
     // Neon crimson — breach detected
     '.alert-danger': {
       '--alert-bar-color':    'var(--z-color-danger)',
-      '--alert-bg':           'color-mix(in srgb, var(--z-color-danger) var(--z-alert-bg-opacity), transparent)',
-      '--alert-color':        'color-mix(in srgb, var(--z-color-danger) 88%, transparent)',
-      '--alert-shadow':       '0 0 30px color-mix(in srgb, var(--z-color-danger) 8%, transparent), inset 4px 0 18px color-mix(in srgb, var(--z-color-danger) 5%, transparent), inset 0 0 40px color-mix(in srgb, var(--z-color-danger) 2.5%, transparent)',
-      '--alert-title-shadow': '0 0 12px color-mix(in srgb, var(--z-color-danger) 65%, transparent)',
+      '--alert-bg':           'color-mix(in oklch, var(--z-color-danger) var(--z-alert-bg-opacity), transparent)',
+      '--alert-color':        'color-mix(in oklch, var(--z-color-danger) 88%, transparent)',
+      '--alert-shadow':       '0 0 30px color-mix(in oklch, var(--z-color-danger) 8%, transparent), inset 4px 0 18px color-mix(in oklch, var(--z-color-danger) 5%, transparent), inset 0 0 40px color-mix(in oklch, var(--z-color-danger) 2.5%, transparent)',
+      '--alert-title-shadow': '0 0 12px color-mix(in oklch, var(--z-color-danger) 65%, transparent)',
     },
 
     // Amber — caution state
     '.alert-warning': {
       '--alert-bar-color':    'var(--z-color-warning)',
-      '--alert-bg':           'color-mix(in srgb, var(--z-color-warning) var(--z-alert-bg-opacity), transparent)',
-      '--alert-color':        'color-mix(in srgb, var(--z-color-warning) 88%, transparent)',
-      '--alert-shadow':       '0 0 24px color-mix(in srgb, var(--z-color-warning) 7%, transparent), inset 4px 0 14px color-mix(in srgb, var(--z-color-warning) 4%, transparent)',
-      '--alert-title-shadow': '0 0 10px color-mix(in srgb, var(--z-color-warning) 55%, transparent)',
+      '--alert-bg':           'color-mix(in oklch, var(--z-color-warning) var(--z-alert-bg-opacity), transparent)',
+      '--alert-color':        'color-mix(in oklch, var(--z-color-warning) 88%, transparent)',
+      '--alert-shadow':       '0 0 24px color-mix(in oklch, var(--z-color-warning) 7%, transparent), inset 4px 0 14px color-mix(in oklch, var(--z-color-warning) 4%, transparent)',
+      '--alert-title-shadow': '0 0 10px color-mix(in oklch, var(--z-color-warning) 55%, transparent)',
     },
 
     // Electric cyan — incoming signal
     '.alert-info': {
       '--alert-bar-color':    'var(--z-color-info)',
-      '--alert-bg':           'color-mix(in srgb, var(--z-color-info) var(--z-alert-bg-opacity), transparent)',
-      '--alert-color':        'color-mix(in srgb, var(--z-color-info) 88%, transparent)',
-      '--alert-shadow':       '0 0 30px color-mix(in srgb, var(--z-color-info) 8%, transparent), inset 4px 0 18px color-mix(in srgb, var(--z-color-info) 5%, transparent), inset 0 0 40px color-mix(in srgb, var(--z-color-info) 2.5%, transparent)',
-      '--alert-title-shadow': '0 0 12px color-mix(in srgb, var(--z-color-info) 65%, transparent)',
+      '--alert-bg':           'color-mix(in oklch, var(--z-color-info) var(--z-alert-bg-opacity), transparent)',
+      '--alert-color':        'color-mix(in oklch, var(--z-color-info) 88%, transparent)',
+      '--alert-shadow':       '0 0 30px color-mix(in oklch, var(--z-color-info) 8%, transparent), inset 4px 0 18px color-mix(in oklch, var(--z-color-info) 5%, transparent), inset 0 0 40px color-mix(in oklch, var(--z-color-info) 2.5%, transparent)',
+      '--alert-title-shadow': '0 0 12px color-mix(in oklch, var(--z-color-info) 65%, transparent)',
     },
 
     '.alert-neutral': {
@@ -179,8 +178,8 @@ export default function(theme) {
     },
 
     '.alert-dark': {
-      '--alert-bar-color': 'color-mix(in srgb, white 14%, transparent)',
-      '--alert-bg':        'color-mix(in srgb, white 3%, transparent)',
+      '--alert-bar-color': 'color-mix(in oklch, white 14%, transparent)',
+      '--alert-bg':        'color-mix(in oklch, white 3%, transparent)',
       '--alert-color':     'var(--z-color-text-dim)',
     },
 

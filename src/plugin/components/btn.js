@@ -64,12 +64,12 @@ export default function(theme) {
     '--btn-bg':                'var(--z-color-overlay)',
     '--btn-color':             'var(--z-color-text-muted)',  // ≥4.5:1 on dark bg
     '--btn-filter':            'none',
-    '--btn-scan-color':        'color-mix(in srgb, white 7%, transparent)',
+    '--btn-scan-color':        'color-mix(in oklch, white 7%, transparent)',
     '--btn-hover-color':       'var(--z-color-text)',
     '--btn-hover-filter':      'none',
     '--btn-hover-text-shadow': 'none',
     '--btn-active-filter':     'none',
-    '--btn-focus-color':       'color-mix(in srgb, var(--zyna) 65%, transparent)',
+    '--btn-focus-color':       'color-mix(in oklch, var(--zyna) 65%, transparent)',
     // Shape — reads genre-structural token; genres override --z-btn-corner on :root
     '--btn-corner':     'var(--z-btn-corner)',
     // Outlined technique defaults — transparent so solid buttons are unaffected
@@ -176,26 +176,26 @@ export default function(theme) {
 
     // ── Primary: gold solid fill ──────────────────────────────────────────────
     '.btn-primary': {
-      '--btn-bg':                `repeating-linear-gradient(110deg, transparent 0px, transparent 3px, color-mix(in srgb, white 5.5%, transparent) 3px, color-mix(in srgb, white 5.5%, transparent) 4px), linear-gradient(135deg, color-mix(in srgb, var(--zyna) 85%, white) 0%, var(--zyna-dark) 100%)`,
+      '--btn-bg':                `repeating-linear-gradient(110deg, transparent 0px, transparent 3px, color-mix(in oklch, white 5.5%, transparent) 3px, color-mix(in oklch, white 5.5%, transparent) 4px), linear-gradient(135deg, color-mix(in oklch, var(--zyna) 85%, white) 0%, var(--zyna-dark) 100%)`,
       '--btn-color':             'var(--z-color-text-inverse)',
-      '--btn-scan-color':        'color-mix(in srgb, white 26%, transparent)',
-      '--btn-filter':            `drop-shadow(0 0 8px color-mix(in srgb, var(--zyna) 45%, transparent)) drop-shadow(0 0 22px color-mix(in srgb, var(--zyna) 18%, transparent))`,
+      '--btn-scan-color':        'color-mix(in oklch, white 26%, transparent)',
+      '--btn-filter':            `drop-shadow(0 0 8px color-mix(in oklch, var(--zyna) 45%, transparent)) drop-shadow(0 0 22px color-mix(in oklch, var(--zyna) 18%, transparent))`,
       '--btn-hover-color':       'var(--z-color-text-inverse)',
-      '--btn-hover-filter':      `drop-shadow(0 0 22px var(--zyna)) drop-shadow(0 0 60px color-mix(in srgb, var(--zyna) 45%, transparent)) brightness(1.10)`,
-      '--btn-hover-text-shadow': `0 0 20px color-mix(in srgb, var(--zyna) 55%, white)`,
-      '--btn-active-filter':     `brightness(0.80) drop-shadow(0 0 8px color-mix(in srgb, var(--zyna) 60%, transparent))`,
+      '--btn-hover-filter':      `drop-shadow(0 0 22px var(--zyna)) drop-shadow(0 0 60px color-mix(in oklch, var(--zyna) 45%, transparent)) brightness(1.10)`,
+      '--btn-hover-text-shadow': `0 0 20px color-mix(in oklch, var(--zyna) 55%, white)`,
+      '--btn-active-filter':     `brightness(0.80) drop-shadow(0 0 8px color-mix(in oklch, var(--zyna) 60%, transparent))`,
     },
 
     // ── Secondary: outlined gold — polygon border technique ───────────────────
     '.btn-secondary': {
-      '--btn-bg':                'color-mix(in srgb, var(--zyna) 45%, transparent)',
+      '--btn-bg':                'color-mix(in oklch, var(--zyna) 45%, transparent)',
       '--btn-color':             'var(--zyna)',
-      '--btn-scan-color':        'color-mix(in srgb, var(--zyna) 18%, transparent)',
+      '--btn-scan-color':        'color-mix(in oklch, var(--zyna) 18%, transparent)',
       '--btn-interior':          'var(--z-surface-inset)',
-      '--btn-hover-bg':          'color-mix(in srgb, var(--zyna) 92%, transparent)',
-      '--btn-hover-color':       'color-mix(in srgb, var(--zyna) 90%, white)',
-      '--btn-hover-filter':      `drop-shadow(0 0 14px color-mix(in srgb, var(--zyna) 85%, transparent)) drop-shadow(0 0 42px color-mix(in srgb, var(--zyna) 30%, transparent))`,
-      '--btn-hover-text-shadow': `0 0 14px color-mix(in srgb, var(--zyna) 80%, transparent)`,
+      '--btn-hover-bg':          'color-mix(in oklch, var(--zyna) 92%, transparent)',
+      '--btn-hover-color':       'color-mix(in oklch, var(--zyna) 90%, white)',
+      '--btn-hover-filter':      `drop-shadow(0 0 14px color-mix(in oklch, var(--zyna) 85%, transparent)) drop-shadow(0 0 42px color-mix(in oklch, var(--zyna) 30%, transparent))`,
+      '--btn-hover-text-shadow': `0 0 14px color-mix(in oklch, var(--zyna) 80%, transparent)`,
       '--btn-hover-interior':    'var(--z-surface-inset-hover)',
     },
 
@@ -203,23 +203,23 @@ export default function(theme) {
     '.btn-ghost': {
       '--btn-bg':                'transparent',
       '--btn-color':             'var(--z-color-text-muted)',  // WCAG AA ≥4.5:1 on dark
-      '--btn-scan-color':        'color-mix(in srgb, white 5.5%, transparent)',
+      '--btn-scan-color':        'color-mix(in oklch, white 5.5%, transparent)',
       '--btn-hover-bg':          'var(--z-color-border)',
       '--btn-hover-color':       'var(--z-color-text)',
-      '--btn-hover-filter':      'drop-shadow(0 0 8px color-mix(in srgb, white 10%, transparent))',
-      '--btn-hover-text-shadow': `0 0 10px color-mix(in srgb, var(--zp-text) 35%, transparent)`,
+      '--btn-hover-filter':      'drop-shadow(0 0 8px color-mix(in oklch, white 10%, transparent))',
+      '--btn-hover-text-shadow': `0 0 10px color-mix(in oklch, var(--zp-text) 35%, transparent)`,
     },
 
     // ── Danger: neon crimson — polygon border technique ───────────────────────
     '.btn-danger': {
-      '--btn-bg':                'color-mix(in srgb, var(--z-color-danger) 42%, transparent)',
+      '--btn-bg':                'color-mix(in oklch, var(--z-color-danger) 42%, transparent)',
       '--btn-color':             'var(--z-color-danger)',
-      '--btn-scan-color':        'color-mix(in srgb, var(--z-color-danger) 18%, transparent)',
+      '--btn-scan-color':        'color-mix(in oklch, var(--z-color-danger) 18%, transparent)',
       '--btn-interior':          'var(--z-surface-inset-danger)',
-      '--btn-hover-bg':          'color-mix(in srgb, var(--z-color-danger) 92%, transparent)',
-      '--btn-hover-color':       'color-mix(in srgb, var(--z-color-danger) 75%, white)',
-      '--btn-hover-filter':      'drop-shadow(0 0 16px color-mix(in srgb, var(--z-color-danger) 90%, transparent)) drop-shadow(0 0 44px color-mix(in srgb, var(--z-color-danger) 32%, transparent))',
-      '--btn-hover-text-shadow': '0 0 16px color-mix(in srgb, var(--z-color-danger) 95%, transparent)',
+      '--btn-hover-bg':          'color-mix(in oklch, var(--z-color-danger) 92%, transparent)',
+      '--btn-hover-color':       'color-mix(in oklch, var(--z-color-danger) 75%, white)',
+      '--btn-hover-filter':      'drop-shadow(0 0 16px color-mix(in oklch, var(--z-color-danger) 90%, transparent)) drop-shadow(0 0 44px color-mix(in oklch, var(--z-color-danger) 32%, transparent))',
+      '--btn-hover-text-shadow': '0 0 16px color-mix(in oklch, var(--z-color-danger) 95%, transparent)',
       '--btn-hover-interior':    'var(--z-surface-inset-danger-hover)',
     },
 

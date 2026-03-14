@@ -40,7 +40,7 @@ export default function(theme) {
       '--badge-bg':         'var(--z-color-overlay)',
       '--badge-color':      'var(--z-color-text-muted)',  // WCAG AA ≥4.5:1 on dark
       '--badge-glow':       'none',
-      '--badge-scan-color': 'color-mix(in srgb, white 18%, transparent)',
+      '--badge-scan-color': 'color-mix(in oklch, white 18%, transparent)',
       '--badge-offset':     'var(--zp-corner-badge)',
       // Outlined technique defaults — transparent so solid badges are unaffected
       '--badge-interior':   'transparent',
@@ -113,52 +113,52 @@ export default function(theme) {
     // fill the dark interior. Defaults to brand gold; semantic classes override
     // --badge-color (and thus currentColor) since they are declared after this rule.
     '.badge-outline': {
-      '--badge-color':    `color-mix(in srgb, var(--zyna) 85%, white)`,
-      '--badge-bg':       'color-mix(in srgb, currentColor 80%, transparent)',
+      '--badge-color':    `color-mix(in oklch, var(--zyna) 85%, white)`,
+      '--badge-bg':       'color-mix(in oklch, currentColor 80%, transparent)',
       '--badge-interior': 'var(--z-surface-inset)',
-      '--badge-glow':     'drop-shadow(0 0 6px color-mix(in srgb, currentColor 55%, transparent)) drop-shadow(0 0 16px color-mix(in srgb, currentColor 20%, transparent))',
+      '--badge-glow':     'drop-shadow(0 0 6px color-mix(in oklch, currentColor 55%, transparent)) drop-shadow(0 0 16px color-mix(in oklch, currentColor 20%, transparent))',
     },
 
     // ── Semantic variants ─────────────────────────────────────────────────────
 
     '.badge-primary': {
-      '--badge-bg':    'color-mix(in srgb, var(--zyna) 13%, transparent)',
-      '--badge-color': 'color-mix(in srgb, var(--zyna) 90%, white)',
-      '--badge-glow':  'drop-shadow(0 0 5px color-mix(in srgb, var(--zyna) 40%, transparent)) drop-shadow(0 0 14px color-mix(in srgb, var(--zyna) 14%, transparent))',
+      '--badge-bg':    'color-mix(in oklch, var(--zyna) 13%, transparent)',
+      '--badge-color': 'color-mix(in oklch, var(--zyna) 90%, white)',
+      '--badge-glow':  'drop-shadow(0 0 5px color-mix(in oklch, var(--zyna) 40%, transparent)) drop-shadow(0 0 14px color-mix(in oklch, var(--zyna) 14%, transparent))',
     },
 
     '.badge-secondary': {
-      '--badge-bg':    'color-mix(in srgb, var(--zyna) 5%, transparent)',
+      '--badge-bg':    'color-mix(in oklch, var(--zyna) 5%, transparent)',
       // Bumped from 65% → 80% to clear WCAG AA (≈5.3:1 on dark bg)
-      '--badge-color': 'color-mix(in srgb, var(--zyna) 80%, transparent)',
+      '--badge-color': 'color-mix(in oklch, var(--zyna) 80%, transparent)',
     },
 
     // Alien mint
     '.badge-success': {
-      '--badge-bg':    'color-mix(in srgb, var(--z-color-success) 10%, transparent)',
+      '--badge-bg':    'color-mix(in oklch, var(--z-color-success) 10%, transparent)',
       '--badge-color': 'var(--z-color-success)',
-      '--badge-glow':  'drop-shadow(0 0 5px color-mix(in srgb, var(--z-color-success) 45%, transparent)) drop-shadow(0 0 14px color-mix(in srgb, var(--z-color-success) 14%, transparent))',
+      '--badge-glow':  'drop-shadow(0 0 5px color-mix(in oklch, var(--z-color-success) 45%, transparent)) drop-shadow(0 0 14px color-mix(in oklch, var(--z-color-success) 14%, transparent))',
     },
 
     // Neon crimson
     '.badge-danger': {
-      '--badge-bg':    'color-mix(in srgb, var(--z-color-danger) 10%, transparent)',
+      '--badge-bg':    'color-mix(in oklch, var(--z-color-danger) 10%, transparent)',
       '--badge-color': 'var(--z-color-danger)',
-      '--badge-glow':  'drop-shadow(0 0 5px color-mix(in srgb, var(--z-color-danger) 45%, transparent)) drop-shadow(0 0 14px color-mix(in srgb, var(--z-color-danger) 14%, transparent))',
+      '--badge-glow':  'drop-shadow(0 0 5px color-mix(in oklch, var(--z-color-danger) 45%, transparent)) drop-shadow(0 0 14px color-mix(in oklch, var(--z-color-danger) 14%, transparent))',
     },
 
     // Amber
     '.badge-warning': {
-      '--badge-bg':    'color-mix(in srgb, var(--z-color-warning) 10%, transparent)',
+      '--badge-bg':    'color-mix(in oklch, var(--z-color-warning) 10%, transparent)',
       '--badge-color': 'var(--z-color-warning)',
-      '--badge-glow':  'drop-shadow(0 0 5px color-mix(in srgb, var(--z-color-warning) 40%, transparent)) drop-shadow(0 0 12px color-mix(in srgb, var(--z-color-warning) 12%, transparent))',
+      '--badge-glow':  'drop-shadow(0 0 5px color-mix(in oklch, var(--z-color-warning) 40%, transparent)) drop-shadow(0 0 12px color-mix(in oklch, var(--z-color-warning) 12%, transparent))',
     },
 
     // Electric cyan
     '.badge-info': {
-      '--badge-bg':    'color-mix(in srgb, var(--z-color-info) 10%, transparent)',
+      '--badge-bg':    'color-mix(in oklch, var(--z-color-info) 10%, transparent)',
       '--badge-color': 'var(--z-color-info)',
-      '--badge-glow':  'drop-shadow(0 0 5px color-mix(in srgb, var(--z-color-info) 45%, transparent)) drop-shadow(0 0 14px color-mix(in srgb, var(--z-color-info) 14%, transparent))',
+      '--badge-glow':  'drop-shadow(0 0 5px color-mix(in oklch, var(--z-color-info) 45%, transparent)) drop-shadow(0 0 14px color-mix(in oklch, var(--z-color-info) 14%, transparent))',
     },
 
     // WCAG AA: bumped from 0.35 → 0.55 opacity
