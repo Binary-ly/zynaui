@@ -101,11 +101,13 @@ export default plugin(
       //  2. Native-interpolate typed values (color, length) for future WAAPI use
       '@property --btn-bg':                { syntax: '"*"',       inherits: 'false', initialValue: 'transparent' },
       '@property --btn-color':             { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(240,235,224,0.55)' },
-      // NOTE: --btn-hover-bg and --btn-hover-interior are intentionally NOT registered with @property.
-      // They rely on the CSS fallback var(--btn-hover-bg, var(--btn-bg)) to cascade from their
-      // sibling variables when not explicitly set. @property with initial-value would break this
-      // because the property would always resolve to its initial-value instead of triggering the fallback.
-      '@property --btn-hover-color':       { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(240,235,224,0.9)' },
+      // NOTE: --btn-hover-bg, --btn-hover-color, and --btn-hover-interior are intentionally
+      // NOT registered with @property. They rely on CSS fallback chains:
+      //   var(--btn-hover-bg, var(--btn-bg))
+      //   var(--btn-hover-color, var(--btn-color))
+      //   var(--btn-hover-interior, var(--btn-interior))
+      // @property with initial-value would break these because the property would always
+      // resolve to its initial-value instead of triggering the var() fallback.
       '@property --btn-scan-color':        { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(255,255,255,0.07)' },
       '@property --btn-interior':          { syntax: '"<color>"', inherits: 'false', initialValue: 'transparent' },
       // NOTE: --btn-focus-color and --card-bracket-color are intentionally NOT
@@ -119,7 +121,7 @@ export default plugin(
 
       // Shape tokens — <length> type, inherits:true so ::before pseudo-elements resolve them
       '@property --btn-corner':   { syntax: '"<length>"', inherits: 'true', initialValue: '10px' },
-      '@property --badge-offset': { syntax: '"<length>"', inherits: 'true', initialValue: '0.55rem' },
+      '@property --badge-offset': { syntax: '"<length>"', inherits: 'true', initialValue: '5px' },
 
       // Badge scan sweep — slides a bright strip across the parallelogram shape
       '@keyframes zyna-badge-scan': {
