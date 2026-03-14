@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>try{var _zg=localStorage.getItem('zyna-genre');if(_zg&&_zg!=='Ops'){document.documentElement.dataset.genre=_zg.toLowerCase();var _zt=JSON.parse(localStorage.getItem('zyna-genre-tokens')||'{}');for(var _zk in _zt)document.documentElement.style.setProperty(_zk,_zt[_zk])}}catch(e){}</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Timeline — Zyna UI Charts</title>
@@ -10,6 +11,14 @@
   <script src="/dist/zyna-charts.iife.js"></script>
   <link rel="stylesheet" href="../../zynaui.css">
   <link rel="stylesheet" href="../../docs.css">
+  <style>
+    .theme-sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;user-select:none;font-size:.72rem;color:var(--text3);font-weight:600;letter-spacing:.04em;padding:0 4px}
+    .theme-sw input{position:absolute;opacity:0;width:0;height:0}
+    .theme-track{position:relative;display:block;width:32px;height:18px;background:var(--bg3);border:1px solid var(--border);border-radius:9px;transition:background .2s;flex-shrink:0}
+    .theme-track::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:var(--text3);transition:transform .2s}
+    .theme-sw input:checked~.theme-track{background:color-mix(in srgb,var(--zyna) 15%,var(--bg3))}
+    .theme-sw input:checked~.theme-track::after{transform:translateX(14px);background:var(--zyna)}
+  </style>
 </head>
 <body>
   <div id="topbar"></div>
@@ -25,7 +34,7 @@
         </div>
         <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap">
           <h1 class="page-title" style="margin-bottom:0">Timeline</h1>
-          <code style="font-family:var(--mono);font-size:0.78rem;padding:0.2rem 0.6rem;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--gold)">&lt;zyna-timeline&gt;</code>
+          <code style="font-family:var(--mono);font-size:0.78rem;padding:0.2rem 0.6rem;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--brand)">&lt;zyna-timeline&gt;</code>
         </div>
         <p class="page-desc">Proportional-circle timeline where bubble area encodes value. Annotations appear on a rail above the baseline.</p>
       </div>
@@ -33,20 +42,23 @@
       <!-- Demo Section -->
       <div class="doc-section">
         <h2 class="section-title">Demo</h2>
-        <div class="tabs-bar">
+        <div class="tabs-bar" style="display:flex;align-items:center">
           <button class="tab-btn active" onclick="tab(this,'tl-p')">Preview</button>
           <button class="tab-btn" onclick="tab(this,'tl-c')">Code</button>
           <button class="tab-btn" onclick="tab(this,'tl-a')">Attributes</button>
+          <label class="theme-sw" style="margin-left:auto">
+            <input type="checkbox" id="theme-chk" onchange="setTheme(this.checked)">
+            <span class="theme-track"></span>
+            <span>Light</span>
+          </label>
         </div>
         <div>
           <div id="tl-p" class="tab-panel active">
-            <div class="preview-box col" style="min-height:300px;padding:1.5rem;align-items:flex-start">
+            <div class="preview-box col" data-chart-bg style="min-height:300px;padding:1.5rem;align-items:flex-start">
               <p style="font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:1rem">Libya humanitarian funding 2019–2024 (USD millions)</p>
               <zyna-timeline
                 data='[{"label":"2019","value":310},{"label":"2020","value":259,"note":"Ceasefire"},{"label":"2021","value":285,"note":"Berlin II"},{"label":"2022","value":419,"note":"Peak Crisis"},{"label":"2023","value":315,"note":"Derna Floods"},{"label":"2024","value":273}]'
                 highlight='2022'
-                color='#C9A84C'
-                theme='dark'
                 style="display:block;width:100%">
               </zyna-timeline>
             </div>
@@ -70,7 +82,6 @@
     {"label":"2024", "value":273}
   ]'</span>
   <span class="atr">highlight</span>=<span class="val">'2022'</span>
-  <span class="atr">color</span>=<span class="val">'#C9A84C'</span>
   <span class="atr">theme</span>=<span class="val">'dark'</span>
   <span class="atr">style</span>=<span class="val">"display:block;width:100%"</span><span class="tag">&gt;
 &lt;/zyna-timeline&gt;</span></pre>
@@ -98,7 +109,7 @@
                   <tr>
                     <td class="t-var">color</td>
                     <td class="t-type">hex</td>
-                    <td class="t-def">#C9A84C</td>
+                    <td class="t-def">var(--zyna)</td>
                     <td>Accent colour for the highlighted bubble.</td>
                   </tr>
                   <tr>
@@ -144,58 +155,6 @@
         </div>
       </div>
 
-      <!-- Light Theme Section -->
-      <div class="doc-section">
-        <h2 class="section-title">Light Theme</h2>
-        <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.25rem;line-height:1.7">Set <code style="font-family:var(--mono);font-size:0.78rem;color:var(--gold)">theme="light"</code> for use on light backgrounds. The component adjusts all internal colours automatically.</p>
-
-        <div class="tabs-bar">
-          <button class="tab-btn active" onclick="tab(this,'tl-lt-p')">Preview</button>
-          <button class="tab-btn" onclick="tab(this,'tl-lt-c')">Code</button>
-        </div>
-        <div>
-          <div id="tl-lt-p" class="tab-panel active">
-            <div class="preview-box col" style="min-height:300px;padding:1.5rem;align-items:flex-start">
-              <p style="font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:1rem">Libya humanitarian funding 2019–2024 (light theme)</p>
-              <div style="background:#F8F6F2;border-radius:0.75rem;padding:1.25rem;width:100%">
-                <zyna-timeline
-                  data='[{"label":"2019","value":310},{"label":"2020","value":259,"note":"Ceasefire"},{"label":"2021","value":285,"note":"Berlin II"},{"label":"2022","value":419,"note":"Peak Crisis"},{"label":"2023","value":315,"note":"Derna Floods"},{"label":"2024","value":273}]'
-                  highlight='2022'
-                  color='#C9A84C'
-                  theme='light'
-                  style="display:block;width:100%">
-                </zyna-timeline>
-              </div>
-            </div>
-          </div>
-
-          <div id="tl-lt-c" class="tab-panel">
-            <div class="code-box">
-              <div class="code-toolbar">
-                <span class="code-lang">html</span>
-                <button class="copy-btn" onclick="cp(this,'tl-lt-code')">
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy
-                </button>
-              </div>
-              <pre id="tl-lt-code"><span class="tag">&lt;zyna-timeline</span>
-  <span class="atr">data</span>=<span class="val">'[
-    {"label":"2019", "value":310},
-    {"label":"2020", "value":259, "note":"Ceasefire"},
-    {"label":"2021", "value":285, "note":"Berlin II"},
-    {"label":"2022", "value":419, "note":"Peak Crisis"},
-    {"label":"2023", "value":315, "note":"Derna Floods"},
-    {"label":"2024", "value":273}
-  ]'</span>
-  <span class="atr">highlight</span>=<span class="val">'2022'</span>
-  <span class="atr">color</span>=<span class="val">'#C9A84C'</span>
-  <span class="atr">theme</span>=<span class="val">'light'</span>
-  <span class="atr">style</span>=<span class="val">"display:block;width:100%"</span><span class="tag">&gt;
-&lt;/zyna-timeline&gt;</span></pre>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- Usage Tips -->
       <div class="doc-section">
         <h2 class="section-title">Usage Tips</h2>
@@ -213,6 +172,16 @@
   </div>
   <script type="module" src="../../_nav.js"></script>
   <script>
+    function setTheme(isLight) {
+      document.querySelectorAll('zyna-timeline').forEach(el => {
+        if (isLight) el.setAttribute('theme', 'light')
+        else el.removeAttribute('theme')
+      })
+      document.querySelectorAll('[data-chart-bg]').forEach(b => {
+        b.style.background = isLight ? '#F8F6F2' : ''
+        b.style.backgroundImage = isLight ? 'none' : ''
+      })
+    }
     function tab(btn, panelId) {
       const bar = btn.parentElement
       bar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
+<script>try{var _zg=localStorage.getItem('zyna-genre');if(_zg&&_zg!=='Ops'){document.documentElement.dataset.genre=_zg.toLowerCase();var _zt=JSON.parse(localStorage.getItem('zyna-genre-tokens')||'{}');for(var _zk in _zt)document.documentElement.style.setProperty(_zk,_zt[_zk])}}catch(e){}</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zyna UI — Tailwind Component Library + D3 Charts by Binary Tech Ltd</title>
@@ -9,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./zynaui.css" />
+  <script type="module" src="./_genres.js"></script>
   <style>
     :root {
       --bg:       #0C0C0F;
@@ -19,9 +21,9 @@
       --text:     #F0EBE0;
       --text2:    #A09888;
       --text3:    #6A6460;
-      --gold:     #C9A84C;
-      --gold-d:   #7A6230;
-      --gold-l:   #E8C86C;
+      --brand:    var(--zyna);
+      --brand-d:  var(--zyna-dark);
+      --brand-l:  color-mix(in srgb, var(--zyna) 70%, white);
       --green:    #2D8C4E;
       --red:      #C0392B;
       --blue:     #009EDB;
@@ -72,7 +74,7 @@
     }
     .navbar-logo .logo-mark {
       width: 32px; height: 32px; border-radius: 8px;
-      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-d) 100%);
+      background: linear-gradient(135deg, var(--brand) 0%, var(--brand-d) 100%);
       display: flex; align-items: center; justify-content: center;
       font-size: 0.75rem; font-weight: 900; color: #0C0C0F;
       letter-spacing: -0.05em;
@@ -94,9 +96,9 @@
     }
     .badge-version {
       padding: 0.2rem 0.6rem; border-radius: 99px;
-      background: rgba(201,168,76,0.12); color: var(--gold);
+      background: color-mix(in srgb, var(--brand) 12%, transparent); color: var(--brand);
       font-size: 0.7rem; font-weight: 700; font-family: var(--mono);
-      border: 1px solid rgba(201,168,76,0.25);
+      border: 1px solid color-mix(in srgb, var(--brand) 25%, transparent);
       letter-spacing: 0.05em;
     }
     .btn-github {
@@ -112,6 +114,54 @@
       .navbar-logo .logo-text { display: none; }
     }
 
+    /* ── Genre selector ── */
+    .genre-selector { position: relative; }
+    .genre-trigger {
+      display: flex; align-items: center; gap: 0.4rem;
+      padding: 0.3rem 0.65rem;
+      background: transparent;
+      border: 1px solid var(--genre-trigger-color, var(--brand));
+      border-radius: var(--radius-sm);
+      color: var(--genre-trigger-color, var(--brand));
+      font-family: var(--mono); font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      cursor: pointer;
+      transition: background 150ms, box-shadow 150ms;
+    }
+    .genre-trigger:hover {
+      background: color-mix(in srgb, var(--genre-trigger-color, var(--brand)) 8%, transparent);
+      box-shadow: 0 0 12px color-mix(in srgb, var(--genre-trigger-color, var(--brand)) 25%, transparent);
+    }
+    .genre-trigger[aria-expanded="true"] {
+      background: color-mix(in srgb, var(--genre-trigger-color, var(--brand)) 10%, transparent);
+    }
+    .genre-panel {
+      position: absolute; top: calc(100% + 8px); right: 0;
+      min-width: 180px;
+      background: rgba(12,11,20,0.97);
+      border: 1px solid color-mix(in srgb, var(--brand) 25%, transparent);
+      border-radius: var(--radius-sm);
+      padding: 0.4rem;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.7);
+      display: none; flex-direction: column; gap: 2px;
+      z-index: 200;
+    }
+    .genre-panel.open { display: flex; }
+    .genre-option {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.5rem 0.65rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--mono); font-size: 0.75rem; font-weight: 600;
+      color: var(--text2);
+      transition: background 120ms, color 120ms;
+    }
+    .genre-option:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+    .genre-option[aria-selected="true"] { color: var(--brand); }
+    .genre-swatches { display: flex; gap: 3px; }
+    .genre-swatch { width: 8px; height: 8px; border-radius: 50%; }
+
     /* ── Hero ── */
     .hero {
       position: relative;
@@ -126,7 +176,7 @@
       content: '';
       position: absolute; top: 10%; left: 50%; transform: translateX(-50%);
       width: 800px; height: 600px;
-      background: radial-gradient(ellipse at center, rgba(201,168,76,0.10) 0%, transparent 70%);
+      background: radial-gradient(ellipse at center, color-mix(in srgb, var(--brand) 10%, transparent) 0%, transparent 70%);
       pointer-events: none; z-index: 0;
     }
     /* Grid lines */
@@ -141,8 +191,8 @@
     .hero-eyebrow {
       display: inline-flex; align-items: center; gap: 0.5rem;
       padding: 0.35rem 0.85rem; border-radius: 99px;
-      background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.2);
-      font-size: 0.8rem; font-weight: 600; color: var(--gold);
+      background: color-mix(in srgb, var(--brand) 8%, transparent); border: 1px solid color-mix(in srgb, var(--brand) 20%, transparent);
+      font-size: 0.8rem; font-weight: 600; color: var(--brand);
       margin-bottom: 2rem; letter-spacing: 0.05em;
       animation: fade-up 0.6s ease both;
     }
@@ -153,7 +203,7 @@
       animation: fade-up 0.6s 0.1s ease both;
     }
     .hero-title .gradient {
-      background: linear-gradient(135deg, var(--gold-l) 0%, var(--gold) 40%, var(--gold-d) 100%);
+      background: linear-gradient(135deg, var(--brand-l) 0%, var(--brand) 40%, var(--brand-d) 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
     .hero-sub {
@@ -207,7 +257,7 @@
     .section-label {
       display: inline-block;
       font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--gold); margin-bottom: 0.75rem;
+      color: var(--brand); margin-bottom: 0.75rem;
     }
     .section-title {
       font-size: clamp(1.75rem, 4vw, 2.75rem);
@@ -234,7 +284,7 @@
     }
     .stat-num {
       font-size: 2rem; font-weight: 900; letter-spacing: -0.03em;
-      color: var(--gold); line-height: 1;
+      color: var(--brand); line-height: 1;
     }
     .stat-label { font-size: 0.8rem; color: var(--text2); margin-top: 0.25rem; }
     @media (max-width: 640px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -255,16 +305,16 @@
     }
     .feature-card::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      background: linear-gradient(90deg, transparent, var(--brand), transparent);
       opacity: 0; transition: opacity 300ms;
     }
     .feature-card:hover { background: var(--bg3); }
     .feature-card:hover::before { opacity: 1; }
     .feature-icon {
       width: 44px; height: 44px; border-radius: 10px;
-      background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.2);
+      background: color-mix(in srgb, var(--brand) 10%, transparent); border: 1px solid color-mix(in srgb, var(--brand) 20%, transparent);
       display: flex; align-items: center; justify-content: center;
-      margin-bottom: 1.25rem; color: var(--gold);
+      margin-bottom: 1.25rem; color: var(--brand);
     }
     .feature-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem; }
     .feature-text { font-size: 0.875rem; color: var(--text2); line-height: 1.6; }
@@ -344,7 +394,7 @@
       transition: all 150ms; margin-bottom: 0.125rem; cursor: pointer;
     }
     .comp-nav-item:hover { color: var(--text); background: var(--bg3); }
-    .comp-nav-item.active { color: var(--gold); background: rgba(201,168,76,0.08); border-color: rgba(201,168,76,0.2); }
+    .comp-nav-item.active { color: var(--brand); background: color-mix(in srgb, var(--brand) 8%, transparent); border-color: color-mix(in srgb, var(--brand) 20%, transparent); }
     .comp-section { margin-bottom: 4rem; scroll-margin-top: 80px; }
     .comp-name {
       font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em;
@@ -359,13 +409,13 @@
     /* ── Install section ── */
     .install-section {
       padding: 6rem 0;
-      background: radial-gradient(ellipse 80% 50% at 50% 100%, rgba(201,168,76,0.08) 0%, transparent 60%);
+      background: radial-gradient(ellipse 80% 50% at 50% 100%, color-mix(in srgb, var(--brand) 8%, transparent) 0%, transparent 60%);
     }
     .step-num {
       width: 2.5rem; height: 2.5rem; border-radius: 50%;
-      background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25);
+      background: color-mix(in srgb, var(--brand) 10%, transparent); border: 1px solid color-mix(in srgb, var(--brand) 25%, transparent);
       display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 0.875rem; color: var(--gold);
+      font-weight: 800; font-size: 0.875rem; color: var(--brand);
       flex-shrink: 0;
     }
     .step-content h3 { font-weight: 700; margin-bottom: 0.75rem; }
@@ -396,7 +446,7 @@
     .footer-brand { color: var(--text2); font-size: 0.875rem; line-height: 1.7; margin-top: 0.75rem; }
     .footer-col h4 { font-weight: 700; font-size: 0.875rem; margin-bottom: 1rem; }
     .footer-col a { display: block; color: var(--text2); font-size: 0.875rem; margin-bottom: 0.5rem; transition: color 150ms; }
-    .footer-col a:hover { color: var(--gold); }
+    .footer-col a:hover { color: var(--brand); }
     .footer-bottom {
       border-top: 1px solid var(--border); margin-top: 3rem; padding-top: 1.5rem;
       display: flex; justify-content: space-between; align-items: center;
@@ -424,9 +474,9 @@
       50%       { transform: translateY(-8px); }
     }
     @keyframes pulse-ring {
-      0%   { box-shadow: 0 0 0 0 rgba(201,168,76,0.4); }
-      70%  { box-shadow: 0 0 0 12px rgba(201,168,76,0); }
-      100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
+      0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--brand) 40%, transparent); }
+      70%  { box-shadow: 0 0 0 12px transparent; }
+      100% { box-shadow: 0 0 0 0 transparent; }
     }
     @keyframes slide-in-left {
       from { opacity: 0; transform: translateX(-1.5rem); }
@@ -455,11 +505,11 @@
       text-align: center;
       transition: border-color 200ms ease;
     }
-    .chart-mini-card:hover { border-color: var(--gold); }
+    .chart-mini-card:hover { border-color: var(--brand); }
 
     /* Shimmer text on the logo */
     .shimmer-text {
-      background: linear-gradient(90deg, var(--gold) 0%, var(--gold-l) 40%, var(--gold) 60%, var(--gold));
+      background: linear-gradient(90deg, var(--brand) 0%, var(--brand-l) 40%, var(--brand) 60%, var(--brand));
       background-size: 200% auto;
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
       animation: shimmer 3s linear infinite;
@@ -484,7 +534,7 @@
     }
     .glow-card::before {
       content: ''; position: absolute; inset: 0; padding: 1px; border-radius: var(--radius);
-      background: linear-gradient(135deg, rgba(201,168,76,0.5), transparent 50%, rgba(201,168,76,0.2));
+      background: linear-gradient(135deg, color-mix(in srgb, var(--brand) 50%, transparent), transparent 50%, color-mix(in srgb, var(--brand) 20%, transparent));
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor; mask-composite: exclude;
       pointer-events: none;
@@ -494,7 +544,7 @@
     .highlight { position: relative; display: inline; }
     .highlight::after {
       content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-      height: 30%; background: rgba(201,168,76,0.25); z-index: -1;
+      height: 30%; background: color-mix(in srgb, var(--brand) 25%, transparent); z-index: -1;
       border-radius: 2px;
     }
 
@@ -514,7 +564,7 @@
       color:var(--text3); font-family:var(--mono); letter-spacing:0.05em;
       cursor:pointer; transition:all 150ms;
     }
-    .pkg-btn.active { background:var(--bg); color:var(--gold); }
+    .pkg-btn.active { background:var(--bg); color:var(--brand); }
     .install-block {
       background:#0A0A10; border:1px solid var(--border);
       border-radius:0 var(--radius-sm) var(--radius-sm) var(--radius-sm);
@@ -553,7 +603,7 @@
   <nav class="navbar" id="navbar">
     <a href="/" class="navbar-logo">
       <div class="logo-mark">Z</div>
-      <span class="logo-text">zyna<span style="color:var(--gold)">ui</span></span>
+      <span class="logo-text">zyna<span style="color:var(--brand)">ui</span></span>
     </a>
     <div class="navbar-links">
       <a href="components/btn/">Components</a>
@@ -562,6 +612,17 @@
     </div>
     <div class="navbar-right">
       <span class="badge-version">v0.1.0-beta</span>
+      <div class="genre-selector" id="genre-selector">
+        <button class="genre-trigger" id="genre-trigger" aria-haspopup="true" aria-expanded="false">
+          <span class="genre-trigger-label">[ <span id="genre-active-name">OPS</span> ]</span>
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+            <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="genre-panel" id="genre-panel" role="listbox" aria-label="Select genre">
+          <!-- populated by JS -->
+        </div>
+      </div>
       <a href="https://github.com/binary-ly/zynaui" class="btn-github" target="_blank">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
         GitHub
@@ -739,14 +800,14 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
           </div>
           <div class="feature-title">Tailwind Plugin</div>
-          <div class="feature-text">Adds semantic class names like <code style="color:var(--gold);background:rgba(201,168,76,0.1);padding:0.1rem 0.35rem;border-radius:4px;font-size:0.75rem">.btn</code> and <code style="color:var(--gold);background:rgba(201,168,76,0.1);padding:0.1rem 0.35rem;border-radius:4px;font-size:0.75rem">.card</code> on top of Tailwind. No new build step. No config changes.</div>
+          <div class="feature-text">Adds semantic class names like <code style="color:var(--brand);background:color-mix(in srgb, var(--brand) 10%, transparent);padding:0.1rem 0.35rem;border-radius:4px;font-size:0.75rem">.btn</code> and <code style="color:var(--brand);background:color-mix(in srgb, var(--brand) 10%, transparent);padding:0.1rem 0.35rem;border-radius:4px;font-size:0.75rem">.card</code> on top of Tailwind. No new build step. No config changes.</div>
         </div>
         <div class="feature-card reveal reveal-delay-1">
           <div class="feature-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
           </div>
           <div class="feature-title">Web Component Charts</div>
-          <div class="feature-text">Drop <code style="color:var(--gold);background:rgba(201,168,76,0.1);padding:0.1rem 0.35rem;border-radius:4px;font-size:0.75rem">&lt;zyna-waffle&gt;</code> anywhere: React, Vue, Blade, or plain HTML. D3-powered, responsive, no framework lock-in.</div>
+          <div class="feature-text">Drop <code style="color:var(--brand);background:color-mix(in srgb, var(--brand) 10%, transparent);padding:0.1rem 0.35rem;border-radius:4px;font-size:0.75rem">&lt;zyna-waffle&gt;</code> anywhere: React, Vue, Blade, or plain HTML. D3-powered, responsive, no framework lock-in.</div>
         </div>
         <div class="feature-card reveal reveal-delay-2">
           <div class="feature-icon">
@@ -860,7 +921,7 @@
           <!-- BUTTON -->
           <div class="comp-section reveal" id="comp-btn">
             <h3 class="comp-name">Button</h3>
-            <p class="comp-desc">Chamfered-corner buttons with a scan-fill hover effect and glow physics. Use <code style="color:var(--gold)">.btn</code> with a variant modifier: 4 variants, 3 sizes, icon mode.</p>
+            <p class="comp-desc">Chamfered-corner buttons with a scan-fill hover effect and glow physics. Use <code style="color:var(--brand)">.btn</code> with a variant modifier: 4 variants, 3 sizes, icon mode.</p>
 
             <div class="component-tabs">
               <button class="tab-btn active" onclick="switchTab(this, 'btn-preview')">Preview</button>
@@ -912,7 +973,7 @@
           <!-- BADGE -->
           <div class="comp-section reveal" id="comp-badge">
             <h3 class="comp-name">Badge</h3>
-            <p class="comp-desc">Data-tag style indicators with a left accent bar in luminescent colors. Add <code style="color:var(--gold)">.badge-pulse</code> for an animated status dot.</p>
+            <p class="comp-desc">Data-tag style indicators with a left accent bar in luminescent colors. Add <code style="color:var(--brand)">.badge-pulse</code> for an animated status dot.</p>
 
             <div class="component-tabs">
               <button class="tab-btn active" onclick="switchTab(this, 'badge-preview')">Preview</button>
@@ -965,7 +1026,7 @@
           <!-- CARD -->
           <div class="comp-section reveal" id="comp-card">
             <h3 class="comp-name">Card</h3>
-            <p class="comp-desc">HUD-panel containers with corner bracket marks, a mono header readout, and deep glass depth. Four variants: base, <code style="color:var(--gold)">.card-dark</code>, <code style="color:var(--gold)">.card-glow</code>, <code style="color:var(--gold)">.card-compact</code>.</p>
+            <p class="comp-desc">HUD-panel containers with corner bracket marks, a mono header readout, and deep glass depth. Four variants: base, <code style="color:var(--brand)">.card-dark</code>, <code style="color:var(--brand)">.card-glow</code>, <code style="color:var(--brand)">.card-compact</code>.</p>
 
             <div class="component-tabs">
               <button class="tab-btn active" onclick="switchTab(this, 'card-preview')">Preview</button>
@@ -1133,27 +1194,27 @@
       <!-- Mini chart previews -->
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:0.75rem;margin-top:3.5rem;max-width:700px;margin-left:auto;margin-right:auto" class="reveal">
         <a href="charts/waffle/" class="chart-mini-card" style="text-decoration:none">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="margin-bottom:0.5rem;color:var(--gold)" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="margin-bottom:0.5rem;color:var(--brand)" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
           <div style="font-size:0.75rem;font-weight:700;color:var(--text2)">Waffle</div>
           <div style="font-size:0.65rem;color:var(--text3);margin-top:0.25rem">zyna-waffle</div>
         </a>
         <a href="charts/timeline/" class="chart-mini-card" style="text-decoration:none">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="margin-bottom:0.5rem;color:var(--gold)" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="12" x2="21" y2="12"/><circle cx="6" cy="12" r="2" fill="currentColor"/><circle cx="12" cy="7" r="2" fill="currentColor"/><circle cx="18" cy="12" r="2" fill="currentColor"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="margin-bottom:0.5rem;color:var(--brand)" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="12" x2="21" y2="12"/><circle cx="6" cy="12" r="2" fill="currentColor"/><circle cx="12" cy="7" r="2" fill="currentColor"/><circle cx="18" cy="12" r="2" fill="currentColor"/></svg>
           <div style="font-size:0.75rem;font-weight:700;color:var(--text2)">Timeline</div>
           <div style="font-size:0.65rem;color:var(--text3);margin-top:0.25rem">zyna-timeline</div>
         </a>
         <a href="charts/nightingale/" class="chart-mini-card" style="text-decoration:none">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="margin-bottom:0.5rem;color:var(--gold)" stroke="currentColor" stroke-width="1.5"><path d="M12 12 L12 3 A9 9 0 0 1 20.5 7.5 Z" fill="currentColor" opacity="0.4"/><path d="M12 12 L20.5 7.5 A9 9 0 0 1 21 12 Z" fill="currentColor" opacity="0.6"/><path d="M12 12 L21 12 A9 9 0 0 1 3 12 Z" fill="currentColor" opacity="0.3"/><circle cx="12" cy="12" r="9"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="margin-bottom:0.5rem;color:var(--brand)" stroke="currentColor" stroke-width="1.5"><path d="M12 12 L12 3 A9 9 0 0 1 20.5 7.5 Z" fill="currentColor" opacity="0.4"/><path d="M12 12 L20.5 7.5 A9 9 0 0 1 21 12 Z" fill="currentColor" opacity="0.6"/><path d="M12 12 L21 12 A9 9 0 0 1 3 12 Z" fill="currentColor" opacity="0.3"/><circle cx="12" cy="12" r="9"/></svg>
           <div style="font-size:0.75rem;font-weight:700;color:var(--text2)">Nightingale</div>
           <div style="font-size:0.65rem;color:var(--text3);margin-top:0.25rem">zyna-nightingale</div>
         </a>
         <a href="charts/lollipop/" class="chart-mini-card" style="text-decoration:none">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="margin-bottom:0.5rem;color:var(--gold)" stroke="currentColor" stroke-width="1.5"><line x1="5" y1="6" x2="17" y2="6"/><circle cx="17" cy="6" r="2" fill="currentColor"/><line x1="5" y1="12" x2="13" y2="12"/><circle cx="13" cy="12" r="2" fill="currentColor"/><line x1="5" y1="18" x2="9" y2="18"/><circle cx="9" cy="18" r="2" fill="currentColor"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="margin-bottom:0.5rem;color:var(--brand)" stroke="currentColor" stroke-width="1.5"><line x1="5" y1="6" x2="17" y2="6"/><circle cx="17" cy="6" r="2" fill="currentColor"/><line x1="5" y1="12" x2="13" y2="12"/><circle cx="13" cy="12" r="2" fill="currentColor"/><line x1="5" y1="18" x2="9" y2="18"/><circle cx="9" cy="18" r="2" fill="currentColor"/></svg>
           <div style="font-size:0.75rem;font-weight:700;color:var(--text2)">Lollipop</div>
           <div style="font-size:0.65rem;color:var(--text3);margin-top:0.25rem">zyna-lollipop</div>
         </a>
         <a href="charts/orbital/" class="chart-mini-card" style="text-decoration:none">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="margin-bottom:0.5rem;color:var(--gold)" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="3"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="margin-bottom:0.5rem;color:var(--brand)" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="3"/></svg>
           <div style="font-size:0.75rem;font-weight:700;color:var(--text2)">Orbital</div>
           <div style="font-size:0.65rem;color:var(--text3);margin-top:0.25rem">zyna-orbital</div>
         </a>
@@ -1328,11 +1389,11 @@
         <div>
           <div class="navbar-logo" style="position:static">
             <div class="logo-mark">Z</div>
-            <span>zyna<span style="color:var(--gold)">ui</span></span>
+            <span>zyna<span style="color:var(--brand)">ui</span></span>
           </div>
           <p class="footer-brand">
             Open-source Tailwind CSS component library and D3 chart Web Components.<br>
-            Built by <a href="https://binary.ly" style="color:var(--gold)">Binary Tech Ltd</a>. Free to use, MIT licensed. · <a href="https://zyna.dev" style="color:var(--gold)">zyna.dev</a>
+            Built by <a href="https://binary.ly" style="color:var(--brand)">Binary Tech Ltd</a>. Free to use, MIT licensed. · <a href="https://zyna.dev" style="color:var(--brand)">zyna.dev</a>
           </p>
         </div>
         <div class="footer-col">
@@ -1360,7 +1421,7 @@
       </div>
       <div class="footer-bottom">
         <span>© 2026 Binary Tech Ltd. MIT License.</span>
-        <span>Semantic class naming inspired by <a href="https://daisyui.com" target="_blank" rel="noopener" style="color:var(--gold)">DaisyUI</a> · Made with ♥ in Libya</span>
+        <span>Semantic class naming inspired by <a href="https://daisyui.com" target="_blank" rel="noopener" style="color:var(--brand)">DaisyUI</a> · Made with ♥ in Libya</span>
       </div>
     </div>
   </footer>
@@ -1470,6 +1531,72 @@
         }
       })
     }, { passive: true })
+  </script>
+
+  <script type="module">
+    import { GENRES, applyGenre } from './_genres.js'
+
+    const trigger = document.getElementById('genre-trigger')
+    const panel   = document.getElementById('genre-panel')
+    const nameEl  = document.getElementById('genre-active-name')
+    if (trigger && panel && nameEl) {
+      let activeName
+      try { activeName = localStorage.getItem('zyna-genre') || 'Ops' } catch { activeName = 'Ops' }
+
+      function setTriggerColor(genre) {
+        trigger.style.setProperty('--genre-trigger-color', genre.swatches.brand)
+      }
+
+      function buildPanel() {
+        panel.innerHTML = GENRES.map(genre => {
+          const isActive = genre.name === activeName
+          const swatches = Object.values(genre.swatches).map(c =>
+            `<span class="genre-swatch" style="background:${c}"></span>`
+          ).join('')
+          return `<div class="genre-option" role="option" aria-selected="${isActive}" data-genre="${genre.name}">
+            <span>${genre.name}</span>
+            <span class="genre-swatches">${swatches}</span>
+          </div>`
+        }).join('')
+      }
+
+      function updateActive(name) {
+        activeName = name
+        nameEl.textContent = name.toUpperCase()
+        const genre = GENRES.find(g => g.name === name)
+        if (genre) setTriggerColor(genre)
+        panel.querySelectorAll('.genre-option').forEach(el => {
+          el.setAttribute('aria-selected', String(el.dataset.genre === name))
+        })
+      }
+
+      function openPanel()  { panel.classList.add('open');    trigger.setAttribute('aria-expanded', 'true')  }
+      function closePanel() { panel.classList.remove('open'); trigger.setAttribute('aria-expanded', 'false') }
+
+      buildPanel()
+      updateActive(activeName)
+
+      trigger.addEventListener('click', () => {
+        panel.classList.contains('open') ? closePanel() : openPanel()
+      })
+
+      panel.addEventListener('click', e => {
+        const option = e.target.closest('.genre-option')
+        if (!option) return
+        applyGenre(option.dataset.genre)
+        updateActive(option.dataset.genre)
+        closePanel()
+      })
+
+      document.addEventListener('click', e => {
+        const selector = document.getElementById('genre-selector')
+        if (selector && !selector.contains(e.target)) closePanel()
+      })
+
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closePanel()
+      })
+    }
   </script>
 </body>
 </html>

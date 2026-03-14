@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>try{var _zg=localStorage.getItem('zyna-genre');if(_zg&&_zg!=='Ops'){document.documentElement.dataset.genre=_zg.toLowerCase();var _zt=JSON.parse(localStorage.getItem('zyna-genre-tokens')||'{}');for(var _zk in _zt)document.documentElement.style.setProperty(_zk,_zt[_zk])}}catch(e){}</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nightingale — Zyna UI Charts</title>
@@ -10,6 +11,14 @@
   <script src="/dist/zyna-charts.iife.js"></script>
   <link rel="stylesheet" href="../../zynaui.css">
   <link rel="stylesheet" href="../../docs.css">
+  <style>
+    .theme-sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;user-select:none;font-size:.72rem;color:var(--text3);font-weight:600;letter-spacing:.04em;padding:0 4px}
+    .theme-sw input{position:absolute;opacity:0;width:0;height:0}
+    .theme-track{position:relative;display:block;width:32px;height:18px;background:var(--bg3);border:1px solid var(--border);border-radius:9px;transition:background .2s;flex-shrink:0}
+    .theme-track::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:var(--text3);transition:transform .2s}
+    .theme-sw input:checked~.theme-track{background:color-mix(in srgb,var(--zyna) 15%,var(--bg3))}
+    .theme-sw input:checked~.theme-track::after{transform:translateX(14px);background:var(--zyna)}
+  </style>
 </head>
 <body>
   <div id="topbar"></div>
@@ -25,7 +34,7 @@
         </div>
         <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap">
           <h1 class="page-title" style="margin-bottom:0">Nightingale (Rose)</h1>
-          <code style="font-family:var(--mono);font-size:0.78rem;padding:0.2rem 0.6rem;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--gold)">&lt;zyna-nightingale&gt;</code>
+          <code style="font-family:var(--mono);font-size:0.78rem;padding:0.2rem 0.6rem;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--brand)">&lt;zyna-nightingale&gt;</code>
         </div>
         <p class="page-desc">Radial rose chart where each sector's radius encodes its value. Equal-angle sectors make magnitude the only visual variable, which suits comparing multiple categories with colour-coded groupings.</p>
       </div>
@@ -33,19 +42,22 @@
       <!-- Demo -->
       <div class="doc-section">
         <h2 class="section-title">Demo</h2>
-        <div class="tabs-bar">
+        <div class="tabs-bar" style="display:flex;align-items:center">
           <button class="tab-btn active" onclick="tab(this,'ng-p')">Preview</button>
           <button class="tab-btn" onclick="tab(this,'ng-c')">Code</button>
           <button class="tab-btn" onclick="tab(this,'ng-a')">Attributes</button>
+          <label class="theme-sw" style="margin-left:auto">
+            <input type="checkbox" id="theme-chk" onchange="setTheme(this.checked)">
+            <span class="theme-track"></span>
+            <span>Light</span>
+          </label>
         </div>
         <div>
           <div id="ng-p" class="tab-panel active">
-            <div class="preview-box col" style="min-height:520px;padding:1.5rem">
+            <div class="preview-box col" data-chart-bg style="min-height:520px;padding:1.5rem">
               <p style="font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:1rem">Libya aid by sector — EU (red) vs non-EU (green)</p>
               <zyna-nightingale
                 data='[{"label":"Emergency","value":607,"color":"#B03A2E"},{"label":"Governance","value":408,"color":"#C0392B"},{"label":"Peacebuilding","value":243,"color":"#922B21"},{"label":"Capacity","value":153,"color":"#A93226"},{"label":"Migration","value":87,"color":"#7B241C"},{"label":"Health","value":124,"color":"#2D8C4E"},{"label":"Reconstruction","value":48,"color":"#239B56"},{"label":"WASH","value":48,"color":"#1E8449"},{"label":"Education","value":26,"color":"#196F3D"},{"label":"Community","value":48,"color":"#145A32"}]'
-                theme='dark'
-                color='#C9A84C'
                 style="display:block;width:100%">
               </zyna-nightingale>
             </div>
@@ -73,7 +85,6 @@
     {"label":"Community",     "value":48, "color":"#145A32"}
   ]'</span>
   <span class="atr">theme</span>=<span class="val">"dark"</span>
-  <span class="atr">color</span>=<span class="val">"#C9A84C"</span>
 <span class="tag">&gt;&lt;/zyna-nightingale&gt;</span></pre>
             </div>
           </div>
@@ -90,51 +101,13 @@
                 </thead>
                 <tbody>
                   <tr><td class="t-var">data</td><td class="t-type">JSON array</td><td class="t-def">—</td><td>Array of <code>{ label, value, color? }</code> objects.</td></tr>
-                  <tr><td class="t-var">color</td><td class="t-type">hex</td><td class="t-def">#C9A84C</td><td>Fallback accent color for items without a per-item color.</td></tr>
+                  <tr><td class="t-var">color</td><td class="t-type">hex</td><td class="t-def">var(--zyna)</td><td>Fallback accent color for items without a per-item color.</td></tr>
                   <tr><td class="t-var">theme</td><td class="t-type">dark | light</td><td class="t-def">dark</td><td>Controls background and text colour scheme.</td></tr>
                   <tr><td class="t-var">height</td><td class="t-type">number</td><td class="t-def">—</td><td>Explicit height in px. Auto-derived from width when omitted.</td></tr>
                   <tr><td class="t-var">show-values</td><td class="t-type">boolean</td><td class="t-def">true</td><td>Set to <code style="font-family:var(--mono);font-size:0.75rem">"false"</code> to hide the numeric value labels on leader lines.</td></tr>
                   <tr><td class="t-var">label-format</td><td class="t-type">string</td><td class="t-def">—</td><td>D3-style number format (e.g. <code style="font-family:var(--mono);font-size:0.75rem">$,.0f</code>, <code style="font-family:var(--mono);font-size:0.75rem">.1%</code>, <code style="font-family:var(--mono);font-size:0.75rem">,.2f</code>). Raw value shown when omitted.</td></tr>
                 </tbody>
               </table>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Light Theme Section -->
-      <div class="doc-section">
-        <h2 class="section-title">Light Theme</h2>
-        <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.25rem;line-height:1.7">Set <code style="font-family:var(--mono);font-size:0.78rem;color:var(--gold)">theme="light"</code> for use on light backgrounds. The component adjusts all internal colours automatically.</p>
-        <div class="tabs-bar">
-          <button class="tab-btn active" onclick="tab(this,'ng-lt-p')">Preview</button>
-          <button class="tab-btn" onclick="tab(this,'ng-lt-c')">Code</button>
-        </div>
-        <div>
-          <div id="ng-lt-p" class="tab-panel active">
-            <div class="preview-box col" style="min-height:520px;padding:1.5rem;background:#F8F6F2;background-image:none">
-              <p style="font-size:0.7rem;color:#888;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:1rem">Libya aid by sector (light theme)</p>
-              <div style="background:#F8F6F2;border-radius:0.75rem;width:100%">
-                <zyna-nightingale
-                  data='[{"label":"Emergency","value":607,"color":"#B03A2E"},{"label":"Governance","value":408,"color":"#C0392B"},{"label":"Peacebuilding","value":243,"color":"#922B21"},{"label":"Capacity","value":153,"color":"#A93226"},{"label":"Migration","value":87,"color":"#7B241C"},{"label":"Health","value":124,"color":"#2D8C4E"},{"label":"Reconstruction","value":48,"color":"#239B56"},{"label":"WASH","value":48,"color":"#1E8449"},{"label":"Education","value":26,"color":"#196F3D"},{"label":"Community","value":48,"color":"#145A32"}]'
-                  theme='light'
-                  style="display:block;width:100%">
-                </zyna-nightingale>
-              </div>
-            </div>
-          </div>
-          <div id="ng-lt-c" class="tab-panel">
-            <div class="code-box">
-              <div class="code-toolbar">
-                <span class="code-lang">html</span>
-                <button class="copy-btn" onclick="cp(this,'ng-lt-code')">
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy
-                </button>
-              </div>
-              <pre id="ng-lt-code"><span class="tag">&lt;zyna-nightingale</span>
-  <span class="atr">data</span>=<span class="val">'[...]'</span>
-  <span class="atr">theme</span>=<span class="val">"light"</span>
-<span class="tag">&gt;&lt;/zyna-nightingale&gt;</span></pre>
             </div>
           </div>
         </div>
@@ -159,6 +132,16 @@
 
   <script type="module" src="../../_nav.js"></script>
   <script>
+    function setTheme(isLight) {
+      document.querySelectorAll('zyna-nightingale').forEach(el => {
+        if (isLight) el.setAttribute('theme', 'light')
+        else el.removeAttribute('theme')
+      })
+      document.querySelectorAll('[data-chart-bg]').forEach(b => {
+        b.style.background = isLight ? '#F8F6F2' : ''
+        b.style.backgroundImage = isLight ? 'none' : ''
+      })
+    }
     function tab(btn, panelId) {
       const bar = btn.parentElement
       bar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))

@@ -22,31 +22,56 @@ export class ZynaChart extends HTMLElement {
     this._rafId  = null
     this._timerId = null
 
+    this._genreHandler = () => this._render()
+    window.addEventListener('zyna-genre', this._genreHandler)
+
     this._ro = new ResizeObserver(entries => {
       const w = entries[0]?.contentRect.width ?? this.clientWidth
       // Tier 1: ignore sub-3px jitter
       if (Math.abs(w - this._lastW) < 3) return
+      // Capture whether the element was previously hidden (width zero)
+      const wasZero = this._lastW === 0
       this._lastW = w
 
       // Tier 2: coalesce multiple firings within the same animation frame
       if (this._rafId) cancelAnimationFrame(this._rafId)
       this._rafId = requestAnimationFrame(() => {
         this._rafId = null
-
-        // Tier 3: trailing 150ms debounce — render once the resize drag settles
         clearTimeout(this._timerId)
-        this._timerId = setTimeout(() => this._render(), 150)
+
+        if (wasZero) {
+          // First visibility (e.g. hidden tab just shown) — render immediately,
+          // no debounce, so there is no blank-then-flash transition.
+          this._render()
+        } else {
+          // Tier 3: trailing 150ms debounce — render once a resize drag settles
+          this._timerId = setTimeout(() => this._render(), 150)
+        }
       })
     })
 
     this._ro.observe(this)
-    this._render()
+
+    // Defer initial render to rAF so that a forced-reflow of clientWidth
+    // returns the real layout dimension rather than 0 (pre-layout).
+    // If ResizeObserver already fired and set _lastW (visible elements), skip
+    // to avoid a redundant second render in the same frame.
+    requestAnimationFrame(() => {
+      const w = this.clientWidth
+      if (w > 0 && this._lastW === 0) {
+        this._lastW = w
+        this._render()
+      }
+      // If w === 0 the element is hidden; ResizeObserver handles first render
+      // when it becomes visible (wasZero path above).
+    })
   }
 
   disconnectedCallback() {
     this._ro?.disconnect()
     if (this._rafId)   cancelAnimationFrame(this._rafId)
     if (this._timerId) clearTimeout(this._timerId)
+    window.removeEventListener('zyna-genre', this._genreHandler)
   }
 
   attributeChangedCallback() {
@@ -123,6 +148,9 @@ export class ZynaChart extends HTMLElement {
       : n.toFixed(decimals)
     return (isDollar ? '$' : '') + str + (isPct ? '%' : '')
   }
+
+  _brand()     { return getComputedStyle(document.documentElement).getPropertyValue('--zyna').trim()      || '#C9A84C' }
+  _brandDark() { return getComputedStyle(document.documentElement).getPropertyValue('--zyna-dark').trim() || '#7A6230' }
 
   _render() {}
 }

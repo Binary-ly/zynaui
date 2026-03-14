@@ -9,7 +9,7 @@ import { select } from 'd3-selection'
  *
  * Attributes:
  *   data   — JSON array of { label, value, color?, outline? }
- *   color  — fallback cell colour. Default: #C9A84C
+ *   color  — fallback cell colour. Default: var(--zyna)
  *   cols   — grid columns. Default: 10
  *   gap    — gap between cells in px. Default: 3
  *   theme  — 'dark' (default) or 'light'
@@ -22,7 +22,7 @@ export class ZynaWaffle extends ZynaChart {
 
   _render() {
     const data   = this._json('data', [])
-    const accent = this._attr('color', '#C9A84C')
+    const accent = this._attr('color', this._brand())
     const cols   = parseInt(this._attr('cols', '10'))
     const gap    = parseInt(this._attr('gap', '3'))
     const dark       = this._attr('theme', 'dark') !== 'light'

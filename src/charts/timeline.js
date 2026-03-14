@@ -9,7 +9,7 @@ import { max } from 'd3-array'
  *
  * Attributes:
  *   data         — JSON array of { label, value, note? }
- *   color        — accent color. Default: #C9A84C
+ *   color        — accent color. Default: var(--zyna)
  *   theme        — 'dark' (default) or 'light'
  *   highlight    — label of the item to emphasize. Default: highest value item
  *   muted-color  — color for non-highlighted items. Default: #8A8478
@@ -24,7 +24,7 @@ export class ZynaTimeline extends ZynaChart {
 
   _render() {
     const data       = this._json('data', [])
-    const accent     = this._attr('color', '#C9A84C')
+    const accent     = this._attr('color', this._brand())
     const muted      = this._attr('muted-color', '#8A8478')
     const hl         = this._attr('highlight', '')
     const fmt        = this._attr('label-format', '')

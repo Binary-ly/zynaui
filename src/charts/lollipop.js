@@ -10,10 +10,10 @@ import { scaleLinear } from 'd3-scale'
  *
  * Attributes:
  *   data         — JSON array of { label, value } sorted descending recommended
- *   color        — accent color for the highlighted item. Default: #C9A84C
+ *   color        — accent color for the highlighted item. Default: var(--zyna)
  *   theme        — 'dark' (default) or 'light'
  *   highlight    — label of the item to accent. Default: first item (index 0)
- *   muted-color  — color for non-highlighted stems, dots and labels. Default: #7A6230 / #8A8478
+ *   muted-color  — color for non-highlighted stems, dots and labels. Default: var(--zyna-dark) / #8A8478
  *   height       — explicit height in px. Auto-derived from data length when omitted.
  *   show-values  — set to "false" to hide value labels at the end of each stem. Default: true
  *   label-format — D3-style number format string (e.g. '$,.0f', '.1%', ',.2f'). Default: raw value
@@ -26,9 +26,9 @@ export class ZynaLollipop extends ZynaChart {
 
   _render() {
     const data       = this._json('data', [])
-    const accent     = this._attr('color', '#C9A84C')
+    const accent     = this._attr('color', this._brand())
     const mutedAttr  = this._attr('muted-color', '')
-    const muted      = mutedAttr || '#7A6230'
+    const muted      = mutedAttr || this._brandDark()
     const mutedT     = mutedAttr || '#8A8478'
     const hlLabel    = this._attr('highlight', '') || data[0]?.label || ''
     const fmt        = this._attr('label-format', '')

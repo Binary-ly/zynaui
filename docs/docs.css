@@ -11,9 +11,9 @@
   --text:      #F0EBE0;
   --text2:     #A09888;
   --text3:     #6A6460;
-  --gold:      #C9A84C;
-  --gold-d:    #7A6230;
-  --gold-l:    #E8C86C;
+  --brand:     var(--zyna);
+  --brand-d:   var(--zyna-dark);
+  --brand-l:   color-mix(in srgb, var(--zyna) 70%, white);
   --green:     #2D8C4E;
   --red:       #C0392B;
   --blue:      #009EDB;
@@ -42,7 +42,9 @@ pre, code { font-family: var(--mono); }
   position: fixed; top: 0; left: 0; right: 0;
   height: var(--topbar-h); z-index: 100;
   background: rgba(12,12,15,0.92);
-  border-bottom: 1px solid var(--border);
+  /* --z-topbar-border / --z-topbar-glow: genre tokens — Cyberpunk adds neon accent */
+  border-bottom: 1px solid var(--z-topbar-border, var(--border));
+  box-shadow: var(--z-topbar-glow, none);
   backdrop-filter: blur(16px);
   display: flex; align-items: center;
   padding: 0 1.5rem; gap: 1rem;
@@ -55,7 +57,7 @@ pre, code { font-family: var(--mono); }
 }
 .topbar-logo .logo-mark {
   width: 30px; height: 30px; border-radius: 7px;
-  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-d) 100%);
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-d) 100%);
   display: flex; align-items: center; justify-content: center;
   font-size: 0.7rem; font-weight: 900; color: #0C0C0F;
   letter-spacing: -0.05em; flex-shrink: 0;
@@ -71,9 +73,9 @@ pre, code { font-family: var(--mono); }
 
 .badge-version {
   padding: 0.2rem 0.6rem; border-radius: 99px;
-  background: rgba(201,168,76,0.12); color: var(--gold);
+  background: color-mix(in srgb, var(--brand) 12%, transparent); color: var(--brand);
   font-size: 0.68rem; font-weight: 700; font-family: var(--mono);
-  border: 1px solid rgba(201,168,76,0.25); letter-spacing: 0.05em;
+  border: 1px solid color-mix(in srgb, var(--brand) 25%, transparent); letter-spacing: 0.05em;
 }
 
 .btn-topbar {
@@ -83,7 +85,7 @@ pre, code { font-family: var(--mono); }
   font-size: 0.78rem; font-weight: 600; color: var(--text2);
   transition: all 150ms;
 }
-.btn-topbar:hover { color: var(--text); border-color: var(--gold); background: rgba(201,168,76,0.06); }
+.btn-topbar:hover { color: var(--text); border-color: var(--brand); background: color-mix(in srgb, var(--brand) 6%, transparent); }
 
 /* Hamburger — mobile only */
 .hamburger {
@@ -145,8 +147,10 @@ details summary::-webkit-details-marker { display: none; }
 .sidebar-item:hover { color: var(--text); background: rgba(255,255,255,0.04); }
 .sidebar-item[aria-current="page"],
 .sidebar-item.active {
-  color: var(--gold); background: rgba(201,168,76,0.08);
-  border-color: rgba(201,168,76,0.18);
+  color: var(--brand); background: color-mix(in srgb, var(--brand) 8%, transparent);
+  border-color: color-mix(in srgb, var(--brand) 18%, transparent);
+  /* --z-sidebar-active-shadow: genre token — Cyberpunk adds inset neon bar */
+  box-shadow: var(--z-sidebar-active-shadow, none);
 }
 .sidebar-dot {
   width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
@@ -168,7 +172,7 @@ details summary::-webkit-details-marker { display: none; }
   display: block; font-size: 0.68rem; line-height: 1.7;
   color: var(--text3);
 }
-.sidebar-snippet code:first-child { color: var(--gold); margin-bottom: 0.2rem; }
+.sidebar-snippet code:first-child { color: var(--brand); margin-bottom: 0.2rem; }
 
 /* ── Mobile off-canvas ── */
 @media (max-width: 1023px) {
@@ -209,7 +213,7 @@ details summary::-webkit-details-marker { display: none; }
   display: flex; align-items: center; gap: 0.4rem;
   font-size: 0.72rem; color: var(--text3); margin-bottom: 0.75rem;
 }
-.breadcrumb a { color: var(--gold); }
+.breadcrumb a { color: var(--brand); }
 .breadcrumb-sep { opacity: 0.4; }
 .page-title {
   font-size: 2rem; font-weight: 900; letter-spacing: -0.03em;
@@ -234,7 +238,7 @@ details summary::-webkit-details-marker { display: none; }
   border-bottom: 2px solid transparent; margin-bottom: -1px;
   transition: all 150ms; cursor: pointer;
 }
-.tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+.tab-btn.active { color: var(--brand); border-bottom-color: var(--brand); }
 .tab-btn:hover:not(.active) { color: var(--text2); }
 .tab-panel { display: none; }
 .tab-panel.active { display: block; }
@@ -313,12 +317,81 @@ pre {
 }
 .api-table tr:last-child td { border-bottom: none; }
 .api-table tr:hover td { background: rgba(255,255,255,0.02); }
-.t-var  { font-family: var(--mono); color: var(--gold); font-size: 0.78rem; }
+.t-var  { font-family: var(--mono); color: var(--brand); font-size: 0.78rem; }
 .t-type { font-family: var(--mono); color: #89DDFF; font-size: 0.75rem; }
 .t-def  { font-family: var(--mono); color: #C3E88D; font-size: 0.75rem; }
+
+/* ── Genre selector ──────────────────────────────────────────────────── */
+.genre-selector { position: relative; }
+
+.genre-trigger {
+  display: flex; align-items: center; gap: 0.4rem;
+  padding: 0.3rem 0.65rem;
+  background: transparent;
+  border: 1px solid var(--genre-trigger-color, var(--brand));
+  border-radius: var(--radius-sm);
+  color: var(--genre-trigger-color, var(--brand));
+  font-family: var(--mono); font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  cursor: pointer;
+  transition: background 150ms, box-shadow 150ms;
+}
+.genre-trigger:hover {
+  background: color-mix(in srgb, var(--genre-trigger-color, var(--brand)) 8%, transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--genre-trigger-color, var(--brand)) 25%, transparent);
+}
+.genre-trigger[aria-expanded="true"] {
+  background: color-mix(in srgb, var(--genre-trigger-color, var(--brand)) 10%, transparent);
+}
+
+.genre-panel {
+  position: absolute; top: calc(100% + 8px); right: 0;
+  min-width: 180px;
+  background: rgba(12,11,20,0.97);
+  border: 1px solid color-mix(in srgb, var(--brand) 25%, transparent);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.7);
+  display: none; flex-direction: column; gap: 2px;
+  z-index: 200;
+}
+.genre-panel.open { display: flex; }
+
+.genre-option {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.5rem 0.65rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: var(--mono); font-size: 0.75rem; font-weight: 600;
+  color: var(--text2);
+  transition: background 120ms, color 120ms;
+}
+.genre-option:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+.genre-option[aria-selected="true"] { color: var(--brand); }
+
+.genre-swatches {
+  display: flex; gap: 3px;
+}
+.genre-swatch {
+  width: 8px; height: 8px; border-radius: 50%;
+}
 
 /* ── Animations ── */
 @keyframes fade-up {
   from { opacity: 0; transform: translateY(0.75rem); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* ── Genre transition — View Transitions API ─────────────────────────────────
+   apply() runs inside startViewTransition(), so the new genre's
+   --z-ease-enter/exit tokens are live on :root when the browser composites
+   the animation frames. Fallback cubic-bezier values match ops.js defaults. */
+::view-transition-old(root) {
+  animation: 160ms var(--z-ease-exit, cubic-bezier(0.55, 0, 1, 0.45)) both fade-out;
+}
+::view-transition-new(root) {
+  animation: 240ms var(--z-ease-enter, cubic-bezier(0.22, 1, 0.36, 1)) both fade-in;
+}
+@keyframes fade-out { to   { opacity: 0; } }
+@keyframes fade-in  { from { opacity: 0; } }

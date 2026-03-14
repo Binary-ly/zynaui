@@ -9,6 +9,8 @@
  */
 import plugin from 'tailwindcss/plugin'
 import components from './components/index.js'
+import genres from './genres/index.js'
+import ops from './genres/ops.js'
 
 export default plugin(
   function({ addBase, theme }) {
@@ -41,12 +43,10 @@ export default plugin(
         '--z-corner-xl': 'var(--zp-corner-xl)',
 
         // ── Tier 2: Semantic motion tokens (genre-swappable) ────────────────
-        '--z-ease':          'var(--zp-ease-standard)',
-        '--z-ease-snap':     'var(--zp-ease-snap)',
-        '--z-ease-out':      'var(--zp-ease-out)',
-        '--z-duration-fast': '0.18s',
-        '--z-duration-base': '0.22s',
-        '--z-duration-slow': '0.28s',
+        '--z-ease':      'var(--zp-ease-standard)',
+        '--z-ease-snap': 'var(--zp-ease-snap)',
+        '--z-ease-out':  'var(--zp-ease-out)',
+        // --z-duration-* come from ops.tokens spread below
 
         // ── Tier 1: Color primitives ──────────────────────────────────────────
         '--zp-success': '#00FFB2',
@@ -89,6 +89,11 @@ export default plugin(
         // ── Tier 2: Shadows ──────────────────────────────────────────────────
         '--z-shadow-card':      '0 24px 70px rgba(0,0,0,0.60), 0 0 0 1px rgba(255,255,255,0.02)',
         '--z-shadow-card-deep': '0 30px 80px rgba(0,0,0,0.80), inset 0 1px 0 rgba(255,255,255,0.02)',
+
+        // ── Structural genre tokens — Ops defaults ────────────────────────────
+        // ops.js is the single source of truth for all structural defaults.
+        // Cyberpunk (and any future genre) overrides these via JS setProperty.
+        ...ops.tokens,
       },
 
       // Register component CSS variables with explicit types so the browser can:
@@ -109,7 +114,6 @@ export default plugin(
       // @property initial-value. Omitting the registration is safe — the
       // component rules always set these variables explicitly.
       '@property --card-border-color':     { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(255,255,255,0.05)' },
-      '@property --card-bracket-size':     { syntax: '"<length>"', inherits: 'false', initialValue: '20px' },
       '@property --card-glow-lo':          { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(0,0,0,0)' },
       '@property --card-glow-hi':          { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(0,0,0,0)' },
 
@@ -156,6 +160,7 @@ export default plugin(
     // of content scanning. In v4, addComponents is on-demand (scanned); addBase
     // is always-generated and outputs to @layer base, which utilities still override.
     addBase(components(theme))
+    addBase(genres())
   },
   {
     theme: {

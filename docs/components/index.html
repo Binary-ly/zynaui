@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{var _zg=localStorage.getItem('zyna-genre');if(_zg&&_zg!=='Ops'){document.documentElement.dataset.genre=_zg.toLowerCase();var _zt=JSON.parse(localStorage.getItem('zyna-genre-tokens')||'{}');for(var _zk in _zt)document.documentElement.style.setProperty(_zk,_zt[_zk])}}catch(e){}</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Components — Zyna UI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../zynaui.css">
+  <link rel="stylesheet" href="../docs.css">
+  <style>
+    .component-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+    .component-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 200ms, box-shadow 200ms;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+    }
+    .component-card:hover {
+      border-color: color-mix(in srgb, var(--brand) 40%, transparent);
+      box-shadow: 0 0 24px color-mix(in srgb, var(--brand) 10%, transparent);
+    }
+    .component-preview {
+      padding: 2rem 1.5rem;
+      background: var(--bg3);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      min-height: 120px;
+    }
+    .component-info {
+      padding: 1.25rem 1.5rem;
+      flex: 1;
+    }
+    .component-name {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .component-name .arrow {
+      font-size: 0.9rem;
+      color: var(--brand);
+      opacity: 0;
+      transition: opacity 150ms, transform 150ms;
+    }
+    .component-card:hover .arrow {
+      opacity: 1;
+      transform: translateX(3px);
+    }
+    .component-desc {
+      font-size: 0.83rem;
+      color: var(--text2);
+      line-height: 1.6;
+    }
+    .component-tag {
+      display: inline-block;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-family: var(--mono);
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      background: color-mix(in srgb, var(--brand) 8%, transparent);
+      color: var(--brand);
+      border: 1px solid color-mix(in srgb, var(--brand) 20%, transparent);
+      margin-bottom: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="topbar"></div>
+  <div id="docs-layout">
+    <aside id="sidebar"></aside>
+    <main id="content">
+
+      <div class="page-header">
+        <div class="breadcrumb">
+          <span>Components</span>
+        </div>
+        <h1 class="page-title">Components</h1>
+        <p class="page-desc">Semantic Tailwind CSS components. Every component exposes a CSS variable API so you can create custom variants without touching the source — override only what you need.</p>
+      </div>
+
+      <div class="component-grid">
+
+        <!-- Button -->
+        <a href="/components/btn/" class="component-card">
+          <div class="component-preview">
+            <button class="btn btn-primary">Primary</button>
+            <button class="btn btn-secondary">Secondary</button>
+            <button class="btn btn-ghost">Ghost</button>
+            <button class="btn btn-danger">Danger</button>
+          </div>
+          <div class="component-info">
+            <div class="component-tag">Actions</div>
+            <div class="component-name">
+              Button
+              <span class="arrow">→</span>
+            </div>
+            <div class="component-desc">Scan-fill hover effect and glow physics. 4 variants, 3 sizes, 4 shapes, icon mode.</div>
+          </div>
+        </a>
+
+        <!-- Card -->
+        <a href="/components/card/" class="component-card">
+          <div class="component-preview" style="align-items: flex-start; justify-content: flex-start; padding: 1.25rem;">
+            <div class="card card-glow" style="width:100%;max-width:280px">
+              <div class="card-header">
+                <span>System Status</span>
+              </div>
+              <div class="card-body" style="padding:1rem">
+                <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+                  <span class="badge badge-success">Online</span>
+                  <span class="badge badge-secondary">v2.4.1</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="component-info">
+            <div class="component-tag">Data Display</div>
+            <div class="component-name">
+              Card
+              <span class="arrow">→</span>
+            </div>
+            <div class="component-desc">L-bracket corners, animated top power bar, optional glow pulse. Composable header + body.</div>
+          </div>
+        </a>
+
+        <!-- Badge -->
+        <a href="/components/badge/" class="component-card">
+          <div class="component-preview">
+            <span class="badge badge-primary">Primary</span>
+            <span class="badge badge-success">Online</span>
+            <span class="badge badge-danger">Critical</span>
+            <span class="badge badge-warning">Warning</span>
+            <span class="badge badge-info">Info</span>
+            <span class="badge badge-pulse badge-success">Live</span>
+          </div>
+          <div class="component-info">
+            <div class="component-tag">Data Display</div>
+            <div class="component-name">
+              Badge
+              <span class="arrow">→</span>
+            </div>
+            <div class="component-desc">Parallelogram scan-sweep badges. Semantic variants, shape modifiers, pulsing status dot.</div>
+          </div>
+        </a>
+
+        <!-- Alert -->
+        <a href="/components/alert/" class="component-card">
+          <div class="component-preview" style="flex-direction:column;align-items:stretch;padding:1.25rem;gap:0.6rem">
+            <div class="alert alert-success">
+              <span class="alert-title">Deployment complete</span>
+              Build deployed successfully to production.
+            </div>
+            <div class="alert alert-danger">
+              <span class="alert-title">Connection lost</span>
+              Unable to reach the upstream service.
+            </div>
+          </div>
+          <div class="component-info">
+            <div class="component-tag">Feedback</div>
+            <div class="component-name">
+              Alert
+              <span class="arrow">→</span>
+            </div>
+            <div class="component-desc">Left-bar status messages with HUD prefix. Semantic variants, icon slot, dismissible pattern.</div>
+          </div>
+        </a>
+
+      </div>
+
+    </main>
+  </div>
+
+  <script type="module" src="../_nav.js"></script>
+</body>
+</html>

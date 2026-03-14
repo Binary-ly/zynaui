@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{var _zg=localStorage.getItem('zyna-genre');if(_zg&&_zg!=='Ops'){document.documentElement.dataset.genre=_zg.toLowerCase();var _zt=JSON.parse(localStorage.getItem('zyna-genre-tokens')||'{}');for(var _zk in _zt)document.documentElement.style.setProperty(_zk,_zt[_zk])}}catch(e){}</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Charts — Zyna UI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="../dist/zyna-charts.iife.js"></script>
+  <link rel="stylesheet" href="../zynaui.css">
+  <link rel="stylesheet" href="../docs.css">
+  <style>
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+    .chart-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 200ms, box-shadow 200ms;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+    }
+    .chart-card:hover {
+      border-color: color-mix(in srgb, var(--brand) 40%, transparent);
+      box-shadow: 0 0 24px color-mix(in srgb, var(--brand) 10%, transparent);
+    }
+    .chart-preview {
+      padding: 1.5rem;
+      background: var(--bg3);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 360px;
+      overflow: hidden;
+    }
+    .chart-preview > * {
+      display: block;
+      width: 100%;
+    }
+    .chart-info {
+      padding: 1.25rem 1.5rem;
+      height: 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .chart-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .chart-name .arrow {
+      font-size: 0.9rem;
+      color: var(--brand);
+      opacity: 0;
+      transition: opacity 150ms, transform 150ms;
+      flex-shrink: 0;
+    }
+    .chart-card:hover .arrow {
+      opacity: 1;
+      transform: translateX(3px);
+    }
+    .chart-desc {
+      font-size: 0.8rem;
+      color: var(--text2);
+      line-height: 1.55;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div id="topbar"></div>
+  <div id="docs-layout">
+    <aside id="sidebar"></aside>
+    <main id="content">
+
+      <div class="page-header">
+        <div class="breadcrumb">
+          <span>Charts</span>
+        </div>
+        <h1 class="page-title">Charts</h1>
+        <p class="page-desc">D3-powered chart Web Components. Drop a custom element into any HTML — no framework required. Import once with <code style="font-family:var(--mono);font-size:0.85em;padding:0.1rem 0.4rem;background:color-mix(in srgb,var(--brand) 10%,transparent);color:var(--brand);border-radius:4px">import 'zynaui/charts'</code> and all tags become available.</p>
+      </div>
+
+      <div class="chart-grid">
+
+        <!-- Waffle -->
+        <a href="/charts/waffle/" class="chart-card">
+          <div class="chart-preview">
+            <zyna-waffle
+              data='[{"label":"EU","value":28,"color":"#1A3A6B"},{"label":"UN","value":21,"color":"#009EDB","outline":true},{"label":"USAID","value":14,"color":"#4A6741","outline":true},{"label":"Other","value":7,"color":"#7A6230","outline":true}]'
+              cols='10' gap='3'>
+            </zyna-waffle>
+          </div>
+          <div class="chart-info">
+            <div class="chart-name">
+              Waffle Chart
+              <span class="arrow">→</span>
+            </div>
+            <div class="chart-desc">10×10 grid where each cell = 1%. Ideal for proportion breakdowns.</div>
+          </div>
+        </a>
+
+        <!-- Timeline -->
+        <a href="/charts/timeline/" class="chart-card">
+          <div class="chart-preview">
+            <zyna-timeline
+              data='[{"label":"2019","value":310},{"label":"2020","value":259,"note":"Ceasefire"},{"label":"2021","value":285},{"label":"2022","value":419,"note":"Peak"},{"label":"2023","value":315},{"label":"2024","value":273}]'
+              highlight='2022' height='260'>
+            </zyna-timeline>
+          </div>
+          <div class="chart-info">
+            <div class="chart-name">
+              Timeline
+              <span class="arrow">→</span>
+            </div>
+            <div class="chart-desc">Proportional-circle timeline where bubble area encodes value. Annotations appear on a rail above the baseline.</div>
+          </div>
+        </a>
+
+        <!-- Nightingale -->
+        <a href="/charts/nightingale/" class="chart-card">
+          <div class="chart-preview">
+            <zyna-nightingale
+              data='[{"label":"Emergency","value":607,"color":"#B03A2E"},{"label":"Governance","value":408,"color":"#C0392B"},{"label":"Peacebuilding","value":243,"color":"#922B21"},{"label":"Capacity","value":153,"color":"#A93226"},{"label":"Migration","value":87,"color":"#7B241C"},{"label":"Health","value":124,"color":"#2D8C4E"},{"label":"WASH","value":48,"color":"#1E8449"},{"label":"Education","value":26,"color":"#196F3D"}]'
+              height='300'>
+            </zyna-nightingale>
+          </div>
+          <div class="chart-info">
+            <div class="chart-name">
+              Nightingale
+              <span class="arrow">→</span>
+            </div>
+            <div class="chart-desc">Radial rose chart where each sector's radius encodes its value. Suits comparing multiple categories with colour-coded groupings.</div>
+          </div>
+        </a>
+
+        <!-- Lollipop -->
+        <a href="/charts/lollipop/" class="chart-card">
+          <div class="chart-preview">
+            <zyna-lollipop
+              data='[{"label":"Tripoli","value":1040},{"label":"Al Jufara","value":108},{"label":"Sabha","value":51},{"label":"Benghazi","value":45}]'
+              height='260'>
+            </zyna-lollipop>
+          </div>
+          <div class="chart-info">
+            <div class="chart-name">
+              Lollipop
+              <span class="arrow">→</span>
+            </div>
+            <div class="chart-desc">Horizontal lollipop chart. A lighter alternative to bar charts — stem from zero to value, capped with a circle.</div>
+          </div>
+        </a>
+
+        <!-- Orbital -->
+        <a href="/charts/orbital/" class="chart-card">
+          <div class="chart-preview">
+            <zyna-orbital
+              data='[{"label":"Closing","value":0.419},{"label":"Active","value":0.316},{"label":"Completed","value":0.246},{"label":"Planning","value":0.017}]'
+              height='300'>
+            </zyna-orbital>
+          </div>
+          <div class="chart-info">
+            <div class="chart-name">
+              Orbital
+              <span class="arrow">→</span>
+            </div>
+            <div class="chart-desc">Concentric arc chart where each ring fills a proportion of a full circle (0–1). Includes tick marks, radial glow, and elbow leader lines.</div>
+          </div>
+        </a>
+
+      </div>
+
+    </main>
+  </div>
+
+  <script type="module" src="../_nav.js"></script>
+</body>
+</html>

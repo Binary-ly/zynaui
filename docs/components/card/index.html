@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>try{var _zg=localStorage.getItem('zyna-genre');if(_zg&&_zg!=='Ops'){document.documentElement.dataset.genre=_zg.toLowerCase();var _zt=JSON.parse(localStorage.getItem('zyna-genre-tokens')||'{}');for(var _zk in _zt)document.documentElement.style.setProperty(_zk,_zt[_zk])}}catch(e){}</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Card — Zyna UI</title>
@@ -8,8 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../zynaui.css">
-  <link rel="stylesheet" href="../../docs.css">
-</head>
+  <link rel="stylesheet" href="../../docs.css"></head>
 <body>
   <div id="topbar"></div>
   <div id="docs-layout">
@@ -23,7 +23,7 @@
           <span>Card</span>
         </div>
         <h1 class="page-title">Card</h1>
-        <p class="page-desc">HUD-panel containers with corner bracket marks, a mono header readout, and deep glass depth. Four variants: base, <code style="color:var(--gold);background:rgba(201,168,76,0.1);padding:0.1rem 0.4rem;border-radius:4px;font-family:var(--mono);font-size:0.85em">.card-dark</code>, <code style="color:var(--gold);background:rgba(201,168,76,0.1);padding:0.1rem 0.4rem;border-radius:4px;font-family:var(--mono);font-size:0.85em">.card-glow</code>, <code style="color:var(--gold);background:rgba(201,168,76,0.1);padding:0.1rem 0.4rem;border-radius:4px;font-family:var(--mono);font-size:0.85em">.card-compact</code>.</p>
+        <p class="page-desc">HUD-panel containers with corner bracket marks, a mono header readout, and deep glass depth. Four variants: base, <code style="color:var(--brand);background:color-mix(in srgb, var(--brand) 10%, transparent);padding:0.1rem 0.4rem;border-radius:4px;font-family:var(--mono);font-size:0.85em">.card-dark</code>, <code style="color:var(--brand);background:color-mix(in srgb, var(--brand) 10%, transparent);padding:0.1rem 0.4rem;border-radius:4px;font-family:var(--mono);font-size:0.85em">.card-glow</code>, <code style="color:var(--brand);background:color-mix(in srgb, var(--brand) 10%, transparent);padding:0.1rem 0.4rem;border-radius:4px;font-family:var(--mono);font-size:0.85em">.card-compact</code>.</p>
       </div>
 
       <!-- Variants -->
@@ -161,14 +161,14 @@
         <div>
           <div id="card-sh-p" class="tab-panel active">
             <div class="preview-box" style="flex-wrap:wrap;gap:1.5rem;padding:2rem;align-items:flex-start">
-              <div class="card card-notch" style="max-width:200px;width:100%">
-                <div class="card-header">Notch</div>
+              <div class="card card-beta" style="max-width:200px;width:100%">
+                <div class="card-header">Beta</div>
                 <div class="card-body" style="padding:0.85rem 1rem">
                   <p class="card-subtitle" style="margin:0">All-4-corner chamfer</p>
                 </div>
               </div>
-              <div class="card card-rounded" style="max-width:200px;width:100%">
-                <div class="card-header">Rounded</div>
+              <div class="card card-alpha" style="max-width:200px;width:100%">
+                <div class="card-header">Alpha</div>
                 <div class="card-body" style="padding:0.85rem 1rem">
                   <p class="card-subtitle" style="margin:0">Border-radius variant</p>
                 </div>
@@ -184,15 +184,15 @@
                   Copy
                 </button>
               </div>
-              <pre id="card-sh-code"><span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card card-notch"</span><span class="tag">&gt;</span>
-  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card-header"</span><span class="tag">&gt;</span>Notch<span class="tag">&lt;/div&gt;</span>
+              <pre id="card-sh-code"><span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card card-beta"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card-header"</span><span class="tag">&gt;</span>Beta<span class="tag">&lt;/div&gt;</span>
   <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card-body"</span><span class="tag">&gt;</span>
     <span class="tag">&lt;p</span> <span class="atr">class</span>=<span class="val">"card-subtitle"</span><span class="tag">&gt;</span>All-4-corner chamfer<span class="tag">&lt;/p&gt;</span>
   <span class="tag">&lt;/div&gt;</span>
 <span class="tag">&lt;/div&gt;</span>
 
-<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card card-rounded"</span><span class="tag">&gt;</span>
-  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card-header"</span><span class="tag">&gt;</span>Rounded<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card card-alpha"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card-header"</span><span class="tag">&gt;</span>Alpha<span class="tag">&lt;/div&gt;</span>
   <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card-body"</span><span class="tag">&gt;</span>
     <span class="tag">&lt;p</span> <span class="atr">class</span>=<span class="val">"card-subtitle"</span><span class="tag">&gt;</span>Border-radius variant<span class="tag">&lt;/p&gt;</span>
   <span class="tag">&lt;/div&gt;</span>

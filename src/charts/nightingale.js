@@ -10,7 +10,7 @@ import { arc as arcGenerator } from 'd3-shape'
  *
  * Attributes:
  *   data         — JSON array of { label, value, color? }
- *   color        — fallback accent color. Default: #C9A84C
+ *   color        — fallback accent color. Default: var(--zyna)
  *   theme        — 'dark' (default) or 'light'
  *   height       — explicit height in px. Auto-derived from width when omitted.
  *   show-values  — set to "false" to hide numeric value labels on leader lines. Default: true
@@ -23,7 +23,7 @@ export class ZynaNightingale extends ZynaChart {
 
   _render() {
     const data       = this._json('data', [])
-    const accent     = this._attr('color', '#C9A84C')
+    const accent     = this._attr('color', this._brand())
     const dark       = this._attr('theme', 'dark') !== 'light'
     const fmt        = this._attr('label-format', '')
     const fmtVal     = v => this._fmt(v, fmt)
