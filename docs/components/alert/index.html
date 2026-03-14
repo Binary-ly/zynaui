@@ -29,12 +29,12 @@
       <!-- All Variants -->
       <div class="doc-section">
         <h2 class="section-title">All Variants</h2>
-        <div class="tabs-bar">
-          <button class="tab-btn active" onclick="tab(this,'alert-v-p')">Preview</button>
-          <button class="tab-btn" onclick="tab(this,'alert-v-c')">Code</button>
+        <div class="tabs-bar" role="tablist" aria-label="All variants example">
+          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="alert-v-p" id="tab-alert-v-p" tabindex="0" onclick="tab(this,'alert-v-p')">Preview</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="alert-v-c" id="tab-alert-v-c" tabindex="-1" onclick="tab(this,'alert-v-c')">Code</button>
         </div>
         <div>
-          <div id="alert-v-p" class="tab-panel active">
+          <div id="alert-v-p" class="tab-panel active" role="tabpanel" aria-labelledby="tab-alert-v-p" tabindex="0">
             <div class="preview-box col" style="gap:0.5rem;padding:2rem">
               <div class="alert alert-success" role="alert">
                 <div><p class="alert-title">Uplink Established</p><p>Secure transmission confirmed. All nodes synchronized.</p></div>
@@ -56,7 +56,7 @@
               </div>
             </div>
           </div>
-          <div id="alert-v-c" class="tab-panel">
+          <div id="alert-v-c" class="tab-panel" role="tabpanel" aria-labelledby="tab-alert-v-c" tabindex="0">
             <div class="code-box">
               <div class="code-toolbar">
                 <span class="code-lang">HTML</span>
@@ -115,12 +115,12 @@
       <div class="doc-section">
         <h2 class="section-title">With Icons</h2>
         <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.25rem">Add an <code style="color:var(--brand);background:color-mix(in srgb, var(--brand) 10%, transparent);padding:0.1rem 0.4rem;border-radius:4px;font-family:var(--mono);font-size:0.85em">.alert-icon</code> element as the first child to include an SVG icon alongside the message.</p>
-        <div class="tabs-bar">
-          <button class="tab-btn active" onclick="tab(this,'alert-i-p')">Preview</button>
-          <button class="tab-btn" onclick="tab(this,'alert-i-c')">Code</button>
+        <div class="tabs-bar" role="tablist" aria-label="With icons example">
+          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="alert-i-p" id="tab-alert-i-p" tabindex="0" onclick="tab(this,'alert-i-p')">Preview</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="alert-i-c" id="tab-alert-i-c" tabindex="-1" onclick="tab(this,'alert-i-c')">Code</button>
         </div>
         <div>
-          <div id="alert-i-p" class="tab-panel active">
+          <div id="alert-i-p" class="tab-panel active" role="tabpanel" aria-labelledby="tab-alert-i-p" tabindex="0">
             <div class="preview-box col" style="gap:0.5rem;padding:2rem">
               <div class="alert alert-success" role="alert">
                 <svg class="alert-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -136,7 +136,7 @@
               </div>
             </div>
           </div>
-          <div id="alert-i-c" class="tab-panel">
+          <div id="alert-i-c" class="tab-panel" role="tabpanel" aria-labelledby="tab-alert-i-c" tabindex="0">
             <div class="code-box">
               <div class="code-toolbar">
                 <span class="code-lang">HTML</span>
@@ -186,12 +186,12 @@
       <!-- Shapes -->
       <div class="doc-section">
         <h2 class="section-title">Shapes</h2>
-        <div class="tabs-bar">
-          <button class="tab-btn active" onclick="tab(this,'alert-sh-p')">Preview</button>
-          <button class="tab-btn" onclick="tab(this,'alert-sh-c')">Code</button>
+        <div class="tabs-bar" role="tablist" aria-label="Shapes example">
+          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="alert-sh-p" id="tab-alert-sh-p" tabindex="0" onclick="tab(this,'alert-sh-p')">Preview</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="alert-sh-c" id="tab-alert-sh-c" tabindex="-1" onclick="tab(this,'alert-sh-c')">Code</button>
         </div>
         <div>
-          <div id="alert-sh-p" class="tab-panel active">
+          <div id="alert-sh-p" class="tab-panel active" role="tabpanel" aria-labelledby="tab-alert-sh-p" tabindex="0">
             <div class="preview-box col" style="gap:0.5rem;padding:2rem">
               <div class="alert alert-success alert-square" role="alert" style="width:100%">
                 <div class="alert-title">Square</div>Zero border-radius variant.
@@ -201,7 +201,7 @@
               </div>
             </div>
           </div>
-          <div id="alert-sh-c" class="tab-panel">
+          <div id="alert-sh-c" class="tab-panel" role="tabpanel" aria-labelledby="tab-alert-sh-c" tabindex="0">
             <div class="code-box">
               <div class="code-toolbar">
                 <span class="code-lang">HTML</span>
@@ -260,19 +260,19 @@
             --alert-title-shadow: 0 0 12px rgba(191,95,255,0.65);
           }
         </style>
-        <div class="tabs-bar">
-          <button class="tab-btn active" onclick="tab(this,'alert-cv-p')">Preview</button>
-          <button class="tab-btn" onclick="tab(this,'alert-cv-c')">Code</button>
+        <div class="tabs-bar" role="tablist" aria-label="Custom variant example">
+          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="alert-cv-p" id="tab-alert-cv-p" tabindex="0" onclick="tab(this,'alert-cv-p')">Preview</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="alert-cv-c" id="tab-alert-cv-c" tabindex="-1" onclick="tab(this,'alert-cv-c')">Code</button>
         </div>
         <div>
-          <div id="alert-cv-p" class="tab-panel active">
+          <div id="alert-cv-p" class="tab-panel active" role="tabpanel" aria-labelledby="tab-alert-cv-p" tabindex="0">
             <div class="preview-box col" style="gap:0.5rem;padding:2rem">
               <div class="alert alert-plasma" role="alert" style="width:100%">
                 <div><p class="alert-title">Plasma Signal</p><p>Quantum channel established. Reality distortion nominal.</p></div>
               </div>
             </div>
           </div>
-          <div id="alert-cv-c" class="tab-panel">
+          <div id="alert-cv-c" class="tab-panel" role="tabpanel" aria-labelledby="tab-alert-cv-c" tabindex="0">
             <div class="code-box">
               <div class="code-toolbar">
                 <span class="code-lang">CSS</span>
@@ -330,12 +330,36 @@
   <script>
     function tab(btn, panelId) {
       const bar = btn.parentElement
-      bar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
+      bar.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('active')
+        b.setAttribute('aria-selected', 'false')
+        b.setAttribute('tabindex', '-1')
+      })
       btn.classList.add('active')
+      btn.setAttribute('aria-selected', 'true')
+      btn.setAttribute('tabindex', '0')
+      btn.focus()
       const container = bar.nextElementSibling
       container.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'))
       document.getElementById(panelId).classList.add('active')
     }
+    document.addEventListener('keydown', function(e) {
+      const btn = e.target.closest('[role="tab"]')
+      if (!btn) return
+      const bar = btn.closest('[role="tablist"]')
+      if (!bar) return
+      const tabs = [...bar.querySelectorAll('[role="tab"]')]
+      const idx = tabs.indexOf(btn)
+      let next
+      if (e.key === 'ArrowRight') next = tabs[(idx + 1) % tabs.length]
+      else if (e.key === 'ArrowLeft') next = tabs[(idx - 1 + tabs.length) % tabs.length]
+      else if (e.key === 'Home') next = tabs[0]
+      else if (e.key === 'End') next = tabs[tabs.length - 1]
+      if (next) {
+        e.preventDefault()
+        next.click()
+      }
+    })
     function cp(btn, id) {
       const txt = document.getElementById(id).innerText
       navigator.clipboard.writeText(txt).then(() => {
