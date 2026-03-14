@@ -31,7 +31,7 @@
  *                    drop-shadow(0 0 14px rgba(139,0,255,0.14));
  *   }
  */
-import shapes from '../shapes.js'
+import shapes from '../../utils/shapes.js'
 
 export default function(theme) {
   return {

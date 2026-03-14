@@ -56,7 +56,7 @@
  *   • The base .btn rule also applies to [role="button"] so non-<button>
  *     elements get the same visual treatment when correctly marked up.
  */
-import shapes from '../shapes.js'
+import shapes from '../../utils/shapes.js'
 
 export default function(theme) {
   const base = {

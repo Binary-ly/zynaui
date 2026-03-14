@@ -1,7 +1,7 @@
-import btn   from './btn.js'
-import card  from './card.js'
-import badge from './badge.js'
-import alert from './alert.js'
+import btn   from './btn/btn.js'
+import card  from './card/card.js'
+import badge from './badge/badge.js'
+import alert from './alert/alert.js'
 
 export default function(theme) {
   return Object.assign(
