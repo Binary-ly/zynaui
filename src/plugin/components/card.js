@@ -86,7 +86,7 @@ export default function(theme) {
 
   return {
     // ── Base ─────────────────────────────────────────────────────────────────
-    '.card': {
+    ':where(.card)': {
       '--card-gradient':      'var(--z-card-gradient)',
       '--card-border-color':  'var(--z-card-border-color)',
       '--card-shadow':        'var(--z-card-shadow)',
@@ -153,13 +153,13 @@ export default function(theme) {
       },
     },
 
-    '.card-body': {
+    ':where(.card-body)': {
       padding: '1.5rem',
       position: 'relative',
     },
 
     // HUD readout header — status dot + mono uppercase label
-    '.card-header': {
+    ':where(.card-header)': {
       padding: '0.7rem 1.25rem',
       borderBottom: '1px solid var(--z-card-header-border)',
       background: 'var(--z-card-header-bg)',
@@ -187,12 +187,12 @@ export default function(theme) {
       },
     },
 
-    '.card-footer': {
+    ':where(.card-footer)': {
       padding: '0.7rem 1.25rem',
       borderTop: '1px solid var(--z-card-header-border)',
     },
 
-    '.card-title': {
+    ':where(.card-title)': {
       fontSize: '1.1rem',
       fontWeight: '800',
       letterSpacing: '-0.025em',
@@ -203,7 +203,7 @@ export default function(theme) {
     },
 
     // WCAG AA: bumped from 0.38 → 0.55 opacity (~5.6:1 contrast on dark card bg)
-    '.card-subtitle': {
+    ':where(.card-subtitle)': {
       fontSize: '0.78rem',
       color: 'var(--z-color-text-muted)',
       letterSpacing: '0.01em',
@@ -211,7 +211,7 @@ export default function(theme) {
     },
 
     // ── Deep void variant — just overrides variables ───────────────────────────
-    '.card-dark': {
+    ':where(.card-dark)': {
       '--card-gradient':      'var(--z-surface-card-deep)',
       '--card-border-color':  'var(--z-color-border-dim)',
       '--card-shadow':        'var(--z-shadow-card-deep)',
@@ -224,7 +224,7 @@ export default function(theme) {
     // so any custom variant can produce a different-coloured pulse.
     // In Cyberpunk, --zyna = #39FF14 so these color-mix expressions automatically
     // produce neon-green pulse glows without any additional genre overrides.
-    '.card-glow': {
+    ':where(.card-glow)': {
       '--card-border-color':  'color-mix(in oklch, var(--zyna) 22%, transparent)',
       '--card-bracket-color': 'color-mix(in oklch, var(--zyna) 70%, transparent)',
       '--z-card-bracket-size': '22px',
@@ -234,30 +234,30 @@ export default function(theme) {
       '--card-glow-hi':       'color-mix(in oklch, var(--zyna) 26%, transparent)',
     },
 
-    '.card-compact .card-header': {
+    ':where(.card-compact) :where(.card-header)': {
       padding: '0.4rem 0.85rem',
     },
 
-    '.card-compact .card-body': {
+    ':where(.card-compact) :where(.card-body)': {
       padding: '0.75rem 0.85rem',
     },
 
-    '.card-compact .card-footer': {
+    ':where(.card-compact) :where(.card-footer)': {
       padding: '0.4rem 0.85rem',
     },
 
-    '.card-compact .card-title': {
+    ':where(.card-compact) :where(.card-title)': {
       fontSize: '0.85rem',
       marginBottom: '0.1rem',
     },
 
-    '.card-compact .card-subtitle': {
+    ':where(.card-compact) :where(.card-subtitle)': {
       fontSize: '0.68rem',
       marginBottom: '0.55rem',
     },
 
     // ── Shape modifiers ────────────────────────────────────────────────────────
-    '.card-alpha': { borderRadius: 'var(--z-corner-xl)', clipPath: 'none' },
-    '.card-beta':   { clipPath: shapes.bevel('var(--zp-corner-card)').outer, borderRadius: '0' },
+    ':where(.card-alpha)': { borderRadius: 'var(--z-corner-xl)', clipPath: 'none' },
+    ':where(.card-beta)':   { clipPath: shapes.bevel('var(--zp-corner-card)').outer, borderRadius: '0' },
   }
 }
