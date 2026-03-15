@@ -89,7 +89,7 @@ export const tokens = {
   '--z-card-header-dot-size':       '7px',
   '--z-card-header-dot-bg':         'var(--zyna)',
   '--z-card-header-dot-shadow':     '0 0 8px var(--zyna), 0 0 20px color-mix(in srgb, var(--zyna) 50%, transparent)',
-  '--z-card-header-dot-animation':  'zyna-pulse-ring 2s ease-in-out infinite',
+  '--z-card-header-dot-animation':  'zyna-pulse-ring 2s var(--z-ease-enter) infinite',
   '--z-card-bracket-size':          '22px',
   '--z-card-bracket-stroke':        '2px',
   '--z-card-bracket-color':         'color-mix(in srgb, var(--zyna) 80%, transparent)',
