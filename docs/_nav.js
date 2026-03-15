@@ -70,7 +70,7 @@ function topbarHTML() {
             <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
-        <div class="genre-panel" id="genre-panel" role="listbox" aria-label="Select genre">
+        <div class="genre-panel" id="genre-panel" role="listbox" tabindex="0" aria-label="Select genre">
           <!-- populated by initGenreSwitcher() -->
         </div>
       </div>
@@ -167,16 +167,18 @@ function initGenreSwitcher() {
   }
 
   function buildPanel() {
-    panel.innerHTML = GENRES.map(genre => {
+    panel.innerHTML = GENRES.map((genre, i) => {
       const isActive = genre.name === activeName
       const swatches = Object.values(genre.swatches).map(color =>
         `<span class="genre-swatch" style="background:${color}"></span>`
       ).join('')
-      return `<div class="genre-option" role="option" aria-selected="${isActive}" data-genre="${genre.name}">
+      return `<div class="genre-option" role="option" id="genre-opt-${i}" aria-selected="${isActive}" data-genre="${genre.name}" tabindex="-1">
         <span>${genre.name}</span>
         <span class="genre-swatches">${swatches}</span>
       </div>`
     }).join('')
+    const activeOpt = panel.querySelector('[aria-selected="true"]')
+    if (activeOpt) panel.setAttribute('aria-activedescendant', activeOpt.id)
   }
 
   function updateActive(name) {
@@ -185,13 +187,16 @@ function initGenreSwitcher() {
     const genre = GENRES.find(g => g.name === name)
     if (genre) setTriggerColor(genre)
     panel.querySelectorAll('.genre-option').forEach(el => {
-      el.setAttribute('aria-selected', String(el.dataset.genre === name))
+      const isMatch = el.dataset.genre === name
+      el.setAttribute('aria-selected', String(isMatch))
+      if (isMatch) panel.setAttribute('aria-activedescendant', el.id)
     })
   }
 
   function openPanel() {
     panel.classList.add('open')
     trigger.setAttribute('aria-expanded', 'true')
+    panel.focus()
   }
 
   function closePanel() {
@@ -222,7 +227,39 @@ function initGenreSwitcher() {
   })
 
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closePanel()
+    if (e.key === 'Escape') {
+      closePanel()
+      trigger.focus()
+      return
+    }
+    if (!panel.classList.contains('open')) return
+    const options = [...panel.querySelectorAll('[role="option"]')]
+    if (!options.length) return
+    const currentId = panel.getAttribute('aria-activedescendant')
+    const currentEl = currentId ? document.getElementById(currentId) : null
+    const idx = currentEl ? options.indexOf(currentEl) : -1
+    let nextIdx = idx
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      nextIdx = Math.min(idx + 1, options.length - 1)
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      nextIdx = Math.max(idx - 1, 0)
+    } else if (e.key === 'Home') {
+      e.preventDefault()
+      nextIdx = 0
+    } else if (e.key === 'End') {
+      e.preventDefault()
+      nextIdx = options.length - 1
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      if (currentEl) currentEl.click()
+      return
+    }
+    if (nextIdx !== idx && nextIdx >= 0) {
+      panel.setAttribute('aria-activedescendant', options[nextIdx].id)
+      options[nextIdx].scrollIntoView({ block: 'nearest' })
+    }
   })
 }
 

@@ -29,12 +29,12 @@
       <!-- Variants -->
       <div class="doc-section">
         <h2 class="section-title">Variants</h2>
-        <div class="tabs-bar">
-          <button class="tab-btn active" onclick="tab(this,'card-v-p')">Preview</button>
-          <button class="tab-btn" onclick="tab(this,'card-v-c')">Code</button>
+        <div class="tabs-bar" role="tablist" aria-label="Variants example">
+          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="card-v-p" id="tab-card-v-p" tabindex="0" onclick="tab(this,'card-v-p')">Preview</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="card-v-c" id="tab-card-v-c" tabindex="-1" onclick="tab(this,'card-v-c')">Code</button>
         </div>
         <div>
-          <div id="card-v-p" class="tab-panel active">
+          <div id="card-v-p" class="tab-panel active" role="tabpanel" aria-labelledby="tab-card-v-p" tabindex="0">
             <div class="preview-box stretch" style="flex-wrap:wrap;align-items:stretch;padding:2rem">
               <div class="card" style="flex:1;min-width:200px;max-width:260px">
                 <div class="card-header">Workspace</div>
@@ -84,7 +84,7 @@
               </div>
             </div>
           </div>
-          <div id="card-v-c" class="tab-panel">
+          <div id="card-v-c" class="tab-panel" role="tabpanel" aria-labelledby="tab-card-v-c" tabindex="0">
             <div class="code-box">
               <div class="code-toolbar">
                 <span class="code-lang">HTML</span>
@@ -154,12 +154,12 @@
       <!-- Shapes -->
       <div class="doc-section">
         <h2 class="section-title">Shapes</h2>
-        <div class="tabs-bar">
-          <button class="tab-btn active" onclick="tab(this,'card-sh-p')">Preview</button>
-          <button class="tab-btn" onclick="tab(this,'card-sh-c')">Code</button>
+        <div class="tabs-bar" role="tablist" aria-label="Shapes example">
+          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="card-sh-p" id="tab-card-sh-p" tabindex="0" onclick="tab(this,'card-sh-p')">Preview</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="card-sh-c" id="tab-card-sh-c" tabindex="-1" onclick="tab(this,'card-sh-c')">Code</button>
         </div>
         <div>
-          <div id="card-sh-p" class="tab-panel active">
+          <div id="card-sh-p" class="tab-panel active" role="tabpanel" aria-labelledby="tab-card-sh-p" tabindex="0">
             <div class="preview-box" style="flex-wrap:wrap;gap:1.5rem;padding:2rem;align-items:flex-start">
               <div class="card card-bevel" style="max-width:200px;width:100%">
                 <div class="card-header">Bevel</div>
@@ -175,7 +175,7 @@
               </div>
             </div>
           </div>
-          <div id="card-sh-c" class="tab-panel">
+          <div id="card-sh-c" class="tab-panel" role="tabpanel" aria-labelledby="tab-card-sh-c" tabindex="0">
             <div class="code-box">
               <div class="code-toolbar">
                 <span class="code-lang">HTML</span>
@@ -242,12 +242,12 @@
             --card-animation:     zyna-card-pulse 4s ease-in-out infinite;
           }
         </style>
-        <div class="tabs-bar">
-          <button class="tab-btn active" onclick="tab(this,'card-cv-p')">Preview</button>
-          <button class="tab-btn" onclick="tab(this,'card-cv-c')">Code</button>
+        <div class="tabs-bar" role="tablist" aria-label="Custom variant example">
+          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="card-cv-p" id="tab-card-cv-p" tabindex="0" onclick="tab(this,'card-cv-p')">Preview</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="card-cv-c" id="tab-card-cv-c" tabindex="-1" onclick="tab(this,'card-cv-c')">Code</button>
         </div>
         <div>
-          <div id="card-cv-p" class="tab-panel active">
+          <div id="card-cv-p" class="tab-panel active" role="tabpanel" aria-labelledby="tab-card-cv-p" tabindex="0">
             <div class="preview-box" style="padding:2rem">
               <div class="card card-cyber" style="max-width:280px;width:100%">
                 <div class="card-header" style="color:rgba(0,212,255,0.9)">Cyber</div>
@@ -262,7 +262,7 @@
               </div>
             </div>
           </div>
-          <div id="card-cv-c" class="tab-panel">
+          <div id="card-cv-c" class="tab-panel" role="tabpanel" aria-labelledby="tab-card-cv-c" tabindex="0">
             <div class="code-box">
               <div class="code-toolbar">
                 <span class="code-lang">CSS</span>
@@ -321,12 +321,36 @@
   <script>
     function tab(btn, panelId) {
       const bar = btn.parentElement
-      bar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
+      bar.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('active')
+        b.setAttribute('aria-selected', 'false')
+        b.setAttribute('tabindex', '-1')
+      })
       btn.classList.add('active')
+      btn.setAttribute('aria-selected', 'true')
+      btn.setAttribute('tabindex', '0')
+      btn.focus()
       const container = bar.nextElementSibling
       container.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'))
       document.getElementById(panelId).classList.add('active')
     }
+    document.addEventListener('keydown', function(e) {
+      const btn = e.target.closest('[role="tab"]')
+      if (!btn) return
+      const bar = btn.closest('[role="tablist"]')
+      if (!bar) return
+      const tabs = [...bar.querySelectorAll('[role="tab"]')]
+      const idx = tabs.indexOf(btn)
+      let next
+      if (e.key === 'ArrowRight') next = tabs[(idx + 1) % tabs.length]
+      else if (e.key === 'ArrowLeft') next = tabs[(idx - 1 + tabs.length) % tabs.length]
+      else if (e.key === 'Home') next = tabs[0]
+      else if (e.key === 'End') next = tabs[tabs.length - 1]
+      if (next) {
+        e.preventDefault()
+        next.click()
+      }
+    })
     function cp(btn, id) {
       const txt = document.getElementById(id).innerText
       navigator.clipboard.writeText(txt).then(() => {

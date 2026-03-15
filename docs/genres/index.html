@@ -289,6 +289,11 @@
       cursor: pointer;
     }
 
+    .gb-range:focus-visible {
+      outline: 2px solid color-mix(in srgb, var(--brand) 65%, transparent);
+      outline-offset: 4px;
+    }
+
     .gb-range::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
@@ -1556,11 +1561,11 @@
     <main class="gb-preview" id="gb-preview">
 
       <div class="gb-comp-nav">
-        <div class="gb-comp-nav-tabs">
-          <button class="gb-comp-tab active" data-comp="btn">Buttons</button>
-          <button class="gb-comp-tab" data-comp="badge">Badges</button>
-          <button class="gb-comp-tab" data-comp="alert">Alerts</button>
-          <button class="gb-comp-tab" data-comp="card">Card</button>
+        <div class="gb-comp-nav-tabs" role="tablist" aria-label="Component preview">
+          <button class="gb-comp-tab active" data-comp="btn" role="tab" aria-selected="true" aria-controls="gb-panel-btn" id="gb-tab-btn" tabindex="0">Buttons</button>
+          <button class="gb-comp-tab" data-comp="badge" role="tab" aria-selected="false" aria-controls="gb-panel-badge" id="gb-tab-badge" tabindex="-1">Badges</button>
+          <button class="gb-comp-tab" data-comp="alert" role="tab" aria-selected="false" aria-controls="gb-panel-alert" id="gb-tab-alert" tabindex="-1">Alerts</button>
+          <button class="gb-comp-tab" data-comp="card" role="tab" aria-selected="false" aria-controls="gb-panel-card" id="gb-tab-card" tabindex="-1">Card</button>
         </div>
         <p class="gb-preview-name">Genre: <span id="gb-preview-name">Custom</span></p>
       </div>
@@ -1570,7 +1575,7 @@
         <div class="gb-preview-body">
 
           <!-- Buttons -->
-          <div class="preview-section gb-comp-wrap active" data-comp="btn">
+          <div class="preview-section gb-comp-wrap active" data-comp="btn" id="gb-panel-btn" role="tabpanel" aria-labelledby="gb-tab-btn" tabindex="0">
             <div class="preview-section-label">Buttons</div>
             <div class="preview-box">
               <button class="btn btn-primary">Primary</button>
@@ -1586,7 +1591,7 @@
           </div>
 
           <!-- Badges -->
-          <div class="preview-section gb-comp-wrap" data-comp="badge">
+          <div class="preview-section gb-comp-wrap" data-comp="badge" id="gb-panel-badge" role="tabpanel" aria-labelledby="gb-tab-badge" tabindex="0">
             <div class="preview-section-label">Badges</div>
             <div class="preview-box">
               <span class="badge badge-primary">Primary</span>
@@ -1602,7 +1607,7 @@
           </div>
 
           <!-- Alerts -->
-          <div class="preview-section gb-comp-wrap" data-comp="alert">
+          <div class="preview-section gb-comp-wrap" data-comp="alert" id="gb-panel-alert" role="tabpanel" aria-labelledby="gb-tab-alert" tabindex="0">
             <div class="preview-section-label">Alerts</div>
             <div class="preview-box col" style="gap:0.6rem;max-width:100%">
               <div class="alert alert-success" role="alert">
@@ -1639,7 +1644,7 @@
           </div>
 
           <!-- Card -->
-          <div class="preview-section gb-comp-wrap" data-comp="card">
+          <div class="preview-section gb-comp-wrap" data-comp="card" id="gb-panel-card" role="tabpanel" aria-labelledby="gb-tab-card" tabindex="0">
             <div class="preview-section-label">Card</div>
             <div class="preview-box" style="flex-wrap:wrap;align-items:flex-start;gap:1rem">
               <div class="card card-glow" style="max-width:340px;width:100%;min-width:260px">
@@ -2684,7 +2689,12 @@
 
     function switchComp(comp) {
       activeComp = comp
-      document.querySelectorAll('.gb-comp-tab').forEach(b => b.classList.toggle('active', b.dataset.comp === comp))
+      document.querySelectorAll('.gb-comp-tab').forEach(b => {
+        const isActive = b.dataset.comp === comp
+        b.classList.toggle('active', isActive)
+        b.setAttribute('aria-selected', String(isActive))
+        b.setAttribute('tabindex', isActive ? '0' : '-1')
+      })
       document.querySelectorAll('.preview-section').forEach(s => s.classList.toggle('active', s.dataset.comp === comp))
       document.querySelectorAll('.gb-group[data-show-on]').forEach(grp => {
         const showOn = grp.dataset.showOn
@@ -2703,7 +2713,26 @@
     switchComp('btn')
 
     document.querySelectorAll('.gb-comp-tab').forEach(btn => {
-      btn.addEventListener('click', () => switchComp(btn.dataset.comp))
+      btn.addEventListener('click', () => {
+        switchComp(btn.dataset.comp)
+        btn.focus()
+      })
+    })
+
+    document.querySelector('.gb-comp-nav-tabs').addEventListener('keydown', e => {
+      const btn = e.target.closest('[role="tab"]')
+      if (!btn) return
+      const tabs = [...document.querySelectorAll('.gb-comp-tab')]
+      const idx = tabs.indexOf(btn)
+      let next
+      if (e.key === 'ArrowRight') next = tabs[(idx + 1) % tabs.length]
+      else if (e.key === 'ArrowLeft') next = tabs[(idx - 1 + tabs.length) % tabs.length]
+      else if (e.key === 'Home') next = tabs[0]
+      else if (e.key === 'End') next = tabs[tabs.length - 1]
+      if (next) {
+        e.preventDefault()
+        next.click()
+      }
     })
 
     // ── Wire all controls ────────────────────────────────────────────────────
