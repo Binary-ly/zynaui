@@ -221,6 +221,14 @@
             <tr><td class="t-var">--card-bracket-color</td><td class="t-def">color-mix(in srgb, var(--zyna) 42%, transparent)</td><td>Corner L-bracket stroke colour</td></tr>
             <tr><td class="t-var">--card-bracket-size</td><td class="t-def">20px</td><td>Corner bracket arm length</td></tr>
             <tr><td class="t-var">--card-bar-gradient</td><td class="t-def">linear-gradient(90deg, …)</td><td>Top luminescent power-bar gradient</td></tr>
+            <tr><td class="t-var">--card-bar-shadow</td><td class="t-def">genre default</td><td>Top power-bar glow (box-shadow)</td></tr>
+            <tr><td class="t-var">--card-title-text-shadow</td><td class="t-def">genre default</td><td>Title text glow (set to none to suppress genre neon)</td></tr>
+            <tr><td class="t-var">--card-header-bg</td><td class="t-def">genre default</td><td>Header background colour (overrides genre tint)</td></tr>
+            <tr><td class="t-var">--card-header-border</td><td class="t-def">genre default</td><td>Divider line between header/body and body/footer</td></tr>
+            <tr><td class="t-var">--card-header-color</td><td class="t-def">genre default</td><td>Header label text colour</td></tr>
+            <tr><td class="t-var">--card-header-text-shadow</td><td class="t-def">genre default</td><td>Header text glow (set to none to suppress genre neon)</td></tr>
+            <tr><td class="t-var">--card-header-dot-color</td><td class="t-def">genre default</td><td>Status dot colour</td></tr>
+            <tr><td class="t-var">--card-header-dot-shadow</td><td class="t-def">genre default</td><td>Status dot glow (box-shadow)</td></tr>
             <tr><td class="t-var">--card-animation</td><td class="t-def">none</td><td>CSS animation shorthand (e.g. zyna-card-pulse 4s ease-in-out infinite)</td></tr>
             <tr><td class="t-var">--card-glow-lo</td><td class="t-def">rgba(0,0,0,0)</td><td>Pulse glow colour at rest (used by zyna-card-pulse keyframe)</td></tr>
             <tr><td class="t-var">--card-glow-hi</td><td class="t-def">rgba(0,0,0,0)</td><td>Pulse glow colour at peak (used by zyna-card-pulse keyframe)</td></tr>
@@ -234,13 +242,36 @@
         <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.25rem">Override only the variables you need. The cyan "cyber" example below creates an electric-blue card.</p>
         <style>
           .card-cyber {
-            --card-gradient:      linear-gradient(145deg, rgba(0,20,30,0.97) 0%, rgba(0,10,18,0.97) 100%);
-            --card-border-color:  rgba(0,212,255,0.22);
-            --card-bracket-color: rgba(0,212,255,0.55);
-            --card-bar-gradient:  linear-gradient(90deg, transparent 0%, rgba(0,212,255,0.55) 25%, rgba(0,212,255,0.55) 75%, transparent 100%);
-            --card-glow-lo:       rgba(0,212,255,0.12);
-            --card-glow-hi:       rgba(0,212,255,0.26);
-            --card-animation:     zyna-card-pulse 4s ease-in-out infinite;
+            --card-gradient:          linear-gradient(145deg, rgba(0,20,30,0.97) 0%, rgba(0,10,18,0.97) 100%);
+            --card-border-color:      rgba(0,212,255,0.22);
+            --card-shadow:            0 0 0 1px rgba(0,212,255,0.15), 0 8px 32px rgba(0,0,0,0.6);
+            --card-bracket-color:     rgba(0,212,255,0.55);
+            --card-bar-gradient:      linear-gradient(90deg, transparent 0%, rgba(0,212,255,0.55) 25%, rgba(0,212,255,0.55) 75%, transparent 100%);
+            --card-bar-shadow:        0 0 14px rgba(0,212,255,0.7), 0 0 32px rgba(0,212,255,0.3);
+            --card-title-text-shadow:  none;
+            --card-header-bg:          rgba(0,212,255,0.06);
+            --card-header-border:      rgba(0,212,255,0.18);
+            --card-header-color:       rgba(0,212,255,0.9);
+            --card-header-text-shadow: none;
+            --card-header-dot-color:   rgba(0,212,255,0.7);
+            --card-header-dot-shadow:  0 0 8px rgba(0,212,255,0.7), 0 0 20px rgba(0,212,255,0.35);
+            --card-glow-lo:           rgba(0,212,255,0.12);
+            --card-glow-hi:           rgba(0,212,255,0.26);
+            --card-animation:         zyna-card-pulse 4s ease-in-out infinite;
+          }
+          .badge-cyber {
+            --badge-bg:    rgba(0,212,255,0.12);
+            --badge-color: rgba(0,212,255,0.9);
+            --badge-glow:  drop-shadow(0 0 5px rgba(0,212,255,0.45));
+          }
+          .btn-cyber {
+            --btn-bg:                rgba(0,212,255,0.45);
+            --btn-color:             rgba(0,212,255,0.9);
+            --btn-scan-color:        rgba(0,212,255,0.18);
+            --btn-hover-bg:          rgba(0,212,255,0.92);
+            --btn-hover-color:       rgba(220,248,255,1);
+            --btn-hover-filter:      drop-shadow(0 0 14px rgba(0,212,255,0.85)) drop-shadow(0 0 42px rgba(0,212,255,0.3));
+            --btn-hover-text-shadow: 0 0 14px rgba(0,212,255,0.8);
           }
         </style>
         <div class="tabs-bar" role="tablist" aria-label="Custom variant example">
@@ -251,14 +282,14 @@
           <div id="card-cv-p" class="tab-panel active" role="tabpanel" aria-labelledby="tab-card-cv-p" tabindex="0">
             <div class="preview-box" style="padding:2rem">
               <div class="card card-cyber" style="max-width:280px;width:100%">
-                <div class="card-header" style="color:rgba(0,212,255,0.9)">Cyber</div>
+                <div class="card-header">Cyber</div>
                 <div class="card-body">
                   <p class="card-title">Cyber Variant</p>
                   <p class="card-subtitle">Custom cyan theme</p>
-                  <span class="badge badge-info">Active</span>
+                  <span class="badge badge-cyber">Active</span>
                 </div>
                 <div class="card-footer">
-                  <button class="btn btn-primary btn-sm">Connect</button>
+                  <button class="btn btn-secondary btn-sm btn-cyber">Connect</button>
                 </div>
               </div>
             </div>
@@ -273,13 +304,38 @@
                 </button>
               </div>
               <pre id="card-custom-code"><span class="cls">.card-cyber</span> {
-  <span class="atr">--card-gradient</span>:      <span class="val">linear-gradient(145deg, rgba(0,20,30,0.97) 0%, rgba(0,10,18,0.97) 100%)</span>;
-  <span class="atr">--card-border-color</span>:  <span class="val">rgba(0,212,255,0.22)</span>;
-  <span class="atr">--card-bracket-color</span>: <span class="val">rgba(0,212,255,0.55)</span>;
-  <span class="atr">--card-bar-gradient</span>:  <span class="val">linear-gradient(90deg, transparent 0%, rgba(0,212,255,0.55) 25%, rgba(0,212,255,0.55) 75%, transparent 100%)</span>;
-  <span class="atr">--card-glow-lo</span>:       <span class="val">rgba(0,212,255,0.12)</span>;
-  <span class="atr">--card-glow-hi</span>:       <span class="val">rgba(0,212,255,0.26)</span>;
-  <span class="atr">--card-animation</span>:     <span class="val">zyna-card-pulse 4s ease-in-out infinite</span>;
+  <span class="atr">--card-gradient</span>:         <span class="val">linear-gradient(145deg, rgba(0,20,30,0.97) 0%, rgba(0,10,18,0.97) 100%)</span>;
+  <span class="atr">--card-border-color</span>:     <span class="val">rgba(0,212,255,0.22)</span>;
+  <span class="atr">--card-shadow</span>:           <span class="val">0 0 0 1px rgba(0,212,255,0.15), 0 8px 32px rgba(0,0,0,0.6)</span>;
+  <span class="atr">--card-bracket-color</span>:    <span class="val">rgba(0,212,255,0.55)</span>;
+  <span class="atr">--card-bar-gradient</span>:     <span class="val">linear-gradient(90deg, transparent 0%, rgba(0,212,255,0.55) 25%, rgba(0,212,255,0.55) 75%, transparent 100%)</span>;
+  <span class="atr">--card-bar-shadow</span>:       <span class="val">0 0 14px rgba(0,212,255,0.7), 0 0 32px rgba(0,212,255,0.3)</span>;
+  <span class="atr">--card-title-text-shadow</span>:  <span class="val">none</span>;
+  <span class="atr">--card-header-bg</span>:          <span class="val">rgba(0,212,255,0.06)</span>;
+  <span class="atr">--card-header-border</span>:      <span class="val">rgba(0,212,255,0.18)</span>;
+  <span class="atr">--card-header-color</span>:       <span class="val">rgba(0,212,255,0.9)</span>;
+  <span class="atr">--card-header-text-shadow</span>: <span class="val">none</span>;
+  <span class="atr">--card-header-dot-color</span>:   <span class="val">rgba(0,212,255,0.7)</span>;
+  <span class="atr">--card-header-dot-shadow</span>:  <span class="val">0 0 8px rgba(0,212,255,0.7), 0 0 20px rgba(0,212,255,0.35)</span>;
+  <span class="atr">--card-glow-lo</span>:          <span class="val">rgba(0,212,255,0.12)</span>;
+  <span class="atr">--card-glow-hi</span>:          <span class="val">rgba(0,212,255,0.26)</span>;
+  <span class="atr">--card-animation</span>:        <span class="val">zyna-card-pulse 4s ease-in-out infinite</span>;
+}
+
+<span class="cls">.badge-cyber</span> {
+  <span class="atr">--badge-bg</span>:    <span class="val">rgba(0,212,255,0.12)</span>;
+  <span class="atr">--badge-color</span>: <span class="val">rgba(0,212,255,0.9)</span>;
+  <span class="atr">--badge-glow</span>:  <span class="val">drop-shadow(0 0 5px rgba(0,212,255,0.45))</span>;
+}
+
+<span class="cls">.btn-cyber</span> {
+  <span class="atr">--btn-bg</span>:                <span class="val">rgba(0,212,255,0.45)</span>;
+  <span class="atr">--btn-color</span>:             <span class="val">rgba(0,212,255,0.9)</span>;
+  <span class="atr">--btn-scan-color</span>:        <span class="val">rgba(0,212,255,0.18)</span>;
+  <span class="atr">--btn-hover-bg</span>:          <span class="val">rgba(0,212,255,0.92)</span>;
+  <span class="atr">--btn-hover-color</span>:       <span class="val">rgba(220,248,255,1)</span>;
+  <span class="atr">--btn-hover-filter</span>:      <span class="val">drop-shadow(0 0 14px rgba(0,212,255,0.85)) drop-shadow(0 0 42px rgba(0,212,255,0.3))</span>;
+  <span class="atr">--btn-hover-text-shadow</span>: <span class="val">0 0 14px rgba(0,212,255,0.8)</span>;
 }</pre>
             </div>
           </div>

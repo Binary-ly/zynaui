@@ -94,6 +94,9 @@ export default function(theme) {
       // Size and stroke are read directly from root tokens in cornerBrackets() so the
       // builder and genre tokens update ::before without @property inheritance issues.
       '--card-bracket-color':  'var(--z-card-bracket-color)',
+      // --card-bar-gradient is the public API for the top power-bar colour.
+      // Genres set the fallback via --z-card-bar-bg: var(--card-bar-gradient, <default>)
+      // so custom variants only need to set --card-bar-gradient on the element.
       '--card-animation':     'none',
       // --z-card-default-glow-lo/hi: genre structural tokens. Ops = transparent (no base pulse).
       // Cyberpunk sets neon values so that .card-glow glows in the right colour automatically.
@@ -139,6 +142,7 @@ export default function(theme) {
       },
 
       // Top luminescent power bar
+      // --card-bar-gradient is the public API; falls back to --z-card-bar-bg (genre default).
       '&::after': {
         content: '""',
         position: 'absolute',
@@ -146,8 +150,8 @@ export default function(theme) {
         left: '0',
         right: '0',
         height: 'var(--z-card-bar-height)',
-        background: 'var(--z-card-bar-bg)',
-        boxShadow: 'var(--z-card-bar-shadow)',
+        background: 'var(--card-bar-gradient, var(--z-card-bar-bg))',
+        boxShadow: 'var(--card-bar-shadow, var(--z-card-bar-shadow))',
         zIndex: '1',
         pointerEvents: 'none',
       },
@@ -159,17 +163,18 @@ export default function(theme) {
     },
 
     // HUD readout header — status dot + mono uppercase label
+    // --card-header-* are public API; each falls back to the genre structural token.
     ':where(.card-header)': {
       padding: '0.7rem 1.25rem',
-      borderBottom: '1px solid var(--z-card-header-border)',
-      background: 'var(--z-card-header-bg)',
+      borderBottom: '1px solid var(--card-header-border, var(--z-card-header-border))',
+      background: 'var(--card-header-bg, var(--z-card-header-bg))',
       fontFamily: 'var(--z-font-mono)',
       fontSize: '0.62rem',
       fontWeight: '700',
       letterSpacing: 'var(--z-card-header-letter-spacing)',
       textTransform: 'uppercase',
-      color: 'var(--z-card-header-color)',
-      textShadow: 'var(--z-card-header-text-shadow)',
+      color: 'var(--card-header-color, var(--z-card-header-color))',
+      textShadow: 'var(--card-header-text-shadow, var(--z-card-header-text-shadow))',
       display: 'flex',
       alignItems: 'center',
       gap: '0.5rem',
@@ -180,16 +185,16 @@ export default function(theme) {
         width: 'var(--z-card-header-dot-size)',
         height: 'var(--z-card-header-dot-size)',
         borderRadius: '50%',
-        background: 'var(--z-card-header-dot-bg)',
+        background: 'var(--card-header-dot-color, var(--z-card-header-dot-bg))',
         flexShrink: '0',
-        boxShadow: 'var(--z-card-header-dot-shadow)',
+        boxShadow: 'var(--card-header-dot-shadow, var(--z-card-header-dot-shadow))',
         animation: 'var(--z-card-header-dot-animation)',
       },
     },
 
     ':where(.card-footer)': {
       padding: '0.7rem 1.25rem',
-      borderTop: '1px solid var(--z-card-header-border)',
+      borderTop: '1px solid var(--card-header-border, var(--z-card-header-border))',
     },
 
     ':where(.card-title)': {
@@ -198,7 +203,7 @@ export default function(theme) {
       letterSpacing: '-0.025em',
       lineHeight: '1.3',
       color: 'var(--z-color-text-solid)',
-      textShadow: 'var(--z-card-title-text-shadow)',
+      textShadow: 'var(--card-title-text-shadow, var(--z-card-title-text-shadow))',
       marginBottom: '0.2rem',
     },
 
