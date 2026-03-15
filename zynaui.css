@@ -326,15 +326,15 @@
     --z-font-mono: 'DM Mono', 'Fira Code', ui-monospace, monospace;
     --z-color-text: var(--zp-text);
     @supports (color: color-mix(in lab, red, red)) {
-      --z-color-text: color-mix(in srgb, var(--zp-text) 90%, transparent);
+      --z-color-text: color-mix(in oklch, var(--zp-text) 90%, transparent);
     }
     --z-color-text-muted: var(--zp-text);
     @supports (color: color-mix(in lab, red, red)) {
-      --z-color-text-muted: color-mix(in srgb, var(--zp-text) 55%, transparent);
+      --z-color-text-muted: color-mix(in oklch, var(--zp-text) 55%, transparent);
     }
     --z-color-text-dim: var(--zp-text);
     @supports (color: color-mix(in lab, red, red)) {
-      --z-color-text-dim: color-mix(in srgb, var(--zp-text) 65%, transparent);
+      --z-color-text-dim: color-mix(in oklch, var(--zp-text) 65%, transparent);
     }
     --z-color-text-solid: var(--zp-text);
     --z-color-text-inverse: #050407;
@@ -386,36 +386,39 @@
     --z-card-shadow: var(--z-shadow-card);
     --z-card-bracket-color: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
-      --z-card-bracket-color: color-mix(in srgb, var(--zyna) 42%, transparent);
+      --z-card-bracket-color: color-mix(in oklch, var(--zyna) 42%, transparent);
     }
     --z-card-bracket-size: 20px;
     --z-card-bracket-stroke: 1.5px;
     --z-card-bar-height: 1px;
-    --z-card-bar-bg: var(--card-bar-gradient);
+    --z-card-bar-bg: linear-gradient(90deg, transparent 0%, var(--zyna) 20%, var(--zyna) 80%, transparent 100%);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-card-bar-bg: linear-gradient(90deg, transparent 0%, color-mix(in oklch, var(--zyna) 55%, transparent) 20%, color-mix(in oklch, var(--zyna) 55%, transparent) 80%, transparent 100%);
+    }
     --z-card-bar-shadow: none;
     --z-card-header-bg: transparent;
     --z-card-header-border: var(--z-color-border);
     --z-card-header-color: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
-      --z-card-header-color: color-mix(in srgb, var(--zyna) 75%, transparent);
+      --z-card-header-color: color-mix(in oklch, var(--zyna) 75%, transparent);
     }
     --z-card-header-letter-spacing: 0.14em;
     --z-card-header-text-shadow: none;
     --z-card-header-dot-size: 5px;
     --z-card-header-dot-bg: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
-      --z-card-header-dot-bg: color-mix(in srgb, var(--zyna) 65%, transparent);
+      --z-card-header-dot-bg: color-mix(in oklch, var(--zyna) 65%, transparent);
     }
     --z-card-header-dot-shadow: 0 0 6px var(--zyna), 0 0 16px var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
-      --z-card-header-dot-shadow: 0 0 6px color-mix(in srgb, var(--zyna) 65%, transparent), 0 0 16px color-mix(in srgb, var(--zyna) 30%, transparent);
+      --z-card-header-dot-shadow: 0 0 6px color-mix(in oklch, var(--zyna) 65%, transparent), 0 0 16px color-mix(in oklch, var(--zyna) 30%, transparent);
     }
     --z-card-header-dot-animation: none;
     --z-card-title-text-shadow: none;
     --z-card-glow-duration: 4s;
     --z-card-default-glow-lo: rgba(0,0,0,0);
     --z-card-default-glow-hi: rgba(0,0,0,0);
-    --z-topbar-border: var(--border);
+    --z-topbar-border: var(--z-color-border);
     --z-topbar-glow: none;
     --z-sidebar-active-shadow: none;
     --z-badge-radius: 0;
@@ -435,11 +438,6 @@
     inherits: false;
     initial-value: rgba(240,235,224,0.55);
   }
-  @property --btn-hover-color {
-    syntax: "<color>";
-    inherits: false;
-    initial-value: rgba(240,235,224,0.9);
-  }
   @property --btn-scan-color {
     syntax: "<color>";
     inherits: false;
@@ -454,11 +452,6 @@
     syntax: "<color>";
     inherits: false;
     initial-value: rgba(255,255,255,0.05);
-  }
-  @property --card-bracket-size {
-    syntax: "<length>";
-    inherits: false;
-    initial-value: 20px;
   }
   @property --card-glow-lo {
     syntax: "<color>";
@@ -478,7 +471,7 @@
   @property --badge-offset {
     syntax: "<length>";
     inherits: true;
-    initial-value: 0.55rem;
+    initial-value: 5px;
   }
   @keyframes zyna-badge-scan {
     0%, 18% {
@@ -492,17 +485,14 @@
     0% {
       opacity: 1;
       transform: scale(1);
-      box-shadow: 0 0 0 0 currentColor;
     }
     45% {
-      opacity: 0.65;
-      transform: scale(1.15);
-      box-shadow: 0 0 0 4px transparent;
+      opacity: 0.55;
+      transform: scale(1.35);
     }
     100% {
       opacity: 1;
       transform: scale(1);
-      box-shadow: 0 0 0 0 transparent;
     }
   }
   @keyframes zyna-pulse {
@@ -531,20 +521,43 @@
       filter: drop-shadow(0 0 38px var(--card-glow-hi)) drop-shadow(0 0 14px var(--card-glow-hi));
     }
   }
+  @media (prefers-reduced-motion: reduce) {
+    :where(.badge)::after {
+      animation: none;
+    }
+    :where(.badge-pulse)::before {
+      animation: none;
+    }
+    :where(.card) {
+      animation: none;
+    }
+    :where(.card-header)::before {
+      animation: none;
+    }
+    :where(.btn), :where([role="button"]) {
+      transition: none;
+    }
+    :where(.btn):hover, :where([role="button"]):hover {
+      transition: none;
+    }
+    :where(.btn)::after, :where([role="button"])::after {
+      transition: none;
+    }
+  }
 }
 @layer base {
-  .btn {
+  :where(.btn) {
     --btn-bg: var(--z-color-overlay);
     --btn-color: var(--z-color-text-muted);
     --btn-filter: none;
-    --btn-scan-color: color-mix(in srgb, white 7%, transparent);
+    --btn-scan-color: color-mix(in oklch, white 7%, transparent);
     --btn-hover-color: var(--z-color-text);
-    --btn-hover-filter:  ;
+    --btn-hover-filter: none;
     --btn-hover-text-shadow: none;
     --btn-active-filter: none;
     --btn-focus-color: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
-      --btn-focus-color: color-mix(in srgb, var(--zyna) 65%, transparent);
+      --btn-focus-color: color-mix(in oklch, var(--zyna) 65%, transparent);
     }
     --btn-corner: var(--z-btn-corner);
     --btn-interior: transparent;
@@ -618,18 +631,18 @@
       pointer-events: none;
     }
   }
-  [role="button"] {
+  :where([role="button"]) {
     --btn-bg: var(--z-color-overlay);
     --btn-color: var(--z-color-text-muted);
     --btn-filter: none;
-    --btn-scan-color: color-mix(in srgb, white 7%, transparent);
+    --btn-scan-color: color-mix(in oklch, white 7%, transparent);
     --btn-hover-color: var(--z-color-text);
-    --btn-hover-filter:  ;
+    --btn-hover-filter: none;
     --btn-hover-text-shadow: none;
     --btn-active-filter: none;
     --btn-focus-color: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
-      --btn-focus-color: color-mix(in srgb, var(--zyna) 65%, transparent);
+      --btn-focus-color: color-mix(in oklch, var(--zyna) 65%, transparent);
     }
     --btn-corner: var(--z-btn-corner);
     --btn-interior: transparent;
@@ -703,165 +716,163 @@
       pointer-events: none;
     }
   }
-  .btn-primary {
-    --btn-bg: repeating-linear-gradient(110deg, transparent 0px, transparent 3px, color-mix(in srgb, white 5.5%, transparent) 3px, color-mix(in srgb, white 5.5%, transparent) 4px), linear-gradient(135deg, var(--zyna) 0%, var(--zyna-dark) 100%);
+  :where(.btn-primary) {
+    --btn-bg: repeating-linear-gradient(110deg, transparent 0px, transparent 3px, color-mix(in oklch, white 5.5%, transparent) 3px, color-mix(in oklch, white 5.5%, transparent) 4px), linear-gradient(135deg, var(--zyna) 0%, var(--zyna-dark) 100%);
     @supports (color: color-mix(in lab, red, red)) {
-      --btn-bg: repeating-linear-gradient(110deg, transparent 0px, transparent 3px, color-mix(in srgb, white 5.5%, transparent) 3px, color-mix(in srgb, white 5.5%, transparent) 4px), linear-gradient(135deg, color-mix(in srgb, var(--zyna) 85%, white) 0%, var(--zyna-dark) 100%);
+      --btn-bg: repeating-linear-gradient(110deg, transparent 0px, transparent 3px, color-mix(in oklch, white 5.5%, transparent) 3px, color-mix(in oklch, white 5.5%, transparent) 4px), linear-gradient(135deg, color-mix(in oklch, var(--zyna) 85%, white) 0%, var(--zyna-dark) 100%);
     }
     --btn-color: var(--z-color-text-inverse);
-    --btn-scan-color: color-mix(in srgb, white 26%, transparent);
+    --btn-scan-color: color-mix(in oklch, white 26%, transparent);
     --btn-filter: drop-shadow(0 0 8px var(--zyna)) drop-shadow(0 0 22px var(--zyna));
     @supports (color: color-mix(in lab, red, red)) {
-      --btn-filter: drop-shadow(0 0 8px color-mix(in srgb, var(--zyna) 45%, transparent)) drop-shadow(0 0 22px color-mix(in srgb, var(--zyna) 18%, transparent));
+      --btn-filter: drop-shadow(0 0 8px color-mix(in oklch, var(--zyna) 45%, transparent)) drop-shadow(0 0 22px color-mix(in oklch, var(--zyna) 18%, transparent));
     }
     --btn-hover-color: var(--z-color-text-inverse);
     --btn-hover-filter: drop-shadow(0 0 22px var(--zyna)) drop-shadow(0 0 60px var(--zyna)) brightness(1.10);
     @supports (color: color-mix(in lab, red, red)) {
-      --btn-hover-filter: drop-shadow(0 0 22px var(--zyna)) drop-shadow(0 0 60px color-mix(in srgb, var(--zyna) 45%, transparent)) brightness(1.10);
+      --btn-hover-filter: drop-shadow(0 0 22px var(--zyna)) drop-shadow(0 0 60px color-mix(in oklch, var(--zyna) 45%, transparent)) brightness(1.10);
     }
     --btn-hover-text-shadow: 0 0 20px var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
-      --btn-hover-text-shadow: 0 0 20px color-mix(in srgb, var(--zyna) 55%, white);
+      --btn-hover-text-shadow: 0 0 20px color-mix(in oklch, var(--zyna) 55%, white);
     }
     --btn-active-filter: brightness(0.80) drop-shadow(0 0 8px var(--zyna));
     @supports (color: color-mix(in lab, red, red)) {
-      --btn-active-filter: brightness(0.80) drop-shadow(0 0 8px color-mix(in srgb, var(--zyna) 60%, transparent));
+      --btn-active-filter: brightness(0.80) drop-shadow(0 0 8px color-mix(in oklch, var(--zyna) 60%, transparent));
+    }
+    @media (prefers-reduced-motion: reduce) {
+      --btn-hover-filter: brightness(1.10);
     }
   }
-  .btn-secondary {
+  :where(.btn-secondary) {
     --btn-bg: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
-      --btn-bg: color-mix(in srgb, var(--zyna) 45%, transparent);
+      --btn-bg: color-mix(in oklch, var(--zyna) 45%, transparent);
     }
     --btn-color: var(--zyna);
     --btn-scan-color: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
-      --btn-scan-color: color-mix(in srgb, var(--zyna) 18%, transparent);
+      --btn-scan-color: color-mix(in oklch, var(--zyna) 18%, transparent);
     }
     --btn-interior: var(--z-surface-inset);
     --btn-hover-bg: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
-      --btn-hover-bg: color-mix(in srgb, var(--zyna) 92%, transparent);
+      --btn-hover-bg: color-mix(in oklch, var(--zyna) 92%, transparent);
     }
     --btn-hover-color: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
-      --btn-hover-color: color-mix(in srgb, var(--zyna) 90%, white);
+      --btn-hover-color: color-mix(in oklch, var(--zyna) 90%, white);
     }
     --btn-hover-filter: drop-shadow(0 0 14px var(--zyna)) drop-shadow(0 0 42px var(--zyna));
     @supports (color: color-mix(in lab, red, red)) {
-      --btn-hover-filter: drop-shadow(0 0 14px color-mix(in srgb, var(--zyna) 85%, transparent)) drop-shadow(0 0 42px color-mix(in srgb, var(--zyna) 30%, transparent));
+      --btn-hover-filter: drop-shadow(0 0 14px color-mix(in oklch, var(--zyna) 85%, transparent)) drop-shadow(0 0 42px color-mix(in oklch, var(--zyna) 30%, transparent));
     }
     --btn-hover-text-shadow: 0 0 14px var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
-      --btn-hover-text-shadow: 0 0 14px color-mix(in srgb, var(--zyna) 80%, transparent);
+      --btn-hover-text-shadow: 0 0 14px color-mix(in oklch, var(--zyna) 80%, transparent);
     }
     --btn-hover-interior: var(--z-surface-inset-hover);
   }
-  .btn-ghost {
+  :where(.btn-ghost) {
     --btn-bg: transparent;
     --btn-color: var(--z-color-text-muted);
-    --btn-scan-color: color-mix(in srgb, white 5.5%, transparent);
+    --btn-scan-color: color-mix(in oklch, white 5.5%, transparent);
     --btn-hover-bg: var(--z-color-border);
     --btn-hover-color: var(--z-color-text);
-    --btn-hover-filter: drop-shadow(0 0 8px color-mix(in srgb, white 10%, transparent));
+    --btn-hover-filter: drop-shadow(0 0 8px color-mix(in oklch, white 10%, transparent));
     --btn-hover-text-shadow: 0 0 10px var(--zp-text);
     @supports (color: color-mix(in lab, red, red)) {
-      --btn-hover-text-shadow: 0 0 10px color-mix(in srgb, var(--zp-text) 35%, transparent);
+      --btn-hover-text-shadow: 0 0 10px color-mix(in oklch, var(--zp-text) 35%, transparent);
     }
   }
-  .btn-danger {
+  :where(.btn-danger) {
     --btn-bg: var(--z-color-danger);
     @supports (color: color-mix(in lab, red, red)) {
-      --btn-bg: color-mix(in srgb, var(--z-color-danger) 42%, transparent);
+      --btn-bg: color-mix(in oklch, var(--z-color-danger) 42%, transparent);
     }
     --btn-color: var(--z-color-danger);
     --btn-scan-color: var(--z-color-danger);
     @supports (color: color-mix(in lab, red, red)) {
-      --btn-scan-color: color-mix(in srgb, var(--z-color-danger) 18%, transparent);
+      --btn-scan-color: color-mix(in oklch, var(--z-color-danger) 18%, transparent);
     }
     --btn-interior: var(--z-surface-inset-danger);
     --btn-hover-bg: var(--z-color-danger);
     @supports (color: color-mix(in lab, red, red)) {
-      --btn-hover-bg: color-mix(in srgb, var(--z-color-danger) 92%, transparent);
+      --btn-hover-bg: color-mix(in oklch, var(--z-color-danger) 92%, transparent);
     }
     --btn-hover-color: var(--z-color-danger);
     @supports (color: color-mix(in lab, red, red)) {
-      --btn-hover-color: color-mix(in srgb, var(--z-color-danger) 75%, white);
+      --btn-hover-color: color-mix(in oklch, var(--z-color-danger) 75%, white);
     }
     --btn-hover-filter: drop-shadow(0 0 16px var(--z-color-danger)) drop-shadow(0 0 44px var(--z-color-danger));
     @supports (color: color-mix(in lab, red, red)) {
-      --btn-hover-filter: drop-shadow(0 0 16px color-mix(in srgb, var(--z-color-danger) 90%, transparent)) drop-shadow(0 0 44px color-mix(in srgb, var(--z-color-danger) 32%, transparent));
+      --btn-hover-filter: drop-shadow(0 0 16px color-mix(in oklch, var(--z-color-danger) 90%, transparent)) drop-shadow(0 0 44px color-mix(in oklch, var(--z-color-danger) 32%, transparent));
     }
     --btn-hover-text-shadow: 0 0 16px var(--z-color-danger);
     @supports (color: color-mix(in lab, red, red)) {
-      --btn-hover-text-shadow: 0 0 16px color-mix(in srgb, var(--z-color-danger) 95%, transparent);
+      --btn-hover-text-shadow: 0 0 16px color-mix(in oklch, var(--z-color-danger) 95%, transparent);
     }
     --btn-hover-interior: var(--z-surface-inset-danger-hover);
   }
-  .btn-sm {
+  :where(.btn-sm) {
     padding: 0.42rem 1rem;
     font-size: 0.63rem;
     letter-spacing: 0.12em;
     --btn-corner: var(--z-corner-sm);
   }
-  .btn-lg {
+  :where(.btn-lg) {
     padding: 0.9rem 2.1rem;
     font-size: 0.78rem;
     --btn-corner: var(--z-corner-lg);
   }
-  .btn-icon {
+  :where(.btn-icon) {
     padding: 0.65rem;
     aspect-ratio: 1;
     --btn-corner: var(--z-corner-sm);
   }
-  .btn-alpha {
+  :where(.btn-cut) {
     clip-path: polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)));
     border-radius: 0;
     --btn-inner-clip: polygon(1px 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--btn-corner) + 1px)));
   }
-  .btn-beta {
+  :where(.btn-bevel) {
     clip-path: polygon(var(--btn-corner) 0%, calc(100% - var(--btn-corner)) 0%, 100% var(--btn-corner), 100% calc(100% - var(--btn-corner)), calc(100% - var(--btn-corner)) 100%, var(--btn-corner) 100%, 0% calc(100% - var(--btn-corner)), 0% var(--btn-corner));
     --btn-inner-clip: polygon(calc(var(--btn-corner) + 1px) 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - calc(var(--btn-corner) + 1px)), calc(100% - calc(var(--btn-corner) + 1px)) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--btn-corner) + 1px)), 1px calc(var(--btn-corner) + 1px));
   }
-  .btn-gamma {
+  :where(.btn-round) {
     clip-path: inset(0 round 9999px);
     border-radius: 9999px;
     --btn-inner-clip: inset(1.5px round 9999px);
   }
-  .btn-delta {
+  :where(.btn-square) {
     clip-path: inset(0);
     border-radius: 0;
     --btn-inner-clip: inset(1.5px);
   }
-  .card {
+  :where(.card) {
     --card-gradient: var(--z-card-gradient);
     --card-border-color: var(--z-card-border-color);
     --card-shadow: var(--z-card-shadow);
     --card-bracket-color: var(--z-card-bracket-color);
-    --card-bracket-size: var(--z-card-bracket-size);
-    --card-bracket-stroke: var(--z-card-bracket-stroke);
-    --card-bar-gradient: linear-gradient(90deg, transparent 0%, var(--zyna) 25%, var(--zyna) 75%, transparent 100%);
-    @supports (color: color-mix(in lab, red, red)) {
-      --card-bar-gradient: linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--zyna) 30%, transparent) 25%, color-mix(in srgb, var(--zyna) 30%, transparent) 75%, transparent 100%);
-    }
     --card-animation: none;
     --card-glow-lo: var(--z-card-default-glow-lo);
     --card-glow-hi: var(--z-card-default-glow-hi);
     position: relative;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 200px;
     contain: layout style;
     clip-path: var(--z-card-clip);
     filter: var(--z-card-filter);
     background: var(--z-card-texture), repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.012) 3px, rgba(255,255,255,0.012) 4px), var(--card-gradient);
     border: 1px solid var(--card-border-color);
     box-shadow: var(--card-shadow);
-    overflow: hidden;
     animation: var(--card-animation);
     &::before {
       content: "";
       position: absolute;
       inset: 0;
       background-image: linear-gradient(to right,  var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to bottom, var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to left,   var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to bottom, var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to right,  var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to top,    var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to left,   var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to top,    var(--card-bracket-color), var(--card-bracket-color));
-      background-size: var(--card-bracket-size) var(--card-bracket-stroke), var(--card-bracket-stroke) var(--card-bracket-size), var(--card-bracket-size) var(--card-bracket-stroke), var(--card-bracket-stroke) var(--card-bracket-size), var(--card-bracket-size) var(--card-bracket-stroke), var(--card-bracket-stroke) var(--card-bracket-size), var(--card-bracket-size) var(--card-bracket-stroke), var(--card-bracket-stroke) var(--card-bracket-size);
+      background-size: var(--z-card-bracket-size) var(--z-card-bracket-stroke), var(--z-card-bracket-stroke) var(--z-card-bracket-size), var(--z-card-bracket-size) var(--z-card-bracket-stroke), var(--z-card-bracket-stroke) var(--z-card-bracket-size), var(--z-card-bracket-size) var(--z-card-bracket-stroke), var(--z-card-bracket-stroke) var(--z-card-bracket-size), var(--z-card-bracket-size) var(--z-card-bracket-stroke), var(--z-card-bracket-stroke) var(--z-card-bracket-size);
       background-position: 0 0, 0 0, 100% 0, 100% 0, 0 100%, 0 100%, 100% 100%, 100% 100%;
       background-repeat: no-repeat;
       z-index: 1;
@@ -880,11 +891,11 @@
       pointer-events: none;
     }
   }
-  .card-body {
+  :where(.card-body) {
     padding: 1.5rem;
     position: relative;
   }
-  .card-header {
+  :where(.card-header) {
     padding: 0.7rem 1.25rem;
     border-bottom: 1px solid var(--z-card-header-border);
     background: var(--z-card-header-bg);
@@ -910,11 +921,11 @@
       animation: var(--z-card-header-dot-animation);
     }
   }
-  .card-footer {
+  :where(.card-footer) {
     padding: 0.7rem 1.25rem;
     border-top: 1px solid var(--z-card-header-border);
   }
-  .card-title {
+  :where(.card-title) {
     font-size: 1.1rem;
     font-weight: 800;
     letter-spacing: -0.025em;
@@ -923,79 +934,79 @@
     text-shadow: var(--z-card-title-text-shadow);
     margin-bottom: 0.2rem;
   }
-  .card-subtitle {
+  :where(.card-subtitle) {
     font-size: 0.78rem;
     color: var(--z-color-text-muted);
     letter-spacing: 0.01em;
     margin-bottom: 0.85rem;
   }
-  .card-dark {
+  :where(.card-dark) {
     --card-gradient: var(--z-surface-card-deep);
     --card-border-color: var(--z-color-border-dim);
     --card-shadow: var(--z-shadow-card-deep);
     --card-bracket-color: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
-      --card-bracket-color: color-mix(in srgb, var(--zyna) 28%, transparent);
+      --card-bracket-color: color-mix(in oklch, var(--zyna) 28%, transparent);
     }
-    --card-bar-gradient: linear-gradient(90deg, transparent 0%, var(--zyna) 25%, var(--zyna) 75%, transparent 100%);
+    --z-card-bar-bg: linear-gradient(90deg, transparent 0%, var(--zyna) 20%, var(--zyna) 80%, transparent 100%);
     @supports (color: color-mix(in lab, red, red)) {
-      --card-bar-gradient: linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--zyna) 18%, transparent) 25%, color-mix(in srgb, var(--zyna) 18%, transparent) 75%, transparent 100%);
+      --z-card-bar-bg: linear-gradient(90deg, transparent 0%, color-mix(in oklch, var(--zyna) 38%, transparent) 20%, color-mix(in oklch, var(--zyna) 38%, transparent) 80%, transparent 100%);
     }
   }
-  .card-glow {
+  :where(.card-glow) {
     --card-border-color: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
-      --card-border-color: color-mix(in srgb, var(--zyna) 22%, transparent);
+      --card-border-color: color-mix(in oklch, var(--zyna) 22%, transparent);
     }
     --card-bracket-color: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
-      --card-bracket-color: color-mix(in srgb, var(--zyna) 70%, transparent);
+      --card-bracket-color: color-mix(in oklch, var(--zyna) 70%, transparent);
     }
-    --card-bracket-size: 22px;
-    --card-bar-gradient: linear-gradient(90deg, transparent 0%, var(--zyna) 20%, var(--zyna) 80%, transparent 100%);
+    --z-card-bracket-size: 22px;
+    --z-card-bar-bg: linear-gradient(90deg, transparent 0%, var(--zyna) 20%, var(--zyna) 80%, transparent 100%);
     @supports (color: color-mix(in lab, red, red)) {
-      --card-bar-gradient: linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--zyna) 60%, transparent) 20%, color-mix(in srgb, var(--zyna) 60%, transparent) 80%, transparent 100%);
+      --z-card-bar-bg: linear-gradient(90deg, transparent 0%, color-mix(in oklch, var(--zyna) 80%, transparent) 20%, color-mix(in oklch, var(--zyna) 80%, transparent) 80%, transparent 100%);
     }
     --card-animation: zyna-card-pulse var(--z-card-glow-duration) var(--z-ease-spring) infinite;
     --card-glow-lo: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
-      --card-glow-lo: color-mix(in srgb, var(--zyna) 12%, transparent);
+      --card-glow-lo: color-mix(in oklch, var(--zyna) 12%, transparent);
     }
     --card-glow-hi: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
-      --card-glow-hi: color-mix(in srgb, var(--zyna) 26%, transparent);
+      --card-glow-hi: color-mix(in oklch, var(--zyna) 26%, transparent);
     }
   }
-  .card-compact .card-header {
+  :where(.card-compact) :where(.card-header) {
     padding: 0.4rem 0.85rem;
   }
-  .card-compact .card-body {
+  :where(.card-compact) :where(.card-body) {
     padding: 0.75rem 0.85rem;
   }
-  .card-compact .card-footer {
+  :where(.card-compact) :where(.card-footer) {
     padding: 0.4rem 0.85rem;
   }
-  .card-compact .card-title {
+  :where(.card-compact) :where(.card-title) {
     font-size: 0.85rem;
     margin-bottom: 0.1rem;
   }
-  .card-compact .card-subtitle {
+  :where(.card-compact) :where(.card-subtitle) {
     font-size: 0.68rem;
     margin-bottom: 0.55rem;
   }
-  .card-alpha {
+  :where(.card-round) {
     border-radius: var(--z-corner-xl);
     clip-path: none;
   }
-  .card-beta {
+  :where(.card-bevel) {
     clip-path: polygon(var(--zp-corner-card) 0%, calc(100% - var(--zp-corner-card)) 0%, 100% var(--zp-corner-card), 100% calc(100% - var(--zp-corner-card)), calc(100% - var(--zp-corner-card)) 100%, var(--zp-corner-card) 100%, 0% calc(100% - var(--zp-corner-card)), 0% var(--zp-corner-card));
     border-radius: 0;
   }
-  .badge {
+  :where(.badge) {
     --badge-bg: var(--z-color-overlay);
     --badge-color: var(--z-color-text-muted);
     --badge-glow: none;
-    --badge-scan-color: color-mix(in srgb, white 18%, transparent);
+    --badge-scan-color: color-mix(in oklch, white 18%, transparent);
     --badge-offset: var(--zp-corner-badge);
     --badge-interior: transparent;
     --badge-inner-clip: var(--z-badge-inner-clip);
@@ -1041,94 +1052,94 @@
       pointer-events: none;
     }
   }
-  .badge-outline {
+  :where(.badge-outline) {
     --badge-color: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-color: color-mix(in srgb, var(--zyna) 85%, white);
+      --badge-color: color-mix(in oklch, var(--zyna) 85%, white);
     }
     --badge-bg: currentColor;
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-bg: color-mix(in srgb, currentColor 80%, transparent);
+      --badge-bg: color-mix(in oklch, currentColor 80%, transparent);
     }
     --badge-interior: var(--z-surface-inset);
     --badge-glow: drop-shadow(0 0 6px currentColor) drop-shadow(0 0 16px currentColor);
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-glow: drop-shadow(0 0 6px color-mix(in srgb, currentColor 55%, transparent)) drop-shadow(0 0 16px color-mix(in srgb, currentColor 20%, transparent));
+      --badge-glow: drop-shadow(0 0 6px color-mix(in oklch, currentColor 55%, transparent)) drop-shadow(0 0 16px color-mix(in oklch, currentColor 20%, transparent));
     }
   }
-  .badge-primary {
+  :where(.badge-primary) {
     --badge-bg: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-bg: color-mix(in srgb, var(--zyna) 13%, transparent);
+      --badge-bg: color-mix(in oklch, var(--zyna) 13%, transparent);
     }
     --badge-color: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-color: color-mix(in srgb, var(--zyna) 90%, white);
+      --badge-color: color-mix(in oklch, var(--zyna) 90%, white);
     }
     --badge-glow: drop-shadow(0 0 5px var(--zyna)) drop-shadow(0 0 14px var(--zyna));
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-glow: drop-shadow(0 0 5px color-mix(in srgb, var(--zyna) 40%, transparent)) drop-shadow(0 0 14px color-mix(in srgb, var(--zyna) 14%, transparent));
+      --badge-glow: drop-shadow(0 0 5px color-mix(in oklch, var(--zyna) 40%, transparent)) drop-shadow(0 0 14px color-mix(in oklch, var(--zyna) 14%, transparent));
     }
   }
-  .badge-secondary {
+  :where(.badge-secondary) {
     --badge-bg: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-bg: color-mix(in srgb, var(--zyna) 5%, transparent);
+      --badge-bg: color-mix(in oklch, var(--zyna) 5%, transparent);
     }
     --badge-color: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-color: color-mix(in srgb, var(--zyna) 80%, transparent);
+      --badge-color: color-mix(in oklch, var(--zyna) 80%, transparent);
     }
   }
-  .badge-success {
+  :where(.badge-success) {
     --badge-bg: var(--z-color-success);
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-bg: color-mix(in srgb, var(--z-color-success) 10%, transparent);
+      --badge-bg: color-mix(in oklch, var(--z-color-success) 10%, transparent);
     }
     --badge-color: var(--z-color-success);
     --badge-glow: drop-shadow(0 0 5px var(--z-color-success)) drop-shadow(0 0 14px var(--z-color-success));
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-glow: drop-shadow(0 0 5px color-mix(in srgb, var(--z-color-success) 45%, transparent)) drop-shadow(0 0 14px color-mix(in srgb, var(--z-color-success) 14%, transparent));
+      --badge-glow: drop-shadow(0 0 5px color-mix(in oklch, var(--z-color-success) 45%, transparent)) drop-shadow(0 0 14px color-mix(in oklch, var(--z-color-success) 14%, transparent));
     }
   }
-  .badge-danger {
+  :where(.badge-danger) {
     --badge-bg: var(--z-color-danger);
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-bg: color-mix(in srgb, var(--z-color-danger) 10%, transparent);
+      --badge-bg: color-mix(in oklch, var(--z-color-danger) 10%, transparent);
     }
     --badge-color: var(--z-color-danger);
     --badge-glow: drop-shadow(0 0 5px var(--z-color-danger)) drop-shadow(0 0 14px var(--z-color-danger));
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-glow: drop-shadow(0 0 5px color-mix(in srgb, var(--z-color-danger) 45%, transparent)) drop-shadow(0 0 14px color-mix(in srgb, var(--z-color-danger) 14%, transparent));
+      --badge-glow: drop-shadow(0 0 5px color-mix(in oklch, var(--z-color-danger) 45%, transparent)) drop-shadow(0 0 14px color-mix(in oklch, var(--z-color-danger) 14%, transparent));
     }
   }
-  .badge-warning {
+  :where(.badge-warning) {
     --badge-bg: var(--z-color-warning);
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-bg: color-mix(in srgb, var(--z-color-warning) 10%, transparent);
+      --badge-bg: color-mix(in oklch, var(--z-color-warning) 10%, transparent);
     }
     --badge-color: var(--z-color-warning);
     --badge-glow: drop-shadow(0 0 5px var(--z-color-warning)) drop-shadow(0 0 12px var(--z-color-warning));
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-glow: drop-shadow(0 0 5px color-mix(in srgb, var(--z-color-warning) 40%, transparent)) drop-shadow(0 0 12px color-mix(in srgb, var(--z-color-warning) 12%, transparent));
+      --badge-glow: drop-shadow(0 0 5px color-mix(in oklch, var(--z-color-warning) 40%, transparent)) drop-shadow(0 0 12px color-mix(in oklch, var(--z-color-warning) 12%, transparent));
     }
   }
-  .badge-info {
+  :where(.badge-info) {
     --badge-bg: var(--z-color-info);
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-bg: color-mix(in srgb, var(--z-color-info) 10%, transparent);
+      --badge-bg: color-mix(in oklch, var(--z-color-info) 10%, transparent);
     }
     --badge-color: var(--z-color-info);
     --badge-glow: drop-shadow(0 0 5px var(--z-color-info)) drop-shadow(0 0 14px var(--z-color-info));
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-glow: drop-shadow(0 0 5px color-mix(in srgb, var(--z-color-info) 45%, transparent)) drop-shadow(0 0 14px color-mix(in srgb, var(--z-color-info) 14%, transparent));
+      --badge-glow: drop-shadow(0 0 5px color-mix(in oklch, var(--z-color-info) 45%, transparent)) drop-shadow(0 0 14px color-mix(in oklch, var(--z-color-info) 14%, transparent));
     }
   }
-  .badge-neutral {
+  :where(.badge-neutral) {
     --badge-bg: var(--z-color-overlay);
     --badge-color: var(--z-color-text-muted);
   }
-  .badge-pulse {
+  :where(.badge-pulse) {
     --badge-dot-size: 5px;
     &::before {
       content: "";
@@ -1144,31 +1155,31 @@
       animation: zyna-pulse-ring 2s var(--z-ease-enter) infinite;
     }
   }
-  .badge-lg {
+  :where(.badge-lg) {
     padding: 0.32rem 1.05rem;
     font-size: 0.68rem;
     --badge-offset: var(--zp-corner-badge-lg);
     --badge-dot-size: 6px;
   }
-  .badge-alpha {
+  :where(.badge-slant) {
     clip-path: polygon(var(--badge-offset) 0%, 100% 0%, calc(100% - var(--badge-offset)) 100%, 0% 100%);
     --badge-inner-clip: polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), 2px calc(100% - 2px));
   }
-  .badge-delta {
+  :where(.badge-rect) {
     clip-path: inset(0 round 3px);
     border-radius: 3px;
     --badge-inner-clip: inset(2px round 3px);
   }
-  .badge-gamma {
+  :where(.badge-pill) {
     clip-path: inset(0 round 9999px);
     border-radius: 9999px;
     --badge-inner-clip: inset(2px round 9999px);
   }
-  .badge-beta {
+  :where(.badge-bevel) {
     clip-path: polygon(var(--badge-offset) 0%, calc(100% - var(--badge-offset)) 0%, 100% var(--badge-offset), 100% calc(100% - var(--badge-offset)), calc(100% - var(--badge-offset)) 100%, var(--badge-offset) 100%, 0% calc(100% - var(--badge-offset)), 0% var(--badge-offset));
     --badge-inner-clip: polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) 2px, calc(100% - 2px) calc(var(--badge-offset) + 2px), calc(100% - 2px) calc(100% - calc(var(--badge-offset) + 2px)), calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), calc(var(--badge-offset) + 2px) calc(100% - 2px), 2px calc(100% - calc(var(--badge-offset) + 2px)), 2px calc(var(--badge-offset) + 2px));
   }
-  .alert {
+  :where(.alert) {
     --alert-bar-color: rgba(255,255,255,0.10);
     --alert-bg: rgba(255,255,255,0.02);
     --alert-color: var(--z-color-text-dim);
@@ -1186,7 +1197,6 @@
     font-size: 0.82rem;
     line-height: 1.65;
     position: relative;
-    overflow: hidden;
     box-shadow: var(--alert-shadow);
     &::before {
       content: "";
@@ -1199,7 +1209,7 @@
       border-radius: var(--z-alert-bar-radius);
     }
   }
-  [role="alert"] {
+  :where([role="alert"]) {
     --alert-bar-color: rgba(255,255,255,0.10);
     --alert-bg: rgba(255,255,255,0.02);
     --alert-color: var(--z-color-text-dim);
@@ -1217,7 +1227,6 @@
     font-size: 0.82rem;
     line-height: 1.65;
     position: relative;
-    overflow: hidden;
     box-shadow: var(--alert-shadow);
     &::before {
       content: "";
@@ -1230,13 +1239,13 @@
       border-radius: var(--z-alert-bar-radius);
     }
   }
-  .alert-icon {
+  :where(.alert-icon) {
     flex-shrink: 0;
     width: 1.1rem;
     height: 1.1rem;
     margin-top: 0.1rem;
   }
-  .alert-title {
+  :where(.alert-title) {
     font-family: var(--z-font-mono);
     font-size: 0.62rem;
     font-weight: 700;
@@ -1252,96 +1261,96 @@
       letter-spacing: 0;
     }
   }
-  .alert-success {
+  :where(.alert-success) {
     --alert-bar-color: var(--z-color-success);
     --alert-bg: var(--z-color-success);
     @supports (color: color-mix(in lab, red, red)) {
-      --alert-bg: color-mix(in srgb, var(--z-color-success) var(--z-alert-bg-opacity), transparent);
+      --alert-bg: color-mix(in oklch, var(--z-color-success) var(--z-alert-bg-opacity), transparent);
     }
     --alert-color: var(--z-color-success);
     @supports (color: color-mix(in lab, red, red)) {
-      --alert-color: color-mix(in srgb, var(--z-color-success) 88%, transparent);
+      --alert-color: color-mix(in oklch, var(--z-color-success) 88%, transparent);
     }
     --alert-shadow: 0 0 30px var(--z-color-success), inset 4px 0 18px var(--z-color-success), inset 0 0 40px var(--z-color-success);
     @supports (color: color-mix(in lab, red, red)) {
-      --alert-shadow: 0 0 30px color-mix(in srgb, var(--z-color-success) 8%, transparent), inset 4px 0 18px color-mix(in srgb, var(--z-color-success) 5%, transparent), inset 0 0 40px color-mix(in srgb, var(--z-color-success) 2.5%, transparent);
+      --alert-shadow: 0 0 30px color-mix(in oklch, var(--z-color-success) 8%, transparent), inset 4px 0 18px color-mix(in oklch, var(--z-color-success) 5%, transparent), inset 0 0 40px color-mix(in oklch, var(--z-color-success) 2.5%, transparent);
     }
     --alert-title-shadow: 0 0 12px var(--z-color-success);
     @supports (color: color-mix(in lab, red, red)) {
-      --alert-title-shadow: 0 0 12px color-mix(in srgb, var(--z-color-success) 65%, transparent);
+      --alert-title-shadow: 0 0 12px color-mix(in oklch, var(--z-color-success) 65%, transparent);
     }
   }
-  .alert-danger {
+  :where(.alert-danger) {
     --alert-bar-color: var(--z-color-danger);
     --alert-bg: var(--z-color-danger);
     @supports (color: color-mix(in lab, red, red)) {
-      --alert-bg: color-mix(in srgb, var(--z-color-danger) var(--z-alert-bg-opacity), transparent);
+      --alert-bg: color-mix(in oklch, var(--z-color-danger) var(--z-alert-bg-opacity), transparent);
     }
     --alert-color: var(--z-color-danger);
     @supports (color: color-mix(in lab, red, red)) {
-      --alert-color: color-mix(in srgb, var(--z-color-danger) 88%, transparent);
+      --alert-color: color-mix(in oklch, var(--z-color-danger) 88%, transparent);
     }
     --alert-shadow: 0 0 30px var(--z-color-danger), inset 4px 0 18px var(--z-color-danger), inset 0 0 40px var(--z-color-danger);
     @supports (color: color-mix(in lab, red, red)) {
-      --alert-shadow: 0 0 30px color-mix(in srgb, var(--z-color-danger) 8%, transparent), inset 4px 0 18px color-mix(in srgb, var(--z-color-danger) 5%, transparent), inset 0 0 40px color-mix(in srgb, var(--z-color-danger) 2.5%, transparent);
+      --alert-shadow: 0 0 30px color-mix(in oklch, var(--z-color-danger) 8%, transparent), inset 4px 0 18px color-mix(in oklch, var(--z-color-danger) 5%, transparent), inset 0 0 40px color-mix(in oklch, var(--z-color-danger) 2.5%, transparent);
     }
     --alert-title-shadow: 0 0 12px var(--z-color-danger);
     @supports (color: color-mix(in lab, red, red)) {
-      --alert-title-shadow: 0 0 12px color-mix(in srgb, var(--z-color-danger) 65%, transparent);
+      --alert-title-shadow: 0 0 12px color-mix(in oklch, var(--z-color-danger) 65%, transparent);
     }
   }
-  .alert-warning {
+  :where(.alert-warning) {
     --alert-bar-color: var(--z-color-warning);
     --alert-bg: var(--z-color-warning);
     @supports (color: color-mix(in lab, red, red)) {
-      --alert-bg: color-mix(in srgb, var(--z-color-warning) var(--z-alert-bg-opacity), transparent);
+      --alert-bg: color-mix(in oklch, var(--z-color-warning) var(--z-alert-bg-opacity), transparent);
     }
     --alert-color: var(--z-color-warning);
     @supports (color: color-mix(in lab, red, red)) {
-      --alert-color: color-mix(in srgb, var(--z-color-warning) 88%, transparent);
+      --alert-color: color-mix(in oklch, var(--z-color-warning) 88%, transparent);
     }
     --alert-shadow: 0 0 24px var(--z-color-warning), inset 4px 0 14px var(--z-color-warning);
     @supports (color: color-mix(in lab, red, red)) {
-      --alert-shadow: 0 0 24px color-mix(in srgb, var(--z-color-warning) 7%, transparent), inset 4px 0 14px color-mix(in srgb, var(--z-color-warning) 4%, transparent);
+      --alert-shadow: 0 0 24px color-mix(in oklch, var(--z-color-warning) 7%, transparent), inset 4px 0 14px color-mix(in oklch, var(--z-color-warning) 4%, transparent);
     }
     --alert-title-shadow: 0 0 10px var(--z-color-warning);
     @supports (color: color-mix(in lab, red, red)) {
-      --alert-title-shadow: 0 0 10px color-mix(in srgb, var(--z-color-warning) 55%, transparent);
+      --alert-title-shadow: 0 0 10px color-mix(in oklch, var(--z-color-warning) 55%, transparent);
     }
   }
-  .alert-info {
+  :where(.alert-info) {
     --alert-bar-color: var(--z-color-info);
     --alert-bg: var(--z-color-info);
     @supports (color: color-mix(in lab, red, red)) {
-      --alert-bg: color-mix(in srgb, var(--z-color-info) var(--z-alert-bg-opacity), transparent);
+      --alert-bg: color-mix(in oklch, var(--z-color-info) var(--z-alert-bg-opacity), transparent);
     }
     --alert-color: var(--z-color-info);
     @supports (color: color-mix(in lab, red, red)) {
-      --alert-color: color-mix(in srgb, var(--z-color-info) 88%, transparent);
+      --alert-color: color-mix(in oklch, var(--z-color-info) 88%, transparent);
     }
     --alert-shadow: 0 0 30px var(--z-color-info), inset 4px 0 18px var(--z-color-info), inset 0 0 40px var(--z-color-info);
     @supports (color: color-mix(in lab, red, red)) {
-      --alert-shadow: 0 0 30px color-mix(in srgb, var(--z-color-info) 8%, transparent), inset 4px 0 18px color-mix(in srgb, var(--z-color-info) 5%, transparent), inset 0 0 40px color-mix(in srgb, var(--z-color-info) 2.5%, transparent);
+      --alert-shadow: 0 0 30px color-mix(in oklch, var(--z-color-info) 8%, transparent), inset 4px 0 18px color-mix(in oklch, var(--z-color-info) 5%, transparent), inset 0 0 40px color-mix(in oklch, var(--z-color-info) 2.5%, transparent);
     }
     --alert-title-shadow: 0 0 12px var(--z-color-info);
     @supports (color: color-mix(in lab, red, red)) {
-      --alert-title-shadow: 0 0 12px color-mix(in srgb, var(--z-color-info) 65%, transparent);
+      --alert-title-shadow: 0 0 12px color-mix(in oklch, var(--z-color-info) 65%, transparent);
     }
   }
-  .alert-neutral {
+  :where(.alert-neutral) {
     --alert-bar-color: var(--z-color-border-dim);
     --alert-bg: var(--z-color-overlay);
     --alert-color: var(--z-color-text-dim);
   }
-  .alert-dark {
-    --alert-bar-color: color-mix(in srgb, white 14%, transparent);
-    --alert-bg: color-mix(in srgb, white 3%, transparent);
+  :where(.alert-dark) {
+    --alert-bar-color: color-mix(in oklch, white 14%, transparent);
+    --alert-bg: color-mix(in oklch, white 3%, transparent);
     --alert-color: var(--z-color-text-dim);
   }
-  .alert-alpha {
+  :where(.alert-square) {
     border-radius: 0;
   }
-  .alert-beta {
+  :where(.alert-round) {
     border-radius: 9999px;
     padding: 0.875rem 1.25rem;
     border: none;
@@ -1352,67 +1361,67 @@
   }
 }
 @layer base {
-  html[data-genre="cyberpunk"] .badge-primary {
+  :where(html[data-genre="cyberpunk"]) :where(.badge-primary) {
     --badge-bg: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-bg: color-mix(in srgb, var(--zyna) 20%, transparent);
+      --badge-bg: color-mix(in oklch, var(--zyna) 20%, transparent);
     }
     --badge-glow: drop-shadow(0 0 8px var(--zyna)) drop-shadow(0 0 20px var(--zyna));
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-glow: drop-shadow(0 0 8px color-mix(in srgb, var(--zyna) 70%, transparent)) drop-shadow(0 0 20px color-mix(in srgb, var(--zyna) 28%, transparent));
+      --badge-glow: drop-shadow(0 0 8px color-mix(in oklch, var(--zyna) 70%, transparent)) drop-shadow(0 0 20px color-mix(in oklch, var(--zyna) 28%, transparent));
     }
   }
-  html[data-genre="cyberpunk"] .badge-success {
+  :where(html[data-genre="cyberpunk"]) :where(.badge-success) {
     --badge-bg: var(--z-color-success);
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-bg: color-mix(in srgb, var(--z-color-success) 18%, transparent);
+      --badge-bg: color-mix(in oklch, var(--z-color-success) 18%, transparent);
     }
     --badge-glow: drop-shadow(0 0 8px var(--z-color-success)) drop-shadow(0 0 18px var(--z-color-success));
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-glow: drop-shadow(0 0 8px color-mix(in srgb, var(--z-color-success) 70%, transparent)) drop-shadow(0 0 18px color-mix(in srgb, var(--z-color-success) 28%, transparent));
+      --badge-glow: drop-shadow(0 0 8px color-mix(in oklch, var(--z-color-success) 70%, transparent)) drop-shadow(0 0 18px color-mix(in oklch, var(--z-color-success) 28%, transparent));
     }
   }
-  html[data-genre="cyberpunk"] .badge-danger {
+  :where(html[data-genre="cyberpunk"]) :where(.badge-danger) {
     --badge-bg: var(--z-color-danger);
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-bg: color-mix(in srgb, var(--z-color-danger) 18%, transparent);
+      --badge-bg: color-mix(in oklch, var(--z-color-danger) 18%, transparent);
     }
     --badge-glow: drop-shadow(0 0 8px var(--z-color-danger)) drop-shadow(0 0 18px var(--z-color-danger));
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-glow: drop-shadow(0 0 8px color-mix(in srgb, var(--z-color-danger) 70%, transparent)) drop-shadow(0 0 18px color-mix(in srgb, var(--z-color-danger) 28%, transparent));
+      --badge-glow: drop-shadow(0 0 8px color-mix(in oklch, var(--z-color-danger) 70%, transparent)) drop-shadow(0 0 18px color-mix(in oklch, var(--z-color-danger) 28%, transparent));
     }
   }
-  html[data-genre="cyberpunk"] .badge-warning {
+  :where(html[data-genre="cyberpunk"]) :where(.badge-warning) {
     --badge-bg: var(--z-color-warning);
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-bg: color-mix(in srgb, var(--z-color-warning) 18%, transparent);
+      --badge-bg: color-mix(in oklch, var(--z-color-warning) 18%, transparent);
     }
     --badge-glow: drop-shadow(0 0 8px var(--z-color-warning)) drop-shadow(0 0 16px var(--z-color-warning));
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-glow: drop-shadow(0 0 8px color-mix(in srgb, var(--z-color-warning) 65%, transparent)) drop-shadow(0 0 16px color-mix(in srgb, var(--z-color-warning) 25%, transparent));
+      --badge-glow: drop-shadow(0 0 8px color-mix(in oklch, var(--z-color-warning) 65%, transparent)) drop-shadow(0 0 16px color-mix(in oklch, var(--z-color-warning) 25%, transparent));
     }
   }
-  html[data-genre="cyberpunk"] .badge-info {
+  :where(html[data-genre="cyberpunk"]) :where(.badge-info) {
     --badge-bg: var(--z-color-info);
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-bg: color-mix(in srgb, var(--z-color-info) 18%, transparent);
+      --badge-bg: color-mix(in oklch, var(--z-color-info) 18%, transparent);
     }
     --badge-glow: drop-shadow(0 0 8px var(--z-color-info)) drop-shadow(0 0 18px var(--z-color-info));
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-glow: drop-shadow(0 0 8px color-mix(in srgb, var(--z-color-info) 70%, transparent)) drop-shadow(0 0 18px color-mix(in srgb, var(--z-color-info) 28%, transparent));
+      --badge-glow: drop-shadow(0 0 8px color-mix(in oklch, var(--z-color-info) 70%, transparent)) drop-shadow(0 0 18px color-mix(in oklch, var(--z-color-info) 28%, transparent));
     }
   }
-  html[data-genre="cyberpunk"] .badge-secondary {
+  :where(html[data-genre="cyberpunk"]) :where(.badge-secondary) {
     --badge-bg: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-bg: color-mix(in srgb, var(--zyna) 10%, transparent);
+      --badge-bg: color-mix(in oklch, var(--zyna) 10%, transparent);
     }
     --badge-glow: drop-shadow(0 0 6px var(--zyna));
     @supports (color: color-mix(in lab, red, red)) {
-      --badge-glow: drop-shadow(0 0 6px color-mix(in srgb, var(--zyna) 45%, transparent));
+      --badge-glow: drop-shadow(0 0 6px color-mix(in oklch, var(--zyna) 45%, transparent));
     }
   }
-  html[data-genre="cyberpunk"] body::before {
+  :where(html[data-genre="cyberpunk"]) body::before {
     content: "";
     position: fixed;
     inset: 0;
@@ -1420,7 +1429,7 @@
     pointer-events: none;
     background: repeating-linear-gradient(0deg, transparent, transparent 2px, var(--zyna) 2px, var(--zyna) 3px);
     @supports (color: color-mix(in lab, red, red)) {
-      background: repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in srgb, var(--zyna) 4.5%, transparent) 2px, color-mix(in srgb, var(--zyna) 4.5%, transparent) 3px);
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--zyna) 4.5%, transparent) 2px, color-mix(in oklch, var(--zyna) 4.5%, transparent) 3px);
     }
   }
 }
