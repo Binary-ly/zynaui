@@ -171,11 +171,11 @@ export default function(theme) {
 
   return {
     // ── Base — also applied to [role="button"] for accessible markup ──────────
-    ':where(.btn)': base,
-    ':where([role="button"])': base,
+    '.btn': base,
+    '[role="button"]': base,
 
     // ── Primary: gold solid fill ──────────────────────────────────────────────
-    ':where(.btn-primary)': {
+    '.btn-primary': {
       '--btn-bg':                `repeating-linear-gradient(110deg, transparent 0px, transparent 3px, color-mix(in oklch, white 5.5%, transparent) 3px, color-mix(in oklch, white 5.5%, transparent) 4px), linear-gradient(135deg, color-mix(in oklch, var(--zyna) 85%, white) 0%, var(--zyna-dark) 100%)`,
       '--btn-color':             'var(--z-color-text-inverse)',
       '--btn-scan-color':        'color-mix(in oklch, white 26%, transparent)',
@@ -192,7 +192,7 @@ export default function(theme) {
     },
 
     // ── Secondary: outlined gold — polygon border technique ───────────────────
-    ':where(.btn-secondary)': {
+    '.btn-secondary': {
       '--btn-bg':                'color-mix(in oklch, var(--zyna) 45%, transparent)',
       '--btn-color':             'var(--zyna)',
       '--btn-scan-color':        'color-mix(in oklch, var(--zyna) 18%, transparent)',
@@ -205,7 +205,7 @@ export default function(theme) {
     },
 
     // ── Ghost: near-invisible — text meets AA at 0.55 opacity ─────────────────
-    ':where(.btn-ghost)': {
+    '.btn-ghost': {
       '--btn-bg':                'transparent',
       '--btn-color':             'var(--z-color-text-muted)',  // WCAG AA ≥4.5:1 on dark
       '--btn-scan-color':        'color-mix(in oklch, white 5.5%, transparent)',
@@ -216,7 +216,7 @@ export default function(theme) {
     },
 
     // ── Danger: neon crimson — polygon border technique ───────────────────────
-    ':where(.btn-danger)': {
+    '.btn-danger': {
       '--btn-bg':                'color-mix(in oklch, var(--z-color-danger) 42%, transparent)',
       '--btn-color':             'var(--z-color-danger)',
       '--btn-scan-color':        'color-mix(in oklch, var(--z-color-danger) 18%, transparent)',
@@ -232,20 +232,20 @@ export default function(theme) {
     // Each size class sets --btn-corner. The base clip-path polygon references
     // var(--btn-corner) so the geometry updates automatically — no repeated
     // polygon strings, no compound selectors needed for shape × size combos.
-    ':where(.btn-sm)': {
+    '.btn-sm': {
       padding: '0.42rem 1rem',
       fontSize: '0.63rem',
       letterSpacing: '0.12em',
       '--btn-corner': 'var(--z-corner-sm)',
     },
 
-    ':where(.btn-lg)': {
+    '.btn-lg': {
       padding: '0.9rem 2.1rem',
       fontSize: '0.78rem',
       '--btn-corner': 'var(--z-corner-lg)',
     },
 
-    ':where(.btn-icon)': {
+    '.btn-icon': {
       padding: '0.65rem',
       aspectRatio: '1',
       '--btn-corner': 'var(--z-corner-sm)',
@@ -256,9 +256,9 @@ export default function(theme) {
     // Combined (e.g. .btn-bevel.btn-sm) works without compound selectors because
     // .btn-sm updates --btn-corner and the cut polygon uses it automatically.
 
-    ':where(.btn-cut)': (({ outer, inner }) => ({ clipPath: outer, borderRadius: '0', '--btn-inner-clip': inner }))(shapes.diagonal('var(--btn-corner)')),
-    ':where(.btn-bevel)':  (({ outer, inner }) => ({ clipPath: outer, '--btn-inner-clip': inner }))(shapes.bevel('var(--btn-corner)')),
-    ':where(.btn-round)': { clipPath: shapes.rounded.clipPath, borderRadius: '9999px', '--btn-inner-clip': shapes.rounded.innerClip },
-    ':where(.btn-square)': { clipPath: shapes.rect.clipPath, borderRadius: shapes.rect.borderRadius, '--btn-inner-clip': shapes.rect.innerClip },
+    '.btn-cut': (({ outer, inner }) => ({ clipPath: outer, borderRadius: '0', '--btn-inner-clip': inner }))(shapes.diagonal('var(--btn-corner)')),
+    '.btn-bevel':  (({ outer, inner }) => ({ clipPath: outer, '--btn-inner-clip': inner }))(shapes.bevel('var(--btn-corner)')),
+    '.btn-round': { clipPath: shapes.rounded.clipPath, borderRadius: '9999px', '--btn-inner-clip': shapes.rounded.innerClip },
+    '.btn-square': { clipPath: shapes.rect.clipPath, borderRadius: shapes.rect.borderRadius, '--btn-inner-clip': shapes.rect.innerClip },
   }
 }

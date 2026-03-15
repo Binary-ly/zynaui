@@ -411,7 +411,7 @@ exports[`.btn component > full btn output matches snapshot 1`] = `
   }
 }
 @layer base {
-  :where(.btn) {
+  .btn {
     --btn-bg: var(--z-color-overlay);
     --btn-color: var(--z-color-text-muted);
     --btn-filter: none;
@@ -496,7 +496,7 @@ exports[`.btn component > full btn output matches snapshot 1`] = `
       pointer-events: none;
     }
   }
-  :where([role="button"]) {
+  [role="button"] {
     --btn-bg: var(--z-color-overlay);
     --btn-color: var(--z-color-text-muted);
     --btn-filter: none;
@@ -581,7 +581,7 @@ exports[`.btn component > full btn output matches snapshot 1`] = `
       pointer-events: none;
     }
   }
-  :where(.btn-primary) {
+  .btn-primary {
     --btn-bg: repeating-linear-gradient(110deg, transparent 0px, transparent 3px, color-mix(in oklch, white 5.5%, transparent) 3px, color-mix(in oklch, white 5.5%, transparent) 4px), linear-gradient(135deg, var(--zyna) 0%, var(--zyna-dark) 100%);
     @supports (color: color-mix(in lab, red, red)) {
       --btn-bg: repeating-linear-gradient(110deg, transparent 0px, transparent 3px, color-mix(in oklch, white 5.5%, transparent) 3px, color-mix(in oklch, white 5.5%, transparent) 4px), linear-gradient(135deg, color-mix(in oklch, var(--zyna) 85%, white) 0%, var(--zyna-dark) 100%);
@@ -609,7 +609,7 @@ exports[`.btn component > full btn output matches snapshot 1`] = `
       --btn-hover-filter: brightness(1.10);
     }
   }
-  :where(.btn-secondary) {
+  .btn-secondary {
     --btn-bg: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
       --btn-bg: color-mix(in oklch, var(--zyna) 45%, transparent);
@@ -638,7 +638,7 @@ exports[`.btn component > full btn output matches snapshot 1`] = `
     }
     --btn-hover-interior: var(--z-surface-inset-hover);
   }
-  :where(.btn-ghost) {
+  .btn-ghost {
     --btn-bg: transparent;
     --btn-color: var(--z-color-text-muted);
     --btn-scan-color: color-mix(in oklch, white 5.5%, transparent);
@@ -650,7 +650,7 @@ exports[`.btn component > full btn output matches snapshot 1`] = `
       --btn-hover-text-shadow: 0 0 10px color-mix(in oklch, var(--zp-text) 35%, transparent);
     }
   }
-  :where(.btn-danger) {
+  .btn-danger {
     --btn-bg: var(--z-color-danger);
     @supports (color: color-mix(in lab, red, red)) {
       --btn-bg: color-mix(in oklch, var(--z-color-danger) 42%, transparent);
@@ -679,37 +679,37 @@ exports[`.btn component > full btn output matches snapshot 1`] = `
     }
     --btn-hover-interior: var(--z-surface-inset-danger-hover);
   }
-  :where(.btn-sm) {
+  .btn-sm {
     padding: 0.42rem 1rem;
     font-size: 0.63rem;
     letter-spacing: 0.12em;
     --btn-corner: var(--z-corner-sm);
   }
-  :where(.btn-lg) {
+  .btn-lg {
     padding: 0.9rem 2.1rem;
     font-size: 0.78rem;
     --btn-corner: var(--z-corner-lg);
   }
-  :where(.btn-icon) {
+  .btn-icon {
     padding: 0.65rem;
     aspect-ratio: 1;
     --btn-corner: var(--z-corner-sm);
   }
-  :where(.btn-cut) {
+  .btn-cut {
     clip-path: polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)));
     border-radius: 0;
     --btn-inner-clip: polygon(1px 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--btn-corner) + 1px)));
   }
-  :where(.btn-bevel) {
+  .btn-bevel {
     clip-path: polygon(var(--btn-corner) 0%, calc(100% - var(--btn-corner)) 0%, 100% var(--btn-corner), 100% calc(100% - var(--btn-corner)), calc(100% - var(--btn-corner)) 100%, var(--btn-corner) 100%, 0% calc(100% - var(--btn-corner)), 0% var(--btn-corner));
     --btn-inner-clip: polygon(calc(var(--btn-corner) + 1px) 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - calc(var(--btn-corner) + 1px)), calc(100% - calc(var(--btn-corner) + 1px)) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--btn-corner) + 1px)), 1px calc(var(--btn-corner) + 1px));
   }
-  :where(.btn-round) {
+  .btn-round {
     clip-path: inset(0 round 9999px);
     border-radius: 9999px;
     --btn-inner-clip: inset(1.5px round 9999px);
   }
-  :where(.btn-square) {
+  .btn-square {
     clip-path: inset(0);
     border-radius: 0;
     --btn-inner-clip: inset(1.5px);
