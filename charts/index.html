@@ -34,14 +34,14 @@
       box-shadow: 0 0 24px color-mix(in srgb, var(--brand) 10%, transparent);
     }
     .chart-preview {
-      padding: 1.5rem;
+      padding: 2rem 2.5rem;
       background: var(--bg3);
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 360px;
-      overflow: hidden;
+      min-height: 300px;
+      overflow: visible;
     }
     .chart-preview > * {
       display: block;
@@ -49,7 +49,6 @@
     }
     .chart-info {
       padding: 1.25rem 1.5rem;
-      height: 100px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -77,10 +76,6 @@
       font-size: 0.8rem;
       color: var(--text2);
       line-height: 1.55;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
     }
   </style>
 </head>
