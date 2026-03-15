@@ -9,7 +9,8 @@
  *   --card-bracket-color   Corner L-bracket stroke colour
  *   --card-bracket-size    Corner bracket arm length (default: 20px)
  *   --card-bracket-stroke  Corner bracket line thickness (default: 1.5px)
- *   --z-card-bar-bg        Top luminescent power-bar gradient (override on element to change per-variant)
+ *   --card-bar-gradient    Top luminescent power-bar gradient (falls back to --z-card-bar-bg genre default)
+ *   --card-bar-shadow      Top power-bar box-shadow glow (falls back to --z-card-bar-shadow)
  *   --card-animation       CSS animation shorthand (e.g. zyna-card-pulse 4s ease-in-out infinite)
  *   --card-glow-lo         Pulse glow colour at rest  (used by zyna-card-pulse keyframe)
  *   --card-glow-hi         Pulse glow colour at peak  (used by zyna-card-pulse keyframe)
@@ -22,9 +23,9 @@
  *   --z-card-border-color            Border colour
  *   --z-card-shadow                  box-shadow
  *   --z-card-bar-height              Top power bar height (Ops = 1px, Cyberpunk = 3px)
- *   --z-card-bar-bg                  Top power bar background. Reads --card-bar-gradient
- *                                    via lazy CSS evaluation so variants auto-update.
- *   --z-card-bar-shadow              Top power bar box-shadow glow
+ *   --z-card-bar-bg                  Top power bar genre default. --card-bar-gradient (public API)
+ *                                    takes priority; this is only the fallback when unset.
+ *   --z-card-bar-shadow              Top power bar box-shadow glow genre default
  *   --z-card-header-bg               Header background tint
  *   --z-card-header-border           Header bottom border colour
  *   --z-card-header-color            Header text colour
@@ -65,8 +66,8 @@ export default function(theme) {
   // so any variant just sets those two variables.
   function cornerBrackets() {
     const c = 'var(--card-bracket-color)'
-    const s = 'var(--z-card-bracket-size)'
-    const t = 'var(--z-card-bracket-stroke)'
+    const s = 'var(--card-bracket-size)'
+    const t = 'var(--card-bracket-stroke)'
     return {
       backgroundImage: [
         `linear-gradient(to right,  ${c}, ${c})`,   // TL — horizontal
@@ -90,10 +91,11 @@ export default function(theme) {
       '--card-gradient':      'var(--z-card-gradient)',
       '--card-border-color':  'var(--z-card-border-color)',
       '--card-shadow':        'var(--z-card-shadow)',
-      // --card-bracket-color is element-level so variants can override it locally.
-      // Size and stroke are read directly from root tokens in cornerBrackets() so the
-      // builder and genre tokens update ::before without @property inheritance issues.
+      // --card-bracket-* are element-level tokens; variants override these locally.
+      // Each falls back to its genre structural token so genres control the defaults.
       '--card-bracket-color':  'var(--z-card-bracket-color)',
+      '--card-bracket-size':   'var(--z-card-bracket-size)',
+      '--card-bracket-stroke': 'var(--z-card-bracket-stroke)',
       // --card-bar-gradient is the public API for the top power-bar colour.
       // Genres set the fallback via --z-card-bar-bg: var(--card-bar-gradient, <default>)
       // so custom variants only need to set --card-bar-gradient on the element.
@@ -221,7 +223,7 @@ export default function(theme) {
       '--card-border-color':  'var(--z-color-border-dim)',
       '--card-shadow':        'var(--z-shadow-card-deep)',
       '--card-bracket-color': 'color-mix(in oklch, var(--zyna) 28%, transparent)',
-      '--z-card-bar-bg':      'linear-gradient(90deg, transparent 0%, color-mix(in oklch, var(--zyna) 38%, transparent) 20%, color-mix(in oklch, var(--zyna) 38%, transparent) 80%, transparent 100%)',
+      '--card-bar-gradient':  'linear-gradient(90deg, transparent 0%, color-mix(in oklch, var(--zyna) 38%, transparent) 20%, color-mix(in oklch, var(--zyna) 38%, transparent) 80%, transparent 100%)',
     },
 
     // ── Animated gold-glow variant — just overrides variables ─────────────────
@@ -232,8 +234,8 @@ export default function(theme) {
     ':where(.card-glow)': {
       '--card-border-color':  'color-mix(in oklch, var(--zyna) 22%, transparent)',
       '--card-bracket-color': 'color-mix(in oklch, var(--zyna) 70%, transparent)',
-      '--z-card-bracket-size': '22px',
-      '--z-card-bar-bg':      'linear-gradient(90deg, transparent 0%, color-mix(in oklch, var(--zyna) 80%, transparent) 20%, color-mix(in oklch, var(--zyna) 80%, transparent) 80%, transparent 100%)',
+      '--card-bracket-size':  '22px',
+      '--card-bar-gradient':  'linear-gradient(90deg, transparent 0%, color-mix(in oklch, var(--zyna) 80%, transparent) 20%, color-mix(in oklch, var(--zyna) 80%, transparent) 80%, transparent 100%)',
       '--card-animation':     'zyna-card-pulse var(--z-card-glow-duration) var(--z-ease-spring) infinite',
       '--card-glow-lo':       'color-mix(in oklch, var(--zyna) 12%, transparent)',
       '--card-glow-hi':       'color-mix(in oklch, var(--zyna) 26%, transparent)',

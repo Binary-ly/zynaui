@@ -15,6 +15,18 @@ import ops from './genres/ops.js'
 export default plugin(
   function({ addBase, theme }) {
     addBase({
+      // ── Token naming tiers — internal vs public API ───────────────────────────
+      // --zp-*   Primitives (raw values: corner sizes, ease curves, palette).
+      //          Internal. Not intended for end users or genres to set directly.
+      // --z-*    Genre structural tokens. Internal to genres — set on :root by
+      //          ops.js defaults and overridden by other genres via JS setProperty.
+      //          Equivalent to the --_name "private" convention from CSS authoring
+      //          practices. End users should not set these directly.
+      // --btn-*  Public element-level tokens exposed per component (--btn-bg,
+      // --card-* --card-bracket-size, etc.). These are the user-facing API.
+      // --badge-* Each falls back to its --z-* genre token so the genre controls
+      // --alert-* the default and element overrides are purely opt-in.
+      //
       // ── Theme bridge ─────────────────────────────────────────────────────────
       // Set --zyna / --zyna-dark from the user's Tailwind config so every
       // component automatically adapts when users extend the zyna palette.
@@ -102,12 +114,15 @@ export default plugin(
       '@property --btn-bg':                { syntax: '"*"',       inherits: 'false', initialValue: 'transparent' },
       '@property --btn-color':             { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(240,235,224,0.55)' },
       // NOTE: --btn-hover-bg, --btn-hover-color, and --btn-hover-interior are intentionally
-      // NOT registered with @property. They rely on CSS fallback chains:
+      // NOT registered with @property. They are the "switch" variables in fallback chains:
       //   var(--btn-hover-bg, var(--btn-bg))
       //   var(--btn-hover-color, var(--btn-color))
       //   var(--btn-hover-interior, var(--btn-interior))
       // @property with initial-value would break these because the property would always
-      // resolve to its initial-value instead of triggering the var() fallback.
+      // resolve to its initial-value instead of being treated as unset and triggering the
+      // var() fallback. The fallback *targets* (--btn-bg, --btn-color, --btn-interior) CAN
+      // be registered safely — they are always set explicitly at the class level, so their
+      // initial-value is never unexpectedly activated.
       '@property --btn-scan-color':        { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(255,255,255,0.07)' },
       '@property --btn-interior':          { syntax: '"<color>"', inherits: 'false', initialValue: 'transparent' },
       // NOTE: --btn-focus-color and --card-bracket-color are intentionally NOT

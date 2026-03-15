@@ -719,6 +719,8 @@ exports[`.badge component > full badge output matches snapshot 1`] = `
     --card-border-color: var(--z-card-border-color);
     --card-shadow: var(--z-card-shadow);
     --card-bracket-color: var(--z-card-bracket-color);
+    --card-bracket-size: var(--z-card-bracket-size);
+    --card-bracket-stroke: var(--z-card-bracket-stroke);
     --card-animation: none;
     --card-glow-lo: var(--z-card-default-glow-lo);
     --card-glow-hi: var(--z-card-default-glow-hi);
@@ -737,7 +739,7 @@ exports[`.badge component > full badge output matches snapshot 1`] = `
       position: absolute;
       inset: 0;
       background-image: linear-gradient(to right,  var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to bottom, var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to left,   var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to bottom, var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to right,  var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to top,    var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to left,   var(--card-bracket-color), var(--card-bracket-color)), linear-gradient(to top,    var(--card-bracket-color), var(--card-bracket-color));
-      background-size: var(--z-card-bracket-size) var(--z-card-bracket-stroke), var(--z-card-bracket-stroke) var(--z-card-bracket-size), var(--z-card-bracket-size) var(--z-card-bracket-stroke), var(--z-card-bracket-stroke) var(--z-card-bracket-size), var(--z-card-bracket-size) var(--z-card-bracket-stroke), var(--z-card-bracket-stroke) var(--z-card-bracket-size), var(--z-card-bracket-size) var(--z-card-bracket-stroke), var(--z-card-bracket-stroke) var(--z-card-bracket-size);
+      background-size: var(--card-bracket-size) var(--card-bracket-stroke), var(--card-bracket-stroke) var(--card-bracket-size), var(--card-bracket-size) var(--card-bracket-stroke), var(--card-bracket-stroke) var(--card-bracket-size), var(--card-bracket-size) var(--card-bracket-stroke), var(--card-bracket-stroke) var(--card-bracket-size), var(--card-bracket-size) var(--card-bracket-stroke), var(--card-bracket-stroke) var(--card-bracket-size);
       background-position: 0 0, 0 0, 100% 0, 100% 0, 0 100%, 0 100%, 100% 100%, 100% 100%;
       background-repeat: no-repeat;
       z-index: 1;
@@ -813,9 +815,9 @@ exports[`.badge component > full badge output matches snapshot 1`] = `
     @supports (color: color-mix(in lab, red, red)) {
       --card-bracket-color: color-mix(in oklch, var(--zyna) 28%, transparent);
     }
-    --z-card-bar-bg: linear-gradient(90deg, transparent 0%, var(--zyna) 20%, var(--zyna) 80%, transparent 100%);
+    --card-bar-gradient: linear-gradient(90deg, transparent 0%, var(--zyna) 20%, var(--zyna) 80%, transparent 100%);
     @supports (color: color-mix(in lab, red, red)) {
-      --z-card-bar-bg: linear-gradient(90deg, transparent 0%, color-mix(in oklch, var(--zyna) 38%, transparent) 20%, color-mix(in oklch, var(--zyna) 38%, transparent) 80%, transparent 100%);
+      --card-bar-gradient: linear-gradient(90deg, transparent 0%, color-mix(in oklch, var(--zyna) 38%, transparent) 20%, color-mix(in oklch, var(--zyna) 38%, transparent) 80%, transparent 100%);
     }
   }
   :where(.card-glow) {
@@ -827,10 +829,10 @@ exports[`.badge component > full badge output matches snapshot 1`] = `
     @supports (color: color-mix(in lab, red, red)) {
       --card-bracket-color: color-mix(in oklch, var(--zyna) 70%, transparent);
     }
-    --z-card-bracket-size: 22px;
-    --z-card-bar-bg: linear-gradient(90deg, transparent 0%, var(--zyna) 20%, var(--zyna) 80%, transparent 100%);
+    --card-bracket-size: 22px;
+    --card-bar-gradient: linear-gradient(90deg, transparent 0%, var(--zyna) 20%, var(--zyna) 80%, transparent 100%);
     @supports (color: color-mix(in lab, red, red)) {
-      --z-card-bar-bg: linear-gradient(90deg, transparent 0%, color-mix(in oklch, var(--zyna) 80%, transparent) 20%, color-mix(in oklch, var(--zyna) 80%, transparent) 80%, transparent 100%);
+      --card-bar-gradient: linear-gradient(90deg, transparent 0%, color-mix(in oklch, var(--zyna) 80%, transparent) 20%, color-mix(in oklch, var(--zyna) 80%, transparent) 80%, transparent 100%);
     }
     --card-animation: zyna-card-pulse var(--z-card-glow-duration) var(--z-ease-spring) infinite;
     --card-glow-lo: var(--zyna);
