@@ -10,7 +10,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=DM+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'" />
   <link rel="stylesheet" href="./zynaui.css" />
-  <script type="module" src="./_genres.js"></script>
+  <link rel="stylesheet" href="./docs.css" />
+  <script type="module" src="./_nav.js"></script>
   <style>
     :root {
       --bg:       #0C0C0F;
@@ -51,116 +52,6 @@
       background-size: 256px 256px;
       opacity: 0.4;
     }
-
-    /* ── Navbar ── */
-    .navbar {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      height: 64px;
-      display: flex; align-items: center;
-      padding: 0 1.5rem;
-      border-bottom: 1px solid transparent;
-      transition: background 200ms, border-color 200ms, box-shadow 200ms;
-    }
-    .navbar.scrolled {
-      background: rgba(12,12,15,0.85);
-      border-color: var(--border);
-      backdrop-filter: blur(16px);
-      box-shadow: 0 1px 0 rgba(255,255,255,0.03);
-    }
-    .navbar-logo {
-      display: flex; align-items: center; gap: 0.5rem;
-      font-weight: 700; font-size: 1.25rem; letter-spacing: -0.02em;
-      flex-shrink: 0;
-    }
-    .navbar-logo .logo-mark {
-      width: 32px; height: 32px; border-radius: 8px;
-      background: linear-gradient(135deg, var(--brand) 0%, var(--brand-d) 100%);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.75rem; font-weight: 900; color: #0C0C0F;
-      letter-spacing: -0.05em;
-    }
-    .navbar-links {
-      display: flex; align-items: center; gap: 0.25rem;
-      margin-left: 2.5rem;
-    }
-    .navbar-links a {
-      padding: 0.375rem 0.75rem;
-      border-radius: var(--radius-sm);
-      font-size: 0.875rem; font-weight: 500; color: var(--text2);
-      transition: color 150ms, background 150ms;
-    }
-    .navbar-links a:hover { color: var(--text); background: var(--bg3); }
-    .navbar-right {
-      margin-left: auto;
-      display: flex; align-items: center; gap: 0.75rem;
-    }
-    .badge-version {
-      padding: 0.2rem 0.6rem; border-radius: 99px;
-      background: color-mix(in srgb, var(--brand) 12%, transparent); color: var(--brand);
-      font-size: 0.7rem; font-weight: 700; font-family: var(--mono);
-      border: 1px solid color-mix(in srgb, var(--brand) 25%, transparent);
-      letter-spacing: 0.05em;
-    }
-    .btn-github {
-      display: flex; align-items: center; gap: 0.5rem;
-      padding: 0.4rem 0.875rem; border-radius: var(--radius-sm);
-      background: var(--bg3); border: 1px solid var(--border);
-      font-size: 0.8rem; font-weight: 600; color: var(--text2);
-      transition: all 150ms;
-    }
-    .btn-github:hover { color: var(--text); border-color: var(--border2); background: var(--bg2); }
-    @media (max-width: 640px) {
-      .navbar-links { display: none; }
-      .navbar-logo .logo-text { display: none; }
-    }
-
-    /* ── Genre selector ── */
-    .genre-selector { position: relative; }
-    .genre-trigger {
-      display: flex; align-items: center; gap: 0.4rem;
-      padding: 0.3rem 0.65rem;
-      background: transparent;
-      border: 1px solid var(--genre-trigger-color, var(--brand));
-      border-radius: var(--radius-sm);
-      color: var(--genre-trigger-color, var(--brand));
-      font-family: var(--mono); font-size: 0.72rem; font-weight: 700;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      cursor: pointer;
-      transition: background 150ms, box-shadow 150ms;
-    }
-    .genre-trigger:hover {
-      background: color-mix(in srgb, var(--genre-trigger-color, var(--brand)) 8%, transparent);
-      box-shadow: 0 0 12px color-mix(in srgb, var(--genre-trigger-color, var(--brand)) 25%, transparent);
-    }
-    .genre-trigger[aria-expanded="true"] {
-      background: color-mix(in srgb, var(--genre-trigger-color, var(--brand)) 10%, transparent);
-    }
-    .genre-panel {
-      position: absolute; top: calc(100% + 8px); right: 0;
-      min-width: 180px;
-      background: rgba(12,11,20,0.97);
-      border: 1px solid color-mix(in srgb, var(--brand) 25%, transparent);
-      border-radius: var(--radius-sm);
-      padding: 0.4rem;
-      backdrop-filter: blur(16px);
-      box-shadow: 0 16px 48px rgba(0,0,0,0.7);
-      display: none; flex-direction: column; gap: 2px;
-      z-index: 200;
-    }
-    .genre-panel.open { display: flex; }
-    .genre-option {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0.5rem 0.65rem;
-      border-radius: 4px;
-      cursor: pointer;
-      font-family: var(--mono); font-size: 0.75rem; font-weight: 600;
-      color: var(--text2);
-      transition: background 120ms, color 120ms;
-    }
-    .genre-option:hover { background: rgba(255,255,255,0.05); color: var(--text); }
-    .genre-option[aria-selected="true"] { color: var(--brand); }
-    .genre-swatches { display: flex; gap: 3px; }
-    .genre-swatch { width: 8px; height: 8px; border-radius: 50%; }
 
     /* ── Hero ── */
     .hero {
@@ -218,39 +109,6 @@
     }
 
     /* ── Hero component preview (floating cards) ── */
-    .hero-preview {
-      position: relative; width: 100%; max-width: 900px;
-      margin-top: 5rem;
-      animation: fade-up 0.7s 0.5s ease both;
-      z-index: 1;
-    }
-    .preview-window {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04) inset;
-    }
-    .preview-titlebar {
-      display: flex; align-items: center; gap: 0.5rem;
-      padding: 0.75rem 1rem;
-      border-bottom: 1px solid var(--border);
-      background: rgba(255,255,255,0.02);
-    }
-    .dot { width: 10px; height: 10px; border-radius: 50%; }
-    .dot-red { background: #FF5F57; }
-    .dot-yellow { background: #FEBC2E; }
-    .dot-green { background: #28C840; }
-    .preview-titlebar-url {
-      flex: 1; text-align: center;
-      font-size: 0.75rem; color: var(--text3); font-family: var(--mono);
-    }
-    .preview-body {
-      padding: 1.5rem;
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
-    }
-
     /* ── Sections ── */
     section { position: relative; z-index: 1; }
     .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
@@ -318,6 +176,29 @@
     }
     .feature-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem; }
     .feature-text { font-size: 0.875rem; color: var(--text2); line-height: 1.6; }
+
+    /* ── Genre Builder section ── */
+    .genre-builder-section { padding: 6rem 0; border-top: 1px solid var(--border); }
+    .genre-builder-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+    }
+    @media (max-width: 768px) { .genre-builder-inner { grid-template-columns: 1fr; gap: 2.5rem; } }
+    .genre-builder-swatches { display: flex; flex-direction: column; gap: 1rem; }
+    .genre-swatch-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.25rem 1.5rem;
+    }
+    .genre-swatch-card--cyber {
+      background: rgba(0,8,1,0.8);
+      border-color: color-mix(in srgb, #39FF14 25%, transparent);
+      box-shadow: 0 0 0 1px color-mix(in srgb, #39FF14 10%, transparent);
+    }
+    .gsw-label {
+      font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--text3); margin-bottom: 0.75rem;
+    }
+    .gsw-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
 
     /* ── Component showcase ── */
     .components-section { padding: 6rem 0; background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
@@ -600,37 +481,7 @@
 <body>
 
   <!-- ── NAVBAR ── -->
-  <header>
-  <nav class="navbar" id="navbar">
-    <a href="/" class="navbar-logo">
-      <div class="logo-mark">Z</div>
-      <span class="logo-text">zyna<span style="color:var(--brand)">ui</span></span>
-    </a>
-    <div class="navbar-links">
-      <a href="components/btn/">Components</a>
-      <a href="charts/waffle/">Charts</a>
-      <a href="#install">Install</a>
-    </div>
-    <div class="navbar-right">
-      <span class="badge-version">v0.1.0-beta</span>
-      <div class="genre-selector" id="genre-selector">
-        <button class="genre-trigger" id="genre-trigger" aria-haspopup="listbox" aria-expanded="false">
-          <span class="genre-trigger-label">[ <span id="genre-active-name">OPS</span> ]</span>
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-            <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-        <div class="genre-panel" id="genre-panel" role="listbox" tabindex="0" aria-label="Select genre">
-          <!-- populated by JS -->
-        </div>
-      </div>
-      <a href="https://github.com/binary-ly/zynaui" class="btn-github" target="_blank">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
-        GitHub
-      </a>
-    </div>
-  </nav>
-  </header>
+  <header id="topbar"></header>
 
   <main>
 
@@ -661,76 +512,9 @@
       <a href="components/btn/" class="btn btn-ghost">
         Browse components
       </a>
-      <a href="charts/waffle/" class="btn btn-ghost">
-        View charts →
+      <a href="genres/" class="btn btn-ghost">
+        Genre Builder →
       </a>
-    </div>
-
-    <!-- Preview window -->
-    <div class="hero-preview">
-      <div class="preview-window">
-        <div class="preview-titlebar">
-          <div class="dot dot-red"></div>
-          <div class="dot dot-yellow"></div>
-          <div class="dot dot-green"></div>
-          <span class="preview-titlebar-url">localhost:5173 — Zyna UI Preview</span>
-        </div>
-        <div class="preview-body">
-          <!-- Left col: Buttons + Badges -->
-          <div style="display:flex;flex-direction:column;gap:1.25rem">
-            <div>
-              <p style="font-size:0.58rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.14em;font-weight:700;font-family:var(--mono);margin-bottom:0.6rem">// Buttons</p>
-              <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.4rem">
-                <button class="btn btn-primary btn-sm">Execute</button>
-                <button class="btn btn-secondary btn-sm">Standby</button>
-              </div>
-              <div style="display:flex;flex-wrap:wrap;gap:0.4rem">
-                <button class="btn btn-ghost btn-sm">Dismiss</button>
-                <button class="btn btn-danger btn-sm">Abort</button>
-              </div>
-            </div>
-            <div>
-              <p style="font-size:0.58rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.14em;font-weight:700;font-family:var(--mono);margin-bottom:0.6rem">// Badges</p>
-              <div style="display:flex;flex-wrap:wrap;gap:0.35rem">
-                <span class="badge badge-success badge-pulse">Online</span>
-                <span class="badge badge-danger">Critical</span>
-                <span class="badge badge-warning">Alert</span>
-                <span class="badge badge-info">Sync</span>
-                <span class="badge badge-neutral">Idle</span>
-              </div>
-            </div>
-            <div>
-              <p style="font-size:0.58rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.14em;font-weight:700;font-family:var(--mono);margin-bottom:0.6rem">// Alerts</p>
-              <div style="display:flex;flex-direction:column;gap:0.35rem">
-                <div class="alert alert-success" role="alert" style="padding:0.5rem 0.875rem">
-                  <div><p class="alert-title" style="font-size:0.65rem">Uplink Established</p></div>
-                </div>
-                <div class="alert alert-danger" role="alert" style="padding:0.5rem 0.875rem">
-                  <div><p class="alert-title" style="font-size:0.65rem">System Breach</p></div>
-                </div>
-                <div class="alert alert-info" role="alert" style="padding:0.5rem 0.875rem">
-                  <div><p class="alert-title" style="font-size:0.65rem">Signal Received</p></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Right col: Card -->
-          <div style="display:flex;align-items:center;justify-content:center">
-            <div class="card card-glow" style="width:100%">
-              <div class="card-header">Mission Data</div>
-              <div class="card-body">
-                <p class="card-title">Q1 Field Report</p>
-                <p class="card-subtitle">Libya Aid Programme · 2024</p>
-                <span class="badge badge-success badge-pulse" style="margin-top:0.5rem;display:inline-flex">Transmitted</span>
-              </div>
-              <div class="card-footer" style="display:flex;justify-content:flex-end;gap:0.5rem">
-                <button class="btn btn-ghost btn-sm">Discard</button>
-                <button class="btn btn-primary btn-sm">Confirm</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -840,6 +624,49 @@
           </div>
           <div class="feature-title">TypeScript Ready</div>
           <div class="feature-text">Type definitions for all chart Web Component attributes and events. IDE autocomplete works for both the plugin and the chart components.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── GENRE BUILDER ── -->
+  <section class="genre-builder-section">
+    <div class="container">
+      <div class="genre-builder-inner reveal">
+        <div class="genre-builder-text">
+          <span class="section-label">Theming</span>
+          <h2 class="section-title" style="font-size:2rem">Two looks built in.<br>Build your own.</h2>
+          <p class="section-sub" style="max-width:480px">Genres swap the whole token set at once — colors, easing curves, corner shapes, motion speed. Pick Ops (gold military HUD) or Cyberpunk (acid green terminal), tweak live in the browser, and paste one config line into your project.</p>
+          <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:2rem">
+            <a href="genres/" class="btn btn-primary">
+              Open Genre Builder
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="genre-builder-swatches">
+          <div class="genre-swatch-card">
+            <div class="gsw-label">// ops</div>
+            <div style="display:flex;gap:0.5rem;margin-bottom:1rem">
+              <span class="gsw-dot" style="background:#C9A84C"></span>
+              <span class="gsw-dot" style="background:#00FFB2"></span>
+              <span class="gsw-dot" style="background:#FF3366"></span>
+              <span class="gsw-dot" style="background:#00D4FF"></span>
+            </div>
+            <button class="btn btn-primary btn-sm">Execute</button>
+            <button class="btn btn-secondary btn-sm" style="margin-left:0.4rem">Standby</button>
+          </div>
+          <div class="genre-swatch-card genre-swatch-card--cyber">
+            <div class="gsw-label" style="color:#39FF14">// cyberpunk</div>
+            <div style="display:flex;gap:0.5rem;margin-bottom:1rem">
+              <span class="gsw-dot" style="background:#39FF14"></span>
+              <span class="gsw-dot" style="background:#39FF14"></span>
+              <span class="gsw-dot" style="background:#FF073A"></span>
+              <span class="gsw-dot" style="background:#7B61FF"></span>
+            </div>
+            <button class="btn btn-primary btn-sm" style="--zyna:#39FF14;--zyna-dark:#1A8A00;--z-btn-clip:inset(0)">Execute</button>
+            <button class="btn btn-secondary btn-sm" style="--zyna:#39FF14;--zyna-dark:#1A8A00;--z-btn-clip:inset(0);--z-btn-inner-clip:inset(1.5px);margin-left:0.4rem">Standby</button>
+          </div>
         </div>
       </div>
     </div>
@@ -1393,7 +1220,7 @@
     <div class="container">
       <div class="footer-grid">
         <div>
-          <div class="navbar-logo" style="position:static">
+          <div class="topbar-logo" style="position:static">
             <div class="logo-mark">Z</div>
             <span>zyna<span style="color:var(--brand)">ui</span></span>
           </div>
@@ -1433,11 +1260,7 @@
   </footer>
 
   <script>
-    // ── Navbar scroll effect ──
-    const navbar = document.getElementById('navbar')
-    window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 20)
-    }, { passive: true })
+    // ── Navbar scroll effect (handled by _nav.js for the topbar--hero state) ──
 
     // ── Tab switching ──
     function switchTab(btn, panelId) {
@@ -1543,106 +1366,5 @@
     }, { passive: true })
   </script>
 
-  <script type="module">
-    import { GENRES, applyGenre } from './_genres.js'
-
-    const trigger = document.getElementById('genre-trigger')
-    const panel   = document.getElementById('genre-panel')
-    const nameEl  = document.getElementById('genre-active-name')
-    if (trigger && panel && nameEl) {
-      let activeName
-      try { activeName = localStorage.getItem('zyna-genre') || 'Ops' } catch { activeName = 'Ops' }
-
-      function setTriggerColor(genre) {
-        trigger.style.setProperty('--genre-trigger-color', genre.swatches.brand)
-      }
-
-      function buildPanel() {
-        panel.innerHTML = GENRES.map((genre, i) => {
-          const isActive = genre.name === activeName
-          const swatches = Object.values(genre.swatches).map(c =>
-            `<span class="genre-swatch" style="background:${c}"></span>`
-          ).join('')
-          return `<div class="genre-option" role="option" id="idx-genre-opt-${i}" aria-selected="${isActive}" data-genre="${genre.name}" tabindex="-1">
-            <span>${genre.name}</span>
-            <span class="genre-swatches">${swatches}</span>
-          </div>`
-        }).join('')
-        const activeOpt = panel.querySelector('[aria-selected="true"]')
-        if (activeOpt) panel.setAttribute('aria-activedescendant', activeOpt.id)
-      }
-
-      function updateActive(name) {
-        activeName = name
-        nameEl.textContent = name.toUpperCase()
-        const genre = GENRES.find(g => g.name === name)
-        if (genre) setTriggerColor(genre)
-        panel.querySelectorAll('.genre-option').forEach(el => {
-          const isMatch = el.dataset.genre === name
-          el.setAttribute('aria-selected', String(isMatch))
-          if (isMatch) panel.setAttribute('aria-activedescendant', el.id)
-        })
-      }
-
-      function openPanel()  { panel.classList.add('open');    trigger.setAttribute('aria-expanded', 'true');  panel.focus()  }
-      function closePanel() { panel.classList.remove('open'); trigger.setAttribute('aria-expanded', 'false') }
-
-      buildPanel()
-      updateActive(activeName)
-
-      trigger.addEventListener('click', () => {
-        panel.classList.contains('open') ? closePanel() : openPanel()
-      })
-
-      panel.addEventListener('click', e => {
-        const option = e.target.closest('.genre-option')
-        if (!option) return
-        applyGenre(option.dataset.genre)
-        updateActive(option.dataset.genre)
-        closePanel()
-      })
-
-      document.addEventListener('click', e => {
-        const selector = document.getElementById('genre-selector')
-        if (selector && !selector.contains(e.target)) closePanel()
-      })
-
-      document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') {
-          closePanel()
-          trigger.focus()
-          return
-        }
-        if (!panel.classList.contains('open')) return
-        const options = [...panel.querySelectorAll('[role="option"]')]
-        if (!options.length) return
-        const currentId = panel.getAttribute('aria-activedescendant')
-        const currentEl = currentId ? document.getElementById(currentId) : null
-        const idx = currentEl ? options.indexOf(currentEl) : -1
-        let nextIdx = idx
-        if (e.key === 'ArrowDown') {
-          e.preventDefault()
-          nextIdx = Math.min(idx + 1, options.length - 1)
-        } else if (e.key === 'ArrowUp') {
-          e.preventDefault()
-          nextIdx = Math.max(idx - 1, 0)
-        } else if (e.key === 'Home') {
-          e.preventDefault()
-          nextIdx = 0
-        } else if (e.key === 'End') {
-          e.preventDefault()
-          nextIdx = options.length - 1
-        } else if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault()
-          if (currentEl) currentEl.click()
-          return
-        }
-        if (nextIdx !== idx && nextIdx >= 0) {
-          panel.setAttribute('aria-activedescendant', options[nextIdx].id)
-          options[nextIdx].scrollIntoView({ block: 'nearest' })
-        }
-      })
-    }
-  </script>
 </body>
 </html>
