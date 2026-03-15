@@ -11,12 +11,6 @@ const NAV_COMPONENTS = [
     ]
   },
   {
-    label: 'Theming',
-    items: [
-      { label: 'Genre Builder', href: '/genres/' }
-    ]
-  },
-  {
     label: 'Components',
     items: [
       { label: 'All Components', href: '/components/' },
@@ -60,7 +54,9 @@ function topbarHTML() {
       <div class="logo-mark">Z</div>
       <span>zyna<span style="color:var(--brand)">ui</span></span>
     </a>
-    <div class="topbar-divider"></div>
+    <a href="/components/" class="topbar-nav-link">Components</a>
+    <a href="/charts/" class="topbar-nav-link">Charts</a>
+    <a href="/genres/" class="topbar-nav-link">Genre Builder</a>
     <div class="topbar-right">
       <span class="badge-version">v0.1.0-beta</span>
       <div class="genre-selector" id="genre-selector">
@@ -277,6 +273,17 @@ export function init() {
 
     // Init genre switcher
     initGenreSwitcher()
+
+    // Hero scroll transparency — landing page only
+    if (currentPath === '/') {
+      const topbar = document.getElementById('topbar')
+      if (topbar) {
+        topbar.classList.add('topbar--hero')
+        window.addEventListener('scroll', () => {
+          topbar.classList.toggle('topbar--scrolled', window.scrollY > 20)
+        }, { passive: true })
+      }
+    }
 
     // Persist category open/close state
     document.querySelectorAll('.sidebar-category').forEach(details => {
