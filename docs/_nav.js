@@ -51,7 +51,6 @@ function getNav(path) {
 function topbarHTML() {
   return `
     <a href="/" class="topbar-logo">
-      <div class="logo-mark">Z</div>
       <span>zyna<span style="color:var(--brand)">ui</span></span>
     </a>
     <a href="/components/" class="topbar-nav-link">Components</a>
@@ -271,6 +270,19 @@ export function init() {
     const sidebarEl = document.getElementById('sidebar')
     if (sidebarEl) sidebarEl.innerHTML = sidebarHTML(currentPath)
 
+    // Inject mobile nav overlay for pages without a sidebar (e.g. landing page)
+    if (!sidebarEl) {
+      const mobileNav = document.createElement('nav')
+      mobileNav.id = 'mobile-nav'
+      mobileNav.setAttribute('aria-label', 'Mobile navigation')
+      mobileNav.innerHTML = `
+        <a href="/components/" class="mobile-nav-link">Components</a>
+        <a href="/charts/" class="mobile-nav-link">Charts</a>
+        <a href="/genres/" class="mobile-nav-link">Genre Builder</a>
+      `
+      document.body.insertBefore(mobileNav, document.body.firstChild)
+    }
+
     // Init genre switcher
     initGenreSwitcher()
 
@@ -305,12 +317,14 @@ export function init() {
       })
     }
 
-    // Close sidebar on overlay click (mobile)
+    // Close nav on overlay click (mobile)
     document.addEventListener('click', e => {
       if (!document.body.classList.contains('nav-open')) return
       const sidebar = document.getElementById('sidebar')
+      const mobileNav = document.getElementById('mobile-nav')
       const hamburger = document.getElementById('nav-hamburger')
-      if (sidebar && !sidebar.contains(e.target) && !hamburger?.contains(e.target)) {
+      const clickedInsideNav = sidebar?.contains(e.target) || mobileNav?.contains(e.target)
+      if (!clickedInsideNav && !hamburger?.contains(e.target)) {
         document.body.classList.remove('nav-open')
         hamburger?.setAttribute('aria-expanded', 'false')
       }
