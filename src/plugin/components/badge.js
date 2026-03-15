@@ -36,7 +36,7 @@ import shapes from '../shapes.js'
 export default function(theme) {
   return {
     // ── Base ─────────────────────────────────────────────────────────────────
-    '.badge': {
+    ':where(.badge)': {
       '--badge-bg':         'var(--z-color-overlay)',
       '--badge-color':      'var(--z-color-text-muted)',  // WCAG AA ≥4.5:1 on dark
       '--badge-glow':       'none',
@@ -112,7 +112,7 @@ export default function(theme) {
     // The inner-clip technique uses the badge bg as a border rim and ::before to
     // fill the dark interior. Defaults to brand gold; semantic classes override
     // --badge-color (and thus currentColor) since they are declared after this rule.
-    '.badge-outline': {
+    ':where(.badge-outline)': {
       '--badge-color':    `color-mix(in oklch, var(--zyna) 85%, white)`,
       '--badge-bg':       'color-mix(in oklch, currentColor 80%, transparent)',
       '--badge-interior': 'var(--z-surface-inset)',
@@ -121,54 +121,54 @@ export default function(theme) {
 
     // ── Semantic variants ─────────────────────────────────────────────────────
 
-    '.badge-primary': {
+    ':where(.badge-primary)': {
       '--badge-bg':    'color-mix(in oklch, var(--zyna) 13%, transparent)',
       '--badge-color': 'color-mix(in oklch, var(--zyna) 90%, white)',
       '--badge-glow':  'drop-shadow(0 0 5px color-mix(in oklch, var(--zyna) 40%, transparent)) drop-shadow(0 0 14px color-mix(in oklch, var(--zyna) 14%, transparent))',
     },
 
-    '.badge-secondary': {
+    ':where(.badge-secondary)': {
       '--badge-bg':    'color-mix(in oklch, var(--zyna) 5%, transparent)',
       // Bumped from 65% → 80% to clear WCAG AA (≈5.3:1 on dark bg)
       '--badge-color': 'color-mix(in oklch, var(--zyna) 80%, transparent)',
     },
 
     // Alien mint
-    '.badge-success': {
+    ':where(.badge-success)': {
       '--badge-bg':    'color-mix(in oklch, var(--z-color-success) 10%, transparent)',
       '--badge-color': 'var(--z-color-success)',
       '--badge-glow':  'drop-shadow(0 0 5px color-mix(in oklch, var(--z-color-success) 45%, transparent)) drop-shadow(0 0 14px color-mix(in oklch, var(--z-color-success) 14%, transparent))',
     },
 
     // Neon crimson
-    '.badge-danger': {
+    ':where(.badge-danger)': {
       '--badge-bg':    'color-mix(in oklch, var(--z-color-danger) 10%, transparent)',
       '--badge-color': 'var(--z-color-danger)',
       '--badge-glow':  'drop-shadow(0 0 5px color-mix(in oklch, var(--z-color-danger) 45%, transparent)) drop-shadow(0 0 14px color-mix(in oklch, var(--z-color-danger) 14%, transparent))',
     },
 
     // Amber
-    '.badge-warning': {
+    ':where(.badge-warning)': {
       '--badge-bg':    'color-mix(in oklch, var(--z-color-warning) 10%, transparent)',
       '--badge-color': 'var(--z-color-warning)',
       '--badge-glow':  'drop-shadow(0 0 5px color-mix(in oklch, var(--z-color-warning) 40%, transparent)) drop-shadow(0 0 12px color-mix(in oklch, var(--z-color-warning) 12%, transparent))',
     },
 
     // Electric cyan
-    '.badge-info': {
+    ':where(.badge-info)': {
       '--badge-bg':    'color-mix(in oklch, var(--z-color-info) 10%, transparent)',
       '--badge-color': 'var(--z-color-info)',
       '--badge-glow':  'drop-shadow(0 0 5px color-mix(in oklch, var(--z-color-info) 45%, transparent)) drop-shadow(0 0 14px color-mix(in oklch, var(--z-color-info) 14%, transparent))',
     },
 
     // WCAG AA: bumped from 0.35 → 0.55 opacity
-    '.badge-neutral': {
+    ':where(.badge-neutral)': {
       '--badge-bg':    'var(--z-color-overlay)',
       '--badge-color': 'var(--z-color-text-muted)',
     },
 
     // ── Pulsing status dot — expanding ring via animated box-shadow ───────────
-    '.badge-pulse': {
+    ':where(.badge-pulse)': {
       '--badge-dot-size': '5px',
       '&::before': {
         // Reset position properties inherited from .badge::before — the dot must
@@ -187,7 +187,7 @@ export default function(theme) {
       },
     },
 
-    '.badge-lg': {
+    ':where(.badge-lg)': {
       padding: '0.32rem 1.05rem',
       fontSize: '0.68rem',
       '--badge-offset':   'var(--zp-corner-badge-lg)',
@@ -197,21 +197,21 @@ export default function(theme) {
     // ── Shape modifiers ────────────────────────────────────────────────────────
     // .badge-beta.badge-lg works — .badge-lg sets --badge-offset, the bevel polygon uses it.
     // Each modifier also sets --badge-inner-clip so .badge-outline traces the correct shape.
-    '.badge-alpha': {
+    ':where(.badge-alpha)': {
       clipPath: shapes.slant('var(--badge-offset)'),
       '--badge-inner-clip': `polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), 2px calc(100% - 2px))`,
     },
-    '.badge-delta': {
+    ':where(.badge-delta)': {
       clipPath: 'inset(0 round 3px)',
       borderRadius: '3px',
       '--badge-inner-clip': 'inset(2px round 3px)',
     },
-    '.badge-gamma': {
+    ':where(.badge-gamma)': {
       clipPath: 'inset(0 round 9999px)',
       borderRadius: '9999px',
       '--badge-inner-clip': 'inset(2px round 9999px)',
     },
-    '.badge-beta': {
+    ':where(.badge-beta)': {
       clipPath: shapes.bevel('var(--badge-offset)').outer,
       '--badge-inner-clip': `polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) 2px, calc(100% - 2px) calc(var(--badge-offset) + 2px), calc(100% - 2px) calc(100% - calc(var(--badge-offset) + 2px)), calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), calc(var(--badge-offset) + 2px) calc(100% - 2px), 2px calc(100% - calc(var(--badge-offset) + 2px)), 2px calc(var(--badge-offset) + 2px))`,
     },

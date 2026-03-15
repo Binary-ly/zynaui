@@ -99,10 +99,10 @@ export default function(theme) {
 
   return {
     // ── Base — also targets [role="alert"] for accessible markup ──────────────
-    '.alert': base,
-    '[role="alert"]': base,
+    ':where(.alert)': base,
+    ':where([role="alert"])': base,
 
-    '.alert-icon': {
+    ':where(.alert-icon)': {
       flexShrink: '0',
       width: '1.1rem',
       height: '1.1rem',
@@ -110,7 +110,7 @@ export default function(theme) {
     },
 
     // Terminal-style title with // comment prefix
-    '.alert-title': {
+    ':where(.alert-title)': {
       fontFamily: 'var(--z-font-mono)',
       fontSize: '0.62rem',
       fontWeight: '700',
@@ -136,7 +136,7 @@ export default function(theme) {
     // Ops default: 5.5% (subtle tint). Cyberpunk: 14% (vivid, saturated fill).
 
     // Alien mint — system online
-    '.alert-success': {
+    ':where(.alert-success)': {
       '--alert-bar-color':    'var(--z-color-success)',
       '--alert-bg':           'color-mix(in oklch, var(--z-color-success) var(--z-alert-bg-opacity), transparent)',
       '--alert-color':        'color-mix(in oklch, var(--z-color-success) 88%, transparent)',
@@ -145,7 +145,7 @@ export default function(theme) {
     },
 
     // Neon crimson — breach detected
-    '.alert-danger': {
+    ':where(.alert-danger)': {
       '--alert-bar-color':    'var(--z-color-danger)',
       '--alert-bg':           'color-mix(in oklch, var(--z-color-danger) var(--z-alert-bg-opacity), transparent)',
       '--alert-color':        'color-mix(in oklch, var(--z-color-danger) 88%, transparent)',
@@ -154,7 +154,7 @@ export default function(theme) {
     },
 
     // Amber — caution state
-    '.alert-warning': {
+    ':where(.alert-warning)': {
       '--alert-bar-color':    'var(--z-color-warning)',
       '--alert-bg':           'color-mix(in oklch, var(--z-color-warning) var(--z-alert-bg-opacity), transparent)',
       '--alert-color':        'color-mix(in oklch, var(--z-color-warning) 88%, transparent)',
@@ -163,7 +163,7 @@ export default function(theme) {
     },
 
     // Electric cyan — incoming signal
-    '.alert-info': {
+    ':where(.alert-info)': {
       '--alert-bar-color':    'var(--z-color-info)',
       '--alert-bg':           'color-mix(in oklch, var(--z-color-info) var(--z-alert-bg-opacity), transparent)',
       '--alert-color':        'color-mix(in oklch, var(--z-color-info) 88%, transparent)',
@@ -171,21 +171,21 @@ export default function(theme) {
       '--alert-title-shadow': '0 0 12px color-mix(in oklch, var(--z-color-info) 65%, transparent)',
     },
 
-    '.alert-neutral': {
+    ':where(.alert-neutral)': {
       '--alert-bar-color': 'var(--z-color-border-dim)',
       '--alert-bg':        'var(--z-color-overlay)',
       '--alert-color':     'var(--z-color-text-dim)',
     },
 
-    '.alert-dark': {
+    ':where(.alert-dark)': {
       '--alert-bar-color': 'color-mix(in oklch, white 14%, transparent)',
       '--alert-bg':        'color-mix(in oklch, white 3%, transparent)',
       '--alert-color':     'var(--z-color-text-dim)',
     },
 
     // ── Shape modifiers ────────────────────────────────────────────────────────
-    '.alert-alpha': { borderRadius: '0' },
-    '.alert-beta': {
+    ':where(.alert-alpha)': { borderRadius: '0' },
+    ':where(.alert-beta)': {
       borderRadius: '9999px',
       // Reset padding-left — beta has no visible bar
       padding: '0.875rem 1.25rem',

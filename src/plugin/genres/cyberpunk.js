@@ -111,34 +111,34 @@ export const styles = {
   // These are class-level CSS variable overrides (not global tokens) so they must
   // live here as scoped rules. The base badge structure (clip, padding, border) is
   // handled entirely via tokens above — no specificity fights needed.
-  'html[data-genre="cyberpunk"] .badge-primary': {
+  ':where(html[data-genre="cyberpunk"]) :where(.badge-primary)': {
     '--badge-bg':   'color-mix(in oklch, var(--zyna) 20%, transparent)',
     '--badge-glow': 'drop-shadow(0 0 8px color-mix(in oklch, var(--zyna) 70%, transparent)) drop-shadow(0 0 20px color-mix(in oklch, var(--zyna) 28%, transparent))',
   },
-  'html[data-genre="cyberpunk"] .badge-success': {
+  ':where(html[data-genre="cyberpunk"]) :where(.badge-success)': {
     '--badge-bg':   'color-mix(in oklch, var(--z-color-success) 18%, transparent)',
     '--badge-glow': 'drop-shadow(0 0 8px color-mix(in oklch, var(--z-color-success) 70%, transparent)) drop-shadow(0 0 18px color-mix(in oklch, var(--z-color-success) 28%, transparent))',
   },
-  'html[data-genre="cyberpunk"] .badge-danger': {
+  ':where(html[data-genre="cyberpunk"]) :where(.badge-danger)': {
     '--badge-bg':   'color-mix(in oklch, var(--z-color-danger) 18%, transparent)',
     '--badge-glow': 'drop-shadow(0 0 8px color-mix(in oklch, var(--z-color-danger) 70%, transparent)) drop-shadow(0 0 18px color-mix(in oklch, var(--z-color-danger) 28%, transparent))',
   },
-  'html[data-genre="cyberpunk"] .badge-warning': {
+  ':where(html[data-genre="cyberpunk"]) :where(.badge-warning)': {
     '--badge-bg':   'color-mix(in oklch, var(--z-color-warning) 18%, transparent)',
     '--badge-glow': 'drop-shadow(0 0 8px color-mix(in oklch, var(--z-color-warning) 65%, transparent)) drop-shadow(0 0 16px color-mix(in oklch, var(--z-color-warning) 25%, transparent))',
   },
-  'html[data-genre="cyberpunk"] .badge-info': {
+  ':where(html[data-genre="cyberpunk"]) :where(.badge-info)': {
     '--badge-bg':   'color-mix(in oklch, var(--z-color-info) 18%, transparent)',
     '--badge-glow': 'drop-shadow(0 0 8px color-mix(in oklch, var(--z-color-info) 70%, transparent)) drop-shadow(0 0 18px color-mix(in oklch, var(--z-color-info) 28%, transparent))',
   },
-  'html[data-genre="cyberpunk"] .badge-secondary': {
+  ':where(html[data-genre="cyberpunk"]) :where(.badge-secondary)': {
     '--badge-bg':   'color-mix(in oklch, var(--zyna) 10%, transparent)',
     '--badge-glow': 'drop-shadow(0 0 6px color-mix(in oklch, var(--zyna) 45%, transparent))',
   },
 
   // ── Body scan-line overlay ────────────────────────────────────────────────────
   // Cannot be tokenised — pseudo-element creation requires a selector rule.
-  'html[data-genre="cyberpunk"] body::before': {
+  ':where(html[data-genre="cyberpunk"]) body::before': {
     content: '""',
     position: 'fixed',
     inset: '0',
