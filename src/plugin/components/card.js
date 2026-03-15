@@ -257,7 +257,7 @@ export default function(theme) {
     },
 
     // ── Shape modifiers ────────────────────────────────────────────────────────
-    ':where(.card-alpha)': { borderRadius: 'var(--z-corner-xl)', clipPath: 'none' },
-    ':where(.card-beta)':   { clipPath: shapes.bevel('var(--zp-corner-card)').outer, borderRadius: '0' },
+    ':where(.card-round)': { borderRadius: 'var(--z-corner-xl)', clipPath: 'none' },
+    ':where(.card-bevel)':   { clipPath: shapes.bevel('var(--zp-corner-card)').outer, borderRadius: '0' },
   }
 }

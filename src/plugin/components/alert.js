@@ -184,10 +184,10 @@ export default function(theme) {
     },
 
     // ── Shape modifiers ────────────────────────────────────────────────────────
-    ':where(.alert-alpha)': { borderRadius: '0' },
-    ':where(.alert-beta)': {
+    ':where(.alert-square)': { borderRadius: '0' },
+    ':where(.alert-round)': {
       borderRadius: '9999px',
-      // Reset padding-left — beta has no visible bar
+      // Reset padding-left — round has no visible bar
       padding: '0.875rem 1.25rem',
       border: 'none',
       boxShadow: 'inset 0 0 0 var(--z-alert-bar-width) var(--alert-bar-color)',

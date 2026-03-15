@@ -76,7 +76,7 @@ export default function(theme) {
     '--btn-interior':   'transparent',
     // --z-btn-inner-clip: genre structural token. Syncs the outlined interior clip with the
     // genre's default shape (Cyberpunk = inset(1.5px) for rectangular interior fill).
-    // Explicit shape modifiers (.btn-delta, .btn-alpha, etc.) override this directly.
+    // Explicit shape modifiers (.btn-square, .btn-cut, etc.) override this directly.
     '--btn-inner-clip': 'var(--z-btn-inner-clip)',
 
     // Structure
@@ -253,12 +253,12 @@ export default function(theme) {
 
     // ── Shape modifiers ────────────────────────────────────────────────────────
     // Size classes set --btn-corner; shape modifiers change the polygon formula.
-    // Combined (e.g. .btn-beta.btn-sm) works without compound selectors because
+    // Combined (e.g. .btn-bevel.btn-sm) works without compound selectors because
     // .btn-sm updates --btn-corner and the cut polygon uses it automatically.
 
-    ':where(.btn-alpha)': (({ outer, inner }) => ({ clipPath: outer, borderRadius: '0', '--btn-inner-clip': inner }))(shapes.diagonal('var(--btn-corner)')),
-    ':where(.btn-beta)':  (({ outer, inner }) => ({ clipPath: outer, '--btn-inner-clip': inner }))(shapes.bevel('var(--btn-corner)')),
-    ':where(.btn-gamma)': { clipPath: shapes.rounded.clipPath, borderRadius: '9999px', '--btn-inner-clip': shapes.rounded.innerClip },
-    ':where(.btn-delta)': { clipPath: shapes.rect.clipPath, borderRadius: shapes.rect.borderRadius, '--btn-inner-clip': shapes.rect.innerClip },
+    ':where(.btn-cut)': (({ outer, inner }) => ({ clipPath: outer, borderRadius: '0', '--btn-inner-clip': inner }))(shapes.diagonal('var(--btn-corner)')),
+    ':where(.btn-bevel)':  (({ outer, inner }) => ({ clipPath: outer, '--btn-inner-clip': inner }))(shapes.bevel('var(--btn-corner)')),
+    ':where(.btn-round)': { clipPath: shapes.rounded.clipPath, borderRadius: '9999px', '--btn-inner-clip': shapes.rounded.innerClip },
+    ':where(.btn-square)': { clipPath: shapes.rect.clipPath, borderRadius: shapes.rect.borderRadius, '--btn-inner-clip': shapes.rect.innerClip },
   }
 }

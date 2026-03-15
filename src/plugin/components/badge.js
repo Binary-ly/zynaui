@@ -67,7 +67,7 @@ export default function(theme) {
       // applies the parallelogram directly on the element (avoids a nested @property
       // <length> var chain on :root that can break clip-path resolution in Ops).
       // Cyberpunk sets --z-badge-clip: inset(0) — no nested vars, resolves correctly.
-      // Shape modifiers (.badge-alpha, .badge-beta, etc.) set clipPath directly, which
+      // Shape modifiers (.badge-slant, .badge-bevel, etc.) set clipPath directly, which
       // always wins over this token — no specificity re-scoping needed per genre.
       clipPath: `var(--z-badge-clip, ${shapes.slant('var(--badge-offset)')})`,
       borderRadius: 'var(--z-badge-radius)',
@@ -195,23 +195,23 @@ export default function(theme) {
     },
 
     // ── Shape modifiers ────────────────────────────────────────────────────────
-    // .badge-beta.badge-lg works — .badge-lg sets --badge-offset, the bevel polygon uses it.
+    // .badge-bevel.badge-lg works — .badge-lg sets --badge-offset, the bevel polygon uses it.
     // Each modifier also sets --badge-inner-clip so .badge-outline traces the correct shape.
-    ':where(.badge-alpha)': {
+    ':where(.badge-slant)': {
       clipPath: shapes.slant('var(--badge-offset)'),
       '--badge-inner-clip': `polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), 2px calc(100% - 2px))`,
     },
-    ':where(.badge-delta)': {
+    ':where(.badge-rect)': {
       clipPath: 'inset(0 round 3px)',
       borderRadius: '3px',
       '--badge-inner-clip': 'inset(2px round 3px)',
     },
-    ':where(.badge-gamma)': {
+    ':where(.badge-pill)': {
       clipPath: 'inset(0 round 9999px)',
       borderRadius: '9999px',
       '--badge-inner-clip': 'inset(2px round 9999px)',
     },
-    ':where(.badge-beta)': {
+    ':where(.badge-bevel)': {
       clipPath: shapes.bevel('var(--badge-offset)').outer,
       '--badge-inner-clip': `polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) 2px, calc(100% - 2px) calc(var(--badge-offset) + 2px), calc(100% - 2px) calc(100% - calc(var(--badge-offset) + 2px)), calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), calc(var(--badge-offset) + 2px) calc(100% - 2px), 2px calc(100% - calc(var(--badge-offset) + 2px)), 2px calc(var(--badge-offset) + 2px))`,
     },
