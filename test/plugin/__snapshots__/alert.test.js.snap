@@ -750,8 +750,8 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
       left: 0;
       right: 0;
       height: var(--z-card-bar-height);
-      background: var(--z-card-bar-bg);
-      box-shadow: var(--z-card-bar-shadow);
+      background: var(--card-bar-gradient, var(--z-card-bar-bg));
+      box-shadow: var(--card-bar-shadow, var(--z-card-bar-shadow));
       z-index: 1;
       pointer-events: none;
     }
@@ -762,15 +762,15 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
   }
   :where(.card-header) {
     padding: 0.7rem 1.25rem;
-    border-bottom: 1px solid var(--z-card-header-border);
-    background: var(--z-card-header-bg);
+    border-bottom: 1px solid var(--card-header-border, var(--z-card-header-border));
+    background: var(--card-header-bg, var(--z-card-header-bg));
     font-family: var(--z-font-mono);
     font-size: 0.62rem;
     font-weight: 700;
     letter-spacing: var(--z-card-header-letter-spacing);
     text-transform: uppercase;
-    color: var(--z-card-header-color);
-    text-shadow: var(--z-card-header-text-shadow);
+    color: var(--card-header-color, var(--z-card-header-color));
+    text-shadow: var(--card-header-text-shadow, var(--z-card-header-text-shadow));
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -780,15 +780,15 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
       width: var(--z-card-header-dot-size);
       height: var(--z-card-header-dot-size);
       border-radius: 50%;
-      background: var(--z-card-header-dot-bg);
+      background: var(--card-header-dot-color, var(--z-card-header-dot-bg));
       flex-shrink: 0;
-      box-shadow: var(--z-card-header-dot-shadow);
+      box-shadow: var(--card-header-dot-shadow, var(--z-card-header-dot-shadow));
       animation: var(--z-card-header-dot-animation);
     }
   }
   :where(.card-footer) {
     padding: 0.7rem 1.25rem;
-    border-top: 1px solid var(--z-card-header-border);
+    border-top: 1px solid var(--card-header-border, var(--z-card-header-border));
   }
   :where(.card-title) {
     font-size: 1.1rem;
@@ -796,7 +796,7 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
     letter-spacing: -0.025em;
     line-height: 1.3;
     color: var(--z-color-text-solid);
-    text-shadow: var(--z-card-title-text-shadow);
+    text-shadow: var(--card-title-text-shadow, var(--z-card-title-text-shadow));
     margin-bottom: 0.2rem;
   }
   :where(.card-subtitle) {
