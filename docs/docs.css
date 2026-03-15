@@ -210,8 +210,11 @@ details summary::-webkit-details-marker { display: none; }
   border-bottom: 1px solid var(--border);
 }
 .breadcrumb {
-  display: flex; align-items: center; gap: 0.4rem;
   font-size: 0.72rem; color: var(--text3); margin-bottom: 0.75rem;
+}
+.breadcrumb ol {
+  display: flex; align-items: center; gap: 0.4rem;
+  list-style: none; margin: 0; padding: 0;
 }
 .breadcrumb a { color: var(--brand); }
 .breadcrumb-sep { opacity: 0.4; }
