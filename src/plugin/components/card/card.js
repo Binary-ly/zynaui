@@ -57,7 +57,7 @@
  *     --card-animation:     zyna-card-pulse 4s ease-in-out infinite;
  *   }
  */
-import shapes from '../shapes.js'
+import shapes from '../../utils/shapes.js'
 
 export default function(theme) {
   // All 4 corner L-brackets drawn as 8 stacked background-image gradients

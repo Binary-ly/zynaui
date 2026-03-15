@@ -6,7 +6,7 @@
  * index.js spreads them into :root so components read them without fallbacks —
  * no var(--token, hardcoded-fallback) pattern needed in components.
  */
-import shapes from '../shapes.js'
+import shapes from '../utils/shapes.js'
 
 export const name = 'Ops'
 
