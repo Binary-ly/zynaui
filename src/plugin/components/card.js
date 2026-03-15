@@ -211,8 +211,8 @@ export default function(theme) {
       '--card-gradient':      'var(--z-surface-card-deep)',
       '--card-border-color':  'var(--z-color-border-dim)',
       '--card-shadow':        'var(--z-shadow-card-deep)',
-      '--card-bracket-color': 'color-mix(in srgb, var(--zyna) 28%, transparent)',
-      '--z-card-bar-bg':      'linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--zyna) 38%, transparent) 20%, color-mix(in srgb, var(--zyna) 38%, transparent) 80%, transparent 100%)',
+      '--card-bracket-color': 'color-mix(in oklch, var(--zyna) 28%, transparent)',
+      '--z-card-bar-bg':      'linear-gradient(90deg, transparent 0%, color-mix(in oklch, var(--zyna) 38%, transparent) 20%, color-mix(in oklch, var(--zyna) 38%, transparent) 80%, transparent 100%)',
     },
 
     // ── Animated gold-glow variant — just overrides variables ─────────────────
@@ -221,13 +221,13 @@ export default function(theme) {
     // In Cyberpunk, --zyna = #39FF14 so these color-mix expressions automatically
     // produce neon-green pulse glows without any additional genre overrides.
     '.card-glow': {
-      '--card-border-color':  'color-mix(in srgb, var(--zyna) 22%, transparent)',
-      '--card-bracket-color': 'color-mix(in srgb, var(--zyna) 70%, transparent)',
+      '--card-border-color':  'color-mix(in oklch, var(--zyna) 22%, transparent)',
+      '--card-bracket-color': 'color-mix(in oklch, var(--zyna) 70%, transparent)',
       '--z-card-bracket-size': '22px',
-      '--z-card-bar-bg':      'linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--zyna) 80%, transparent) 20%, color-mix(in srgb, var(--zyna) 80%, transparent) 80%, transparent 100%)',
+      '--z-card-bar-bg':      'linear-gradient(90deg, transparent 0%, color-mix(in oklch, var(--zyna) 80%, transparent) 20%, color-mix(in oklch, var(--zyna) 80%, transparent) 80%, transparent 100%)',
       '--card-animation':     'zyna-card-pulse var(--z-card-glow-duration) var(--z-ease-spring) infinite',
-      '--card-glow-lo':       'color-mix(in srgb, var(--zyna) 12%, transparent)',
-      '--card-glow-hi':       'color-mix(in srgb, var(--zyna) 26%, transparent)',
+      '--card-glow-lo':       'color-mix(in oklch, var(--zyna) 12%, transparent)',
+      '--card-glow-hi':       'color-mix(in oklch, var(--zyna) 26%, transparent)',
     },
 
     '.card-compact .card-header': {
