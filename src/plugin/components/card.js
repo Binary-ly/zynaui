@@ -101,6 +101,10 @@ export default function(theme) {
       '--card-glow-hi':       'var(--z-card-default-glow-hi)',
 
       position: 'relative',
+      // Off-screen cards skip rendering entirely; contain-intrinsic-size provides
+      // a placeholder height so the scroll bar doesn't jank when they come into view.
+      contentVisibility: 'auto',
+      containIntrinsicSize: 'auto 200px',
       // Scopes layout and style to this element so the browser skips costly
       // cross-tree invalidations when card contents change.
       // Note: contain:paint is intentionally excluded — it creates a new stacking

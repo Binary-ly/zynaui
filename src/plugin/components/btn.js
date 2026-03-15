@@ -184,6 +184,11 @@ export default function(theme) {
       '--btn-hover-filter':      `drop-shadow(0 0 22px var(--zyna)) drop-shadow(0 0 60px color-mix(in oklch, var(--zyna) 45%, transparent)) brightness(1.10)`,
       '--btn-hover-text-shadow': `0 0 20px color-mix(in oklch, var(--zyna) 55%, white)`,
       '--btn-active-filter':     `brightness(0.80) drop-shadow(0 0 8px color-mix(in oklch, var(--zyna) 60%, transparent))`,
+      // 3 chained hover filters (2x drop-shadow + brightness) can be expensive on
+      // low-end GPUs — provide a single-function reduced fallback.
+      '@media (prefers-reduced-motion: reduce)': {
+        '--btn-hover-filter': 'brightness(1.10)',
+      },
     },
 
     // ── Secondary: outlined gold — polygon border technique ───────────────────
