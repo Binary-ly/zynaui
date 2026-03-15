@@ -907,15 +907,15 @@
       <div class="gb-identity">
         <div class="gb-identity-name">
           <div class="gb-label">Name</div>
-          <input id="gb-name" class="gb-text-input" type="text" value="Custom" spellcheck="false" />
+          <input id="gb-name" class="gb-text-input" type="text" value="Custom" spellcheck="false" aria-label="Genre name" />
         </div>
         <div class="gb-identity-color">
           <div class="gb-label">Brand</div>
           <div class="gb-color-row">
             <div class="gb-swatch" id="gb-brand-swatch-wrap">
-              <input type="color" id="gb-brand-picker" value="#C9A84C" />
+              <input type="color" id="gb-brand-picker" value="#C9A84C" aria-label="Brand color" />
             </div>
-            <input id="gb-brand-hex" class="gb-hex-input" type="text" value="#C9A84C" spellcheck="false" maxlength="7" />
+            <input id="gb-brand-hex" class="gb-hex-input" type="text" value="#C9A84C" spellcheck="false" maxlength="7" aria-label="Brand hex" />
           </div>
         </div>
       </div>
@@ -932,40 +932,40 @@
             <div class="gb-field">
               <div class="gb-label" style="margin-bottom:0.2rem">Brand <span style="opacity:0.5">--zyna</span></div>
               <div class="gb-color-row">
-                <div class="gb-swatch"><input type="color" id="gb-c-brand" value="#C9A84C" /></div>
-                <input id="gb-h-brand" class="gb-hex-input" style="flex:1" type="text" value="#C9A84C" maxlength="7" spellcheck="false" />
+                <div class="gb-swatch"><input type="color" id="gb-c-brand" value="#C9A84C" aria-label="Brand color" /></div>
+                <input id="gb-h-brand" class="gb-hex-input" style="flex:1" type="text" value="#C9A84C" maxlength="7" spellcheck="false" aria-label="Brand hex" />
               </div>
             </div>
 
             <div class="gb-field">
               <div class="gb-label" style="margin-bottom:0.2rem">Success <span style="opacity:0.5">--zp-success</span></div>
               <div class="gb-color-row">
-                <div class="gb-swatch"><input type="color" id="gb-c-success" value="#00FFB2" /></div>
-                <input id="gb-h-success" class="gb-hex-input" style="flex:1" type="text" value="#00FFB2" maxlength="7" spellcheck="false" />
+                <div class="gb-swatch"><input type="color" id="gb-c-success" value="#00FFB2" aria-label="Success color" /></div>
+                <input id="gb-h-success" class="gb-hex-input" style="flex:1" type="text" value="#00FFB2" maxlength="7" spellcheck="false" aria-label="Success hex" />
               </div>
             </div>
 
             <div class="gb-field">
               <div class="gb-label" style="margin-bottom:0.2rem">Danger <span style="opacity:0.5">--zp-danger</span></div>
               <div class="gb-color-row">
-                <div class="gb-swatch"><input type="color" id="gb-c-danger" value="#FF3366" /></div>
-                <input id="gb-h-danger" class="gb-hex-input" style="flex:1" type="text" value="#FF3366" maxlength="7" spellcheck="false" />
+                <div class="gb-swatch"><input type="color" id="gb-c-danger" value="#FF3366" aria-label="Danger color" /></div>
+                <input id="gb-h-danger" class="gb-hex-input" style="flex:1" type="text" value="#FF3366" maxlength="7" spellcheck="false" aria-label="Danger hex" />
               </div>
             </div>
 
             <div class="gb-field">
               <div class="gb-label" style="margin-bottom:0.2rem">Warning <span style="opacity:0.5">--zp-warning</span></div>
               <div class="gb-color-row">
-                <div class="gb-swatch"><input type="color" id="gb-c-warning" value="#FFB800" /></div>
-                <input id="gb-h-warning" class="gb-hex-input" style="flex:1" type="text" value="#FFB800" maxlength="7" spellcheck="false" />
+                <div class="gb-swatch"><input type="color" id="gb-c-warning" value="#FFB800" aria-label="Warning color" /></div>
+                <input id="gb-h-warning" class="gb-hex-input" style="flex:1" type="text" value="#FFB800" maxlength="7" spellcheck="false" aria-label="Warning hex" />
               </div>
             </div>
 
             <div class="gb-field">
               <div class="gb-label" style="margin-bottom:0.2rem">Info <span style="opacity:0.5">--zp-info</span></div>
               <div class="gb-color-row">
-                <div class="gb-swatch"><input type="color" id="gb-c-info" value="#00D4FF" /></div>
-                <input id="gb-h-info" class="gb-hex-input" style="flex:1" type="text" value="#00D4FF" maxlength="7" spellcheck="false" />
+                <div class="gb-swatch"><input type="color" id="gb-c-info" value="#00D4FF" aria-label="Info color" /></div>
+                <input id="gb-h-info" class="gb-hex-input" style="flex:1" type="text" value="#00D4FF" maxlength="7" spellcheck="false" aria-label="Info hex" />
               </div>
             </div>
 
@@ -982,7 +982,7 @@
                 <span>Fast <span style="opacity:0.5">--z-duration-fast</span></span>
                 <span class="gb-val-badge" id="lbl-dur-fast">0.18s</span>
               </div>
-              <input class="gb-range" type="range" id="gb-dur-fast" min="0.05" max="0.8" step="0.01" value="0.18" />
+              <input class="gb-range" type="range" id="gb-dur-fast" min="0.05" max="0.8" step="0.01" value="0.18" aria-label="Fast duration" />
             </div>
 
             <div class="gb-field">
@@ -990,7 +990,7 @@
                 <span>Base <span style="opacity:0.5">--z-duration-base</span></span>
                 <span class="gb-val-badge" id="lbl-dur-base">0.22s</span>
               </div>
-              <input class="gb-range" type="range" id="gb-dur-base" min="0.05" max="0.8" step="0.01" value="0.22" />
+              <input class="gb-range" type="range" id="gb-dur-base" min="0.05" max="0.8" step="0.01" value="0.22" aria-label="Base duration" />
             </div>
 
             <div class="gb-field">
@@ -998,7 +998,7 @@
                 <span>Slow <span style="opacity:0.5">--z-duration-slow</span></span>
                 <span class="gb-val-badge" id="lbl-dur-slow">0.28s</span>
               </div>
-              <input class="gb-range" type="range" id="gb-dur-slow" min="0.05" max="0.8" step="0.01" value="0.28" />
+              <input class="gb-range" type="range" id="gb-dur-slow" min="0.05" max="0.8" step="0.01" value="0.28" aria-label="Slow duration" />
             </div>
 
           </div>
@@ -1041,7 +1041,7 @@
                 <button class="gb-chip gb-chip-font" data-val="ui-monospace, monospace">System</button>
                 <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
               </div>
-              <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-font-mono" style="display:none;margin-top:6px" spellcheck="false" />
+              <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-font-mono" style="display:none;margin-top:6px" spellcheck="false" aria-label="Custom mono font" />
             </div>
           </div>
         </details>
@@ -1082,7 +1082,7 @@
                   <span>Corner Rounding</span>
                   <span class="gb-val-badge" id="lbl-custom-radius">0</span>
                 </div>
-                <input class="gb-range" type="range" id="gb-custom-radius" min="0" max="20" step="0.5" value="0" />
+                <input class="gb-range" type="range" id="gb-custom-radius" min="0" max="20" step="0.5" value="0" aria-label="Corner rounding" />
                 <div style="display:flex;gap:0.35rem;margin-top:0.75rem;flex-wrap:wrap">
                   <button class="gb-shape-reset" data-shape="diagonal">↩ Diagonal</button>
                   <button class="gb-shape-reset" data-shape="rect">↩ Rect</button>
@@ -1098,7 +1098,7 @@
                   <span>Active Scale <span style="opacity:0.5">--z-btn-active-scale</span></span>
                   <span class="gb-val-badge" id="lbl-btn-scale">0.96</span>
                 </div>
-                <input class="gb-range" type="range" id="gb-btn-scale" min="0.8" max="1.0" step="0.01" value="0.96" />
+                <input class="gb-range" type="range" id="gb-btn-scale" min="0.8" max="1.0" step="0.01" value="0.96" aria-label="Active scale" />
               </div>
 
               <div class="gb-field">
@@ -1106,7 +1106,7 @@
                   <span>Scan Stop <span style="opacity:0.5">--z-btn-scan-stop</span></span>
                   <span class="gb-val-badge" id="lbl-btn-scan">70%</span>
                 </div>
-                <input class="gb-range" type="range" id="gb-btn-scan" min="0" max="100" step="1" value="70" />
+                <input class="gb-range" type="range" id="gb-btn-scan" min="0" max="100" step="1" value="70" aria-label="Scan stop" />
               </div>
 
 
@@ -1140,7 +1140,7 @@
                   <span>Corner Rounding</span>
                   <span class="gb-val-badge" id="lbl-badge-custom-radius">0</span>
                 </div>
-                <input class="gb-range" type="range" id="gb-badge-custom-radius" min="0" max="20" step="0.5" value="0" />
+                <input class="gb-range" type="range" id="gb-badge-custom-radius" min="0" max="20" step="0.5" value="0" aria-label="Badge corner rounding" />
                 <div style="display:flex;gap:0.35rem;margin-top:0.75rem;flex-wrap:wrap">
                   <button class="gb-shape-reset" data-shape="slant">↩ Slant</button>
                   <button class="gb-shape-reset" data-shape="rect">↩ Rect</button>
@@ -1159,7 +1159,7 @@
                   <button class="gb-chip" data-val="0.28rem 1.1rem">Loose</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
-                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-badge-padding-val" style="display:none;margin-top:6px" spellcheck="false" />
+                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-badge-padding-val" style="display:none;margin-top:6px" spellcheck="false" aria-label="Custom badge padding" />
               </div>
 
               <div class="gb-field">
@@ -1167,7 +1167,7 @@
                   <span>Letter Spacing <span style="opacity:0.5">--z-badge-letter-spacing</span></span>
                   <span class="gb-val-badge" id="lbl-badge-ls">0.13em</span>
                 </div>
-                <input class="gb-range" type="range" id="gb-badge-ls" min="0" max="0.3" step="0.01" value="0.13" />
+                <input class="gb-range" type="range" id="gb-badge-ls" min="0" max="0.3" step="0.01" value="0.13" aria-label="Badge letter spacing" />
               </div>
 
               <div class="gb-subgroup-label">Animation</div>
@@ -1177,7 +1177,7 @@
                   <span>Scan Duration <span style="opacity:0.5">--z-badge-scan-duration</span></span>
                   <span class="gb-val-badge" id="lbl-badge-scan">5s</span>
                 </div>
-                <input class="gb-range" type="range" id="gb-badge-scan" min="1" max="15" step="0.5" value="5" />
+                <input class="gb-range" type="range" id="gb-badge-scan" min="1" max="15" step="0.5" value="5" aria-label="Badge scan duration" />
               </div>
 
               <div class="gb-subgroup-label">Style</div>
@@ -1191,7 +1191,7 @@
                   <button class="gb-chip" data-val="inset 0 0 0 1px currentColor, inset 0 0 8px color-mix(in srgb, currentColor 30%, transparent)">Ring + Glow</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
-                <textarea class="gb-textarea gb-chipset-reveal" id="gb-badge-inset" style="display:none" spellcheck="false">none</textarea>
+                <textarea class="gb-textarea gb-chipset-reveal" id="gb-badge-inset" style="display:none" spellcheck="false" aria-label="Custom inset shadow">none</textarea>
               </div>
 
             </div>
@@ -1217,7 +1217,7 @@
                   <span>Bar Width <span style="opacity:0.5">--z-alert-bar-width</span></span>
                   <span class="gb-val-badge" id="lbl-alert-bw">3px</span>
                 </div>
-                <input class="gb-range" type="range" id="gb-alert-bw" min="1" max="8" step="0.5" value="3" />
+                <input class="gb-range" type="range" id="gb-alert-bw" min="1" max="8" step="0.5" value="3" aria-label="Alert bar width" />
               </div>
 
               <div class="gb-field">
@@ -1225,7 +1225,7 @@
                   <span>BG Opacity <span style="opacity:0.5">--z-alert-bg-opacity</span></span>
                   <span class="gb-val-badge" id="lbl-alert-bg">5.5%</span>
                 </div>
-                <input class="gb-range" type="range" id="gb-alert-bg" min="0" max="20" step="0.5" value="5.5" />
+                <input class="gb-range" type="range" id="gb-alert-bg" min="0" max="20" step="0.5" value="5.5" aria-label="Alert background opacity" />
               </div>
 
               <div class="gb-subgroup-label">Style</div>
@@ -1239,7 +1239,7 @@
                   <button class="gb-chip" data-val="url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Ccircle cx='2' cy='2' r='0.6' fill='rgba(255,255,255,0.07)'/%3E%3C/svg%3E&quot;)">Dots</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
-                <textarea class="gb-textarea gb-chipset-reveal" id="gb-alert-texture" style="display:none" spellcheck="false">none</textarea>
+                <textarea class="gb-textarea gb-chipset-reveal" id="gb-alert-texture" style="display:none" spellcheck="false" aria-label="Custom alert texture">none</textarea>
               </div>
 
               <div class="gb-subgroup-label">Text</div>
@@ -1255,7 +1255,7 @@
                   <button class="gb-chip" data-val='""' style="letter-spacing:0">∅</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
-                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-alert-prefix" style="display:none;margin-top:6px" spellcheck="false" data-quote-wrap="true" />
+                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-alert-prefix" style="display:none;margin-top:6px" spellcheck="false" data-quote-wrap="true" aria-label="Custom alert prefix" />
               </div>
 
               <div class="gb-subgroup-label">Shape</div>
@@ -1270,7 +1270,7 @@
                   <button class="gb-chip" data-val="9999px" title="Pill">Pill</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
-                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-alert-radius-val" style="display:none;margin-top:6px" spellcheck="false" />
+                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-alert-radius-val" style="display:none;margin-top:6px" spellcheck="false" aria-label="Custom alert radius" />
               </div>
 
               <div class="gb-field">
@@ -1282,12 +1282,12 @@
                   <button class="gb-chip" data-val="1px solid rgba(255,255,255,0.07)">Subtle</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
-                <textarea class="gb-textarea gb-chipset-reveal" id="gb-alert-border" style="display:none" spellcheck="false">none</textarea>
+                <textarea class="gb-textarea gb-chipset-reveal" id="gb-alert-border" style="display:none" spellcheck="false" aria-label="Custom alert border">none</textarea>
               </div>
 
               <div class="gb-field">
                 <div class="gb-field-label"><span>Prefix Opacity <span style="opacity:0.5">--z-alert-prefix-opacity</span></span><span class="gb-val-badge" id="lbl-alert-pxop">0.38</span></div>
-                <input class="gb-range" type="range" id="gb-alert-pxop" min="0" max="1" step="0.01" value="0.38" />
+                <input class="gb-range" type="range" id="gb-alert-pxop" min="0" max="1" step="0.01" value="0.38" aria-label="Alert prefix opacity" />
               </div>
 
 
@@ -1307,7 +1307,7 @@
                   <span>Bar Height <span style="opacity:0.5">--z-card-bar-height</span></span>
                   <span class="gb-val-badge" id="lbl-card-bh">1px</span>
                 </div>
-                <input class="gb-range" type="range" id="gb-card-bh" min="0" max="8" step="0.5" value="1" />
+                <input class="gb-range" type="range" id="gb-card-bh" min="0" max="8" step="0.5" value="1" aria-label="Card bar height" />
               </div>
 
               <div class="gb-field">
@@ -1322,7 +1322,7 @@
                     <button class="gb-chip" data-val="0 0 24px var(--zyna), 0 0 60px color-mix(in srgb, var(--zyna) 35%, transparent)">Flare</button>
                     <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                   </div>
-                  <textarea class="gb-textarea gb-chipset-reveal" id="gb-card-bar-shadow" style="display:none" spellcheck="false"></textarea>
+                  <textarea class="gb-textarea gb-chipset-reveal" id="gb-card-bar-shadow" style="display:none" spellcheck="false" aria-label="Custom bar shadow"></textarea>
                 </div>
               </div>
 
@@ -1334,7 +1334,7 @@
                   <span>Bracket Size <span style="opacity:0.5">--z-card-bracket-size</span></span>
                   <span class="gb-val-badge" id="lbl-card-bs">20px</span>
                 </div>
-                <input class="gb-range" type="range" id="gb-card-bs" min="10" max="40" step="1" value="20" />
+                <input class="gb-range" type="range" id="gb-card-bs" min="10" max="40" step="1" value="20" aria-label="Bracket size" />
               </div>
 
               <div class="gb-field">
@@ -1342,7 +1342,7 @@
                   <span>Bracket Stroke <span style="opacity:0.5">--z-card-bracket-stroke</span></span>
                   <span class="gb-val-badge" id="lbl-card-bstroke">1.5px</span>
                 </div>
-                <input class="gb-range" type="range" id="gb-card-bstroke" min="0.5" max="4" step="0.5" value="1.5" />
+                <input class="gb-range" type="range" id="gb-card-bstroke" min="0.5" max="4" step="0.5" value="1.5" aria-label="Bracket stroke" />
               </div>
 
               <div class="gb-field">
@@ -1354,7 +1354,7 @@
                   <button class="gb-chip" data-val="transparent">None</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
-                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-bracket-color" style="display:none;margin-top:6px" spellcheck="false" />
+                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-bracket-color" style="display:none;margin-top:6px" spellcheck="false" aria-label="Custom bracket color" />
               </div>
 
               <!-- ── Header ── -->
@@ -1369,7 +1369,7 @@
                   <button class="gb-chip" data-val="var(--bg2)">Surface</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
-                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-header-bg" style="display:none;margin-top:6px" spellcheck="false" />
+                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-header-bg" style="display:none;margin-top:6px" spellcheck="false" aria-label="Custom header background" />
               </div>
 
               <div class="gb-field">
@@ -1380,7 +1380,7 @@
                   <button class="gb-chip" data-val="transparent">None</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
-                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-header-border-val" style="display:none;margin-top:6px" spellcheck="false" />
+                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-header-border-val" style="display:none;margin-top:6px" spellcheck="false" aria-label="Custom header border" />
               </div>
 
               <div class="gb-field">
@@ -1392,7 +1392,7 @@
                   <button class="gb-chip" data-val="var(--z-color-text)">Text</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
-                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-header-color" style="display:none;margin-top:6px" spellcheck="false" />
+                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-header-color" style="display:none;margin-top:6px" spellcheck="false" aria-label="Custom header color" />
               </div>
 
               <div class="gb-field">
@@ -1400,7 +1400,7 @@
                   <span>Letter Spacing <span style="opacity:0.5">--z-card-header-letter-spacing</span></span>
                   <span class="gb-val-badge" id="lbl-card-hls">0.14em</span>
                 </div>
-                <input class="gb-range" type="range" id="gb-card-hls" min="0" max="0.3" step="0.01" value="0.14" />
+                <input class="gb-range" type="range" id="gb-card-hls" min="0" max="0.3" step="0.01" value="0.14" aria-label="Header letter spacing" />
               </div>
 
               <div class="gb-field">
@@ -1415,7 +1415,7 @@
                     <button class="gb-chip" data-val="0 0 1px rgba(255,255,255,0.9), 0 0 24px color-mix(in srgb, var(--zyna) 80%, transparent)">Bloom</button>
                     <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                   </div>
-                  <textarea class="gb-textarea gb-chipset-reveal" id="gb-card-header-ts" style="display:none" spellcheck="false"></textarea>
+                  <textarea class="gb-textarea gb-chipset-reveal" id="gb-card-header-ts" style="display:none" spellcheck="false" aria-label="Custom header text shadow"></textarea>
                 </div>
               </div>
 
@@ -1426,7 +1426,7 @@
                   <span>Dot Size <span style="opacity:0.5">--z-card-header-dot-size</span></span>
                   <span class="gb-val-badge" id="lbl-card-dot-size">5px</span>
                 </div>
-                <input class="gb-range" type="range" id="gb-card-dot-size" min="3" max="12" step="0.5" value="5" />
+                <input class="gb-range" type="range" id="gb-card-dot-size" min="3" max="12" step="0.5" value="5" aria-label="Dot size" />
               </div>
 
               <div class="gb-field">
@@ -1438,7 +1438,7 @@
                   <button class="gb-chip" data-val="var(--z-color-success)">Success</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
-                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-dot-bg" style="display:none;margin-top:6px" spellcheck="false" />
+                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-dot-bg" style="display:none;margin-top:6px" spellcheck="false" aria-label="Custom dot color" />
               </div>
 
               <div class="gb-field">
@@ -1449,7 +1449,7 @@
                   <button class="gb-chip" data-val="0 0 10px var(--zyna), 0 0 24px color-mix(in srgb, var(--zyna) 50%, transparent)">Neon</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
-                <textarea class="gb-textarea gb-chipset-reveal" id="gb-card-dot-shadow" style="display:none" spellcheck="false"></textarea>
+                <textarea class="gb-textarea gb-chipset-reveal" id="gb-card-dot-shadow" style="display:none" spellcheck="false" aria-label="Custom dot shadow"></textarea>
               </div>
 
               <div class="gb-field">
@@ -1460,7 +1460,7 @@
                   <button class="gb-chip" data-val="zyna-pulse 2s ease-in-out infinite">Pulse</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
-                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-dot-anim" style="display:none;margin-top:6px" spellcheck="false" />
+                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-dot-anim" style="display:none;margin-top:6px" spellcheck="false" aria-label="Custom dot animation" />
               </div>
 
               <!-- ── Content ── -->
@@ -1478,7 +1478,7 @@
                     <button class="gb-chip" data-val="0 0 1px rgba(255,255,255,0.8), 0 0 20px color-mix(in srgb, var(--zyna) 50%, transparent)">Bloom</button>
                     <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                   </div>
-                  <textarea class="gb-textarea gb-chipset-reveal" id="gb-card-title-ts" style="display:none" spellcheck="false"></textarea>
+                  <textarea class="gb-textarea gb-chipset-reveal" id="gb-card-title-ts" style="display:none" spellcheck="false" aria-label="Custom title text shadow"></textarea>
                 </div>
               </div>
 
@@ -1490,7 +1490,7 @@
                   <span>Glow Duration <span style="opacity:0.5">--z-card-glow-duration</span></span>
                   <span class="gb-val-badge" id="lbl-card-glow">4s</span>
                 </div>
-                <input class="gb-range" type="range" id="gb-card-glow" min="2" max="12" step="0.5" value="4" />
+                <input class="gb-range" type="range" id="gb-card-glow" min="2" max="12" step="0.5" value="4" aria-label="Glow duration" />
               </div>
 
               <div class="gb-field">
@@ -1502,7 +1502,7 @@
                   <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 20%, transparent)">Strong</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
-                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-glow-lo" style="display:none;margin-top:6px" spellcheck="false" />
+                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-glow-lo" style="display:none;margin-top:6px" spellcheck="false" aria-label="Custom glow low color" />
               </div>
 
               <div class="gb-field">
@@ -1514,7 +1514,7 @@
                   <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 36%, transparent)">Strong</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
-                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-glow-hi" style="display:none;margin-top:6px" spellcheck="false" />
+                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-glow-hi" style="display:none;margin-top:6px" spellcheck="false" aria-label="Custom glow high color" />
               </div>
 
               <!-- ── Surface ── -->
@@ -1529,7 +1529,7 @@
                   <button class="gb-chip" data-val="transparent">None</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
-                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-border-color" style="display:none;margin-top:6px" spellcheck="false" />
+                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-border-color" style="display:none;margin-top:6px" spellcheck="false" aria-label="Custom border color" />
               </div>
 
               <div class="gb-field">
@@ -1541,7 +1541,7 @@
                   <button class="gb-chip" data-val="0 0 0 1px color-mix(in srgb, var(--zyna) 25%, transparent), 0 8px 32px rgba(0,0,0,0.6)">Neon Halo</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
-                <textarea class="gb-textarea gb-chipset-reveal" id="gb-card-shadow-val" style="display:none" spellcheck="false">var(--z-shadow-card)</textarea>
+                <textarea class="gb-textarea gb-chipset-reveal" id="gb-card-shadow-val" style="display:none" spellcheck="false" aria-label="Custom card shadow">var(--z-shadow-card)</textarea>
               </div>
 
             </div>
