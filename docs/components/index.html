@@ -100,6 +100,36 @@
         <p class="page-desc">Semantic Tailwind CSS components. Every component exposes a CSS variable API so you can create custom variants without touching the source — override only what you need.</p>
       </div>
 
+      <!-- Token Architecture -->
+      <div class="doc-section">
+        <h2 class="section-title">How theming works</h2>
+        <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.5rem">Every component uses a two-tier token system. Knowing which tier to reach for keeps your CSS minimal and genre-aware.</p>
+        <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+
+          <div style="padding:1.5rem;background:color-mix(in srgb,var(--brand) 5%,transparent)">
+            <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;font-family:var(--mono);color:var(--brand);margin-bottom:0.5rem">Tier 1 — Genre tokens</div>
+            <div style="font-family:var(--mono);font-size:0.8rem;color:var(--brand);margin-bottom:0.85rem">--z-btn-*&nbsp;&nbsp;--z-card-*&nbsp;&nbsp;…</div>
+            <p style="font-size:0.82rem;color:var(--text2);line-height:1.65;margin-bottom:1rem">Live on <code style="font-family:var(--mono);font-size:0.8em;color:var(--text2);background:var(--bg3);padding:0.1rem 0.35rem;border-radius:3px">:root</code>. Set by the active genre. Changing one value repaints <strong style="color:var(--text)">every component</strong> on the page simultaneously.</p>
+            <a href="/genres/" style="display:inline-flex;align-items:center;gap:0.35rem;font-size:0.78rem;font-family:var(--mono);color:var(--brand);text-decoration:none;letter-spacing:0.04em">Edit in Genre Builder →</a>
+          </div>
+
+          <div style="width:1px;background:var(--border);display:flex;align-items:center;justify-content:center;position:relative">
+            <span style="position:absolute;background:var(--bg2);padding:0.4rem 0.2rem;font-size:0.65rem;color:var(--text2);font-family:var(--mono);writing-mode:vertical-rl;white-space:nowrap;letter-spacing:0.06em">falls back to ↑</span>
+          </div>
+
+          <div style="padding:1.5rem;background:var(--bg2)">
+            <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;font-family:var(--mono);color:var(--text2);margin-bottom:0.5rem">Tier 2 — Element tokens</div>
+            <div style="font-family:var(--mono);font-size:0.8rem;color:var(--text2);margin-bottom:0.85rem">--btn-*&nbsp;&nbsp;--card-*&nbsp;&nbsp;…</div>
+            <p style="font-size:0.82rem;color:var(--text2);line-height:1.65;margin-bottom:1rem">Set on a <strong style="color:var(--text)">single element</strong>. Overrides genre defaults for that instance only — everything else on the page stays genre-themed. If unset, the value falls back to Tier 1.</p>
+            <span style="display:inline-flex;align-items:center;gap:0.35rem;font-size:0.78rem;font-family:var(--mono);color:var(--text2);letter-spacing:0.04em">Documented in each component's CSS API →</span>
+          </div>
+
+        </div>
+        <div style="margin-top:1rem;padding:0.85rem 1.1rem;border-radius:var(--radius);background:var(--bg2);border:1px solid var(--border);font-size:0.8rem;color:var(--text2);line-height:1.65">
+          <strong style="color:var(--text);font-family:var(--mono);font-size:0.78em">Rule of thumb:</strong> Use the Genre Builder to set the mood globally. Use element tokens (<code style="font-family:var(--mono);font-size:0.85em;color:var(--text2)">--btn-bg</code>, <code style="font-family:var(--mono);font-size:0.85em;color:var(--text2)">--card-border-color</code>, …) when one specific component needs its own colour story.
+        </div>
+      </div>
+
       <div class="component-grid">
 
         <!-- Button -->
