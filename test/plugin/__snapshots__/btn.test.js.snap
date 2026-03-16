@@ -221,6 +221,7 @@ exports[`.btn component > full btn output matches snapshot 1`] = `
     --z-duration-fast: 0.18s;
     --z-duration-base: 0.22s;
     --z-duration-slow: 0.28s;
+    --z-duration-pulse: 2s;
     --z-ease-enter: cubic-bezier(0.22, 1, 0.36, 1);
     --z-ease-exit: cubic-bezier(0.55, 0, 1, 0.45);
     --z-ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
@@ -741,6 +742,7 @@ exports[`.btn component > full btn output matches snapshot 1`] = `
     clip-path: polygon(var(--zp-corner-card) 0%, calc(100% - var(--zp-corner-card)) 0%, 100% var(--zp-corner-card), 100% calc(100% - var(--zp-corner-card)), calc(100% - var(--zp-corner-card)) 100%, var(--zp-corner-card) 100%, 0% calc(100% - var(--zp-corner-card)), 0% var(--zp-corner-card));
     border-radius: 0;
     --card-shadow: none;
+    --card-bar-shadow: none;
     filter: drop-shadow(0 24px 70px rgba(0,0,0,0.60)) drop-shadow(0 0 0 1px rgba(255,255,255,0.02));
   }
   @property --badge-offset {
@@ -940,7 +942,7 @@ exports[`.btn component > full btn output matches snapshot 1`] = `
       height: var(--badge-dot-size);
       border-radius: 50%;
       flex-shrink: 0;
-      animation: zyna-pulse-ring 2s var(--z-ease-enter) infinite;
+      animation: zyna-pulse-ring var(--z-duration-pulse) var(--z-ease-enter) infinite;
     }
   }
   :where(.badge-sm) {
@@ -1357,7 +1359,7 @@ exports[`.btn component > full btn output matches snapshot 1`] = `
     @supports (color: color-mix(in lab, red, red)) {
       --z-card-header-dot-shadow: 0 0 8px var(--zyna), 0 0 20px color-mix(in oklch, var(--zyna) 50%, transparent);
     }
-    --z-card-header-dot-animation: zyna-pulse-ring 2s var(--z-ease-enter) infinite;
+    --z-card-header-dot-animation: zyna-pulse-ring var(--z-duration-pulse) var(--z-ease-enter) infinite;
     --z-card-bracket-size: 22px;
     --z-card-bracket-stroke: 2px;
     --z-card-bracket-color: var(--zyna);

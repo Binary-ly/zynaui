@@ -298,9 +298,10 @@ export default function(theme) {
     ':where(.card-bevel)': {
       clipPath: shapes.bevel('var(--zp-corner-card)').outer,
       borderRadius: '0',
-      // clip-path clips box-shadow — zero it out and use filter:drop-shadow() instead,
-      // which traces the bevel outline after clipping.
-      '--card-shadow': 'none',
+      // clip-path clips box-shadow — zero both card and power-bar shadows, use
+      // filter:drop-shadow() instead which traces the bevel outline after clipping.
+      '--card-shadow':     'none',
+      '--card-bar-shadow': 'none',
       filter: 'drop-shadow(0 24px 70px rgba(0,0,0,0.60)) drop-shadow(0 0 0 1px rgba(255,255,255,0.02))',
     },
   }
