@@ -356,6 +356,8 @@
     --z-ease-exit: cubic-bezier(0.55, 0, 1, 0.45);
     --z-ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
   }
+}
+@layer base {
   @property --btn-bg {
     syntax: "*";
     inherits: false;
@@ -376,87 +378,10 @@
     inherits: false;
     initial-value: transparent;
   }
-  @property --card-border-color {
-    syntax: "<color>";
-    inherits: false;
-    initial-value: rgba(255,255,255,0.05);
-  }
-  @property --card-glow-lo {
-    syntax: "<color>";
-    inherits: false;
-    initial-value: rgba(0,0,0,0);
-  }
-  @property --card-glow-hi {
-    syntax: "<color>";
-    inherits: false;
-    initial-value: rgba(0,0,0,0);
-  }
   @property --btn-corner {
     syntax: "<length>";
     inherits: true;
     initial-value: 10px;
-  }
-  @property --badge-offset {
-    syntax: "<length>";
-    inherits: true;
-    initial-value: 5px;
-  }
-  @property --badge-bg {
-    syntax: "<color>";
-    inherits: false;
-    initial-value: rgba(255,255,255,0.04);
-  }
-  @property --badge-color {
-    syntax: "<color>";
-    inherits: false;
-    initial-value: rgba(240,235,224,0.55);
-  }
-  @property --alert-bar-color {
-    syntax: "<color>";
-    inherits: false;
-    initial-value: rgba(255,255,255,0.10);
-  }
-  @property --alert-bg {
-    syntax: "<color>";
-    inherits: false;
-    initial-value: rgba(255,255,255,0.02);
-  }
-  @property --alert-color {
-    syntax: "<color>";
-    inherits: false;
-    initial-value: rgba(240,235,224,0.65);
-  }
-  @keyframes zyna-badge-scan {
-    0%, 18% {
-      transform: translateX(0);
-    }
-    52%, 100% {
-      transform: translateX(340%);
-    }
-  }
-  @keyframes zyna-pulse-ring {
-    0% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    45% {
-      opacity: 0.55;
-      transform: scale(1.35);
-    }
-    100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-  @keyframes zyna-pulse {
-    0%, 100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    50% {
-      opacity: 0.35;
-      transform: scale(0.7);
-    }
   }
   @keyframes zyna-scan {
     0% {
@@ -466,39 +391,6 @@
       transform: translateX(200%);
     }
   }
-  @keyframes zyna-card-pulse {
-    0%, 100% {
-      filter: drop-shadow(0 0 18px var(--card-glow-lo)) drop-shadow(0 0 6px var(--card-glow-lo));
-    }
-    50% {
-      filter: drop-shadow(0 0 38px var(--card-glow-hi)) drop-shadow(0 0 14px var(--card-glow-hi));
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    :where(.badge)::after {
-      animation: none;
-    }
-    :where(.badge-pulse)::before {
-      animation: none;
-    }
-    :where(.card) {
-      animation: none;
-    }
-    :where(.card-header)::before {
-      animation: none;
-    }
-    :where(.btn), :where([role="button"]) {
-      transition: none;
-    }
-    :where(.btn):hover, :where([role="button"]):hover {
-      transition: none;
-    }
-    :where(.btn)::after, :where([role="button"])::after {
-      transition: none;
-    }
-  }
-}
-@layer base {
   .btn {
     --btn-bg: var(--z-color-overlay);
     --btn-color: var(--z-color-text-muted);
@@ -802,6 +694,29 @@
     border-radius: 0;
     --btn-inner-clip: inset(1.5px);
   }
+  @property --card-border-color {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: rgba(255,255,255,0.05);
+  }
+  @property --card-glow-lo {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: rgba(0,0,0,0);
+  }
+  @property --card-glow-hi {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: rgba(0,0,0,0);
+  }
+  @keyframes zyna-card-pulse {
+    0%, 100% {
+      filter: drop-shadow(0 0 18px var(--card-glow-lo)) drop-shadow(0 0 6px var(--card-glow-lo));
+    }
+    50% {
+      filter: drop-shadow(0 0 38px var(--card-glow-hi)) drop-shadow(0 0 14px var(--card-glow-hi));
+    }
+  }
   :where(.card) {
     --card-gradient: var(--z-card-gradient);
     --card-border-color: var(--z-card-border-color);
@@ -956,6 +871,55 @@
   :where(.card-bevel) {
     clip-path: polygon(var(--zp-corner-card) 0%, calc(100% - var(--zp-corner-card)) 0%, 100% var(--zp-corner-card), 100% calc(100% - var(--zp-corner-card)), calc(100% - var(--zp-corner-card)) 100%, var(--zp-corner-card) 100%, 0% calc(100% - var(--zp-corner-card)), 0% var(--zp-corner-card));
     border-radius: 0;
+    --card-shadow: none;
+    filter: drop-shadow(0 24px 70px rgba(0,0,0,0.60)) drop-shadow(0 0 0 1px rgba(255,255,255,0.02));
+  }
+  @property --badge-offset {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 5px;
+  }
+  @property --badge-bg {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: rgba(255,255,255,0.04);
+  }
+  @property --badge-color {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: rgba(240,235,224,0.55);
+  }
+  @keyframes zyna-badge-scan {
+    0%, 18% {
+      transform: translateX(0);
+    }
+    52%, 100% {
+      transform: translateX(340%);
+    }
+  }
+  @keyframes zyna-pulse-ring {
+    0% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    45% {
+      opacity: 0.55;
+      transform: scale(1.35);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes zyna-pulse {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.35;
+      transform: scale(0.7);
+    }
   }
   :where(.badge) {
     --badge-bg: var(--z-color-overlay);
@@ -1139,6 +1103,21 @@
   :where(.badge-bevel) {
     clip-path: polygon(var(--badge-offset) 0%, calc(100% - var(--badge-offset)) 0%, 100% var(--badge-offset), 100% calc(100% - var(--badge-offset)), calc(100% - var(--badge-offset)) 100%, var(--badge-offset) 100%, 0% calc(100% - var(--badge-offset)), 0% var(--badge-offset));
     --badge-inner-clip: polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) 2px, calc(100% - 2px) calc(var(--badge-offset) + 2px), calc(100% - 2px) calc(100% - calc(var(--badge-offset) + 2px)), calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), calc(var(--badge-offset) + 2px) calc(100% - 2px), 2px calc(100% - calc(var(--badge-offset) + 2px)), 2px calc(var(--badge-offset) + 2px));
+  }
+  @property --alert-bar-color {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: rgba(255,255,255,0.10);
+  }
+  @property --alert-bg {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: rgba(255,255,255,0.02);
+  }
+  @property --alert-color {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: rgba(240,235,224,0.65);
   }
   :where(.alert) {
     --alert-bar-color: rgba(255,255,255,0.10);
@@ -1332,6 +1311,31 @@
   }
 }
 @layer base {
+  @media (prefers-reduced-motion: reduce) {
+    :where(.badge)::after {
+      animation: none;
+    }
+    :where(.badge-pulse)::before {
+      animation: none;
+    }
+    :where(.card) {
+      animation: none;
+    }
+    :where(.card-header)::before {
+      animation: none;
+    }
+    :where(.btn), :where([role="button"]) {
+      transition: none;
+    }
+    :where(.btn):hover, :where([role="button"]):hover {
+      transition: none;
+    }
+    :where(.btn)::after, :where([role="button"])::after {
+      transition: none;
+    }
+  }
+}
+@layer base {
   html {
     --z-btn-clip: polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)));
     --z-btn-corner: var(--z-corner);
@@ -1403,6 +1407,20 @@
     --z-sidebar-active-shadow: none;
   }
   html[data-genre="cyberpunk"] {
+    --zyna: #39FF14;
+    --zyna-dark: #1A8A00;
+    --zp-success: #39FF14;
+    --zp-danger: #FF073A;
+    --zp-warning: #FFD700;
+    --zp-info: #7B61FF;
+    --zp-text: #E0FFE0;
+    --z-font-mono: 'Share Tech Mono', 'Courier New', monospace;
+    --z-duration-fast: 0.12s;
+    --z-duration-base: 0.15s;
+    --z-duration-slow: 0.20s;
+    --z-ease-enter: cubic-bezier(0, 0.85, 0.1, 1);
+    --z-ease-exit: cubic-bezier(0.9, 0, 1, 0.15);
+    --z-ease-spring: cubic-bezier(0.5, 1.8, 0.5, 1);
     --zp-corner-badge: 14px;
     --z-btn-clip: inset(0);
     --z-btn-inner-clip: inset(1.5px);
