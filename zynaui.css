@@ -401,6 +401,31 @@
     inherits: true;
     initial-value: 5px;
   }
+  @property --badge-bg {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: rgba(255,255,255,0.04);
+  }
+  @property --badge-color {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: rgba(240,235,224,0.55);
+  }
+  @property --alert-bar-color {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: rgba(255,255,255,0.10);
+  }
+  @property --alert-bg {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: rgba(255,255,255,0.02);
+  }
+  @property --alert-color {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: rgba(240,235,224,0.65);
+  }
   @keyframes zyna-badge-scan {
     0%, 18% {
       transform: translateX(0);
