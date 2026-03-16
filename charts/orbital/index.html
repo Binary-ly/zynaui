@@ -48,10 +48,10 @@
       <!-- Demo -->
       <div class="doc-section">
         <h2 class="section-title">Demo</h2>
-        <div class="tabs-bar" style="display:flex;align-items:center">
-          <button class="tab-btn active" onclick="tab(this,'orb-p')">Preview</button>
-          <button class="tab-btn" onclick="tab(this,'orb-c')">Code</button>
-          <button class="tab-btn" onclick="tab(this,'orb-a')">Attributes</button>
+        <div class="tabs-bar" role="tablist" aria-label="Orbital demo" style="display:flex;align-items:center">
+          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="orb-p" id="tab-orb-p" tabindex="0" onclick="tab(this,'orb-p')">Preview</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="orb-c" id="tab-orb-c" tabindex="-1" onclick="tab(this,'orb-c')">Code</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="orb-a" id="tab-orb-a" tabindex="-1" onclick="tab(this,'orb-a')">Attributes</button>
           <label class="theme-sw" style="margin-left:auto">
             <input type="checkbox" id="theme-chk" onchange="setTheme(this.checked)">
             <span class="theme-track"></span>
@@ -59,7 +59,7 @@
           </label>
         </div>
         <div>
-          <div id="orb-p" class="tab-panel active">
+          <div id="orb-p" class="tab-panel active" role="tabpanel" aria-labelledby="tab-orb-p" tabindex="0">
             <div class="preview-box col" data-chart-bg style="min-height:480px;padding:1.5rem">
               <p style="font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:1rem">EU project portfolio by implementation stage</p>
               <zyna-orbital
@@ -68,7 +68,7 @@
               </zyna-orbital>
             </div>
           </div>
-          <div id="orb-c" class="tab-panel">
+          <div id="orb-c" class="tab-panel" role="tabpanel" aria-labelledby="tab-orb-c" tabindex="0">
             <div class="code-box">
               <div class="code-toolbar">
                 <span class="code-lang">HTML</span>
@@ -88,7 +88,7 @@
 <span class="tag">&gt;&lt;/zyna-orbital&gt;</span></pre>
             </div>
           </div>
-          <div id="orb-a" class="tab-panel">
+          <div id="orb-a" class="tab-panel" role="tabpanel" aria-labelledby="tab-orb-a" tabindex="0">
             <div style="border:1px solid var(--border);border-top:none;border-bottom-left-radius:var(--radius);border-bottom-right-radius:var(--radius);overflow:hidden">
               <table class="api-table" style="border:none;border-radius:0">
                 <thead>
@@ -146,12 +146,33 @@
     }
     function tab(btn, panelId) {
       const bar = btn.parentElement
-      bar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
+      bar.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('active')
+        b.setAttribute('aria-selected', 'false')
+        b.setAttribute('tabindex', '-1')
+      })
       btn.classList.add('active')
+      btn.setAttribute('aria-selected', 'true')
+      btn.setAttribute('tabindex', '0')
+      btn.focus()
       const container = bar.nextElementSibling
       container.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'))
       document.getElementById(panelId).classList.add('active')
     }
+    document.addEventListener('keydown', function(e) {
+      const btn = e.target.closest('[role="tab"]')
+      if (!btn) return
+      const bar = btn.closest('[role="tablist"]')
+      if (!bar) return
+      const tabs = [...bar.querySelectorAll('[role="tab"]')]
+      const idx = tabs.indexOf(btn)
+      let next
+      if (e.key === 'ArrowRight') next = tabs[(idx + 1) % tabs.length]
+      else if (e.key === 'ArrowLeft') next = tabs[(idx - 1 + tabs.length) % tabs.length]
+      else if (e.key === 'Home') next = tabs[0]
+      else if (e.key === 'End') next = tabs[tabs.length - 1]
+      if (next) { e.preventDefault(); next.click() }
+    })
     function cp(btn, id) {
       const txt = document.getElementById(id).innerText
       navigator.clipboard.writeText(txt).then(() => {

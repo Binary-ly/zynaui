@@ -42,10 +42,10 @@
       <!-- Demo Section -->
       <div class="doc-section">
         <h2 class="section-title">Demo</h2>
-        <div class="tabs-bar" style="display:flex;align-items:center">
-          <button class="tab-btn active" onclick="tab(this,'wf-p')">Preview</button>
-          <button class="tab-btn" onclick="tab(this,'wf-c')">Code</button>
-          <button class="tab-btn" onclick="tab(this,'wf-a')">Attributes</button>
+        <div class="tabs-bar" role="tablist" aria-label="Waffle demo" style="display:flex;align-items:center">
+          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="wf-p" id="tab-wf-p" tabindex="0" onclick="tab(this,'wf-p')">Preview</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="wf-c" id="tab-wf-c" tabindex="-1" onclick="tab(this,'wf-c')">Code</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="wf-a" id="tab-wf-a" tabindex="-1" onclick="tab(this,'wf-a')">Attributes</button>
           <label class="theme-sw" style="margin-left:auto">
             <input type="checkbox" id="theme-chk" onchange="setTheme(this.checked)">
             <span class="theme-track"></span>
@@ -53,7 +53,7 @@
           </label>
         </div>
         <div>
-          <div id="wf-p" class="tab-panel active">
+          <div id="wf-p" class="tab-panel active" role="tabpanel" aria-labelledby="tab-wf-p" tabindex="0">
             <div class="preview-box col" data-chart-bg style="min-height:300px;padding:1.5rem;align-items:flex-start">
               <p style="font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:1rem">Libya humanitarian funding by donor (each cell = 1%)</p>
               <zyna-waffle
@@ -81,7 +81,7 @@
             </div>
           </div>
 
-          <div id="wf-c" class="tab-panel">
+          <div id="wf-c" class="tab-panel" role="tabpanel" aria-labelledby="tab-wf-c" tabindex="0">
             <div class="code-box">
               <div class="code-toolbar">
                 <span class="code-lang">html</span>
@@ -104,7 +104,7 @@
             </div>
           </div>
 
-          <div id="wf-a" class="tab-panel">
+          <div id="wf-a" class="tab-panel" role="tabpanel" aria-labelledby="tab-wf-a" tabindex="0">
             <div style="border:1px solid var(--border);border-top:none;border-bottom-left-radius:var(--radius);border-bottom-right-radius:var(--radius);overflow:hidden">
               <table class="api-table" style="border:none;border-radius:0">
                 <thead>
@@ -158,12 +158,12 @@
         <h2 class="section-title">Outline Variant</h2>
         <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.25rem;line-height:1.7">Use <code style="font-family:var(--mono);font-size:0.78rem;color:var(--brand)">"outline":true</code> on a segment to render it as an unfilled bordered cell. This is useful for showing a "remaining" portion against a goal.</p>
 
-        <div class="tabs-bar">
-          <button class="tab-btn active" onclick="tab(this,'wf-ov-p')">Preview</button>
-          <button class="tab-btn" onclick="tab(this,'wf-ov-c')">Code</button>
+        <div class="tabs-bar" role="tablist" aria-label="Outline variant demo">
+          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="wf-ov-p" id="tab-wf-ov-p" tabindex="0" onclick="tab(this,'wf-ov-p')">Preview</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="wf-ov-c" id="tab-wf-ov-c" tabindex="-1" onclick="tab(this,'wf-ov-c')">Code</button>
         </div>
         <div>
-          <div id="wf-ov-p" class="tab-panel active">
+          <div id="wf-ov-p" class="tab-panel active" role="tabpanel" aria-labelledby="tab-wf-ov-p" tabindex="0">
             <div class="preview-box col" data-chart-bg style="min-height:300px;padding:1.5rem;align-items:flex-start">
               <p style="font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:1rem">Funding goal progress — 68% reached</p>
               <zyna-waffle
@@ -182,7 +182,7 @@
             </div>
           </div>
 
-          <div id="wf-ov-c" class="tab-panel">
+          <div id="wf-ov-c" class="tab-panel" role="tabpanel" aria-labelledby="tab-wf-ov-c" tabindex="0">
             <div class="code-box">
               <div class="code-toolbar">
                 <span class="code-lang">html</span>
@@ -233,12 +233,33 @@
     }
     function tab(btn, panelId) {
       const bar = btn.parentElement
-      bar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
+      bar.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('active')
+        b.setAttribute('aria-selected', 'false')
+        b.setAttribute('tabindex', '-1')
+      })
       btn.classList.add('active')
+      btn.setAttribute('aria-selected', 'true')
+      btn.setAttribute('tabindex', '0')
+      btn.focus()
       const container = bar.nextElementSibling
       container.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'))
       document.getElementById(panelId).classList.add('active')
     }
+    document.addEventListener('keydown', function(e) {
+      const btn = e.target.closest('[role="tab"]')
+      if (!btn) return
+      const bar = btn.closest('[role="tablist"]')
+      if (!bar) return
+      const tabs = [...bar.querySelectorAll('[role="tab"]')]
+      const idx = tabs.indexOf(btn)
+      let next
+      if (e.key === 'ArrowRight') next = tabs[(idx + 1) % tabs.length]
+      else if (e.key === 'ArrowLeft') next = tabs[(idx - 1 + tabs.length) % tabs.length]
+      else if (e.key === 'Home') next = tabs[0]
+      else if (e.key === 'End') next = tabs[tabs.length - 1]
+      if (next) { e.preventDefault(); next.click() }
+    })
     function cp(btn, id) {
       const txt = document.getElementById(id).innerText
       navigator.clipboard.writeText(txt).then(() => {
