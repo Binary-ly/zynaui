@@ -142,9 +142,9 @@ export default function(theme) {
       containIntrinsicSize: 'auto 200px',
       // Scopes layout and style to this element so the browser skips costly
       // cross-tree invalidations when card contents change.
-      // Note: contain:paint is intentionally excluded — it creates a new stacking
-      // context that prevents ::before bracket pseudo-elements from painting correctly
-      // when the card is near the viewport edge.
+      // Note: contain:paint is intentionally excluded — the card's box-shadow and
+      // filter:drop-shadow() (via --z-card-filter) both draw outside the border-box;
+      // paint containment would clip them, silently destroying depth shadows and glows.
       contain: 'layout style',
       clipPath: 'var(--z-card-clip)',
       // box-shadow is clipped by clip-path, so genres that add clip-path shapes
@@ -295,6 +295,13 @@ export default function(theme) {
 
     // ── Shape modifiers ────────────────────────────────────────────────────────
     ':where(.card-round)': { borderRadius: 'var(--z-corner-xl)', clipPath: 'none' },
-    ':where(.card-bevel)':   { clipPath: shapes.bevel('var(--zp-corner-card)').outer, borderRadius: '0' },
+    ':where(.card-bevel)': {
+      clipPath: shapes.bevel('var(--zp-corner-card)').outer,
+      borderRadius: '0',
+      // clip-path clips box-shadow — zero it out and use filter:drop-shadow() instead,
+      // which traces the bevel outline after clipping.
+      '--card-shadow': 'none',
+      filter: 'drop-shadow(0 24px 70px rgba(0,0,0,0.60)) drop-shadow(0 0 0 1px rgba(255,255,255,0.02))',
+    },
   }
 }
