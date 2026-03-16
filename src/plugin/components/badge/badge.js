@@ -38,6 +38,31 @@ import shapes from '../../utils/shapes.js'
 
 export default function(theme) {
   return {
+    // ── @property registrations ───────────────────────────────────────────────
+    // inherits:true on --badge-offset so ::before pseudo-elements can resolve it.
+    '@property --badge-offset': { syntax: '"<length>"', inherits: 'true',  initialValue: '5px' },
+    '@property --badge-bg':     { syntax: '"<color>"',  inherits: 'false', initialValue: 'rgba(255,255,255,0.04)' },
+    '@property --badge-color':  { syntax: '"<color>"',  inherits: 'false', initialValue: 'rgba(240,235,224,0.55)' },
+
+    // ── Keyframes ─────────────────────────────────────────────────────────────
+    // Badge scan sweep — slides a bright strip across the parallelogram shape
+    '@keyframes zyna-badge-scan': {
+      '0%, 18%':   { transform: 'translateX(0)' },
+      '52%, 100%': { transform: 'translateX(340%)' },
+    },
+    // Badge pulse dot — compositor-friendly scale + opacity only.
+    // Avoids animating box-shadow (triggers paint per rendering-pipeline.md).
+    '@keyframes zyna-pulse-ring': {
+      '0%':   { opacity: '1',    transform: 'scale(1)' },
+      '45%':  { opacity: '0.55', transform: 'scale(1.35)' },
+      '100%': { opacity: '1',    transform: 'scale(1)' },
+    },
+    // Legacy pulse (kept for compatibility)
+    '@keyframes zyna-pulse': {
+      '0%, 100%': { opacity: '1',    transform: 'scale(1)' },
+      '50%':      { opacity: '0.35', transform: 'scale(0.7)' },
+    },
+
     // ── Base ─────────────────────────────────────────────────────────────────
     ':where(.badge)': {
       '--badge-bg':         'var(--z-color-overlay)',

@@ -98,6 +98,12 @@ export default function(theme) {
   }
 
   return {
+    // ── @property registrations ───────────────────────────────────────────────
+    // Not used as switch variables in any var() fallback chain, so registration is safe.
+    '@property --alert-bar-color': { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(255,255,255,0.10)' },
+    '@property --alert-bg':        { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(255,255,255,0.02)' },
+    '@property --alert-color':     { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(240,235,224,0.65)' },
+
     // ── Base — also targets [role="alert"] for accessible markup ──────────────
     ':where(.alert)': base,
     ':where([role="alert"])': base,

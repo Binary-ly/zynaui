@@ -93,6 +93,29 @@ export default function(theme) {
   }
 
   return {
+    // ── @property registrations ───────────────────────────────────────────────
+    // Typed color registrations allow native interpolation and prevent accidental
+    // cascade from ancestor elements (inherits: false).
+    // NOTE: --card-bracket-color is NOT registered — its value uses
+    // color-mix(in oklch, var(--zyna) …) which cannot be a static @property initial-value.
+    '@property --card-border-color': { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(255,255,255,0.05)' },
+    '@property --card-glow-lo':      { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(0,0,0,0)' },
+    '@property --card-glow-hi':      { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(0,0,0,0)' },
+
+    // ── Keyframes ─────────────────────────────────────────────────────────────
+    // Card glow pulse — animates filter: drop-shadow() rather than box-shadow so
+    // Chrome can GPU-composite the animation (box-shadow always triggers CPU repaint).
+    // Uses --card-glow-lo / --card-glow-hi so any variant produces a different-coloured
+    // pulse by setting those two variables alongside --card-animation.
+    '@keyframes zyna-card-pulse': {
+      '0%, 100%': {
+        filter: 'drop-shadow(0 0 18px var(--card-glow-lo)) drop-shadow(0 0 6px var(--card-glow-lo))',
+      },
+      '50%': {
+        filter: 'drop-shadow(0 0 38px var(--card-glow-hi)) drop-shadow(0 0 14px var(--card-glow-hi))',
+      },
+    },
+
     // ── Base ─────────────────────────────────────────────────────────────────
     ':where(.card)': {
       '--card-gradient':      'var(--z-card-gradient)',

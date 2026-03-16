@@ -171,6 +171,30 @@ export default function(theme) {
   }
 
   return {
+    // ── @property registrations ───────────────────────────────────────────────
+    // --btn-bg, --btn-color, --btn-scan-color, --btn-interior: registered so the
+    // browser skips inheriting them and can native-interpolate typed values.
+    // NOTE: --btn-hover-bg, --btn-hover-color, --btn-hover-interior are intentionally
+    // NOT registered — they are switch variables in fallback chains:
+    //   var(--btn-hover-bg, var(--btn-bg))
+    // @property with initial-value would break these by always resolving to the
+    // initial-value instead of being treated as unset and triggering the fallback.
+    // NOTE: --btn-focus-color is NOT registered — its value uses color-mix(in oklch,
+    // var(--zyna) …) which cannot be a static @property initial-value.
+    '@property --btn-bg':         { syntax: '"*"',       inherits: 'false', initialValue: 'transparent' },
+    '@property --btn-color':      { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(240,235,224,0.55)' },
+    '@property --btn-scan-color': { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(255,255,255,0.07)' },
+    '@property --btn-interior':   { syntax: '"<color>"', inherits: 'false', initialValue: 'transparent' },
+    // inherits:true so ::before pseudo-elements can resolve --btn-corner
+    '@property --btn-corner':     { syntax: '"<length>"', inherits: 'true', initialValue: '10px' },
+
+    // ── Keyframes ─────────────────────────────────────────────────────────────
+    // Button scan-line sweep (available for custom use via --btn-scan-color)
+    '@keyframes zyna-scan': {
+      '0%':   { transform: 'translateX(-100%)' },
+      '100%': { transform: 'translateX(200%)' },
+    },
+
     // ── Base — also applied to [role="button"] for accessible markup ──────────
     '.btn': base,
     '[role="button"]': base,
