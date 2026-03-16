@@ -387,6 +387,7 @@ pre {
   background: color-mix(in oklch, var(--genre-trigger-color, var(--brand)) 8%, transparent);
   box-shadow: 0 0 12px color-mix(in oklch, var(--genre-trigger-color, var(--brand)) 25%, transparent);
 }
+.genre-trigger:focus-visible { outline: 2px solid var(--genre-trigger-color, var(--brand)); outline-offset: 4px; }
 .genre-trigger[aria-expanded="true"] {
   background: color-mix(in oklch, var(--genre-trigger-color, var(--brand)) 10%, transparent);
 }
