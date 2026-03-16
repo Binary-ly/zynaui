@@ -1076,8 +1076,8 @@
               <div class="gb-subgroup-label">Shape</div>
 
               <div class="gb-field">
-                <div class="gb-label" style="margin-bottom:0.3rem">Shape</div>
-                <div class="gb-radio-group" id="gb-btnshape">
+                <div class="gb-label" id="lbl-btnshape" style="margin-bottom:0.3rem">Shape</div>
+                <div class="gb-radio-group" id="gb-btnshape" role="radiogroup" aria-labelledby="lbl-btnshape">
                   <label><input type="radio" name="btnshape" value="diagonal" checked /><span>Diagonal</span></label>
                   <label><input type="radio" name="btnshape" value="rect" /><span>Rect</span></label>
                   <label><input type="radio" name="btnshape" value="bevel" /><span>Bevel</span></label>
@@ -1086,7 +1086,7 @@
               </div>
 
               <div class="gb-field">
-                <button class="gb-shape-edit-btn" id="gb-toggle-shape-editor">⬡ Custom Shape</button>
+                <button class="gb-shape-edit-btn" id="gb-toggle-shape-editor" aria-expanded="false">⬡ Custom Shape</button>
               </div>
               <div class="gb-field" id="gb-custom-shape-section" style="display:none">
                 <div class="gb-label" style="margin-bottom:0.3rem">Custom Clip-Path <span style="opacity:0.5">--z-btn-clip</span></div>
@@ -1134,8 +1134,8 @@
               <div class="gb-subgroup-label">Shape</div>
 
               <div class="gb-field">
-                <div class="gb-label" style="margin-bottom:0.3rem">Shape</div>
-                <div class="gb-radio-group" id="gb-badgeshape">
+                <div class="gb-label" id="lbl-badgeshape" style="margin-bottom:0.3rem">Shape</div>
+                <div class="gb-radio-group" id="gb-badgeshape" role="radiogroup" aria-labelledby="lbl-badgeshape">
                   <label><input type="radio" name="badgeshape" value="slant" checked /><span>Slant</span></label>
                   <label><input type="radio" name="badgeshape" value="rect" /><span>Rect</span></label>
                   <label><input type="radio" name="badgeshape" value="pill" /><span>Pill</span></label>
@@ -1144,7 +1144,7 @@
               </div>
 
               <div class="gb-field">
-                <button class="gb-shape-edit-btn" id="gb-toggle-badge-shape-editor">⬡ Custom Shape</button>
+                <button class="gb-shape-edit-btn" id="gb-toggle-badge-shape-editor" aria-expanded="false">⬡ Custom Shape</button>
               </div>
               <div class="gb-field" id="gb-badge-custom-shape-section" style="display:none">
                 <div class="gb-label" style="margin-bottom:0.3rem">Custom Clip-Path <span style="opacity:0.5">--z-badge-clip</span></div>
@@ -1218,8 +1218,8 @@
               <div class="gb-subgroup-label">Bar</div>
 
               <div class="gb-field">
-                <div class="gb-label" style="margin-bottom:0.3rem">Bar Position</div>
-                <div class="gb-toggle-group" id="gb-alertbar">
+                <div class="gb-label" id="lbl-alertbar" style="margin-bottom:0.3rem">Bar Position</div>
+                <div class="gb-toggle-group" id="gb-alertbar" role="radiogroup" aria-labelledby="lbl-alertbar">
                   <label><input type="radio" name="alertbar" value="left" checked /><span>Left</span></label>
                   <label><input type="radio" name="alertbar" value="top" /><span>Top</span></label>
                 </div>
@@ -3001,6 +3001,7 @@
         document.getElementById('lbl-custom-radius').textContent = '0'
         section.style.display = 'none'
       }
+      document.getElementById('gb-toggle-shape-editor').setAttribute('aria-expanded', String(!visible))
       applyPreview()
     })
 
@@ -3129,6 +3130,7 @@
         document.getElementById('lbl-badge-custom-radius').textContent = '0'
         section.style.display = 'none'
       }
+      document.getElementById('gb-toggle-badge-shape-editor').setAttribute('aria-expanded', String(!visible))
       applyPreview()
     })
 
