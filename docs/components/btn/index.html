@@ -47,8 +47,8 @@
             <div class="code-box">
               <div class="code-toolbar">
                 <span class="code-lang">HTML</span>
-                <button class="copy-btn" onclick="cp(this,'btn-v-code')">
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                <button class="copy-btn" aria-label="Copy variants example" onclick="cp(this,'btn-v-code')">
+                  <svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
                   Copy
                 </button>
               </div>
@@ -83,8 +83,8 @@
             <div class="code-box">
               <div class="code-toolbar">
                 <span class="code-lang">HTML</span>
-                <button class="copy-btn" onclick="cp(this,'btn-s-code')">
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                <button class="copy-btn" aria-label="Copy sizes example" onclick="cp(this,'btn-s-code')">
+                  <svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
                   Copy
                 </button>
               </div>
@@ -124,8 +124,8 @@
             <div class="code-box">
               <div class="code-toolbar">
                 <span class="code-lang">HTML</span>
-                <button class="copy-btn" onclick="cp(this,'btn-sh-code')">
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                <button class="copy-btn" aria-label="Copy shapes example" onclick="cp(this,'btn-sh-code')">
+                  <svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
                   Copy
                 </button>
               </div>
@@ -157,8 +157,8 @@
             <div class="code-box">
               <div class="code-toolbar">
                 <span class="code-lang">HTML</span>
-                <button class="copy-btn" onclick="cp(this,'btn-st-code')">
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                <button class="copy-btn" aria-label="Copy states example" onclick="cp(this,'btn-st-code')">
+                  <svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
                   Copy
                 </button>
               </div>
@@ -229,8 +229,8 @@
             <div class="code-box">
               <div class="code-toolbar">
                 <span class="code-lang">CSS</span>
-                <button class="copy-btn" onclick="cp(this,'btn-custom-code')">
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                <button class="copy-btn" aria-label="Copy custom variant example" onclick="cp(this,'btn-custom-code')">
+                  <svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
                   Copy
                 </button>
               </div>
@@ -317,10 +317,10 @@
       const txt = document.getElementById(id).innerText
       navigator.clipboard.writeText(txt).then(() => {
         btn.classList.add('ok')
-        btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!'
+        btn.innerHTML = '<svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!'
         setTimeout(() => {
           btn.classList.remove('ok')
-          btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy'
+          btn.innerHTML = '<svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy'
         }, 2000)
       })
     }
