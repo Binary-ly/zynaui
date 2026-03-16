@@ -224,74 +224,6 @@ exports[`.badge component > full badge output matches snapshot 1`] = `
     --z-ease-enter: cubic-bezier(0.22, 1, 0.36, 1);
     --z-ease-exit: cubic-bezier(0.55, 0, 1, 0.45);
     --z-ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
-    --z-btn-clip: polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)));
-    --z-btn-corner: var(--z-corner);
-    --z-btn-inner-clip: polygon(1px 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--btn-corner) + 1px)));
-    --z-btn-active-scale: 0.96;
-    --z-btn-scan-stop: 70%;
-    --z-alert-radius: 0 3px 3px 0;
-    --z-alert-bar-width: 3px;
-    --z-alert-prefix: "// ";
-    --z-alert-bg-opacity: 5.5%;
-    --z-alert-border: none;
-    --z-alert-prefix-opacity: 0.38;
-    --z-alert-bar-glow: none;
-    --z-alert-texture: none;
-    --z-alert-padding-top: 0.875rem;
-    --z-alert-padding-left: calc(1.25rem + var(--z-alert-bar-width));
-    --z-alert-bar-inset: 0 auto 0 0;
-    --z-alert-bar-w: var(--z-alert-bar-width);
-    --z-alert-bar-h: auto;
-    --z-alert-bar-radius: var(--z-alert-radius) 0 0 var(--z-alert-radius);
-    --z-card-clip: none;
-    --z-card-filter: none;
-    --z-card-texture: linear-gradient(transparent, transparent);
-    --z-card-gradient: var(--z-surface-card);
-    --z-card-border-color: var(--z-color-border);
-    --z-card-shadow: var(--z-shadow-card);
-    --z-card-bracket-color: var(--zyna);
-    @supports (color: color-mix(in lab, red, red)) {
-      --z-card-bracket-color: color-mix(in oklch, var(--zyna) 42%, transparent);
-    }
-    --z-card-bracket-size: 20px;
-    --z-card-bracket-stroke: 1.5px;
-    --z-card-bar-height: 1px;
-    --z-card-bar-bg: linear-gradient(90deg, transparent 0%, var(--zyna) 20%, var(--zyna) 80%, transparent 100%);
-    @supports (color: color-mix(in lab, red, red)) {
-      --z-card-bar-bg: linear-gradient(90deg, transparent 0%, color-mix(in oklch, var(--zyna) 55%, transparent) 20%, color-mix(in oklch, var(--zyna) 55%, transparent) 80%, transparent 100%);
-    }
-    --z-card-bar-shadow: none;
-    --z-card-header-bg: transparent;
-    --z-card-header-border: var(--z-color-border);
-    --z-card-header-color: var(--zyna);
-    @supports (color: color-mix(in lab, red, red)) {
-      --z-card-header-color: color-mix(in oklch, var(--zyna) 75%, transparent);
-    }
-    --z-card-header-letter-spacing: 0.14em;
-    --z-card-header-text-shadow: none;
-    --z-card-header-dot-size: 5px;
-    --z-card-header-dot-bg: var(--zyna);
-    @supports (color: color-mix(in lab, red, red)) {
-      --z-card-header-dot-bg: color-mix(in oklch, var(--zyna) 65%, transparent);
-    }
-    --z-card-header-dot-shadow: 0 0 6px var(--zyna), 0 0 16px var(--zyna);
-    @supports (color: color-mix(in lab, red, red)) {
-      --z-card-header-dot-shadow: 0 0 6px color-mix(in oklch, var(--zyna) 65%, transparent), 0 0 16px color-mix(in oklch, var(--zyna) 30%, transparent);
-    }
-    --z-card-header-dot-animation: none;
-    --z-card-title-text-shadow: none;
-    --z-card-glow-duration: 4s;
-    --z-card-default-glow-lo: rgba(0,0,0,0);
-    --z-card-default-glow-hi: rgba(0,0,0,0);
-    --z-topbar-border: var(--z-color-border);
-    --z-topbar-glow: none;
-    --z-sidebar-active-shadow: none;
-    --z-badge-radius: 0;
-    --z-badge-padding: 0.22rem 0.85rem;
-    --z-badge-letter-spacing: 0.13em;
-    --z-badge-inset-shadow: none;
-    --z-badge-scan-duration: 5s;
-    --z-badge-inner-clip: polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), 2px calc(100% - 2px));
   }
   @property --btn-bg {
     syntax: "*";
@@ -1228,6 +1160,178 @@ exports[`.badge component > full badge output matches snapshot 1`] = `
   }
 }
 @layer base {
+  html {
+    --z-btn-clip: polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)));
+    --z-btn-corner: var(--z-corner);
+    --z-btn-inner-clip: polygon(1px 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--btn-corner) + 1px)));
+    --z-btn-active-scale: 0.96;
+    --z-btn-scan-stop: 70%;
+    --z-alert-radius: 0 3px 3px 0;
+    --z-alert-bar-width: 3px;
+    --z-alert-prefix: "// ";
+    --z-alert-bg-opacity: 5.5%;
+    --z-alert-border: none;
+    --z-alert-prefix-opacity: 0.38;
+    --z-alert-bar-glow: none;
+    --z-alert-texture: none;
+    --z-alert-padding-top: 0.875rem;
+    --z-alert-padding-left: calc(1.25rem + var(--z-alert-bar-width));
+    --z-alert-bar-inset: 0 auto 0 0;
+    --z-alert-bar-w: var(--z-alert-bar-width);
+    --z-alert-bar-h: auto;
+    --z-alert-bar-radius: var(--z-alert-radius) 0 0 var(--z-alert-radius);
+    --z-card-clip: none;
+    --z-card-filter: none;
+    --z-card-texture: linear-gradient(transparent, transparent);
+    --z-card-gradient: var(--z-surface-card);
+    --z-card-border-color: var(--z-color-border);
+    --z-card-shadow: var(--z-shadow-card);
+    --z-card-bracket-color: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-card-bracket-color: color-mix(in oklch, var(--zyna) 42%, transparent);
+    }
+    --z-card-bracket-size: 20px;
+    --z-card-bracket-stroke: 1.5px;
+    --z-card-bar-height: 1px;
+    --z-card-bar-bg: linear-gradient(90deg, transparent 0%, var(--zyna) 20%, var(--zyna) 80%, transparent 100%);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-card-bar-bg: linear-gradient(90deg, transparent 0%, color-mix(in oklch, var(--zyna) 55%, transparent) 20%, color-mix(in oklch, var(--zyna) 55%, transparent) 80%, transparent 100%);
+    }
+    --z-card-bar-shadow: none;
+    --z-card-header-bg: transparent;
+    --z-card-header-border: var(--z-color-border);
+    --z-card-header-color: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-card-header-color: color-mix(in oklch, var(--zyna) 75%, transparent);
+    }
+    --z-card-header-letter-spacing: 0.14em;
+    --z-card-header-text-shadow: none;
+    --z-card-header-dot-size: 5px;
+    --z-card-header-dot-bg: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-card-header-dot-bg: color-mix(in oklch, var(--zyna) 65%, transparent);
+    }
+    --z-card-header-dot-shadow: 0 0 6px var(--zyna), 0 0 16px var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-card-header-dot-shadow: 0 0 6px color-mix(in oklch, var(--zyna) 65%, transparent), 0 0 16px color-mix(in oklch, var(--zyna) 30%, transparent);
+    }
+    --z-card-header-dot-animation: none;
+    --z-card-title-text-shadow: none;
+    --z-card-glow-duration: 4s;
+    --z-card-default-glow-lo: rgba(0,0,0,0);
+    --z-card-default-glow-hi: rgba(0,0,0,0);
+    --z-badge-radius: 0;
+    --z-badge-padding: 0.22rem 0.85rem;
+    --z-badge-letter-spacing: 0.13em;
+    --z-badge-inset-shadow: none;
+    --z-badge-scan-duration: 5s;
+    --z-badge-inner-clip: polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), 2px calc(100% - 2px));
+    --z-topbar-border: var(--z-color-border);
+    --z-topbar-glow: none;
+    --z-sidebar-active-shadow: none;
+  }
+  html[data-genre="cyberpunk"] {
+    --zp-corner-badge: 14px;
+    --z-btn-clip: inset(0);
+    --z-btn-inner-clip: inset(1.5px);
+    --z-btn-corner: 18px;
+    --z-btn-active-scale: 0.94;
+    --z-btn-scan-stop: 55%;
+    --z-badge-clip: inset(0);
+    --z-badge-padding: 0.24rem 0.8rem;
+    --z-badge-letter-spacing: 0.16em;
+    --z-badge-inset-shadow: inset 0 0 0 1px currentColor;
+    --z-badge-scan-duration: 2.5s;
+    --z-badge-inner-clip: inset(2px);
+    --z-alert-radius: 0;
+    --z-alert-bar-width: 5px;
+    --z-alert-prefix: "> ";
+    --z-alert-bg-opacity: 14%;
+    --z-alert-border: 1px solid var(--alert-bar-color);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-alert-border: 1px solid color-mix(in oklch, var(--alert-bar-color) 35%, transparent);
+    }
+    --z-alert-prefix-opacity: 0.55;
+    --z-alert-bar-glow: 0 0 14px var(--alert-bar-color), 0 0 30px var(--alert-bar-color);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-alert-bar-glow: 0 0 14px var(--alert-bar-color), 0 0 30px color-mix(in oklch, var(--alert-bar-color) 40%, transparent);
+    }
+    --z-alert-texture: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.018) 3px, rgba(255,255,255,0.018) 4px);
+    --z-alert-padding-top: calc(0.875rem + var(--z-alert-bar-width));
+    --z-alert-padding-left: 1.25rem;
+    --z-alert-bar-inset: 0 0 auto 0;
+    --z-alert-bar-w: 100%;
+    --z-alert-bar-h: var(--z-alert-bar-width);
+    --z-alert-bar-radius: 0;
+    --z-card-gradient: linear-gradient(145deg, rgba(2,18,4,0.98) 0%, rgba(0,8,1,0.99) 100%);
+    --z-card-border-color: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-card-border-color: color-mix(in oklch, var(--zyna) 60%, transparent);
+    }
+    --z-card-shadow: 0 0 0 1px var(--zyna), 0 8px 32px rgba(0,0,0,0.6);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-card-shadow: 0 0 0 1px color-mix(in oklch, var(--zyna) 25%, transparent), 0 8px 32px rgba(0,0,0,0.6);
+    }
+    --z-card-bar-height: 3px;
+    --z-card-bar-bg: var(--zyna);
+    --z-card-bar-shadow: 0 0 14px var(--zyna), 0 0 32px var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-card-bar-shadow: 0 0 14px var(--zyna), 0 0 32px color-mix(in oklch, var(--zyna) 50%, transparent);
+    }
+    --z-card-header-bg: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-card-header-bg: color-mix(in oklch, var(--zyna) 10%, transparent);
+    }
+    --z-card-header-border: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-card-header-border: color-mix(in oklch, var(--zyna) 30%, transparent);
+    }
+    --z-card-header-color: var(--zyna);
+    --z-card-header-letter-spacing: 0.18em;
+    --z-card-header-text-shadow: 0 0 10px var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-card-header-text-shadow: 0 0 10px color-mix(in oklch, var(--zyna) 60%, transparent);
+    }
+    --z-card-header-dot-size: 7px;
+    --z-card-header-dot-bg: var(--zyna);
+    --z-card-header-dot-shadow: 0 0 8px var(--zyna), 0 0 20px var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-card-header-dot-shadow: 0 0 8px var(--zyna), 0 0 20px color-mix(in oklch, var(--zyna) 50%, transparent);
+    }
+    --z-card-header-dot-animation: zyna-pulse-ring 2s var(--z-ease-enter) infinite;
+    --z-card-bracket-size: 22px;
+    --z-card-bracket-stroke: 2px;
+    --z-card-bracket-color: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-card-bracket-color: color-mix(in oklch, var(--zyna) 80%, transparent);
+    }
+    --z-card-texture: repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(0,255,20,0.022) 1px, rgba(0,255,20,0.022) 2px);
+    --z-card-title-text-shadow: 0 0 18px var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-card-title-text-shadow: 0 0 18px color-mix(in oklch, var(--zyna) 22%, transparent);
+    }
+    --z-card-glow-duration: 5s;
+    --z-card-default-glow-lo: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-card-default-glow-lo: color-mix(in oklch, var(--zyna) 8%, transparent);
+    }
+    --z-card-default-glow-hi: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-card-default-glow-hi: color-mix(in oklch, var(--zyna) 22%, transparent);
+    }
+    --z-topbar-border: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-topbar-border: color-mix(in oklch, var(--zyna) 40%, transparent);
+    }
+    --z-topbar-glow: 0 1px 0 var(--zyna), 0 2px 14px var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-topbar-glow: 0 1px 0 color-mix(in oklch, var(--zyna) 20%, transparent), 0 2px 14px color-mix(in oklch, var(--zyna) 10%, transparent);
+    }
+    --z-sidebar-active-shadow: inset 3px 0 0 var(--zyna), inset 6px 0 0 var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-sidebar-active-shadow: inset 3px 0 0 var(--zyna), inset 6px 0 0 color-mix(in oklch, var(--zyna) 30%, transparent);
+    }
+  }
   :where(html[data-genre="cyberpunk"]) :where(.badge-primary) {
     --badge-bg: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {

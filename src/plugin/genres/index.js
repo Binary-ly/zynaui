@@ -3,7 +3,7 @@
  *
  * Each genre file exports:
  *   name     — display name
- *   tokens   — CSS custom property overrides (set on :root at runtime by docs/_genres.js)
+ *   tokens   — CSS custom property overrides (set on html at runtime by docs/_genres.js)
  *   swatches — preview colour swatches for the genre switcher UI
  *   styles   — structural CSS rules scoped to html[data-genre="..."]
  *              (compiled into zynaui.css via addBase in the plugin)

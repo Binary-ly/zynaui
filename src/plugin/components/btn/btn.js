@@ -12,8 +12,9 @@
  *   --btn-hover-filter       Hover glow + brightness
  *   --btn-hover-text-shadow  Hover text luminescence
  *   --btn-active-filter      Active-press filter
+ *   --btn-focus-color        Focus-visible ring colour
  *
- * Genre structural tokens (set on :root by ops.js defaults, overridden by other genres):
+ * Genre structural tokens (set on html by ops.js defaults, overridden by genre CSS selectors):
  *
  *   --z-btn-active-scale     transform: scale() on :active (Ops = 0.96, Cyberpunk = 0.94)
  *   --z-btn-scan-stop        Scan gradient fade-out stop (Ops = 70%, Cyberpunk = 55%)
@@ -70,13 +71,13 @@ export default function(theme) {
     '--btn-hover-text-shadow': 'none',
     '--btn-active-filter':     'none',
     '--btn-focus-color':       'color-mix(in oklch, var(--zyna) 65%, transparent)',
-    // Shape — reads genre-structural token; genres override --z-btn-corner on :root
+    // Shape — reads genre-structural token; genres set --z-btn-corner on html via CSS
     '--btn-corner':     'var(--z-btn-corner)',
     // Outlined technique defaults — transparent so solid buttons are unaffected
     '--btn-interior':   'transparent',
-    // --z-btn-inner-clip: genre structural token. Syncs the outlined interior clip with the
-    // genre's default shape (Cyberpunk = inset(1.5px) for rectangular interior fill).
-    // Explicit shape modifiers (.btn-square, .btn-cut, etc.) override this directly.
+    // --z-btn-inner-clip: genre structural token inherited from html. Syncs the outlined
+    // interior clip with the genre's default shape (Cyberpunk = inset(1.5px) for rectangular
+    // interior fill). Explicit shape modifiers (.btn-square, .btn-cut, etc.) override this directly.
     '--btn-inner-clip': 'var(--z-btn-inner-clip)',
 
     // Structure
@@ -95,7 +96,7 @@ export default function(theme) {
     cursor: 'pointer',
     userSelect: 'none',
     border: 'none',
-    // --z-btn-clip is defined in :root (defaults to diagonal polygon); genres override it on :root
+    // --z-btn-clip is inherited from html (ops default); genre CSS selectors on html override it
     clipPath: 'var(--z-btn-clip)',
     // Base transition = hover-out easing. CSS reads the transition from the state being
     // transitioned TO — :hover overrides this with var(--z-ease-enter) so hover-in uses

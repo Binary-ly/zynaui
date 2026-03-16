@@ -8,12 +8,15 @@
  *   --badge-glow       drop-shadow filter (traces the parallelogram shape)
  *   --badge-scan-color Scan-sweep highlight colour
  *   --badge-dot-size   Pulse status dot diameter (default: 5px; .badge-lg sets 6px)
+ *   --badge-interior   Interior fill for outlined variants (transparent for solid badges)
+ *   --badge-offset     Parallelogram slant cut depth; shape modifiers set this automatically
+ *   --badge-inner-clip clip-path for the inner inset stroke (outlined variant border width)
  *
  * All built-in gold colours reference var(--zyna) so the badge palette
  * adapts when users override `colors.zyna.DEFAULT` in their Tailwind config.
  *
- * Genre structural tokens (Cyberpunk sets these on :root; Ops leaves --z-badge-clip unset,
- * activating the direct polygon fallback in the clip-path rule below):
+ * Genre structural tokens (set on html by ops.js/cyberpunk.js genre CSS selectors;
+ * Ops leaves --z-badge-clip unset, activating the direct polygon fallback in the clip-path rule below):
  *
  *   --z-badge-clip             clip-path override (unset in Ops → parallelogram via fallback;
  *                              Cyberpunk sets inset(0) → rectangle)
@@ -65,7 +68,7 @@ export default function(theme) {
       position: 'relative',
       // --z-badge-clip: genre structural token. Ops leaves this unset; the fallback
       // applies the parallelogram directly on the element (avoids a nested @property
-      // <length> var chain on :root that can break clip-path resolution in Ops).
+      // <length> var chain that can break clip-path resolution in Ops).
       // Cyberpunk sets --z-badge-clip: inset(0) — no nested vars, resolves correctly.
       // Shape modifiers (.badge-slant, .badge-bevel, etc.) set clipPath directly, which
       // always wins over this token — no specificity re-scoping needed per genre.

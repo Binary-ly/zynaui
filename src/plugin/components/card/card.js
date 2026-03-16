@@ -3,19 +3,26 @@
  *
  * To create a new card style, set these variables on your class:
  *
- *   --card-gradient        Base colour gradient (texture + genre overlay are stacked on top)
- *   --card-border-color    Border colour
- *   --card-shadow          box-shadow
- *   --card-bracket-color   Corner L-bracket stroke colour
- *   --card-bracket-size    Corner bracket arm length (default: 20px)
- *   --card-bracket-stroke  Corner bracket line thickness (default: 1.5px)
- *   --card-bar-gradient    Top luminescent power-bar gradient (falls back to --z-card-bar-bg genre default)
- *   --card-bar-shadow      Top power-bar box-shadow glow (falls back to --z-card-bar-shadow)
- *   --card-animation       CSS animation shorthand (e.g. zyna-card-pulse 4s ease-in-out infinite)
- *   --card-glow-lo         Pulse glow colour at rest  (used by zyna-card-pulse keyframe)
- *   --card-glow-hi         Pulse glow colour at peak  (used by zyna-card-pulse keyframe)
+ *   --card-gradient          Base colour gradient (texture + genre overlay are stacked on top)
+ *   --card-border-color      Border colour
+ *   --card-shadow            box-shadow
+ *   --card-bracket-color     Corner L-bracket stroke colour
+ *   --card-bracket-size      Corner bracket arm length (default: 20px)
+ *   --card-bracket-stroke    Corner bracket line thickness (default: 1.5px)
+ *   --card-bar-gradient      Top luminescent power-bar gradient (falls back to --z-card-bar-bg genre default)
+ *   --card-bar-shadow        Top power-bar box-shadow glow (falls back to --z-card-bar-shadow)
+ *   --card-animation         CSS animation shorthand (e.g. zyna-card-pulse 4s ease-in-out infinite)
+ *   --card-glow-lo           Pulse glow colour at rest  (used by zyna-card-pulse keyframe)
+ *   --card-glow-hi           Pulse glow colour at peak  (used by zyna-card-pulse keyframe)
+ *   --card-header-border     Header bottom border (and footer top border) colour
+ *   --card-header-bg         Header background tint
+ *   --card-header-color      Header text colour
+ *   --card-header-dot-color  Status dot colour in the card header
+ *   --card-header-dot-shadow Status dot box-shadow glow
+ *   --card-header-text-shadow Header text luminescence (text-shadow)
+ *   --card-title-text-shadow .card-title text luminescence (text-shadow)
  *
- * Genre structural tokens (set on :root by ops.js defaults, overridden by other genres):
+ * Genre structural tokens (set on html by ops.js defaults, overridden by genre CSS selectors):
  *
  *   --z-card-clip                    clip-path polygon string (Ops = none)
  *   --z-card-filter                  filter: drop-shadow() for clip-path shaped cards

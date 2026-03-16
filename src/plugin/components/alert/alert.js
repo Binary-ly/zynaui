@@ -9,7 +9,7 @@
  *   --alert-shadow       box-shadow (near glow + inset depth)
  *   --alert-title-shadow .alert-title text-shadow luminescence
  *
- * Genre structural tokens (set on :root by ops.js defaults, overridden by other genres):
+ * Genre structural tokens (set on html by ops.js defaults, overridden by genre CSS selectors):
  *
  *   --z-alert-radius         border-radius (Ops = 0 3px 3px 0, Cyberpunk = 0)
  *   --z-alert-bar-width      Bar thickness (Ops = 3px, Cyberpunk = 5px)
@@ -21,7 +21,7 @@
  *                            (Ops = 5.5%, Cyberpunk = 14%)
  *   --z-alert-border         Full-perimeter border (Ops = none, Cyberpunk = 1px neon-tinted).
  *                            Supports var(--alert-bar-color) — lazy CSS evaluation resolves
- *                            the component-level variable even though the token is on :root.
+ *                            the component-level variable even though the token is on html.
  *   --z-alert-prefix-opacity Opacity of the .alert-title::before prefix ("// " in Ops, "> " in Cyberpunk).
  *                            (Ops = 0.38, Cyberpunk = 0.55)
  *   --z-alert-bar-glow       box-shadow on the bar ::before pseudo-element.
@@ -67,7 +67,7 @@ export default function(theme) {
     borderRadius: 'var(--z-alert-radius)',
     // --z-alert-border: genre structural token. Ops = none. Cyberpunk = full-perimeter
     // neon border using the variant's bar colour (lazy CSS evaluation resolves
-    // var(--alert-bar-color) at the element level even though the token is on :root).
+    // var(--alert-bar-color) at the element level even though the token is on html).
     border: 'var(--z-alert-border)',
     // --z-alert-texture: genre structural token — Cyberpunk overlays scan-line texture.
     // backgroundImage stacks above backgroundColor so the texture composites cleanly.

@@ -18,8 +18,9 @@ export default plugin(
       // ── Token naming tiers — internal vs public API ───────────────────────────
       // --zp-*   Primitives (raw values: corner sizes, ease curves, palette).
       //          Internal. Not intended for end users or genres to set directly.
-      // --z-*    Genre structural tokens. Internal to genres — set on :root by
-      //          ops.js defaults and overridden by other genres via JS setProperty.
+      // --z-*    Genre structural tokens. Internal to genres — set on html by
+      //          genre CSS selectors (addBase in plugin) and overridden per-element
+      //          by JS setProperty in the genre builder.
       //          Equivalent to the --_name "private" convention from CSS authoring
       //          practices. End users should not set these directly.
       // --btn-*  Public element-level tokens exposed per component (--btn-bg,
@@ -102,9 +103,11 @@ export default plugin(
         '--z-shadow-card':      '0 24px 70px rgba(0,0,0,0.60), 0 0 0 1px rgba(255,255,255,0.02)',
         '--z-shadow-card-deep': '0 30px 80px rgba(0,0,0,0.80), inset 0 1px 0 rgba(255,255,255,0.02)',
 
-        // ── Structural genre tokens — Ops defaults ────────────────────────────
-        // ops.js is the single source of truth for all structural defaults.
-        // Cyberpunk (and any future genre) overrides these via JS setProperty.
+        // ── Global motion defaults — Ops baseline ────────────────────────────
+        // ops.tokens contains only motion/easing tokens (--z-duration-*, --z-ease-*).
+        // Component structural tokens (--z-btn-*, --z-card-*, etc.) are declared on
+        // the html element via ops.styles['html'] and overridden by genre CSS selectors
+        // (e.g. html[data-genre="cyberpunk"]) — not via :root or JS setProperty.
         ...ops.tokens,
       },
 
