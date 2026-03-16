@@ -211,7 +211,7 @@ export default function(theme) {
         height: 'var(--badge-dot-size)',
         borderRadius: '50%',
         flexShrink: '0',
-        animation: 'zyna-pulse-ring 2s var(--z-ease-enter) infinite',
+        animation: 'zyna-pulse-ring var(--z-duration-pulse) var(--z-ease-enter) infinite',
       },
     },
 

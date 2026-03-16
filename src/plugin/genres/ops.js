@@ -29,9 +29,10 @@ export const swatches = {
 // Component structural tokens live in styles['html'] below.
 export const tokens = {
   // ── Motion ─────────────────────────────────────────────────────────────────
-  '--z-duration-fast': '0.18s',
-  '--z-duration-base': '0.22s',
-  '--z-duration-slow': '0.28s',
+  '--z-duration-fast':  '0.18s',
+  '--z-duration-base':  '0.22s',
+  '--z-duration-slow':  '0.28s',
+  '--z-duration-pulse': '2s',
   // Directional easing — genre-swappable motion character.
   // Components use var(--z-ease-exit) on base transitions (hover-out) and
   // var(--z-ease-enter) on :hover transitions (hover-in). CSS reads the

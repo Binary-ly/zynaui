@@ -102,7 +102,7 @@ export const styles = {
     '--z-card-header-dot-size':       '7px',
     '--z-card-header-dot-bg':         'var(--zyna)',
     '--z-card-header-dot-shadow':     '0 0 8px var(--zyna), 0 0 20px color-mix(in oklch, var(--zyna) 50%, transparent)',
-    '--z-card-header-dot-animation':  'zyna-pulse-ring 2s var(--z-ease-enter) infinite',
+    '--z-card-header-dot-animation':  'zyna-pulse-ring var(--z-duration-pulse) var(--z-ease-enter) infinite',
     '--z-card-bracket-size':          '22px',
     '--z-card-bracket-stroke':        '2px',
     '--z-card-bracket-color':         'color-mix(in oklch, var(--zyna) 80%, transparent)',
