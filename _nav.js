@@ -61,7 +61,7 @@ function topbarHTML() {
     <div class="topbar-right">
       <span class="badge-version">v0.1.0-beta</span>
       <div class="genre-selector" id="genre-selector">
-        <button class="genre-trigger" id="genre-trigger" aria-haspopup="true" aria-expanded="false">
+        <button class="genre-trigger" id="genre-trigger" aria-haspopup="listbox" aria-controls="genre-panel" aria-expanded="false">
           <span class="genre-trigger-label">[ <span id="genre-active-name">OPS</span> ]</span>
           <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor" aria-hidden="true">
             <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
