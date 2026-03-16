@@ -102,7 +102,7 @@
     }
 
     .gb-text-input:focus {
-      border-color: color-mix(in srgb, var(--brand) 55%, transparent);
+      border-color: color-mix(in oklch, var(--brand) 55%, transparent);
     }
 
     .gb-color-row {
@@ -150,7 +150,7 @@
     }
 
     .gb-hex-input:focus {
-      border-color: color-mix(in srgb, var(--brand) 55%, transparent);
+      border-color: color-mix(in oklch, var(--brand) 55%, transparent);
     }
 
     /* ── Tab bar ── */
@@ -270,7 +270,7 @@
       font-family: var(--mono);
       font-size: 0.6rem;
       color: var(--brand);
-      background: color-mix(in srgb, var(--brand) 10%, transparent);
+      background: color-mix(in oklch, var(--brand) 10%, transparent);
       padding: 0.05rem 0.4rem;
       border-radius: 2px;
       min-width: 40px;
@@ -290,7 +290,7 @@
     }
 
     .gb-range:focus-visible {
-      outline: 2px solid color-mix(in srgb, var(--brand) 65%, transparent);
+      outline: 2px solid color-mix(in oklch, var(--brand) 65%, transparent);
       outline-offset: 4px;
     }
 
@@ -302,7 +302,7 @@
       border-radius: 50%;
       background: var(--brand);
       cursor: pointer;
-      box-shadow: 0 0 0 2px color-mix(in srgb, var(--brand) 25%, transparent);
+      box-shadow: 0 0 0 2px color-mix(in oklch, var(--brand) 25%, transparent);
     }
 
     .gb-range::-moz-range-thumb {
@@ -312,7 +312,7 @@
       background: var(--brand);
       cursor: pointer;
       border: none;
-      box-shadow: 0 0 0 2px color-mix(in srgb, var(--brand) 25%, transparent);
+      box-shadow: 0 0 0 2px color-mix(in oklch, var(--brand) 25%, transparent);
     }
 
     /* ── Chip selector ── */
@@ -337,12 +337,12 @@
       line-height: 1;
     }
     .gb-chip:hover {
-      border-color: color-mix(in srgb, var(--brand) 40%, transparent);
+      border-color: color-mix(in oklch, var(--brand) 40%, transparent);
       color: var(--text);
     }
     .gb-chip.active {
-      background: color-mix(in srgb, var(--brand) 14%, transparent);
-      border-color: color-mix(in srgb, var(--brand) 50%, transparent);
+      background: color-mix(in oklch, var(--brand) 14%, transparent);
+      border-color: color-mix(in oklch, var(--brand) 50%, transparent);
       color: var(--brand);
     }
     .gb-chip-custom {
@@ -358,7 +358,7 @@
       opacity: 0.55;
       margin: 1rem 0 0.5rem;
       padding-bottom: 0.3rem;
-      border-bottom: 1px solid color-mix(in srgb, var(--brand) 20%, transparent);
+      border-bottom: 1px solid color-mix(in oklch, var(--brand) 20%, transparent);
     }
     .gb-subgroup-label:first-child {
       margin-top: 0;
@@ -383,7 +383,7 @@
     .gb-onoff.on {
       border-color: var(--brand);
       color: var(--brand);
-      background: color-mix(in srgb, var(--brand) 10%, transparent);
+      background: color-mix(in oklch, var(--brand) 10%, transparent);
     }
     .gb-chip-custom:hover, .gb-chip-custom.active {
       opacity: 1;
@@ -413,7 +413,7 @@
     }
 
     .gb-textarea:focus {
-      border-color: color-mix(in srgb, var(--brand) 55%, transparent);
+      border-color: color-mix(in oklch, var(--brand) 55%, transparent);
     }
 
     /* Radio group */
@@ -445,8 +445,8 @@
     }
 
     .gb-radio-group label:has(input:checked) {
-      background: color-mix(in srgb, var(--brand) 14%, transparent);
-      border-color: color-mix(in srgb, var(--brand) 48%, transparent);
+      background: color-mix(in oklch, var(--brand) 14%, transparent);
+      border-color: color-mix(in oklch, var(--brand) 48%, transparent);
       color: var(--brand);
     }
 
@@ -478,8 +478,8 @@
     }
 
     .gb-toggle-group label:has(input:checked) {
-      background: color-mix(in srgb, var(--brand) 14%, transparent);
-      border-color: color-mix(in srgb, var(--brand) 48%, transparent);
+      background: color-mix(in oklch, var(--brand) 14%, transparent);
+      border-color: color-mix(in oklch, var(--brand) 48%, transparent);
       color: var(--brand);
     }
 
@@ -529,7 +529,7 @@
     }
 
     .gb-bezier-num:focus {
-      border-color: color-mix(in srgb, var(--brand) 55%, transparent);
+      border-color: color-mix(in oklch, var(--brand) 55%, transparent);
     }
 
     .gb-bezier-num-label {
@@ -560,8 +560,8 @@
       font-family: var(--mono);
       font-size: 0.58rem;
       color: var(--brand);
-      background: color-mix(in srgb, var(--brand) 10%, transparent);
-      border: 1px solid color-mix(in srgb, var(--brand) 28%, transparent);
+      background: color-mix(in oklch, var(--brand) 10%, transparent);
+      border: 1px solid color-mix(in oklch, var(--brand) 28%, transparent);
       border-radius: 3px;
       padding: 0.18rem 0.55rem;
       cursor: pointer;
@@ -570,7 +570,7 @@
     }
 
     .gb-visual-hint button:hover {
-      background: color-mix(in srgb, var(--brand) 16%, transparent);
+      background: color-mix(in oklch, var(--brand) 16%, transparent);
     }
 
     /* ── Code output ── */
@@ -607,8 +607,8 @@
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--brand);
-      background: color-mix(in srgb, var(--brand) 10%, transparent);
-      border: 1px solid color-mix(in srgb, var(--brand) 30%, transparent);
+      background: color-mix(in oklch, var(--brand) 10%, transparent);
+      border: 1px solid color-mix(in oklch, var(--brand) 30%, transparent);
       border-radius: 3px;
       padding: 0.18rem 0.6rem;
       cursor: pointer;
@@ -616,14 +616,14 @@
     }
 
     .gb-copy-btn:hover {
-      background: color-mix(in srgb, var(--brand) 18%, transparent);
-      box-shadow: 0 0 8px color-mix(in srgb, var(--brand) 20%, transparent);
+      background: color-mix(in oklch, var(--brand) 18%, transparent);
+      box-shadow: 0 0 8px color-mix(in oklch, var(--brand) 20%, transparent);
     }
 
     .gb-copy-btn.copied {
       color: #00FFB2;
-      border-color: color-mix(in srgb, #00FFB2 35%, transparent);
-      background: color-mix(in srgb, #00FFB2 12%, transparent);
+      border-color: color-mix(in oklch, #00FFB2 35%, transparent);
+      background: color-mix(in oklch, #00FFB2 12%, transparent);
     }
 
     .gb-code-pre {
@@ -642,7 +642,7 @@
       margin: 0;
     }
 
-    .code-key { color: color-mix(in srgb, var(--brand) 85%, white); }
+    .code-key { color: color-mix(in oklch, var(--brand) 85%, white); }
     .code-val { color: #A8D8A8; }
     .code-str { color: #DEB887; }
     .code-kw  { color: #9B9BC4; }
@@ -824,7 +824,7 @@
     .gb-alertbar-swatch::before {
       content: '';
       position: absolute;
-      background: color-mix(in srgb, var(--brand) 60%, transparent);
+      background: color-mix(in oklch, var(--brand) 60%, transparent);
       transition: background 0.12s;
     }
     .gb-toggle-group label:has(input:checked) .gb-alertbar-swatch::before { background: var(--brand); }
@@ -837,7 +837,7 @@
     }
 
     .gb-visual .gb-comp-wrap:hover {
-      outline: 2px dashed color-mix(in srgb, var(--brand) 60%, transparent);
+      outline: 2px dashed color-mix(in oklch, var(--brand) 60%, transparent);
       outline-offset: 8px;
       cursor: pointer;
     }
@@ -882,18 +882,18 @@
 
     .gb-shape-edit-btn {
       font-family: var(--mono); font-size: 0.62rem; font-weight: 600;
-      background: color-mix(in srgb, var(--brand) 10%, transparent);
-      border: 1px solid color-mix(in srgb, var(--brand) 25%, transparent);
+      background: color-mix(in oklch, var(--brand) 10%, transparent);
+      border: 1px solid color-mix(in oklch, var(--brand) 25%, transparent);
       border-radius: 3px; color: var(--brand); padding: 0.3rem 0.7rem;
       cursor: pointer; letter-spacing: 0.08em; transition: background 0.12s; width: 100%;
     }
-    .gb-shape-edit-btn:hover { background: color-mix(in srgb, var(--brand) 18%, transparent); }
+    .gb-shape-edit-btn:hover { background: color-mix(in oklch, var(--brand) 18%, transparent); }
     .gb-shape-reset {
       font-family: var(--mono); font-size: 0.58rem; font-weight: 600;
       background: var(--bg3); border: 1px solid var(--border);
       border-radius: 3px; color: var(--text2); padding: 0.2rem 0.5rem; cursor: pointer;
     }
-    .gb-shape-reset:hover { border-color: color-mix(in srgb,var(--brand) 40%,transparent); color: var(--brand); }
+    .gb-shape-reset:hover { border-color: color-mix(in oklch,var(--brand) 40%,transparent); color: var(--brand); }
   </style>
 </head>
 <body>
@@ -1192,8 +1192,8 @@
                 <div class="gb-chipset" id="cs-badge-inset">
                   <button class="gb-chip active" data-val="none">None</button>
                   <button class="gb-chip" data-val="inset 0 0 0 1px currentColor">Ring</button>
-                  <button class="gb-chip" data-val="inset 0 0 8px color-mix(in srgb, currentColor 40%, transparent)">Inner Glow</button>
-                  <button class="gb-chip" data-val="inset 0 0 0 1px currentColor, inset 0 0 8px color-mix(in srgb, currentColor 30%, transparent)">Ring + Glow</button>
+                  <button class="gb-chip" data-val="inset 0 0 8px color-mix(in oklch, currentColor 40%, transparent)">Inner Glow</button>
+                  <button class="gb-chip" data-val="inset 0 0 0 1px currentColor, inset 0 0 8px color-mix(in oklch, currentColor 30%, transparent)">Ring + Glow</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
                 <textarea class="gb-textarea gb-chipset-reveal" id="gb-badge-inset" style="display:none" spellcheck="false" aria-label="Custom inset shadow">none</textarea>
@@ -1282,8 +1282,8 @@
                 <div class="gb-label" style="margin-bottom:0.3rem">Border <span style="opacity:0.5">--z-alert-border</span></div>
                 <div class="gb-chipset" id="cs-alert-border">
                   <button class="gb-chip active" data-val="none">None</button>
-                  <button class="gb-chip" data-val="1px solid color-mix(in srgb, var(--alert-bar-color) 35%, transparent)">Bar Tint</button>
-                  <button class="gb-chip" data-val="1px solid color-mix(in srgb, var(--zyna) 25%, transparent)">Brand</button>
+                  <button class="gb-chip" data-val="1px solid color-mix(in oklch, var(--alert-bar-color) 35%, transparent)">Bar Tint</button>
+                  <button class="gb-chip" data-val="1px solid color-mix(in oklch, var(--zyna) 25%, transparent)">Brand</button>
                   <button class="gb-chip" data-val="1px solid rgba(255,255,255,0.07)">Subtle</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
@@ -1322,9 +1322,9 @@
                 </div>
                 <div id="wrap-card-bar-shadow" style="display:none">
                   <div class="gb-chipset" id="cs-card-bar-shadow">
-                    <button class="gb-chip active" data-val="0 0 8px color-mix(in srgb, var(--zyna) 50%, transparent)">Soft</button>
-                    <button class="gb-chip" data-val="0 0 14px var(--zyna), 0 0 32px color-mix(in srgb, var(--zyna) 50%, transparent)">Neon</button>
-                    <button class="gb-chip" data-val="0 0 24px var(--zyna), 0 0 60px color-mix(in srgb, var(--zyna) 35%, transparent)">Flare</button>
+                    <button class="gb-chip active" data-val="0 0 8px color-mix(in oklch, var(--zyna) 50%, transparent)">Soft</button>
+                    <button class="gb-chip" data-val="0 0 14px var(--zyna), 0 0 32px color-mix(in oklch, var(--zyna) 50%, transparent)">Neon</button>
+                    <button class="gb-chip" data-val="0 0 24px var(--zyna), 0 0 60px color-mix(in oklch, var(--zyna) 35%, transparent)">Flare</button>
                     <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                   </div>
                   <textarea class="gb-textarea gb-chipset-reveal" id="gb-card-bar-shadow" style="display:none" spellcheck="false" aria-label="Custom bar shadow"></textarea>
@@ -1353,8 +1353,8 @@
               <div class="gb-field">
                 <div class="gb-label" style="margin-bottom:0.3rem">Bracket Color <span style="opacity:0.5">--z-card-bracket-color</span></div>
                 <div class="gb-chipset" id="cs-card-bracket-color">
-                  <button class="gb-chip active" data-val="color-mix(in srgb, var(--zyna) 42%, transparent)">42%</button>
-                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 70%, transparent)">70%</button>
+                  <button class="gb-chip active" data-val="color-mix(in oklch, var(--zyna) 42%, transparent)">42%</button>
+                  <button class="gb-chip" data-val="color-mix(in oklch, var(--zyna) 70%, transparent)">70%</button>
                   <button class="gb-chip" data-val="var(--zyna)">Full</button>
                   <button class="gb-chip" data-val="transparent">None</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
@@ -1369,7 +1369,7 @@
                 <div class="gb-label" style="margin-bottom:0.3rem">Header BG <span style="opacity:0.5">--z-card-header-bg</span></div>
                 <div class="gb-chipset" id="cs-card-header-bg">
                   <button class="gb-chip active" data-val="transparent">None</button>
-                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 10%, transparent)">Brand Tint</button>
+                  <button class="gb-chip" data-val="color-mix(in oklch, var(--zyna) 10%, transparent)">Brand Tint</button>
                   <button class="gb-chip" data-val="rgba(255,255,255,0.03)">Subtle</button>
                   <button class="gb-chip" data-val="var(--bg2)">Surface</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
@@ -1381,7 +1381,7 @@
                 <div class="gb-label" style="margin-bottom:0.3rem">Header Border <span style="opacity:0.5">--z-card-header-border</span></div>
                 <div class="gb-chipset" id="cs-card-header-border">
                   <button class="gb-chip active" data-val="var(--z-color-border)">Default</button>
-                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 30%, transparent)">Brand</button>
+                  <button class="gb-chip" data-val="color-mix(in oklch, var(--zyna) 30%, transparent)">Brand</button>
                   <button class="gb-chip" data-val="transparent">None</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
@@ -1391,9 +1391,9 @@
               <div class="gb-field">
                 <div class="gb-label" style="margin-bottom:0.3rem">Header Color <span style="opacity:0.5">--z-card-header-color</span></div>
                 <div class="gb-chipset" id="cs-card-header-color">
-                  <button class="gb-chip active" data-val="color-mix(in srgb, var(--zyna) 75%, transparent)">75%</button>
+                  <button class="gb-chip active" data-val="color-mix(in oklch, var(--zyna) 75%, transparent)">75%</button>
                   <button class="gb-chip" data-val="var(--zyna)">Full</button>
-                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 50%, transparent)">50%</button>
+                  <button class="gb-chip" data-val="color-mix(in oklch, var(--zyna) 50%, transparent)">50%</button>
                   <button class="gb-chip" data-val="var(--z-color-text)">Text</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
@@ -1415,9 +1415,9 @@
                 </div>
                 <div id="wrap-card-header-ts" style="display:none">
                   <div class="gb-chipset" id="cs-card-header-ts">
-                    <button class="gb-chip active" data-val="0 0 10px color-mix(in srgb, var(--zyna) 60%, transparent)">Soft</button>
-                    <button class="gb-chip" data-val="0 0 18px color-mix(in srgb, var(--zyna) 70%, transparent), 0 0 40px color-mix(in srgb, var(--zyna) 30%, transparent)">Neon</button>
-                    <button class="gb-chip" data-val="0 0 1px rgba(255,255,255,0.9), 0 0 24px color-mix(in srgb, var(--zyna) 80%, transparent)">Bloom</button>
+                    <button class="gb-chip active" data-val="0 0 10px color-mix(in oklch, var(--zyna) 60%, transparent)">Soft</button>
+                    <button class="gb-chip" data-val="0 0 18px color-mix(in oklch, var(--zyna) 70%, transparent), 0 0 40px color-mix(in oklch, var(--zyna) 30%, transparent)">Neon</button>
+                    <button class="gb-chip" data-val="0 0 1px rgba(255,255,255,0.9), 0 0 24px color-mix(in oklch, var(--zyna) 80%, transparent)">Bloom</button>
                     <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                   </div>
                   <textarea class="gb-textarea gb-chipset-reveal" id="gb-card-header-ts" style="display:none" spellcheck="false" aria-label="Custom header text shadow"></textarea>
@@ -1437,8 +1437,8 @@
               <div class="gb-field">
                 <div class="gb-label" style="margin-bottom:0.3rem">Dot Color <span style="opacity:0.5">--z-card-header-dot-bg</span></div>
                 <div class="gb-chipset" id="cs-card-dot-bg">
-                  <button class="gb-chip active" data-val="color-mix(in srgb, var(--zyna) 65%, transparent)">65%</button>
-                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 45%, transparent)">45%</button>
+                  <button class="gb-chip active" data-val="color-mix(in oklch, var(--zyna) 65%, transparent)">65%</button>
+                  <button class="gb-chip" data-val="color-mix(in oklch, var(--zyna) 45%, transparent)">45%</button>
                   <button class="gb-chip" data-val="var(--zyna)">Full</button>
                   <button class="gb-chip" data-val="var(--z-color-success)">Success</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
@@ -1449,9 +1449,9 @@
               <div class="gb-field">
                 <div class="gb-label" style="margin-bottom:0.3rem">Dot Shadow <span style="opacity:0.5">--z-card-header-dot-shadow</span></div>
                 <div class="gb-chipset" id="cs-card-dot-shadow">
-                  <button class="gb-chip active" data-val="0 0 6px color-mix(in srgb, var(--zyna) 65%, transparent), 0 0 16px color-mix(in srgb, var(--zyna) 30%, transparent)">Default</button>
+                  <button class="gb-chip active" data-val="0 0 6px color-mix(in oklch, var(--zyna) 65%, transparent), 0 0 16px color-mix(in oklch, var(--zyna) 30%, transparent)">Default</button>
                   <button class="gb-chip" data-val="none">None</button>
-                  <button class="gb-chip" data-val="0 0 10px var(--zyna), 0 0 24px color-mix(in srgb, var(--zyna) 50%, transparent)">Neon</button>
+                  <button class="gb-chip" data-val="0 0 10px var(--zyna), 0 0 24px color-mix(in oklch, var(--zyna) 50%, transparent)">Neon</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
                 <textarea class="gb-textarea gb-chipset-reveal" id="gb-card-dot-shadow" style="display:none" spellcheck="false" aria-label="Custom dot shadow"></textarea>
@@ -1478,9 +1478,9 @@
                 </div>
                 <div id="wrap-card-title-ts" style="display:none">
                   <div class="gb-chipset" id="cs-card-title-ts">
-                    <button class="gb-chip active" data-val="0 0 18px color-mix(in srgb, var(--zyna) 22%, transparent)">Soft</button>
-                    <button class="gb-chip" data-val="0 0 24px color-mix(in srgb, var(--zyna) 45%, transparent)">Neon</button>
-                    <button class="gb-chip" data-val="0 0 1px rgba(255,255,255,0.8), 0 0 20px color-mix(in srgb, var(--zyna) 50%, transparent)">Bloom</button>
+                    <button class="gb-chip active" data-val="0 0 18px color-mix(in oklch, var(--zyna) 22%, transparent)">Soft</button>
+                    <button class="gb-chip" data-val="0 0 24px color-mix(in oklch, var(--zyna) 45%, transparent)">Neon</button>
+                    <button class="gb-chip" data-val="0 0 1px rgba(255,255,255,0.8), 0 0 20px color-mix(in oklch, var(--zyna) 50%, transparent)">Bloom</button>
                     <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                   </div>
                   <textarea class="gb-textarea gb-chipset-reveal" id="gb-card-title-ts" style="display:none" spellcheck="false" aria-label="Custom title text shadow"></textarea>
@@ -1502,9 +1502,9 @@
                 <div class="gb-label" style="margin-bottom:0.3rem">Glow Low Color <span style="opacity:0.5">--z-card-default-glow-lo</span></div>
                 <div class="gb-chipset" id="cs-card-glow-lo">
                   <button class="gb-chip active" data-val="rgba(0,0,0,0)">None</button>
-                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 6%, transparent)">Soft</button>
-                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 12%, transparent)">Medium</button>
-                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 20%, transparent)">Strong</button>
+                  <button class="gb-chip" data-val="color-mix(in oklch, var(--zyna) 6%, transparent)">Soft</button>
+                  <button class="gb-chip" data-val="color-mix(in oklch, var(--zyna) 12%, transparent)">Medium</button>
+                  <button class="gb-chip" data-val="color-mix(in oklch, var(--zyna) 20%, transparent)">Strong</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
                 <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-glow-lo" style="display:none;margin-top:6px" spellcheck="false" aria-label="Custom glow low color" />
@@ -1514,9 +1514,9 @@
                 <div class="gb-label" style="margin-bottom:0.3rem">Glow High Color <span style="opacity:0.5">--z-card-default-glow-hi</span></div>
                 <div class="gb-chipset" id="cs-card-glow-hi">
                   <button class="gb-chip active" data-val="rgba(0,0,0,0)">None</button>
-                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 14%, transparent)">Soft</button>
-                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 24%, transparent)">Medium</button>
-                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 36%, transparent)">Strong</button>
+                  <button class="gb-chip" data-val="color-mix(in oklch, var(--zyna) 14%, transparent)">Soft</button>
+                  <button class="gb-chip" data-val="color-mix(in oklch, var(--zyna) 24%, transparent)">Medium</button>
+                  <button class="gb-chip" data-val="color-mix(in oklch, var(--zyna) 36%, transparent)">Strong</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
                 <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-glow-hi" style="display:none;margin-top:6px" spellcheck="false" aria-label="Custom glow high color" />
@@ -1529,8 +1529,8 @@
                 <div class="gb-label" style="margin-bottom:0.3rem">Border Color <span style="opacity:0.5">--z-card-border-color</span></div>
                 <div class="gb-chipset" id="cs-card-border-color">
                   <button class="gb-chip active" data-val="var(--z-color-border)">Default</button>
-                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 60%, transparent)">Brand</button>
-                  <button class="gb-chip" data-val="color-mix(in srgb, var(--zyna) 25%, transparent)">Soft</button>
+                  <button class="gb-chip" data-val="color-mix(in oklch, var(--zyna) 60%, transparent)">Brand</button>
+                  <button class="gb-chip" data-val="color-mix(in oklch, var(--zyna) 25%, transparent)">Soft</button>
                   <button class="gb-chip" data-val="transparent">None</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
@@ -1543,7 +1543,7 @@
                   <button class="gb-chip active" data-val="var(--z-shadow-card)">Default</button>
                   <button class="gb-chip" data-val="none">None</button>
                   <button class="gb-chip" data-val="0 8px 32px rgba(0,0,0,0.6)">Elevated</button>
-                  <button class="gb-chip" data-val="0 0 0 1px color-mix(in srgb, var(--zyna) 25%, transparent), 0 8px 32px rgba(0,0,0,0.6)">Neon Halo</button>
+                  <button class="gb-chip" data-val="0 0 0 1px color-mix(in oklch, var(--zyna) 25%, transparent), 0 8px 32px rgba(0,0,0,0.6)">Neon Halo</button>
                   <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
                 </div>
                 <textarea class="gb-textarea gb-chipset-reveal" id="gb-card-shadow-val" style="display:none" spellcheck="false" aria-label="Custom card shadow">var(--z-shadow-card)</textarea>
@@ -1755,14 +1755,14 @@
       '--z-card-bar-shadow':      'none',
       '--z-card-header-bg':       'transparent',
       '--z-card-header-border':   'var(--z-color-border)',
-      '--z-card-header-color':    'color-mix(in srgb, var(--zyna) 75%, transparent)',
+      '--z-card-header-color':    'color-mix(in oklch, var(--zyna) 75%, transparent)',
       '--z-card-header-letter-spacing': '0.14em',
       '--z-card-header-text-shadow': 'none',
       '--z-card-header-dot-size':  '5px',
-      '--z-card-header-dot-bg':    'color-mix(in srgb, var(--zyna) 65%, transparent)',
-      '--z-card-header-dot-shadow': '0 0 6px color-mix(in srgb, var(--zyna) 65%, transparent), 0 0 16px color-mix(in srgb, var(--zyna) 30%, transparent)',
+      '--z-card-header-dot-bg':    'color-mix(in oklch, var(--zyna) 65%, transparent)',
+      '--z-card-header-dot-shadow': '0 0 6px color-mix(in oklch, var(--zyna) 65%, transparent), 0 0 16px color-mix(in oklch, var(--zyna) 30%, transparent)',
       '--z-card-header-dot-animation': 'none',
-      '--z-card-bracket-color':   'color-mix(in srgb, var(--zyna) 42%, transparent)',
+      '--z-card-bracket-color':   'color-mix(in oklch, var(--zyna) 42%, transparent)',
       '--z-card-title-text-shadow':  'none',
       '--z-card-default-glow-lo':    'rgba(0,0,0,0)',
       '--z-card-default-glow-hi':    'rgba(0,0,0,0)',
@@ -1904,14 +1904,14 @@
       '--z-card-bar-shadow': 'none',
       '--z-card-header-bg': 'transparent',
       '--z-card-header-border': 'var(--z-color-border)',
-      '--z-card-header-color': 'color-mix(in srgb, var(--zyna) 75%, transparent)',
+      '--z-card-header-color': 'color-mix(in oklch, var(--zyna) 75%, transparent)',
       '--z-card-header-letter-spacing': 0.14,
       '--z-card-header-text-shadow': 'none',
       '--z-card-header-dot-size': 5,
-      '--z-card-header-dot-bg': 'color-mix(in srgb, var(--zyna) 65%, transparent)',
-      '--z-card-header-dot-shadow': '0 0 6px color-mix(in srgb, var(--zyna) 65%, transparent), 0 0 16px color-mix(in srgb, var(--zyna) 30%, transparent)',
+      '--z-card-header-dot-bg': 'color-mix(in oklch, var(--zyna) 65%, transparent)',
+      '--z-card-header-dot-shadow': '0 0 6px color-mix(in oklch, var(--zyna) 65%, transparent), 0 0 16px color-mix(in oklch, var(--zyna) 30%, transparent)',
       '--z-card-header-dot-animation': 'none',
-      '--z-card-bracket-color': 'color-mix(in srgb, var(--zyna) 42%, transparent)',
+      '--z-card-bracket-color': 'color-mix(in oklch, var(--zyna) 42%, transparent)',
       '--z-card-title-text-shadow':  'none',
       '--z-card-default-glow-lo': 'rgba(0,0,0,0)',
       '--z-card-default-glow-hi': 'rgba(0,0,0,0)',
@@ -2401,7 +2401,7 @@
 
       const h2 = document.createElementNS(svgNS,'circle')
       h2.setAttribute('r','6')
-      h2.setAttribute('fill', `color-mix(in srgb, ${getColor()} 55%, #0a0912)`)
+      h2.setAttribute('fill', `color-mix(in oklch, ${getColor()} 55%, #0a0912)`)
       h2.setAttribute('cursor','grab')
       svg.appendChild(h2)
 
@@ -2549,7 +2549,7 @@
       function setValues(arr) { state[stateKey] = arr; refresh() }
       function updateColor(hex) {
         h1.setAttribute('fill', hex); h1.style.filter = `drop-shadow(0 0 4px ${hex})`
-        h2.setAttribute('fill', `color-mix(in srgb, ${hex} 55%, #0a0912)`)
+        h2.setAttribute('fill', `color-mix(in oklch, ${hex} 55%, #0a0912)`)
         path.setAttribute('stroke', hex)
       }
       refresh()
@@ -2679,14 +2679,14 @@
       state['--z-card-bar-shadow']        = tok('--z-card-bar-shadow') || 'none'
       state['--z-card-header-bg']              = tok('--z-card-header-bg') || 'transparent'
       state['--z-card-header-border']          = tok('--z-card-header-border') || 'var(--z-color-border)'
-      state['--z-card-header-color']           = tok('--z-card-header-color') || 'color-mix(in srgb, var(--zyna) 75%, transparent)'
+      state['--z-card-header-color']           = tok('--z-card-header-color') || 'color-mix(in oklch, var(--zyna) 75%, transparent)'
       state['--z-card-header-letter-spacing']  = parseFloat(tok('--z-card-header-letter-spacing') || '0.14')
       state['--z-card-header-text-shadow']     = tok('--z-card-header-text-shadow') || 'none'
       state['--z-card-header-dot-size']        = parseFloat(tok('--z-card-header-dot-size') || '5')
-      state['--z-card-header-dot-bg']          = tok('--z-card-header-dot-bg') || 'color-mix(in srgb, var(--zyna) 65%, transparent)'
-      state['--z-card-header-dot-shadow']      = tok('--z-card-header-dot-shadow') || '0 0 6px color-mix(in srgb, var(--zyna) 65%, transparent), 0 0 16px color-mix(in srgb, var(--zyna) 30%, transparent)'
+      state['--z-card-header-dot-bg']          = tok('--z-card-header-dot-bg') || 'color-mix(in oklch, var(--zyna) 65%, transparent)'
+      state['--z-card-header-dot-shadow']      = tok('--z-card-header-dot-shadow') || '0 0 6px color-mix(in oklch, var(--zyna) 65%, transparent), 0 0 16px color-mix(in oklch, var(--zyna) 30%, transparent)'
       state['--z-card-header-dot-animation']   = tok('--z-card-header-dot-animation') || 'none'
-      state['--z-card-bracket-color']          = tok('--z-card-bracket-color') || 'color-mix(in srgb, var(--zyna) 42%, transparent)'
+      state['--z-card-bracket-color']          = tok('--z-card-bracket-color') || 'color-mix(in oklch, var(--zyna) 42%, transparent)'
       state['--z-card-title-text-shadow']      = tok('--z-card-title-text-shadow') || 'none'
       state['--z-card-default-glow-lo']        = tok('--z-card-default-glow-lo') || 'rgba(0,0,0,0)'
       state['--z-card-default-glow-hi']        = tok('--z-card-default-glow-hi') || 'rgba(0,0,0,0)'
@@ -2889,7 +2889,7 @@
         const radius = state['__custom-corner-radius'] || 0
         const displayPts = applyRounding(pts, radius)
         polyEl.setAttribute('points', displayPts.map(p=>`${p.x},${p.y}`).join(' '))
-        polyEl.setAttribute('fill', `color-mix(in srgb, ${brand} 15%, transparent)`)
+        polyEl.setAttribute('fill', `color-mix(in oklch, ${brand} 15%, transparent)`)
         polyEl.setAttribute('stroke', brand)
 
         while (ptGroup.firstChild) ptGroup.removeChild(ptGroup.firstChild)
@@ -3022,7 +3022,7 @@
         const radius = state['__badge-custom-corner-radius'] || 0
         const displayPts = applyRounding(pts, radius)
         polyEl.setAttribute('points', displayPts.map(p=>`${p.x},${p.y}`).join(' '))
-        polyEl.setAttribute('fill', `color-mix(in srgb, ${brand} 15%, transparent)`)
+        polyEl.setAttribute('fill', `color-mix(in oklch, ${brand} 15%, transparent)`)
         polyEl.setAttribute('stroke', brand)
 
         while (ptGroup.firstChild) ptGroup.removeChild(ptGroup.firstChild)
@@ -3229,7 +3229,7 @@
     wireChipset('cs-alert-texture',    'gb-alert-texture',    '--z-alert-texture')
     wireChipset('cs-card-border-color','gb-card-border-color','--z-card-border-color')
     wireChipset('cs-card-shadow',      'gb-card-shadow-val',  '--z-card-shadow')
-    wireOnOff('onoff-card-bar-shadow', 'wrap-card-bar-shadow', '--z-card-bar-shadow', '0 0 8px color-mix(in srgb, var(--zyna) 50%, transparent)')
+    wireOnOff('onoff-card-bar-shadow', 'wrap-card-bar-shadow', '--z-card-bar-shadow', '0 0 8px color-mix(in oklch, var(--zyna) 50%, transparent)')
     wireChipset('cs-card-bar-shadow',  'gb-card-bar-shadow',  '--z-card-bar-shadow')
     wireChipset('cs-card-header-bg',      'gb-card-header-bg',        '--z-card-header-bg')
     wireChipset('cs-card-header-border',  'gb-card-header-border-val','--z-card-header-border')
@@ -3240,9 +3240,9 @@
     wireChipset('cs-card-dot-anim',       'gb-card-dot-anim',         '--z-card-header-dot-animation')
     wireChipset('cs-card-glow-lo',        'gb-card-glow-lo',          '--z-card-default-glow-lo')
     wireChipset('cs-card-glow-hi',        'gb-card-glow-hi',          '--z-card-default-glow-hi')
-    wireOnOff('onoff-card-header-ts',     'wrap-card-header-ts',      '--z-card-header-text-shadow', '0 0 10px color-mix(in srgb, var(--zyna) 60%, transparent)')
+    wireOnOff('onoff-card-header-ts',     'wrap-card-header-ts',      '--z-card-header-text-shadow', '0 0 10px color-mix(in oklch, var(--zyna) 60%, transparent)')
     wireChipset('cs-card-header-ts',      'gb-card-header-ts',        '--z-card-header-text-shadow')
-    wireOnOff('onoff-card-title-ts',      'wrap-card-title-ts',       '--z-card-title-text-shadow',  '0 0 18px color-mix(in srgb, var(--zyna) 22%, transparent)')
+    wireOnOff('onoff-card-title-ts',      'wrap-card-title-ts',       '--z-card-title-text-shadow',  '0 0 18px color-mix(in oklch, var(--zyna) 22%, transparent)')
     wireChipset('cs-card-title-ts',       'gb-card-title-ts',         '--z-card-title-text-shadow')
 
     wireRange('gb-alert-pxop','lbl-alert-pxop','--z-alert-prefix-opacity', v=>v.toFixed(2))
