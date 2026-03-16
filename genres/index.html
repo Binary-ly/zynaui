@@ -655,15 +655,15 @@
          @layer base .btn::before { clip-path: var(--btn-inner-clip) }
        This layered indirection can stale when switching between polygon/inset
        types. Unlayered rules beat @layer base, so this rule forces ::before to
-       track the root token directly — same pattern as the outer clip-path on .btn.
+       track the html-element token directly — same pattern as the outer clip-path on .btn.
     */
     .gb-preview .btn::before { clip-path: var(--z-btn-inner-clip); }
-    /* Same unlayered override for badge — forces ::before to track :root token directly,
-       bypassing @layer base so genre-builder setProperty calls take effect. */
+    /* Same unlayered override for badge — forces ::before to track the html-element token
+       directly, bypassing @layer base so genre-builder setProperty calls take effect. */
     .gb-preview .badge::before { clip-path: var(--z-badge-inner-clip); }
     /* Card bracket size fix — compiled zynaui.css may still reference the old
        element-level --card-bracket-size token. This unlayered rule forces ::before
-       to read the root tokens directly, matching what cornerBrackets() outputs. */
+       to read the html-element tokens directly, matching what cornerBrackets() outputs. */
     .gb-preview .card::before {
       background-size:
         var(--z-card-bracket-size) var(--z-card-bracket-stroke),
