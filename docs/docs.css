@@ -417,6 +417,11 @@ pre {
 }
 .genre-option:hover { background: rgba(255,255,255,0.05); color: var(--text); }
 .genre-option[aria-selected="true"] { color: var(--brand); }
+.genre-panel:focus-within .genre-option.is-active-descendant {
+  background: rgba(255,255,255,0.07);
+  outline: 1px solid color-mix(in oklch, var(--brand) 45%, transparent);
+  outline-offset: -1px;
+}
 
 .genre-swatches {
   display: flex; gap: 3px;

@@ -169,7 +169,7 @@ function initGenreSwitcher() {
       const swatches = Object.values(genre.swatches).map(color =>
         `<span class="genre-swatch" style="background:${color}"></span>`
       ).join('')
-      return `<div class="genre-option" role="option" id="genre-opt-${i}" aria-selected="${isActive}" data-genre="${genre.name}" tabindex="-1">
+      return `<div class="genre-option${isActive ? ' is-active-descendant' : ''}" role="option" id="genre-opt-${i}" aria-selected="${isActive}" data-genre="${genre.name}" tabindex="-1">
         <span>${genre.name}</span>
         <span class="genre-swatches">${swatches}</span>
       </div>`
@@ -186,6 +186,7 @@ function initGenreSwitcher() {
     panel.querySelectorAll('.genre-option').forEach(el => {
       const isMatch = el.dataset.genre === name
       el.setAttribute('aria-selected', String(isMatch))
+      el.classList.toggle('is-active-descendant', isMatch)
       if (isMatch) panel.setAttribute('aria-activedescendant', el.id)
     })
   }
@@ -216,6 +217,7 @@ function initGenreSwitcher() {
     applyGenre(name)
     updateActive(name)
     closePanel()
+    trigger.focus()
   })
 
   document.addEventListener('click', e => {
@@ -254,6 +256,8 @@ function initGenreSwitcher() {
       return
     }
     if (nextIdx !== idx && nextIdx >= 0) {
+      options.forEach(o => o.classList.remove('is-active-descendant'))
+      options[nextIdx].classList.add('is-active-descendant')
       panel.setAttribute('aria-activedescendant', options[nextIdx].id)
       options[nextIdx].scrollIntoView({ block: 'nearest' })
     }

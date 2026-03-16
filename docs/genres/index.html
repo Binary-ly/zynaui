@@ -455,6 +455,12 @@
       border-color: color-mix(in oklch, var(--brand) 48%, transparent);
       color: var(--brand);
     }
+    .gb-radio-group label:focus-visible,
+    .gb-toggle-group label:focus-visible {
+      outline: 2px solid var(--brand);
+      outline-offset: 2px;
+      border-color: color-mix(in oklch, var(--brand) 60%, transparent);
+    }
 
     /* Toggle pair */
     .gb-toggle-group {
@@ -2589,16 +2595,19 @@
       bezierEditors['--z-ease-spring']?.setValues(state['--z-ease-spring'])
 
       document.querySelectorAll('[name="btnshape"]').forEach(r => { r.checked = r.value === state['__btn-shape'] })
+      syncRadioTabindex('btnshape')
       setSld('gb-custom-radius', 'lbl-custom-radius', state['__custom-corner-radius'] || 0, v => v)
       setSld('gb-btn-scale','lbl-btn-scale', state['--z-btn-active-scale'], v=>v.toFixed(2))
       setSld('gb-btn-scan', 'lbl-btn-scan',  state['--z-btn-scan-stop'],    v=>Math.round(v)+'%')
       document.querySelectorAll('[name="badgeshape"]').forEach(r => { r.checked = state['__badge-shape'] !== 'custom' && r.value === state['__badge-shape'] })
+      syncRadioTabindex('badgeshape')
       syncChipset('cs-badge-padding',    'gb-badge-padding-val',state['--z-badge-padding'])
       setSld('gb-badge-ls',    'lbl-badge-ls',     state['--z-badge-letter-spacing'], v=>v.toFixed(2)+'em')
       setSld('gb-badge-scan',  'lbl-badge-scan',   state['--z-badge-scan-duration'],  v=>v+'s')
       syncChipset('cs-badge-inset',      'gb-badge-inset',      state['--z-badge-inset-shadow'])
 
       document.querySelectorAll('[name="alertbar"]').forEach(r => { r.checked = r.value === state['__alert-bar-pos'] })
+      syncRadioTabindex('alertbar')
       setSld('gb-alert-bw','lbl-alert-bw', state['--z-alert-bar-width'],  v=>v+'px')
       setSld('gb-alert-bg','lbl-alert-bg', state['--z-alert-bg-opacity'], v=>v+'%')
       syncChipset('cs-alert-prefix',     'gb-alert-prefix',     state['--z-alert-prefix'])
@@ -2829,6 +2838,41 @@
     bezierEditors['--z-ease-exit']   = buildBezierEditor('bez-exit',   '--z-ease-exit')
     bezierEditors['--z-ease-spring'] = buildBezierEditor('bez-spring', '--z-ease-spring')
 
+    // ── Radiogroup keyboard navigation ───────────────────────────────────────
+    function syncRadioTabindex(name) {
+      const group = document.querySelector(`[name="${name}"]`)?.closest('[role="radiogroup"]')
+      if (!group) return
+      group.querySelectorAll('label').forEach(lbl => {
+        const inp = lbl.querySelector('input[type="radio"]')
+        lbl.setAttribute('tabindex', inp && inp.checked ? '0' : '-1')
+      })
+    }
+
+    function initRadioGroup(containerId) {
+      const container = document.getElementById(containerId)
+      if (!container) return
+      const name = container.querySelector('input[type="radio"]')?.name
+      syncRadioTabindex(name)
+      const labels = [...container.querySelectorAll('label')]
+      container.addEventListener('keydown', e => {
+        const idx = labels.indexOf(document.activeElement)
+        if (idx === -1) return
+        let next = -1
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); next = (idx + 1) % labels.length }
+        else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); next = (idx - 1 + labels.length) % labels.length }
+        if (next !== -1) {
+          labels[idx].setAttribute('tabindex', '-1')
+          labels[next].setAttribute('tabindex', '0')
+          labels[next].focus()
+          labels[next].click()
+        }
+      })
+    }
+
+    initRadioGroup('gb-btnshape')
+    initRadioGroup('gb-badgeshape')
+    initRadioGroup('gb-alertbar')
+
     document.querySelectorAll('[name="btnshape"]').forEach(r => r.addEventListener('change', e => {
       if (e.target.checked) { state['__btn-shape'] = e.target.value; applyPreview() }
     }))
@@ -2966,6 +3010,7 @@
           state['__custom-shape-points'] = [...(SHAPE_EDITOR_PRESETS[shape] || SHAPE_EDITOR_PRESETS.diagonal).map(p=>({...p}))]
           refresh()
           document.querySelectorAll('[name="btnshape"]').forEach(r => r.checked = r.value === shape)
+          syncRadioTabindex('btnshape')
           applyPreview()
         })
       })
@@ -2989,6 +3034,7 @@
         }
         state['__btn-shape'] = 'custom'
         document.querySelectorAll('[name="btnshape"]').forEach(r => r.checked = false)
+        syncRadioTabindex('btnshape')
         section.style.display = ''
         if (shapeEditorRefresh) shapeEditorRefresh()
       } else {
@@ -2997,6 +3043,7 @@
         state['__custom-shape-points'] = null
         state['__custom-corner-radius'] = 0
         document.querySelectorAll('[name="btnshape"]').forEach(r => r.checked = r.value === prevPresetShape)
+        syncRadioTabindex('btnshape')
         document.getElementById('gb-custom-radius').value = 0
         document.getElementById('lbl-custom-radius').textContent = '0'
         section.style.display = 'none'
@@ -3098,6 +3145,7 @@
           state['__badge-custom-shape-points'] = [...(BADGE_SHAPE_EDITOR_PRESETS[shape] || BADGE_SHAPE_EDITOR_PRESETS.slant).map(p=>({...p}))]
           refresh()
           document.querySelectorAll('[name="badgeshape"]').forEach(r => r.checked = r.value === shape)
+          syncRadioTabindex('badgeshape')
           applyPreview()
         })
       })
@@ -3119,6 +3167,7 @@
         }
         state['__badge-shape'] = 'custom'
         document.querySelectorAll('[name="badgeshape"]').forEach(r => r.checked = false)
+        syncRadioTabindex('badgeshape')
         section.style.display = ''
         if (badgeShapeEditorRefresh) badgeShapeEditorRefresh()
       } else {
@@ -3126,6 +3175,7 @@
         state['__badge-custom-shape-points'] = null
         state['__badge-custom-corner-radius'] = 0
         document.querySelectorAll('[name="badgeshape"]').forEach(r => r.checked = r.value === prevBadgePresetShape)
+        syncRadioTabindex('badgeshape')
         document.getElementById('gb-badge-custom-radius').value = 0
         document.getElementById('lbl-badge-custom-radius').textContent = '0'
         section.style.display = 'none'
