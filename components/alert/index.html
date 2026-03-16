@@ -381,6 +381,53 @@
         </div>
       </div>
 
+      <!-- Accessibility -->
+      <div class="doc-section">
+        <h2 class="section-title">Accessibility</h2>
+        <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.25rem">Choose the ARIA live region role based on urgency. Both roles are invisible to sighted users — the difference is how screen readers announce the message.</p>
+        <div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:1.25rem">
+          <table class="api-table" aria-label="Alert ARIA role guidance" style="border:none;border-radius:0">
+            <thead>
+              <tr>
+                <th>Role</th>
+                <th>Live behaviour</th>
+                <th>Use for</th>
+                <th>ZynaUI variants</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="t-var">role="alert"</td>
+                <td class="t-type">Assertive — interrupts the current AT announcement immediately</td>
+                <td>Errors and warnings that require the user's immediate attention</td>
+                <td class="t-def"><code>.alert-danger</code> <code>.alert-warning</code></td>
+              </tr>
+              <tr>
+                <td class="t-var">role="status"</td>
+                <td class="t-type">Polite — waits for AT to finish before announcing</td>
+                <td>Non-urgent confirmations and ambient notices</td>
+                <td class="t-def"><code>.alert-success</code> <code>.alert-info</code> <code>.alert-neutral</code> <code>.alert-dark</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="code-box">
+          <div class="code-toolbar">
+            <span class="code-lang">HTML</span>
+          </div>
+          <pre><span class="cmt">&lt;!-- Urgent: interrupts screen reader immediately --&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-danger"</span> <span class="atr">role</span>=<span class="val">"alert"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div&gt;&lt;p</span> <span class="atr">class</span>=<span class="val">"alert-title"</span><span class="tag">&gt;</span>Connection lost<span class="tag">&lt;/p&gt;&lt;p&gt;</span>Unable to reach the upstream service.<span class="tag">&lt;/p&gt;&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="cmt">&lt;!-- Non-urgent: waits for screen reader to finish current announcement --&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"alert alert-success"</span> <span class="atr">role</span>=<span class="val">"status"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div&gt;&lt;p</span> <span class="atr">class</span>=<span class="val">"alert-title"</span><span class="tag">&gt;</span>Deployment complete<span class="tag">&lt;/p&gt;&lt;p&gt;</span>Build deployed successfully to production.<span class="tag">&lt;/p&gt;&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span></pre>
+        </div>
+        <p style="font-size:0.82rem;color:var(--text3);margin-top:1rem">Alerts present in the DOM at page load are not announced by screen readers regardless of role — both roles only trigger when content is <strong style="color:var(--text2)">injected dynamically</strong> after load.</p>
+      </div>
+
     </main>
   </div>
   <footer></footer>
