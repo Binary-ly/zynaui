@@ -48,13 +48,13 @@ describe('.card component', () => {
     expect(css).toContain('.card-dark')
   })
 
-  test('generates .card-compact variant', async () => {
-    const css = await generateCSS('<div class="card-compact">')
-    expect(css).toContain('.card-compact')
+  test('generates .card-sm variant', async () => {
+    const css = await generateCSS('<div class="card-sm">')
+    expect(css).toContain('.card-sm')
   })
 
   test('full card output matches snapshot', async () => {
-    const css = await generateCSS('<div class="card card-glow card-dark card-compact">')
+    const css = await generateCSS('<div class="card card-glow card-dark card-sm">')
     expect(css).toMatchSnapshot()
   })
 })

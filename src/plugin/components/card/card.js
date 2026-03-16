@@ -248,24 +248,24 @@ export default function(theme) {
       '--card-glow-hi':       'color-mix(in oklch, var(--zyna) 26%, transparent)',
     },
 
-    ':where(.card-compact) :where(.card-header)': {
+    ':where(.card-sm) :where(.card-header)': {
       padding: '0.4rem 0.85rem',
     },
 
-    ':where(.card-compact) :where(.card-body)': {
+    ':where(.card-sm) :where(.card-body)': {
       padding: '0.75rem 0.85rem',
     },
 
-    ':where(.card-compact) :where(.card-footer)': {
+    ':where(.card-sm) :where(.card-footer)': {
       padding: '0.4rem 0.85rem',
     },
 
-    ':where(.card-compact) :where(.card-title)': {
+    ':where(.card-sm) :where(.card-title)': {
       fontSize: '0.85rem',
       marginBottom: '0.1rem',
     },
 
-    ':where(.card-compact) :where(.card-subtitle)': {
+    ':where(.card-sm) :where(.card-subtitle)': {
       fontSize: '0.68rem',
       marginBottom: '0.55rem',
     },

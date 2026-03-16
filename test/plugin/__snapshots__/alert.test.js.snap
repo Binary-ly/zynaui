@@ -801,20 +801,20 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
       --card-glow-hi: color-mix(in oklch, var(--zyna) 26%, transparent);
     }
   }
-  :where(.card-compact) :where(.card-header) {
+  :where(.card-sm) :where(.card-header) {
     padding: 0.4rem 0.85rem;
   }
-  :where(.card-compact) :where(.card-body) {
+  :where(.card-sm) :where(.card-body) {
     padding: 0.75rem 0.85rem;
   }
-  :where(.card-compact) :where(.card-footer) {
+  :where(.card-sm) :where(.card-footer) {
     padding: 0.4rem 0.85rem;
   }
-  :where(.card-compact) :where(.card-title) {
+  :where(.card-sm) :where(.card-title) {
     font-size: 0.85rem;
     margin-bottom: 0.1rem;
   }
-  :where(.card-compact) :where(.card-subtitle) {
+  :where(.card-sm) :where(.card-subtitle) {
     font-size: 0.68rem;
     margin-bottom: 0.55rem;
   }
@@ -978,6 +978,12 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
       flex-shrink: 0;
       animation: zyna-pulse-ring 2s var(--z-ease-enter) infinite;
     }
+  }
+  :where(.badge-sm) {
+    padding: 0.15rem 0.65rem;
+    font-size: 0.55rem;
+    --badge-offset: 3px;
+    --badge-dot-size: 4px;
   }
   :where(.badge-lg) {
     padding: 0.32rem 1.05rem;
@@ -1170,6 +1176,16 @@ exports[`.alert component > full alert output matches snapshot 1`] = `
     --alert-bar-color: color-mix(in oklch, white 14%, transparent);
     --alert-bg: color-mix(in oklch, white 3%, transparent);
     --alert-color: var(--z-color-text-dim);
+  }
+  :where(.alert-sm) {
+    padding: 0.55rem 1rem 0.55rem var(--z-alert-padding-left);
+    font-size: 0.74rem;
+    line-height: 1.55;
+  }
+  :where(.alert-lg) {
+    padding: 1.1rem 1.5rem 1.1rem var(--z-alert-padding-left);
+    font-size: 0.9rem;
+    line-height: 1.7;
   }
   :where(.alert-square) {
     border-radius: 0;

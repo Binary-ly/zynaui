@@ -183,6 +183,24 @@ export default function(theme) {
       '--alert-color':     'var(--z-color-text-dim)',
     },
 
+    // ── Size modifiers ─────────────────────────────────────────────────────────
+    // Top padding is hardcoded to produce a visible size difference. Both values
+    // safely exceed the maximum bar height (Cyberpunk top bar = 5px ≈ 0.3rem),
+    // so content never overlaps the bar in either genre.
+    // --z-alert-padding-left is preserved to keep the left-bar offset in Ops
+    // (Cyberpunk resets it to flat 1.25rem via its structural token).
+    ':where(.alert-sm)': {
+      padding: '0.55rem 1rem 0.55rem var(--z-alert-padding-left)',
+      fontSize: '0.74rem',
+      lineHeight: '1.55',
+    },
+
+    ':where(.alert-lg)': {
+      padding: '1.1rem 1.5rem 1.1rem var(--z-alert-padding-left)',
+      fontSize: '0.9rem',
+      lineHeight: '1.7',
+    },
+
     // ── Shape modifiers ────────────────────────────────────────────────────────
     ':where(.alert-square)': { borderRadius: '0' },
     ':where(.alert-round)': {

@@ -190,6 +190,13 @@ export default function(theme) {
       },
     },
 
+    ':where(.badge-sm)': {
+      padding: '0.15rem 0.65rem',
+      fontSize: '0.55rem',
+      '--badge-offset':   '3px',
+      '--badge-dot-size': '4px',
+    },
+
     ':where(.badge-lg)': {
       padding: '0.32rem 1.05rem',
       fontSize: '0.68rem',

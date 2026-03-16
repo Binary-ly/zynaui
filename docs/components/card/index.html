@@ -24,7 +24,7 @@
           </ol>
         </nav>
         <h1 class="page-title">Card</h1>
-        <p class="page-desc">HUD-panel containers with corner bracket marks, a mono header readout, and deep glass depth. Four variants: base, <code style="color:var(--brand);background:color-mix(in srgb, var(--brand) 10%, transparent);padding:0.1rem 0.4rem;border-radius:4px;font-family:var(--mono);font-size:0.85em">.card-dark</code>, <code style="color:var(--brand);background:color-mix(in srgb, var(--brand) 10%, transparent);padding:0.1rem 0.4rem;border-radius:4px;font-family:var(--mono);font-size:0.85em">.card-glow</code>, <code style="color:var(--brand);background:color-mix(in srgb, var(--brand) 10%, transparent);padding:0.1rem 0.4rem;border-radius:4px;font-family:var(--mono);font-size:0.85em">.card-compact</code>.</p>
+        <p class="page-desc">HUD-panel containers with corner bracket marks, a mono header readout, and deep glass depth. Four variants: base, <code style="color:var(--brand);background:color-mix(in srgb, var(--brand) 10%, transparent);padding:0.1rem 0.4rem;border-radius:4px;font-family:var(--mono);font-size:0.85em">.card-dark</code>, <code style="color:var(--brand);background:color-mix(in srgb, var(--brand) 10%, transparent);padding:0.1rem 0.4rem;border-radius:4px;font-family:var(--mono);font-size:0.85em">.card-glow</code>, <code style="color:var(--brand);background:color-mix(in srgb, var(--brand) 10%, transparent);padding:0.1rem 0.4rem;border-radius:4px;font-family:var(--mono);font-size:0.85em">.card-sm</code>.</p>
       </div>
 
       <!-- Variants -->
@@ -71,10 +71,10 @@
                   <button class="btn btn-primary btn-sm">Action</button>
                 </div>
               </div>
-              <div class="card card-compact" style="flex:1;min-width:200px;max-width:260px">
-                <div class="card-header">Compact</div>
+              <div class="card card-sm" style="flex:1;min-width:200px;max-width:260px">
+                <div class="card-header">Small</div>
                 <div class="card-body">
-                  <p class="card-title">Compact Variant</p>
+                  <p class="card-title">Small Variant</p>
                   <p class="card-subtitle">Reduced padding · dense layouts</p>
                   <span class="badge badge-info">Dense</span>
                 </div>
@@ -134,11 +134,11 @@
   <span class="tag">&lt;/div&gt;</span>
 <span class="tag">&lt;/div&gt;</span>
 
-<span class="cmt">&lt;!-- Compact variant — reduced padding for dense layouts --&gt;</span>
-<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card card-compact"</span><span class="tag">&gt;</span>
-  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card-header"</span><span class="tag">&gt;</span>Compact<span class="tag">&lt;/div&gt;</span>
+<span class="cmt">&lt;!-- Small variant — reduced padding for dense layouts --&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card card-sm"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card-header"</span><span class="tag">&gt;</span>Small<span class="tag">&lt;/div&gt;</span>
   <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="val">"card-body"</span><span class="tag">&gt;</span>
-    <span class="tag">&lt;p</span> <span class="atr">class</span>=<span class="val">"card-title"</span><span class="tag">&gt;</span>Compact Variant<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;p</span> <span class="atr">class</span>=<span class="val">"card-title"</span><span class="tag">&gt;</span>Small Variant<span class="tag">&lt;/p&gt;</span>
     <span class="tag">&lt;p</span> <span class="atr">class</span>=<span class="val">"card-subtitle"</span><span class="tag">&gt;</span>Reduced padding · dense layouts<span class="tag">&lt;/p&gt;</span>
     <span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="val">"badge badge-info"</span><span class="tag">&gt;</span>Dense<span class="tag">&lt;/span&gt;</span>
   <span class="tag">&lt;/div&gt;</span>
@@ -353,7 +353,7 @@
             <ul style="padding-left:1.1rem;display:flex;flex-direction:column;gap:0.45rem;font-size:0.85rem;color:var(--text2);line-height:1.6">
               <li>Use <code style="font-family:var(--mono);font-size:0.82em">.card-glow</code> for featured, selected, or highlighted items</li>
               <li>Use <code style="font-family:var(--mono);font-size:0.82em">.card-dark</code> for embedded cards on lighter backgrounds</li>
-              <li>Use <code style="font-family:var(--mono);font-size:0.82em">.card-compact</code> for dense list-style layouts</li>
+              <li>Use <code style="font-family:var(--mono);font-size:0.82em">.card-sm</code> for dense list-style layouts</li>
               <li>Include a <code style="font-family:var(--mono);font-size:0.82em">card-header</code> to label the data context</li>
               <li>Keep card content focused: one primary piece of info with supporting detail</li>
             </ul>
