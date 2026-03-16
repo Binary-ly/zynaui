@@ -85,8 +85,8 @@
             <div class="code-box">
               <div class="code-toolbar">
                 <span class="code-lang">html</span>
-                <button class="copy-btn" onclick="cp(this,'wf-code')">
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy
+                <button class="copy-btn" aria-label="Copy waffle chart example" onclick="cp(this,'wf-code')">
+                  <svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy
                 </button>
               </div>
               <pre id="wf-code"><span class="tag">&lt;zyna-waffle</span>
@@ -106,7 +106,7 @@
 
           <div id="wf-a" class="tab-panel" role="tabpanel" aria-labelledby="tab-wf-a" tabindex="0">
             <div style="border:1px solid var(--border);border-top:none;border-bottom-left-radius:var(--radius);border-bottom-right-radius:var(--radius);overflow:hidden">
-              <table class="api-table" style="border:none;border-radius:0">
+              <table class="api-table" aria-label="Waffle attributes" style="border:none;border-radius:0">
                 <thead>
                   <tr>
                     <th>Attribute</th>
@@ -186,8 +186,8 @@
             <div class="code-box">
               <div class="code-toolbar">
                 <span class="code-lang">html</span>
-                <button class="copy-btn" onclick="cp(this,'wf-ov-code')">
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy
+                <button class="copy-btn" aria-label="Copy outline variant example" onclick="cp(this,'wf-ov-code')">
+                  <svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy
                 </button>
               </div>
               <pre id="wf-ov-code"><span class="tag">&lt;zyna-waffle</span>
@@ -264,10 +264,10 @@
       const txt = document.getElementById(id).innerText
       navigator.clipboard.writeText(txt).then(() => {
         btn.classList.add('ok')
-        btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!'
+        btn.innerHTML = '<svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!'
         setTimeout(() => {
           btn.classList.remove('ok')
-          btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy'
+          btn.innerHTML = '<svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy'
         }, 2000)
       })
     }
