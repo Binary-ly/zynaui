@@ -740,6 +740,8 @@ exports[`.badge component > full badge output matches snapshot 1`] = `
   :where(.card-bevel) {
     clip-path: polygon(var(--zp-corner-card) 0%, calc(100% - var(--zp-corner-card)) 0%, 100% var(--zp-corner-card), 100% calc(100% - var(--zp-corner-card)), calc(100% - var(--zp-corner-card)) 100%, var(--zp-corner-card) 100%, 0% calc(100% - var(--zp-corner-card)), 0% var(--zp-corner-card));
     border-radius: 0;
+    --card-shadow: none;
+    filter: drop-shadow(0 24px 70px rgba(0,0,0,0.60)) drop-shadow(0 0 0 1px rgba(255,255,255,0.02));
   }
   @property --badge-offset {
     syntax: "<length>";
