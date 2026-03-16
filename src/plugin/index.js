@@ -141,6 +141,16 @@ export default plugin(
       '@property --btn-corner':   { syntax: '"<length>"', inherits: 'true', initialValue: '10px' },
       '@property --badge-offset': { syntax: '"<length>"', inherits: 'true', initialValue: '5px' },
 
+      // Badge color tokens — inherits:false prevents accidental cascade from ancestor elements.
+      // Not used as switch variables in any var() fallback chain, so registration is safe.
+      '@property --badge-bg':    { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(255,255,255,0.04)' },
+      '@property --badge-color': { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(240,235,224,0.55)' },
+
+      // Alert color tokens — same rationale as badge.
+      '@property --alert-bar-color': { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(255,255,255,0.10)' },
+      '@property --alert-bg':        { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(255,255,255,0.02)' },
+      '@property --alert-color':     { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(240,235,224,0.65)' },
+
       // Badge scan sweep — slides a bright strip across the parallelogram shape
       '@keyframes zyna-badge-scan': {
         '0%, 18%':   { transform: 'translateX(0)' },
