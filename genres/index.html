@@ -2126,6 +2126,17 @@
     }
 
     // ── Code generation (deferred) ──────────────────────────────────────────
+    // Global tokens go in `tokens` (set via JS setProperty on html at runtime).
+    // All other --z-* tokens are structural and go in `styles` (activated via
+    // data-genre CSS attribute, specificity [0,1,1] beats ops html [0,0,1]).
+    const GLOBAL_TOKEN_KEYS = new Set([
+      '--zyna','--zyna-dark',
+      '--zp-success','--zp-danger','--zp-warning','--zp-info',
+      '--z-duration-fast','--z-duration-base','--z-duration-slow',
+      '--z-ease-enter','--z-ease-exit','--z-ease-spring',
+      '--z-font-mono',
+    ])
+
     let _codeTimer = 0
     function scheduleCodeUpdate(bw, bh, bdgW, bdgH) {
       clearTimeout(_codeTimer)
@@ -2242,11 +2253,21 @@
       }
 
       const name = state.name || 'Custom'
-      const hasTokens = Object.keys(diff).length > 0
+      const slug = name.toLowerCase().replace(/\s+/g, '-')
+
+      // Split diff into global tokens vs structural styles
+      const tokenDiff  = {}
+      const stylesDiff = {}
+      Object.entries(diff).forEach(([k, v]) => {
+        if (GLOBAL_TOKEN_KEYS.has(k)) tokenDiff[k] = v
+        else stylesDiff[k] = v
+      })
+      const hasTokenDiff  = Object.keys(tokenDiff).length > 0
+      const hasStylesDiff = Object.keys(stylesDiff).length > 0
 
       const codeEl = document.getElementById('gb-code')
 
-      if (!hasTokens) {
+      if (!hasTokenDiff && !hasStylesDiff) {
         codeEl.innerHTML = highlight(
           `import { defineGenre } from 'zynaui/genres'\n\n// No overrides — identical to Ops defaults\nexport default defineGenre({\n  name: '${name}',\n})`
         )
@@ -2257,11 +2278,20 @@
         `import { defineGenre } from 'zynaui/genres'\n`,
         `export default defineGenre({`,
         `  name: '${name}',`,
-        `  tokens: {`,
-        ...Object.entries(diff).map(([k, v]) => `    '${k}': '${v}',`),
-        `  },`,
-        `})`,
       ]
+      if (hasTokenDiff) {
+        lines.push(`  tokens: {`)
+        Object.entries(tokenDiff).forEach(([k, v]) => lines.push(`    '${k}': '${v}',`))
+        lines.push(`  },`)
+      }
+      if (hasStylesDiff) {
+        lines.push(`  styles: {`)
+        lines.push(`    'html[data-genre="${slug}"]': {`)
+        Object.entries(stylesDiff).forEach(([k, v]) => lines.push(`      '${k}': '${v}',`))
+        lines.push(`    },`)
+        lines.push(`  },`)
+      }
+      lines.push(`})`)
 
       codeEl.innerHTML = highlight(lines.join('\n'))
     }
