@@ -365,18 +365,9 @@
       from { opacity: 0; transform: translateY(1rem); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    @keyframes shimmer {
-      from { background-position: -200% 0; }
-      to   { background-position: 200% 0; }
-    }
     @keyframes float {
       0%, 100% { transform: translateY(0); }
       50%       { transform: translateY(-8px); }
-    }
-    @keyframes pulse-ring {
-      0%   { box-shadow: 0 0 0 0 color-mix(in oklch, var(--brand) 40%, transparent); }
-      70%  { box-shadow: 0 0 0 12px transparent; }
-      100% { box-shadow: 0 0 0 0 transparent; }
     }
     @keyframes slide-in-left {
       from { opacity: 0; transform: translateX(-1.5rem); }
@@ -406,14 +397,6 @@
       transition: border-color 200ms ease;
     }
     .chart-mini-card:hover { border-color: var(--brand); }
-
-    /* Shimmer text on the logo */
-    .shimmer-text {
-      background: linear-gradient(90deg, var(--brand) 0%, var(--brand-l) 40%, var(--brand) 60%, var(--brand));
-      background-size: 200% auto;
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      animation: shimmer 3s linear infinite;
-    }
 
     /* ── Marquee strip ── */
     .marquee-wrap { overflow: hidden; padding: 1.5rem 0; background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
@@ -463,7 +446,7 @@
       padding:0.35rem 0.75rem; border-radius:6px 6px 0 0; border:none;
       background:transparent; font-size:0.72rem; font-weight:700;
       color:var(--text3); font-family:var(--mono); letter-spacing:0.05em;
-      cursor:pointer; transition:all 150ms;
+      cursor:pointer; transition:background 150ms, color 150ms;
     }
     .pkg-btn.active { background:var(--bg); color:var(--brand); }
     .install-block {
@@ -487,7 +470,7 @@
       padding:0.45rem 1rem; border:none; border-right:1px solid var(--border);
       background:transparent; font-size:0.72rem; font-weight:600;
       color:var(--text3); font-family:var(--mono);
-      cursor:pointer; transition:all 150ms;
+      cursor:pointer; transition:background 150ms, color 150ms;
     }
     .file-tab:last-child { border-right:none; }
     .file-tab.active { background:#0A0A10; color:var(--text); }
