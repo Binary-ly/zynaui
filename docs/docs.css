@@ -13,7 +13,7 @@
   --text3:     #6A6460;
   --brand:     var(--zyna);
   --brand-d:   var(--zyna-dark);
-  --brand-l:   color-mix(in srgb, var(--zyna) 70%, white);
+  --brand-l:   color-mix(in oklch, var(--zyna) 70%, white);
   --green:     #2D8C4E;
   --red:       #C0392B;
   --blue:      #009EDB;
@@ -95,9 +95,9 @@ pre, code { font-family: var(--mono); }
 
 .badge-version {
   padding: 0.2rem 0.6rem; border-radius: 99px;
-  background: color-mix(in srgb, var(--brand) 12%, transparent); color: var(--brand);
+  background: color-mix(in oklch, var(--brand) 12%, transparent); color: var(--brand);
   font-size: 0.68rem; font-weight: 700; font-family: var(--mono);
-  border: 1px solid color-mix(in srgb, var(--brand) 25%, transparent); letter-spacing: 0.05em;
+  border: 1px solid color-mix(in oklch, var(--brand) 25%, transparent); letter-spacing: 0.05em;
 }
 
 .btn-topbar {
@@ -170,8 +170,8 @@ details summary::-webkit-details-marker { display: none; }
 .sidebar-item:hover { color: var(--text); background: rgba(255,255,255,0.04); }
 .sidebar-item[aria-current="page"],
 .sidebar-item.active {
-  color: var(--brand); background: color-mix(in srgb, var(--brand) 8%, transparent);
-  border-color: color-mix(in srgb, var(--brand) 18%, transparent);
+  color: var(--brand); background: color-mix(in oklch, var(--brand) 8%, transparent);
+  border-color: color-mix(in oklch, var(--brand) 18%, transparent);
   /* --z-sidebar-active-shadow: genre token — Cyberpunk adds inset neon bar */
   box-shadow: var(--z-sidebar-active-shadow, none);
 }
@@ -384,18 +384,18 @@ pre {
   transition: background 150ms, box-shadow 150ms;
 }
 .genre-trigger:hover {
-  background: color-mix(in srgb, var(--genre-trigger-color, var(--brand)) 8%, transparent);
-  box-shadow: 0 0 12px color-mix(in srgb, var(--genre-trigger-color, var(--brand)) 25%, transparent);
+  background: color-mix(in oklch, var(--genre-trigger-color, var(--brand)) 8%, transparent);
+  box-shadow: 0 0 12px color-mix(in oklch, var(--genre-trigger-color, var(--brand)) 25%, transparent);
 }
 .genre-trigger[aria-expanded="true"] {
-  background: color-mix(in srgb, var(--genre-trigger-color, var(--brand)) 10%, transparent);
+  background: color-mix(in oklch, var(--genre-trigger-color, var(--brand)) 10%, transparent);
 }
 
 .genre-panel {
   position: absolute; top: calc(100% + 8px); right: 0;
   min-width: 180px;
   background: rgba(12,11,20,0.97);
-  border: 1px solid color-mix(in srgb, var(--brand) 25%, transparent);
+  border: 1px solid color-mix(in oklch, var(--brand) 25%, transparent);
   border-radius: var(--radius-sm);
   padding: 0.4rem;
   backdrop-filter: blur(16px);
