@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{var _zg=localStorage.getItem('zyna-genre');if(_zg&&_zg!=='Ops'){document.documentElement.dataset.genre=_zg.toLowerCase();var _zt=JSON.parse(localStorage.getItem('zyna-genre-tokens')||'{}');for(var _zk in _zt)document.documentElement.style.setProperty(_zk,_zt[_zk])}}catch(e){}</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roadmap — Zyna UI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=DM+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="../zynaui.css">
+  <link rel="stylesheet" href="../docs.css">
+  <style>
+    :root { --clr-shipped: #4ade80; }
+
+    /* ── Keyframes ── */
+    @keyframes scan-sweep {
+      0%   { left: -60%; }
+      100% { left: 120%; }
+    }
+    @keyframes pulse-node {
+      0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklch, var(--brand) 50%, transparent); }
+      50%       { box-shadow: 0 0 0 7px color-mix(in oklch, var(--brand) 0%, transparent); }
+    }
+    @keyframes glow-flicker {
+      0%, 96%, 100% { opacity: 1; }
+      97%           { opacity: 0.5; }
+      98%           { opacity: 1; }
+      99%           { opacity: 0.6; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; }
+    }
+
+    /* ── HUD mission banner ── */
+    .mission-banner {
+      display: flex;
+      align-items: stretch;
+      border: 1px solid var(--border);
+      border-radius: 0 var(--radius) 0 var(--radius);
+      overflow: hidden;
+      margin-bottom: 2rem;
+      background: var(--bg2);
+      position: relative;
+    }
+    .mission-banner::before,
+    .mission-banner::after {
+      content: '';
+      position: absolute;
+      width: 16px; height: 16px;
+      pointer-events: none; z-index: 1;
+    }
+    .mission-banner::before { top: 5px; left: 5px; border-top: 1.5px solid var(--brand); border-left: 1.5px solid var(--brand); opacity: 0.4; }
+    .mission-banner::after  { bottom: 5px; right: 5px; border-bottom: 1.5px solid var(--brand); border-right: 1.5px solid var(--brand); opacity: 0.4; }
+    .mission-status {
+      background: color-mix(in oklch, var(--brand) 8%, transparent);
+      border-right: 1px solid color-mix(in oklch, var(--brand) 20%, transparent);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+      min-width: 110px;
+      flex-shrink: 0;
+    }
+    .mission-status-label {
+      font-size: 0.52rem;
+      font-family: var(--mono);
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--brand);
+      opacity: 0.8;
+    }
+    .mission-status-phase {
+      font-size: 2rem;
+      font-weight: 900;
+      font-family: var(--mono);
+      color: var(--brand);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      animation: glow-flicker 8s ease-in-out infinite;
+    }
+    .mission-status-total {
+      font-size: 0.6rem;
+      font-family: var(--mono);
+      color: var(--brand);
+      opacity: 0.55;
+    }
+    .mission-details {
+      padding: 1.1rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.55rem;
+      flex: 1;
+      min-width: 0;
+    }
+    .mission-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.78rem;
+      color: var(--text2);
+    }
+    .mission-row-key {
+      font-size: 0.55rem;
+      font-family: var(--mono);
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text2);
+      opacity: 0.5;
+      min-width: 52px;
+      flex-shrink: 0;
+    }
+    .mission-row-val { color: var(--text); font-weight: 600; font-size: 0.8rem; }
+    .mission-row-val.brand { color: var(--brand); }
+    .mission-progress {
+      border-left: 1px solid var(--border);
+      padding: 1.1rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.6rem;
+      min-width: 160px;
+      flex-shrink: 0;
+    }
+    .mp-label {
+      font-size: 0.55rem;
+      font-family: var(--mono);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text2);
+      opacity: 0.6;
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+    .mp-label span:last-child { color: var(--brand); opacity: 1; letter-spacing: 0; }
+    .mp-track {
+      height: 5px;
+      background: var(--bg3);
+      border-radius: 3px;
+      border: 1px solid var(--border);
+      overflow: visible;
+      position: relative;
+    }
+    .mp-fill {
+      position: absolute;
+      inset: 0;
+      width: 10%;
+      background: linear-gradient(90deg, var(--brand), color-mix(in oklch, var(--brand) 65%, white));
+      border-radius: 3px;
+    }
+    .mp-fill::after {
+      content: '';
+      position: absolute;
+      right: -1px; top: 0;
+      width: 3px; height: 100%;
+      background: var(--brand);
+      border-radius: 2px;
+      box-shadow: 0 0 6px var(--brand), 0 0 12px color-mix(in oklch, var(--brand) 40%, transparent);
+    }
+    .mp-phases {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.55rem;
+      font-family: var(--mono);
+      color: var(--text2);
+      opacity: 0.4;
+    }
+
+    /* ── Stats strip ── */
+    .stat-strip {
+      display: flex;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+    .stat-cell {
+      flex: 1;
+      padding: 1rem 1.25rem;
+      background: var(--bg2);
+      border-right: 1px solid var(--border);
+      min-width: 0;
+    }
+    .stat-cell:last-child { border-right: none; }
+    .stat-num {
+      font-size: 1.85rem;
+      font-weight: 900;
+      font-family: var(--mono);
+      color: var(--brand);
+      line-height: 1;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.25rem;
+    }
+    .stat-label { font-size: 0.7rem; color: var(--text2); line-height: 1.4; }
+    .stat-sub   { font-size: 0.58rem; color: var(--text2); opacity: 0.48; font-family: var(--mono); display: block; margin-top: 0.1rem; }
+
+    /* ── Milestone timeline ── */
+    .phase-timeline {
+      display: flex;
+      align-items: flex-start;
+      overflow-x: auto;
+      padding-top: 1rem;
+      padding-bottom: 0.75rem;
+      gap: 0;
+      scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
+    }
+    .phase-node {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+      min-width: 80px;
+    }
+    /* Left half of connecting line — every node except the first */
+    .phase-node:not(:first-child)::before {
+      content: '';
+      position: absolute;
+      left: 0; right: 50%;
+      top: 5px;
+      height: 1px;
+      background: var(--border);
+      z-index: 0;
+    }
+    /* Right half of connecting line — every node except the last */
+    .phase-node:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 50%; right: 0;
+      top: 5px;
+      height: 1px;
+      background: var(--border);
+      z-index: 0;
+    }
+    /* Shipped tint on the right-side segment */
+    .phase-node.shipped::after { background: color-mix(in oklch, var(--clr-shipped) 30%, transparent); }
+    .phase-node-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin-bottom: 0.55rem;
+    }
+    .phase-node-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      position: relative; z-index: 1;
+    }
+    .phase-node-dot.shipped { background: var(--clr-shipped); box-shadow: 0 0 6px color-mix(in oklch, var(--clr-shipped) 50%, transparent); }
+    .phase-node-dot.next    { background: var(--brand); animation: pulse-node 2s ease-in-out infinite; }
+    .phase-node-dot.planned { background: transparent; border: 1.5px solid var(--border); }
+    .phase-node-dot.goal    { width: 12px; height: 12px; border-radius: 2px; background: color-mix(in oklch, var(--brand) 55%, white); box-shadow: 0 0 8px color-mix(in oklch, var(--brand) 40%, transparent); }
+    .phase-node-ver {
+      font-family: var(--mono);
+      font-size: 0.58rem; font-weight: 700;
+      letter-spacing: 0.07em;
+      color: var(--text2);
+      text-align: center;
+    }
+    .phase-node.next .phase-node-ver { color: var(--brand); }
+    .phase-node.goal .phase-node-ver { color: color-mix(in oklch, var(--brand) 70%, white); font-size: 0.65rem; }
+    .phase-node-name {
+      font-size: 0.6rem;
+      color: var(--text2);
+      text-align: center;
+      margin-top: 0.15rem;
+      opacity: 0.6;
+    }
+    .phase-node.goal .phase-node-name { opacity: 1; font-weight: 700; color: var(--text); }
+
+    /* ── Phase cards ── */
+    .roadmap-phases { display: flex; flex-direction: column; gap: 0.65rem; }
+
+    .roadmap-phase {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: 0 var(--radius) 0 var(--radius);
+      overflow: hidden;
+    }
+    .roadmap-phase::before,
+    .roadmap-phase::after {
+      content: '';
+      position: absolute;
+      width: 11px; height: 11px;
+      pointer-events: none; z-index: 2;
+    }
+    .roadmap-phase::before { top: 5px; left: 5px; border-top: 1.5px solid var(--brand); border-left: 1.5px solid var(--brand); opacity: 0.15; }
+    .roadmap-phase::after  { bottom: 5px; right: 5px; border-bottom: 1.5px solid var(--brand); border-right: 1.5px solid var(--brand); opacity: 0.15; }
+    .roadmap-phase.state-shipped::before,
+    .roadmap-phase.state-shipped::after { border-color: var(--clr-shipped); opacity: 0.3; }
+    .roadmap-phase.state-next::before,
+    .roadmap-phase.state-next::after    { opacity: 0.85; }
+    .roadmap-phase.state-goal {
+      border-color: color-mix(in oklch, var(--brand) 35%, transparent);
+      box-shadow: 0 0 0 1px color-mix(in oklch, var(--brand) 8%, transparent),
+                  0 0 32px color-mix(in oklch, var(--brand) 10%, transparent);
+    }
+    .roadmap-phase.state-goal::before,
+    .roadmap-phase.state-goal::after { width: 18px; height: 18px; opacity: 1; }
+
+    .phase-head {
+      padding: 0.95rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .phase-head.shipped { background: color-mix(in oklch, var(--clr-shipped) 3%, var(--bg2)); }
+    .phase-head.next    { background: color-mix(in oklch, var(--brand) 4%, var(--bg2)); }
+    .phase-head.planned { background: var(--bg2); }
+    .phase-head.goal    { background: color-mix(in oklch, var(--brand) 5%, var(--bg2)); border-bottom-color: color-mix(in oklch, var(--brand) 20%, transparent); }
+    /* Scan animation — "next" phase only */
+    .phase-head.next::before {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 35%;
+      background: linear-gradient(90deg, transparent, color-mix(in oklch, var(--brand) 9%, transparent), transparent);
+      animation: scan-sweep 3.5s ease-in-out infinite;
+    }
+
+    .phase-phase-num {
+      font-size: 0.5rem;
+      font-family: var(--mono); font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text2); opacity: 0.4;
+      margin-bottom: 0.18rem;
+    }
+    .phase-ver {
+      font-family: var(--mono);
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text2);
+      margin-bottom: 0.12rem;
+    }
+    .phase-ver.next { color: var(--brand); }
+    .phase-ver.goal { color: color-mix(in oklch, var(--brand) 70%, white); font-size: 0.9rem; }
+    .phase-name { font-size: 0.93rem; font-weight: 700; color: var(--text); }
+    .phase-name.goal { font-size: 1.05rem; }
+    .phase-target { font-size: 0.67rem; font-family: var(--mono); color: var(--text2); opacity: 0.55; margin-top: 0.2rem; }
+
+    .phase-badge {
+      font-size: 0.55rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      font-family: var(--mono);
+      padding: 0.18rem 0.55rem;
+      border-radius: 4px;
+      flex-shrink: 0; margin-top: 2px;
+    }
+    .phase-badge.shipped { background: color-mix(in oklch, var(--clr-shipped) 10%, transparent); color: var(--clr-shipped);           border: 1px solid color-mix(in oklch, var(--clr-shipped) 25%, transparent); }
+    .phase-badge.next    { background: color-mix(in oklch, var(--brand) 10%, transparent); color: var(--brand); border: 1px solid color-mix(in oklch, var(--brand) 25%, transparent); }
+    .phase-badge.planned { background: rgba(255,255,255,0.03); color: var(--text2);                             border: 1px solid var(--border); }
+    .phase-badge.goal    { background: color-mix(in oklch, var(--brand) 8%, transparent); color: color-mix(in oklch, var(--brand) 70%, white); border: 1px solid color-mix(in oklch, var(--brand) 22%, transparent); }
+
+    .phase-body { padding: 0.95rem 1.5rem; background: var(--bg2); }
+
+    .phase-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(255px, 1fr));
+      gap: 0.2rem 1.25rem;
+      list-style: none;
+      padding: 0; margin: 0;
+    }
+
+    .phase-item {
+      display: flex; align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 0.81rem;
+      color: var(--text2);
+      line-height: 1.5;
+      padding: 0.1rem 0;
+    }
+    .phase-item.done { color: var(--text); }
+
+    .pi-dot {
+      flex-shrink: 0;
+      width: 14px; text-align: center;
+      margin-top: 1px;
+      font-size: 0.7rem;
+      font-family: var(--mono);
+    }
+    .phase-item.done .pi-dot     { color: var(--clr-shipped); }
+    .phase-item:not(.done) .pi-dot { color: var(--text3); font-size: 0.5rem; margin-top: 4px; }
+
+    /* ── Beta callout ── */
+    .beta-note {
+      display: flex; gap: 0.75rem;
+      padding: 0.85rem 1.1rem;
+      background: color-mix(in oklch, var(--brand) 5%, transparent);
+      border: 1px solid color-mix(in oklch, var(--brand) 16%, transparent);
+      border-radius: var(--radius);
+      font-size: 0.8rem; color: var(--text2); line-height: 1.65;
+      margin-bottom: 2rem;
+    }
+    .beta-note strong { color: var(--text); }
+
+    @media (max-width: 860px) {
+      .mission-progress { display: none; }
+    }
+    @media (max-width: 640px) {
+      .mission-details { display: none; }
+      .stat-strip { flex-wrap: wrap; }
+      .stat-cell { min-width: 50%; border-bottom: 1px solid var(--border); }
+      .phase-items { grid-template-columns: 1fr; }
+      .phase-head { padding: 0.85rem 1.1rem; }
+      .phase-body { padding: 0.85rem 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+  <header id="topbar"></header>
+  <div id="docs-layout">
+    <aside id="sidebar"></aside>
+    <main id="content">
+
+      <div class="page-header">
+        <nav aria-label="Breadcrumb" class="breadcrumb">
+          <ol>
+            <li><span aria-current="page">Roadmap</span></li>
+          </ol>
+        </nav>
+        <div style="display:flex;align-items:center;gap:0.85rem;flex-wrap:wrap;margin-bottom:0.5rem">
+          <h1 class="page-title" style="margin:0">Roadmap</h1>
+          <span class="badge-version">v0.1.0-beta</span>
+        </div>
+        <p class="page-desc">ZynaUI is in active beta. Every milestone and deliverable on the path to v1.0.0 is tracked here.</p>
+      </div>
+
+      <!-- HUD Mission Banner -->
+      <div class="mission-banner" role="region" aria-label="Mission status">
+        <div class="mission-status">
+          <div class="mission-status-label">Phase</div>
+          <div class="mission-status-phase">01</div>
+          <div class="mission-status-total">of 10</div>
+        </div>
+        <div class="mission-details">
+          <div class="mission-row">
+            <span class="mission-row-key">Status</span>
+            <span class="mission-row-val brand">Beta: Phase 1 Shipped</span>
+          </div>
+          <div class="mission-row">
+            <span class="mission-row-key">Next up</span>
+            <span class="mission-row-val">v0.2.0: API Hardening &amp; Distribution</span>
+          </div>
+          <div class="mission-row">
+            <span class="mission-row-key">Target</span>
+            <span class="mission-row-val">v1.0.0 Stable · Jan 1, 2027</span>
+          </div>
+        </div>
+        <div class="mission-progress" aria-hidden="true">
+          <div class="mp-label">
+            <span>Progress to v1</span>
+            <span>10%</span>
+          </div>
+          <div class="mp-track">
+            <div class="mp-fill"></div>
+          </div>
+          <div class="mp-phases">
+            <span>Beta</span>
+            <span>v1.0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Beta callout -->
+      <div class="beta-note" role="note">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" style="flex-shrink:0;color:var(--brand);margin-top:1px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span><strong>Beta means the core API may change.</strong> The CSS variable surface, genre token names, and component class names are subject to breaking changes until the v0.2.0 API stability contract is locked. Pin your version and check the changelog before upgrading.</span>
+      </div>
+
+      <!-- ── Stats strip ── -->
+      <div class="doc-section">
+        <h2 class="section-title">v0.1.0-beta: What Shipped</h2>
+        <p style="font-size:0.86rem;color:var(--text2);margin-bottom:1.25rem;line-height:1.65">The initial beta ships the core architecture: the Tailwind CSS plugin, the three-tier token system, the genre engine, four components, five D3 chart Web Components, and a full ARIA APG compliance audit.</p>
+        <div class="stat-strip" role="list" aria-label="Release statistics">
+          <div class="stat-cell" role="listitem">
+            <div class="stat-num">4</div>
+            <div class="stat-label">Components<span class="stat-sub">Btn · Badge · Card · Alert</span></div>
+          </div>
+          <div class="stat-cell" role="listitem">
+            <div class="stat-num">5</div>
+            <div class="stat-label">Charts<span class="stat-sub">Waffle · Timeline · Nightingale · Lollipop · Orbital</span></div>
+          </div>
+          <div class="stat-cell" role="listitem">
+            <div class="stat-num">2</div>
+            <div class="stat-label">Genres<span class="stat-sub">Ops · Cyberpunk</span></div>
+          </div>
+          <div class="stat-cell" role="listitem">
+            <div class="stat-num">60</div>
+            <div class="stat-label">Genre tokens<span class="stat-sub">in the Ops baseline</span></div>
+          </div>
+          <div class="stat-cell" role="listitem">
+            <div class="stat-num">3</div>
+            <div class="stat-label">Token tiers<span class="stat-sub">Primitive · Genre · Element</span></div>
+          </div>
+          <div class="stat-cell" role="listitem">
+            <div class="stat-num">8</div>
+            <div class="stat-label">ARIA patterns<span class="stat-sub">Full APG audit passed</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Milestones timeline ── -->
+      <div class="doc-section">
+        <h2 class="section-title">Milestones at a Glance</h2>
+        <nav aria-label="Release milestones timeline">
+          <div class="phase-timeline">
+            <div class="phase-node shipped">
+              <div class="phase-node-row">
+                <div class="phase-node-dot shipped" aria-hidden="true"></div>
+              </div>
+              <div class="phase-node-ver">v0.1.0</div>
+              <div class="phase-node-name">Beta</div>
+            </div>
+            <div class="phase-node next">
+              <div class="phase-node-row">
+                <div class="phase-node-dot next" aria-hidden="true"></div>
+              </div>
+              <div class="phase-node-ver">v0.2.0</div>
+              <div class="phase-node-name">API Lock</div>
+            </div>
+            <div class="phase-node">
+              <div class="phase-node-row">
+                <div class="phase-node-dot planned" aria-hidden="true"></div>
+              </div>
+              <div class="phase-node-ver">v0.3.0</div>
+              <div class="phase-node-name">Charts+</div>
+            </div>
+            <div class="phase-node">
+              <div class="phase-node-row">
+                <div class="phase-node-dot planned" aria-hidden="true"></div>
+              </div>
+              <div class="phase-node-ver">v0.4.0</div>
+              <div class="phase-node-name">Forms</div>
+            </div>
+            <div class="phase-node">
+              <div class="phase-node-row">
+                <div class="phase-node-dot planned" aria-hidden="true"></div>
+              </div>
+              <div class="phase-node-ver">v0.5.0</div>
+              <div class="phase-node-name">Overlays</div>
+            </div>
+            <div class="phase-node">
+              <div class="phase-node-row">
+                <div class="phase-node-dot planned" aria-hidden="true"></div>
+              </div>
+              <div class="phase-node-ver">v0.6.0</div>
+              <div class="phase-node-name">Nav &amp; Data</div>
+            </div>
+            <div class="phase-node">
+              <div class="phase-node-row">
+                <div class="phase-node-dot planned" aria-hidden="true"></div>
+              </div>
+              <div class="phase-node-ver">v0.7.0</div>
+              <div class="phase-node-name">BI</div>
+            </div>
+            <div class="phase-node">
+              <div class="phase-node-row">
+                <div class="phase-node-dot planned" aria-hidden="true"></div>
+              </div>
+              <div class="phase-node-ver">v0.8.0</div>
+              <div class="phase-node-name">DX</div>
+            </div>
+            <div class="phase-node">
+              <div class="phase-node-row">
+                <div class="phase-node-dot planned" aria-hidden="true"></div>
+              </div>
+              <div class="phase-node-ver">v0.9.0</div>
+              <div class="phase-node-name">QA</div>
+            </div>
+            <div class="phase-node goal">
+              <div class="phase-node-row">
+                <div class="phase-node-dot goal" aria-hidden="true"></div>
+              </div>
+              <div class="phase-node-ver">v1.0.0</div>
+              <div class="phase-node-name">Stable</div>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      <!-- ── Detailed Roadmap ── -->
+      <div class="doc-section">
+        <h2 class="section-title">Detailed Roadmap</h2>
+        <div class="roadmap-phases">
+
+          <!-- ── v0.1.0 SHIPPED ── -->
+          <div class="roadmap-phase state-shipped">
+            <div class="phase-head shipped">
+              <div>
+                <div class="phase-phase-num">Phase 01 / 10</div>
+                <div class="phase-ver">v0.1.0</div>
+                <h3 class="phase-name">Beta Foundation</h3>
+                <div class="phase-target">Released · March 2026</div>
+              </div>
+              <span class="phase-badge shipped">Shipped</span>
+            </div>
+            <div class="phase-body">
+              <ul class="phase-items">
+                <li class="phase-item done"><span class="pi-dot" aria-hidden="true">✓</span>Button: 4 variants, 3 sizes, 4 shapes, icon mode</li>
+                <li class="phase-item done"><span class="pi-dot" aria-hidden="true">✓</span>Badge: 7 variants, pulse, outline, 4 shapes</li>
+                <li class="phase-item done"><span class="pi-dot" aria-hidden="true">✓</span>Card: 4 variants, 2 shapes, composable header/body/footer</li>
+                <li class="phase-item done"><span class="pi-dot" aria-hidden="true">✓</span>Alert: 6 variants, 2 sizes, 2 shapes</li>
+                <li class="phase-item done"><span class="pi-dot" aria-hidden="true">✓</span>Waffle, Timeline, Nightingale, Lollipop, Orbital charts</li>
+                <li class="phase-item done"><span class="pi-dot" aria-hidden="true">✓</span>Ops + Cyberpunk genres</li>
+                <li class="phase-item done"><span class="pi-dot" aria-hidden="true">✓</span>Genre Builder: interactive editor with live preview</li>
+                <li class="phase-item done"><span class="pi-dot" aria-hidden="true">✓</span>3-tier CSS variable token architecture</li>
+                <li class="phase-item done"><span class="pi-dot" aria-hidden="true">✓</span>Full ARIA APG compliance audit: 8 patterns</li>
+                <li class="phase-item done"><span class="pi-dot" aria-hidden="true">✓</span>TypeScript declarations (types/index.d.ts + types/charts.d.ts)</li>
+                <li class="phase-item done"><span class="pi-dot" aria-hidden="true">✓</span>Vitest unit + snapshot test suite</li>
+                <li class="phase-item done"><span class="pi-dot" aria-hidden="true">✓</span>Docs site: components, charts, genre builder</li>
+                <li class="phase-item done"><span class="pi-dot" aria-hidden="true">✓</span>prefers-reduced-motion coverage across all animations</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- ── v0.2.0 NEXT ── -->
+          <div class="roadmap-phase state-next">
+            <div class="phase-head next">
+              <div>
+                <div class="phase-phase-num">Phase 02 / 10</div>
+                <div class="phase-ver next">v0.2.0</div>
+                <h3 class="phase-name">API Hardening &amp; Distribution</h3>
+                <div class="phase-target">Target · Apr 2026</div>
+              </div>
+              <span class="phase-badge next">Next</span>
+            </div>
+            <div class="phase-body">
+              <ul class="phase-items">
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Semver API stability contract: public CSS variable surface locked</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>npm sub-path exports (zynaui/charts, zynaui/genres, zynaui/plugin)</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>CDN bundle via jsDelivr / unpkg</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Genre: Corporate: clean, minimal, professional palette</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Genre: Terminal: retro phosphor-green monochrome</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Genre: Military: tactical olive / earth tone palette</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Automated visual regression suite (Playwright)</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Docs: full-text search</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Docs: changelog page + versioned API reference</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Genre Builder: export genre as JSON + CSS snippet</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- ── v0.3.0 ── -->
+          <div class="roadmap-phase state-planned">
+            <div class="phase-head planned">
+              <div>
+                <div class="phase-phase-num">Phase 03 / 10</div>
+                <div class="phase-ver">v0.3.0</div>
+                <h3 class="phase-name">Chart Expansion</h3>
+                <div class="phase-target">Target · May–Jun 2026 · 3–5 new charts per month</div>
+              </div>
+              <span class="phase-badge planned">Planned</span>
+            </div>
+            <div class="phase-body">
+              <ul class="phase-items">
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Hive: network nodes classified onto 2–6 radial linear axes; edges arc between axes encoding connections; deterministic layout, no force simulation</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Tension: two ranked columns connected by curved lines angled and colored by rank-change direction and magnitude; built for before/after ordered-list comparison</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Rupture: area chart that fractures visually when a threshold is crossed; fill character, color, and glow shift at the breach point</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Pulse Sequence: stacked horizontal ECG-style tracks, one per entity, each with its own zero baseline; reads like a seismograph score of simultaneous signals</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Resonance. Radial deviation diagram: spokes radiate from a mean center, length encodes distance from mean, fill encodes direction above/below; encodes deviation as a first-class visual, not absolute values</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Cascade. Hierarchical split waterfall: a total breaks through successive levels, each level showing proportional splits as stacked layers connected by fill paths</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Stratum: entity rows where internal segment heights encode time-period values in a geological core sample format; cross-entity patterns emerge from the stacked strata profile across the grid</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Delta Ring. Paired concentric arcs per category: outer arc = current value, inner arc = baseline; the annular gap is colored by gain or loss</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Flow Density: each time period rendered as a vertical density curve; curves flow left-to-right revealing how the full distribution shape shifts over time</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Needs Gap: paired arc chart showing humanitarian need vs response per category; the gap is colored by coverage ratio</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- ── v0.4.0 ── -->
+          <div class="roadmap-phase state-planned">
+            <div class="phase-head planned">
+              <div>
+                <div class="phase-phase-num">Phase 04 / 10</div>
+                <div class="phase-ver">v0.4.0</div>
+                <h3 class="phase-name">Form Foundation</h3>
+                <div class="phase-target">Target · Jul 2026</div>
+              </div>
+              <span class="phase-badge planned">Planned</span>
+            </div>
+            <div class="phase-body">
+              <ul class="phase-items">
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Input: text, number, search, password with show/hide toggle</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Textarea: auto-resize variant, character count</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Select: native styled with custom arrow</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Checkbox: custom styled, indeterminate state</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Radio Group: styled, roving tabindex keyboard nav</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Toggle / Switch: animated, role="switch"</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Slider: styled range input with live value readout</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Form layout: label, helper text, error state, validation patterns</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>All form components: full ARIA APG + genre CSS variable API</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- ── v0.5.0 ── -->
+          <div class="roadmap-phase state-planned">
+            <div class="phase-head planned">
+              <div>
+                <div class="phase-phase-num">Phase 05 / 10</div>
+                <div class="phase-ver">v0.5.0</div>
+                <h3 class="phase-name">Overlays &amp; Feedback</h3>
+                <div class="phase-target">Target · Aug 2026</div>
+              </div>
+              <span class="phase-badge planned">Planned</span>
+            </div>
+            <div class="phase-body">
+              <ul class="phase-items">
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Modal / Dialog: focus trap, aria-modal, Escape close</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Drawer: slide-in side panel, animated open/close</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Dropdown Menu: keyboard navigation, aria-expanded</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Tooltip: hover + focus trigger, non-interactive</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Popover: interactive, position-aware</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Toast / Notification: stacked, auto-dismiss, live region</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Progress Bar: determinate + indeterminate states</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Skeleton Loader: animated shimmer placeholder</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Spinner / Loading indicator</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- ── v0.6.0 ── -->
+          <div class="roadmap-phase state-planned">
+            <div class="phase-head planned">
+              <div>
+                <div class="phase-phase-num">Phase 06 / 10</div>
+                <div class="phase-ver">v0.6.0</div>
+                <h3 class="phase-name">Navigation &amp; Data Display</h3>
+                <div class="phase-target">Target · Sep 2026</div>
+              </div>
+              <span class="phase-badge planned">Planned</span>
+            </div>
+            <div class="phase-body">
+              <ul class="phase-items">
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Tabs: ARIA tablist, keyboard nav, animated indicator</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Accordion: custom, keyboard accessible, animated</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Table: sortable columns, fixed header, row selection</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Pagination</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Breadcrumb: standalone reusable component</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Stat / Metric card: number, trend delta, label</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Empty state component</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Separator / Divider</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>List / Menu list</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- ── v0.7.0 ── -->
+          <div class="roadmap-phase state-planned">
+            <div class="phase-head planned">
+              <div>
+                <div class="phase-phase-num">Phase 07 / 10</div>
+                <div class="phase-ver">v0.7.0</div>
+                <h3 class="phase-name">BI Platform Adapters</h3>
+                <div class="phase-target">Target · Oct–Nov 2026</div>
+              </div>
+              <span class="phase-badge planned">Planned</span>
+            </div>
+            <div class="phase-body">
+              <ul class="phase-items">
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span><span>Shared <code style="font-family:var(--mono);font-size:0.78em">ChartRenderContext</code> API: decouple all chart render functions from Web Components</span></li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Looker adapter: all charts as custom visualization JS files</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span><span>Tableau Viz Extension adapter: all charts with <code style="font-family:var(--mono);font-size:0.78em">.trex</code> manifests</span></li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Power BI Custom Visual adapter: all charts as TypeScript visuals</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Light / dark theming support on all three platforms</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- ── v0.8.0 ── -->
+          <div class="roadmap-phase state-planned">
+            <div class="phase-head planned">
+              <div>
+                <div class="phase-phase-num">Phase 08 / 10</div>
+                <div class="phase-ver">v0.8.0</div>
+                <h3 class="phase-name">DX &amp; Tooling</h3>
+                <div class="phase-target">Target · Nov 2026</div>
+              </div>
+              <span class="phase-badge planned">Planned</span>
+            </div>
+            <div class="phase-body">
+              <ul class="phase-items">
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>VS Code extension: CSS variable autocomplete, snippets, hover docs</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Figma community file: all components + genre swatches</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Interactive playground in docs: live CSS var editor per component</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>CLI: npx zynaui add &lt;component&gt;</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Tailwind v4 native support</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Per-component tree-shaking verified + bundle sizes published</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- ── v0.9.0 ── -->
+          <div class="roadmap-phase state-planned">
+            <div class="phase-head planned">
+              <div>
+                <div class="phase-phase-num">Phase 09 / 10</div>
+                <div class="phase-ver">v0.9.0</div>
+                <h3 class="phase-name">Performance &amp; Production QA</h3>
+                <div class="phase-target">Target · Dec 2026</div>
+              </div>
+              <span class="phase-badge planned">Planned</span>
+            </div>
+            <div class="phase-body">
+              <ul class="phase-items">
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>WCAG 2.1 AA full audit with published screen reader test results</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Performance benchmarks: bundle size per component, paint metrics</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Cross-browser matrix: Chrome, Firefox, Safari, Edge (last 2 major)</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>LCP / CLS / INP targets met and validated for all docs pages</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Complete migration guide: beta to v1</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Changelog automation and release workflow</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Full documentation: every token, every variant, every modifier</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- ── v1.0.0 GOAL ── -->
+          <div class="roadmap-phase state-goal">
+            <div class="phase-head goal">
+              <div>
+                <div class="phase-phase-num">Phase 10 / 10</div>
+                <div class="phase-ver goal">v1.0.0</div>
+                <h3 class="phase-name goal">Production Release</h3>
+                <div class="phase-target">Target · Jan 1, 2027</div>
+              </div>
+              <span class="phase-badge goal">Goal</span>
+            </div>
+            <div class="phase-body">
+              <p style="font-size:0.82rem;color:var(--text2);margin:0 0 1rem;line-height:1.65">v1.0.0 is the stable release. Once it ships, the public CSS variable API is locked under a semver guarantee: no breaking changes without a new major version bump. LTS support begins here.</p>
+              <ul class="phase-items">
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>20+ components</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>15+ charts</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>5+ genres</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>React, Vue, and Svelte adapters</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>TypeScript-first</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Full WCAG 2.1 AA documentation with screen reader testing notes</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Stable API guarantee: semver contract enforced</li>
+                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>LTS support commitment: 2 years minimum</li>
+              </ul>
+            </div>
+          </div>
+
+        </div><!-- /roadmap-phases -->
+      </div>
+
+    </main>
+  </div>
+
+  <link rel="modulepreload" href="../_nav.js">
+  <script type="module" src="../_nav.js"></script>
+  <footer></footer>
+</body>
+</html>
