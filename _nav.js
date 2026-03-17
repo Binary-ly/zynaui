@@ -7,7 +7,8 @@ const NAV_COMPONENTS = [
   {
     label: 'Getting Started',
     items: [
-      { label: 'Overview', href: '/' }
+      { label: 'Overview', href: '/' },
+      { label: 'Roadmap',  href: '/roadmap/' }
     ]
   },
   {
@@ -48,15 +49,40 @@ function getNav(path) {
 }
 
 // Topbar HTML
-function topbarHTML() {
+function topbarHTML(currentPath) {
+  const topbarLinks = [
+    { href: '/components/', label: 'Components' },
+    { href: '/charts/',     label: 'Charts' },
+    { href: '/genres/',     label: 'Genre Builder' },
+    { href: '/roadmap/',    label: 'Roadmap' },
+  ]
+  const navHTML = topbarLinks.map(({ href, label }) => {
+    const isActive = currentPath === href || (href !== '/' && currentPath.startsWith(href))
+    return `<a href="${href}" class="topbar-nav-link"${isActive ? ' aria-current="page"' : ''}>${label}</a>`
+  }).join('\n      ')
   return `
-    <a href="/" class="topbar-logo">
-      <span>zyna<span style="color:var(--brand)">ui</span></span>
+    <a href="/" class="topbar-logo" aria-label="ZynaUI home">
+      <span class="logo-cycle-wrap">
+        <span class="logo-icon-wrap" aria-hidden="true">
+          <svg class="logo-svg" viewBox="0 0 510 413" xmlns="http://www.w3.org/2000/svg" focusable="false">
+            <g class="logo-z-group">
+              <path fill="#f0ebe0" d="m4.05 66.97c-2.5 0.16-2.67 0.28-2.92 1.66-0.48 2.5 0 79.92 0.47 80.27 0.42 0.3 9.1 0.35 60.5 0.37 93.3 0.03 96.9 0.05 96.9 0.98 0 0.52-8.3 8.88-88.75 89.5-57.57 57.67-55.82 55.9-58.1 59.35-4.03 6.03-7.95 15.35-9.38 22.15-1.72 8.27-2.22 23.52-1 30.08 2.41 12.69 8.21 24.84 16.23 33.92 1.4 1.58 2.75 3.13 2.98 3.45 0.22 0.3 1.92 1.93 3.77 3.6 10.2 9.15 22.52 15.42 35.25 17.97 2.5 0.5 3.93 0.68 9.62 1.23 4.9 0.45 237.53 0.33 237.98-0.15 0.75-0.72 0.38-1.18-11.3-12.8-6.42-6.42-17.97-18.08-25.67-25.9-24.73-25.1-32.43-30.7-48.75-35.52-10.33-3.03-8.95-2.96-57-3.13-43.05-0.12-42.38-0.1-42.38-1.15 0-0.58 81.9-82.83 101.93-102.35 2.9-2.85 6-6 6.87-7 6.05-7 17.65-19.18 33.2-34.88 29.28-29.49 44.35-44.45 45.83-45.37 0.87-0.58 4.95-4.4 10.5-9.9 4.97-4.93 11.27-11.1 14.02-13.72 2.73-2.61 5.7-5.66 6.6-6.75 0.93-1.11 11.2-11.61 22.85-23.33 20.8-20.92 21.78-21.98 20.78-22.45-0.5-0.25-377.25-0.35-381.03-0.13z"/>
+            </g>
+            <g class="logo-dot-group">
+              <path fill="var(--brand)" d="m467.38 1.15c-20.85 2.23-36.35 18.77-35.93 38.35 0.1 4.2 0.75 8.07 1.98 11.75 10.97 32.92 57.57 36.07 72.12 4.87 12.55-26.9-9.1-58.07-38.17-54.97z"/>
+            </g>
+            <g class="logo-ui-group">
+              <path fill="var(--brand)" d="m437.2 103.72c-4.05 0.13-4.75 0.2-5.12 0.6-0.43 0.43-0.45 4.35-0.6 85.5-0.13 58.1-0.25 85.45-0.43 86.31-0.15 0.67-0.4 2.2-0.55 3.37-3.02 21.77-16.47 36.35-36.5 39.52-30.4 4.85-53.57-11.44-57.02-40.15-0.15-1.1-0.43-3.29-0.68-4.87-0.47-3.38-0.77-129.7-0.32-142 0.25-7 0.62-9.13 2.32-13.15 1.73-4.1 0.23-2.85-18.35 15.6-4.75 4.7-8.75 8.45-9.62 9.03-2.13 1.37-53.95 53.25-65.7 65.77-15.05 16.02-15.18 16.2-9.93 14.35 8.38-2.93 17.08-0.15 19.65 6.3 0.7 1.73 0.7 1.73 0.75 30.6 0.03 22.97 0.1 29.1 0.38 30 0.17 0.62 0.47 2.47 0.65 4.12 0.67 6.23 4.6 22.58 6.52 27.18 0.33 0.8 0.6 1.57 0.6 1.72 0 0.18 0.33 1.06 0.73 1.95 0.4 0.9 1.6 3.63 2.65 6.03 3.45 7.85 9.6 18.3 13.97 23.7 0.85 1.07 1.9 2.45 2.33 3.05 14.65 21.17 47.4 41.92 78.2 49.55 2.42 0.58 9.12 1.92 10.5 2.08 0.82 0.07 2.4 0.32 3.5 0.5 1.1 0.2 3.52 0.47 5.37 0.62 1.85 0.15 4.28 0.38 5.38 0.5 4.55 0.5 120.82 0.3 121.32-0.2 1-1 1.33-305.85 0.33-307.08-0.48-0.6-54.55-0.97-70.33-0.5z"/>
+            </g>
+          </svg>
+        </span>
+        <span class="logo-text-wrap" aria-hidden="true">
+          <span class="logo-wordmark">zyna<span class="logo-ui-text">ui</span></span>
+        </span>
+      </span>
     </a>
     <nav aria-label="Site">
-      <a href="/components/" class="topbar-nav-link">Components</a>
-      <a href="/charts/" class="topbar-nav-link">Charts</a>
-      <a href="/genres/" class="topbar-nav-link">Genre Builder</a>
+      ${navHTML}
     </nav>
     <div class="topbar-right">
       <span class="badge-version">v0.1.0-beta</span>
@@ -71,7 +97,7 @@ function topbarHTML() {
           <!-- populated by initGenreSwitcher() -->
         </div>
       </div>
-      <a href="https://github.com/binary-ly/zynaui" class="btn-topbar btn-github-topbar" target="_blank" rel="noopener">
+      <a href="https://github.com/binary-ly/zynaui" class="btn-topbar btn-github-topbar" target="_blank" rel="noopener" aria-label="GitHub (opens in new tab)">
         <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
         GitHub
       </a>
@@ -106,7 +132,7 @@ function sidebarHTML(currentPath) {
     const items = cat.items.map(item => {
       const isActive = item.href === currentPath
       return `<a href="${item.href}" class="sidebar-item${isActive ? ' active' : ''}"${isActive ? ' aria-current="page"' : ''}>
-        <span class="sidebar-dot"></span>
+        <span class="sidebar-dot" aria-hidden="true"></span>
         ${item.label}
       </a>`
     }).join('\n')
@@ -114,7 +140,7 @@ function sidebarHTML(currentPath) {
     return `<details class="sidebar-category" data-category="${cat.label}"${isOpen ? ' open' : ''}>
       <summary class="sidebar-category-header">
         ${cat.label}
-        <span class="arrow">›</span>
+        <span class="arrow" aria-hidden="true">›</span>
       </summary>
       ${items}
     </details>`
@@ -125,7 +151,7 @@ function sidebarHTML(currentPath) {
     ? `<code>npm i -D zynaui</code><code>import 'zynaui/charts'</code>`
     : `<code>npm i -D zynaui</code>`
   const extraLinks = isCharts
-    ? `<a href="https://d3js.org" class="sidebar-item" target="_blank" rel="noopener" style="font-size:0.8rem">D3.js v7 →</a>`
+    ? `<a href="https://d3js.org" class="sidebar-item" target="_blank" rel="noopener" aria-label="D3.js v7 (opens in new tab)" style="font-size:0.8rem">D3.js v7 →</a>`
     : ''
 
   return `
@@ -136,7 +162,7 @@ function sidebarHTML(currentPath) {
     </div>
     <div style="margin-top:0.75rem">
       ${extraLinks}
-      <a href="https://github.com/binary-ly/zynaui" class="sidebar-item" target="_blank" rel="noopener" style="font-size:0.8rem">GitHub →</a>
+      <a href="https://github.com/binary-ly/zynaui" class="sidebar-item" target="_blank" rel="noopener" aria-label="GitHub (opens in new tab)" style="font-size:0.8rem">GitHub →</a>
     </div>
   `
 }
@@ -231,6 +257,10 @@ function initGenreSwitcher() {
       trigger.focus()
       return
     }
+    if (e.key === 'Tab' && panel.classList.contains('open')) {
+      closePanel()
+      return
+    }
     if (!panel.classList.contains('open')) return
     const options = [...panel.querySelectorAll('[role="option"]')]
     if (!options.length) return
@@ -270,7 +300,7 @@ export function init() {
 
     // Inject topbar
     const topbarEl = document.getElementById('topbar')
-    if (topbarEl) topbarEl.innerHTML = topbarHTML()
+    if (topbarEl) topbarEl.innerHTML = topbarHTML(currentPath)
 
     // Inject sidebar
     const sidebarEl = document.getElementById('sidebar')
@@ -288,6 +318,7 @@ export function init() {
         <a href="/components/" class="mobile-nav-link">Components</a>
         <a href="/charts/" class="mobile-nav-link">Charts</a>
         <a href="/genres/" class="mobile-nav-link">Genre Builder</a>
+        <a href="/roadmap/" class="mobile-nav-link">Roadmap</a>
       `
       document.body.insertBefore(mobileNav, document.body.firstChild)
     }
