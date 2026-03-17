@@ -68,7 +68,7 @@ pre, code { font-family: var(--mono); }
 .topbar-logo {
   display: flex; align-items: center;
   flex-shrink: 0; color: var(--text);
-  position: relative; overflow: hidden;
+  position: relative; overflow: hidden; clip-path: inset(0);
   transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1); /* exit: decelerate */
   text-decoration: none;
 }
