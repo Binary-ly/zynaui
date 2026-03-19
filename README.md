@@ -16,7 +16,7 @@
 | **Tailwind plugin** | Semantic classes: `.btn`, `.card`, `.badge`, `.alert` |
 | **Chart Web Components** | `<zyna-waffle>`, `<zyna-timeline>`, `<zyna-nightingale>`, `<zyna-lollipop>`, `<zyna-orbital>` |
 
-Framework-agnostic — works in React, Vue, Svelte, Blade, or plain HTML.
+Framework-agnostic. Works in React, Vue, Svelte, Blade, or plain HTML.
 
 ---
 
@@ -28,7 +28,7 @@ Framework-agnostic — works in React, Vue, Svelte, Blade, or plain HTML.
 npm install zynaui tailwindcss
 ```
 
-**Tailwind v3** — `tailwind.config.js`:
+**Tailwind v3** (`tailwind.config.js`):
 
 ```js
 module.exports = {
@@ -37,7 +37,7 @@ module.exports = {
 }
 ```
 
-**Tailwind v4** — `app.css`:
+**Tailwind v4** (`app.css`):
 
 ```css
 @import "tailwindcss";
@@ -48,7 +48,7 @@ module.exports = {
 
 ### Plugin options
 
-#### `prefix` — avoid class name conflicts
+#### `prefix`: avoid class name conflicts
 
 If another library in your project already uses `.btn`, `.card`, `.badge`, or `.alert`, add a prefix:
 
@@ -112,7 +112,7 @@ These resolve to CSS variables (e.g. `text-zyna-success` → `color: var(--z-col
 </button>
 ```
 
-**Custom button variant** — set CSS variables, no plugin changes needed:
+**Custom button variant:** set CSS variables, no plugin changes needed:
 
 ```css
 .btn-plasma {
@@ -219,7 +219,7 @@ These resolve to CSS variables (e.g. `text-zyna-success` → `color: var(--z-col
 
 ## Chart Web Components
 
-### React & Next.js — typed wrapper components
+### React & Next.js: typed wrapper components
 
 Install the wrapper and get typed React components that accept native arrays and numbers:
 
@@ -239,7 +239,7 @@ export default function Charts() {
 }
 ```
 
-The `'use client'` directive is baked into the package — works with Next.js App Router out of the box. The IIFE bundle is inlined, so no file copying or `next/script` setup is needed.
+The `'use client'` directive is included in the package and works with Next.js App Router without extra setup. The IIFE bundle is inlined, so no file copying or `next/script` setup is needed.
 
 ---
 
@@ -261,7 +261,7 @@ import 'zynaui/charts/orbital'
 
 ### Via CDN / Vanilla HTML (no bundler)
 
-Link the pre-compiled CSS and load the IIFE bundle — no build step needed:
+Link the pre-compiled CSS and load the IIFE bundle. No build step needed:
 
 ```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/zynaui/dist/zynaui.css" />
@@ -279,7 +279,7 @@ Or if installed via npm:
 
 ### `<zyna-waffle>`
 
-Waffle chart — square-grid cells, each filled or outline-only.
+Square-grid waffle chart. Each cell is either filled or outline-only.
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -302,7 +302,7 @@ Waffle chart — square-grid cells, each filled or outline-only.
 
 ### `<zyna-timeline>`
 
-Proportional-circle timeline — bubble area encodes value.
+Proportional-circle timeline. Bubble area encodes value.
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -327,7 +327,7 @@ Proportional-circle timeline — bubble area encodes value.
 
 ### `<zyna-nightingale>`
 
-Nightingale (rose) chart — sector radius encodes value.
+Nightingale (rose) chart. Sector radius encodes value.
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -350,7 +350,7 @@ Nightingale (rose) chart — sector radius encodes value.
 
 ### `<zyna-lollipop>`
 
-Horizontal lollipop chart — line + circle encodes value.
+Horizontal lollipop chart. Line and circle encode value.
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -373,11 +373,11 @@ Horizontal lollipop chart — line + circle encodes value.
 
 ### `<zyna-orbital>`
 
-Concentric arc chart — each ring filled as a proportion of a full circle.
+Concentric arc chart. Each ring is filled as a proportion of a full circle.
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `data` | JSON array | `[]` | `[{ label, value, color? }]` — `value` is `0`–`1` |
+| `data` | JSON array | `[]` | `[{ label, value, color? }]` (`value` is `0`–`1`) |
 | `color` | hex | `#C9A84C` | Fallback ring color |
 | `theme` | `dark`/`light` | `dark` | Color theme |
 
@@ -395,7 +395,7 @@ Concentric arc chart — each ring filled as a proportion of a full circle.
 
 ## Custom genres
 
-Create a fully custom visual paradigm with `defineGenre`:
+Create a custom visual theme with `defineGenre`:
 
 ```js
 import { defineGenre, registerGenre } from 'zynaui/genres'
@@ -464,7 +464,7 @@ npm run build:css
 
 ## CSS Variable API
 
-All components are driven entirely by CSS custom properties. Create custom variants without touching plugin source:
+Every component is controlled through CSS custom properties. Create new variants without touching plugin source:
 
 ```css
 /* A custom button — just set variables */
@@ -482,7 +482,7 @@ See the JSDoc at the top of each component file in `src/plugin/components/` for 
 
 ## Credits
 
-The semantic component class naming convention (`.btn`, `.btn-primary`, `.card`, `.badge`, `.alert`, etc.) is inspired by [DaisyUI](https://daisyui.com) by Pouya Saadeghi — the leading semantic Tailwind component library. Zyna UI takes that convention and applies a dark, HUD-style aesthetic with CSS custom properties, clip-path geometry, and D3-powered chart Web Components.
+The semantic class naming (`.btn`, `.btn-primary`, `.card`, `.badge`, `.alert`, etc.) is inspired by [DaisyUI](https://daisyui.com) by Pouya Saadeghi. Zyna UI takes that convention and adds a dark, HUD-style aesthetic built on CSS custom properties and clip-path geometry, with D3 chart Web Components on top.
 
 ---
 
