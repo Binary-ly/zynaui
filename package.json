@@ -7,7 +7,7 @@
   "homepage": "https://zyna.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/binary-ly/zynaui"
+    "url": "git+https://github.com/binary-ly/zynaui.git"
   },
   "keywords": [
     "tailwind",
@@ -37,21 +37,21 @@
       "require": "./dist/zyna-plugin.cjs"
     },
     "./charts": {
-      "types":   "./types/charts.d.ts",
+      "types": "./types/charts.d.ts",
       "browser": "./dist/zyna-charts.js",
-      "node":    "./dist/zyna-charts-stub.cjs",
-      "import":  "./dist/zyna-charts.js",
+      "node": "./dist/zyna-charts-stub.cjs",
+      "import": "./dist/zyna-charts.js",
       "require": "./dist/zyna-charts-stub.cjs"
     },
     "./style.css": "./dist/zynaui.css",
     "./genres": {
-      "types":   "./types/genres.d.ts",
-      "import":  "./dist/genres.js",
+      "types": "./types/genres.d.ts",
+      "import": "./dist/genres.js",
       "require": "./dist/genres.cjs"
     },
     "./react": {
-      "types":   "./types/react.d.ts",
-      "import":  "./dist/react.js",
+      "types": "./types/react.d.ts",
+      "import": "./dist/react.js",
       "require": "./dist/react.cjs"
     },
     "./charts/waffle": "./dist/charts/waffle.js",
