@@ -8,7 +8,7 @@ export { GENRES }
 
 const STORAGE_KEY = 'zyna-genre'
 
-export function applyGenre(name) {
+export function applyGenre(name, animate = true) {
   const genre = GENRES.find(g => g.name === name)
   if (!genre) return
 
@@ -45,8 +45,8 @@ export function applyGenre(name) {
     window.dispatchEvent(new CustomEvent('zyna-genre', { detail: { name } }))
   }
 
-  // Progressive enhancement — browsers without View Transitions API snap as before.
-  if (document.startViewTransition) {
+  // Progressive enhancement — only animate user-triggered switches, not initial load.
+  if (animate && document.startViewTransition) {
     document.startViewTransition(apply).finished.catch(() => {})
   } else {
     apply()
@@ -56,7 +56,7 @@ export function applyGenre(name) {
 export function loadGenre() {
   let name = 'Ops'
   try { name = localStorage.getItem(STORAGE_KEY) || 'Ops' } catch {}
-  applyGenre(name)
+  applyGenre(name, false)
   return name
 }
 
