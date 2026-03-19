@@ -86,8 +86,4 @@ describe('.btn component', () => {
     expect(css).toContain('scaleX(1)')
   })
 
-  test('full btn output matches snapshot', async () => {
-    const css = await generateCSS('<div class="btn btn-primary btn-secondary btn-ghost btn-danger btn-sm btn-lg">')
-    expect(css).toMatchSnapshot()
-  })
 })

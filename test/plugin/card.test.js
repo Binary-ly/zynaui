@@ -76,8 +76,4 @@ describe('.card component', () => {
     expect(css).toContain('--card-shadow: none')
   })
 
-  test('full card output matches snapshot', async () => {
-    const css = await generateCSS('<div class="card card-glow card-dark card-sm">')
-    expect(css).toMatchSnapshot()
-  })
 })

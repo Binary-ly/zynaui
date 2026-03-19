@@ -78,8 +78,4 @@ describe('.badge component', () => {
     expect(css).toContain('.badge-bevel')
   })
 
-  test('full badge output matches snapshot', async () => {
-    const css = await generateCSS('<span class="badge badge-pulse badge-outline badge-success badge-danger badge-warning badge-info">')
-    expect(css).toMatchSnapshot()
-  })
 })

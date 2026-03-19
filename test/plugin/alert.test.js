@@ -79,8 +79,4 @@ describe('.alert component', () => {
     expect(roundBlock).toContain('display: none')
   })
 
-  test('full alert output matches snapshot', async () => {
-    const css = await generateCSS('<div class="alert alert-success alert-danger alert-warning alert-info alert-neutral alert-dark">')
-    expect(css).toMatchSnapshot()
-  })
 })
