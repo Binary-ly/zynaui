@@ -1,0 +1,524 @@
+# Zyna UI
+
+> Tailwind CSS component library and D3 chart Web Components by Binary Tech Ltd.
+> MIT license. Framework-agnostic. Works in React, Vue, Svelte, Angular, Next.js, Nuxt, Astro, and plain HTML.
+
+- Docs: https://zyna.dev
+- npm: https://www.npmjs.com/package/zynaui
+- GitHub: https://github.com/binary-ly/zynaui
+
+---
+
+## Installation
+
+```bash
+npm install zynaui
+```
+
+### Tailwind v4 (CSS import)
+
+```css
+/* app.css */
+@import "tailwindcss";
+@plugin "zynaui";
+```
+
+With a class prefix:
+
+```css
+@import "tailwindcss";
+@plugin "zynaui" {
+  prefix: z-;
+}
+```
+
+### Tailwind v3 (tailwind.config.js)
+
+```js
+module.exports = {
+  plugins: [require('zynaui')()],
+}
+```
+
+With a class prefix:
+
+```js
+module.exports = {
+  plugins: [require('zynaui')({ prefix: 'z-' })],
+}
+```
+
+### Plugin options
+
+Only one option is available:
+
+- `prefix` (string, default `''`): prepend a string to every ZynaUI class name to avoid collisions with other libraries. The dash must be included — e.g. `'z-'` produces `.z-btn`, `.z-badge`, `.z-card`, `.z-alert`.
+
+### Plain HTML (no build system)
+
+Link the compiled CSS directly:
+
+```html
+<link rel="stylesheet" href="https://unpkg.com/zynaui/dist/zynaui.css" />
+```
+
+---
+
+## UI Components
+
+All components are pure CSS — no JavaScript required. Apply classes directly to HTML elements.
+
+### Button
+
+```html
+<!-- Variants -->
+<button class="btn btn-primary">Primary</button>
+<button class="btn btn-secondary">Secondary</button>
+<button class="btn btn-ghost">Ghost</button>
+<button class="btn btn-danger">Danger</button>
+
+<!-- Sizes -->
+<button class="btn btn-primary btn-sm">Small</button>
+<button class="btn btn-primary">Default</button>
+<button class="btn btn-primary btn-lg">Large</button>
+
+<!-- Icon-only (square clip shape, requires aria-label) -->
+<button class="btn btn-primary btn-icon" aria-label="Add">
+  <svg>...</svg>
+</button>
+
+<!-- Shape modifiers (combinable with any size) -->
+<button class="btn btn-primary btn-cut">Diagonal cut corner</button>
+<button class="btn btn-primary btn-bevel">Octagonal bevel</button>
+<button class="btn btn-primary btn-round">Fully rounded</button>
+<button class="btn btn-primary btn-square">Rectangular (no clip)</button>
+
+<!-- States -->
+<button class="btn btn-primary" disabled>Disabled</button>
+<button class="btn btn-primary" aria-disabled="true">Aria disabled</button>
+
+<!-- Non-button elements (also styled by .btn and [role="button"]) -->
+<a role="button" class="btn btn-primary" href="#">Link styled as button</a>
+```
+
+**All button classes:** `btn`, `btn-primary`, `btn-secondary`, `btn-ghost`, `btn-danger`, `btn-sm`, `btn-lg`, `btn-icon`, `btn-cut`, `btn-bevel`, `btn-round`, `btn-square`
+
+**Custom variant CSS token API:**
+```css
+.btn-custom {
+  --btn-bg:                /* background */;
+  --btn-color:             /* text colour */;
+  --btn-filter:            /* resting drop-shadow/glow */;
+  --btn-scan-color:        /* scan-sweep highlight colour */;
+  --btn-hover-bg:          /* hover background (falls back to --btn-bg) */;
+  --btn-hover-color:       /* hover text colour (falls back to --btn-color) */;
+  --btn-hover-filter:      /* hover glow */;
+  --btn-hover-text-shadow: /* hover text luminescence */;
+  --btn-active-filter:     /* active-press filter */;
+  --btn-focus-color:       /* focus-visible ring colour */;
+  --btn-interior:          /* interior fill for outlined variants */;
+  --btn-corner:            /* clip-path corner depth */;
+}
+```
+
+---
+
+### Badge
+
+```html
+<!-- Variants -->
+<span class="badge badge-primary">Primary</span>
+<span class="badge badge-secondary">Secondary</span>
+<span class="badge badge-success">Success</span>
+<span class="badge badge-warning">Warning</span>
+<span class="badge badge-danger">Danger</span>
+<span class="badge badge-info">Info</span>
+<span class="badge badge-neutral">Neutral</span>
+<span class="badge badge-outline">Outline</span>
+
+<!-- Sizes -->
+<span class="badge badge-primary badge-sm">Small</span>
+<span class="badge badge-primary">Default</span>
+<span class="badge badge-primary badge-lg">Large</span>
+
+<!-- Pulse status dot (animated) -->
+<span class="badge badge-success badge-pulse">Live</span>
+
+<!-- Shape modifiers -->
+<span class="badge badge-primary badge-slant">Slant (default parallelogram)</span>
+<span class="badge badge-primary badge-rect">Rectangle</span>
+<span class="badge badge-primary badge-pill">Pill</span>
+<span class="badge badge-primary badge-bevel">Bevel (octagonal)</span>
+```
+
+**All badge classes:** `badge`, `badge-primary`, `badge-secondary`, `badge-success`, `badge-warning`, `badge-danger`, `badge-info`, `badge-neutral`, `badge-outline`, `badge-sm`, `badge-lg`, `badge-pulse`, `badge-slant`, `badge-rect`, `badge-pill`, `badge-bevel`
+
+**Custom variant CSS token API:**
+```css
+.badge-custom {
+  --badge-bg:         /* background tint */;
+  --badge-color:      /* text colour */;
+  --badge-glow:       /* drop-shadow filter */;
+  --badge-scan-color: /* scan-sweep highlight */;
+  --badge-interior:   /* interior fill for outlined variant */;
+  --badge-offset:     /* parallelogram slant depth */;
+}
+```
+
+---
+
+### Card
+
+```html
+<div class="card">
+  <div class="card-header">Header Label</div>
+  <div class="card-body">
+    <p class="card-title">Title</p>
+    <p class="card-subtitle">Subtitle</p>
+    <p>Body content.</p>
+  </div>
+  <div class="card-footer">
+    <button class="btn btn-primary btn-sm">Action</button>
+  </div>
+</div>
+
+<!-- Variants -->
+<div class="card card-dark">...</div>   <!-- deeper background surface -->
+<div class="card card-glow">...</div>   <!-- animated gold border pulse -->
+<div class="card card-sm">...</div>     <!-- reduced padding throughout -->
+
+<!-- Shape modifiers -->
+<div class="card card-round">...</div>  <!-- large border-radius, no clip-path -->
+<div class="card card-bevel">...</div>  <!-- octagonal bevel clip-path -->
+```
+
+**All card classes:** `card`, `card-dark`, `card-glow`, `card-sm`, `card-round`, `card-bevel`, `card-header`, `card-body`, `card-footer`, `card-title`, `card-subtitle`
+
+**Custom variant CSS token API:**
+```css
+.card-custom {
+  --card-gradient:      /* base colour gradient */;
+  --card-border-color:  /* border colour */;
+  --card-shadow:        /* box-shadow */;
+  --card-bracket-color: /* corner L-bracket stroke colour */;
+  --card-bracket-size:  /* corner bracket arm length (default: 20px) */;
+  --card-bracket-stroke:/* corner bracket line thickness (default: 1.5px) */;
+  --card-bar-gradient:  /* top power-bar gradient */;
+  --card-glow-lo:       /* pulse glow colour at rest */;
+  --card-glow-hi:       /* pulse glow colour at peak */;
+  --card-animation:     /* CSS animation shorthand for glow pulse */;
+}
+```
+
+---
+
+### Alert
+
+```html
+<!-- Semantic variants — always include role="alert" for accessibility -->
+<div class="alert alert-success" role="alert">
+  <p class="alert-title">Success</p>
+  <p>Changes saved.</p>
+</div>
+<div class="alert alert-danger" role="alert">...</div>
+<div class="alert alert-warning" role="alert">...</div>
+<div class="alert alert-info" role="alert">...</div>
+<div class="alert alert-neutral" role="alert">...</div>
+<div class="alert alert-dark" role="alert">...</div>
+
+<!-- Sizes -->
+<div class="alert alert-success alert-sm" role="alert">...</div>
+<div class="alert alert-success alert-lg" role="alert">...</div>
+
+<!-- Shape modifiers -->
+<div class="alert alert-success alert-square" role="alert">...</div>
+<div class="alert alert-success alert-round" role="alert">...</div>
+
+<!-- Optional icon slot -->
+<div class="alert alert-success" role="alert">
+  <svg class="alert-icon">...</svg>
+  <div>
+    <p class="alert-title">Success</p>
+    <p>Message here.</p>
+  </div>
+</div>
+```
+
+Note: `[role="alert"]` elements receive the same styles as `.alert` — no class required for correctly marked-up ARIA alerts.
+
+The accent bar position (left vs top) is controlled by the active genre's structural tokens, not by user classes.
+
+**All alert classes:** `alert`, `alert-success`, `alert-danger`, `alert-warning`, `alert-info`, `alert-neutral`, `alert-dark`, `alert-sm`, `alert-lg`, `alert-square`, `alert-round`, `alert-title`, `alert-icon`
+
+**Custom variant CSS token API:**
+```css
+.alert-custom {
+  --alert-bar-color:    /* accent bar colour */;
+  --alert-bg:           /* background tint */;
+  --alert-color:        /* text colour */;
+  --alert-shadow:       /* box-shadow (near glow + inset depth) */;
+  --alert-title-shadow: /* alert-title text-shadow luminescence */;
+}
+```
+
+---
+
+## D3 Chart Web Components
+
+Import the charts bundle separately — it is not included in the default CSS-only build.
+
+```js
+import 'zynaui/charts'
+```
+
+Or load via CDN (IIFE, no bundler required):
+
+```html
+<script src="https://unpkg.com/zynaui/dist/zyna-charts.iife.js"></script>
+```
+
+All charts accept data as a JSON string attribute, are responsive (resize with their container via ResizeObserver), and support dark/light themes.
+
+### `<zyna-waffle>`
+
+Square-grid proportion chart. Best with total data values ≤ 100.
+
+```html
+<zyna-waffle
+  data='[{"label":"A","value":40,"color":"#C9A84C"},{"label":"B","value":35,"color":"#009EDB","outline":true},{"label":"C","value":25,"color":"#00FFB2","outline":true}]'
+  cols="10"
+  gap="3"
+  theme="dark"
+/>
+```
+
+**Attributes:**
+- `data` (required): JSON array of `{ label: string, value: number, color?: string, outline?: boolean }`
+- `cols` (default: `"10"`): number of grid columns
+- `gap` (default: `"3"`): gap between cells in px
+- `color`: fallback cell colour when data item has no `color`
+- `theme`: `"dark"` (default) or `"light"`
+- `height`: explicit height in px; auto-derived from data when omitted
+
+---
+
+### `<zyna-timeline>`
+
+Proportional-circle timeline — bubble area encodes value.
+
+```html
+<zyna-timeline
+  data='[{"label":"2022","value":240},{"label":"2023","value":310,"note":"Launch"},{"label":"2024","value":450}]'
+  highlight="2024"
+  height="260"
+/>
+```
+
+**Attributes:**
+- `data` (required): JSON array of `{ label: string, value: number, note?: string }`
+- `highlight`: label of the item to emphasize (default: highest-value item)
+- `muted-color`: colour for non-highlighted items (default: `"#8A8478"`)
+- `show-values`: `"false"` to hide value labels (default: `"true"`)
+- `label-format`: D3 format string, e.g. `"$,.0f"`, `".1%"` (default: raw number)
+- `height`: explicit height in px; auto-derived from width when omitted
+- `color`: accent colour for the highlighted item
+- `theme`: `"dark"` (default) or `"light"`
+
+---
+
+### `<zyna-nightingale>`
+
+Nightingale/rose chart — polar bar chart where radius encodes value.
+
+```html
+<zyna-nightingale
+  data='[{"label":"Design","value":520,"color":"#C9A84C"},{"label":"Engineering","value":380,"color":"#009EDB"}]'
+  height="300"
+/>
+```
+
+**Attributes:**
+- `data` (required): JSON array of `{ label: string, value: number, color?: string }`
+- `height`: explicit height in px
+- `theme`: `"dark"` (default) or `"light"`
+- `label-format`: D3 format string
+
+---
+
+### `<zyna-lollipop>`
+
+Horizontal lollipop chart — line + circle encodes value.
+
+```html
+<zyna-lollipop
+  data='[{"label":"London","value":920},{"label":"Dubai","value":340},{"label":"Berlin","value":210}]'
+  highlight="London"
+  height="260"
+/>
+```
+
+**Attributes:**
+- `data` (required): JSON array of `{ label: string, value: number }` (sort descending for best layout)
+- `highlight`: label of the item to accent (default: first item)
+- `muted-color`: colour for non-highlighted stems and labels
+- `show-values`: `"false"` to hide value labels (default: `"true"`)
+- `label-format`: D3 format string
+- `ticks`: number of x-axis tick marks (default: `"5"`)
+- `height`: explicit height in px; auto-derived from data length when omitted
+- `color`: accent colour
+- `theme`: `"dark"` (default) or `"light"`
+
+---
+
+### `<zyna-orbital>`
+
+Concentric ring chart — each ring encodes a proportion (0–1).
+
+```html
+<zyna-orbital
+  data='[{"label":"Done","value":0.48},{"label":"In Progress","value":0.29},{"label":"Review","value":0.15},{"label":"Blocked","value":0.08}]'
+  height="300"
+/>
+```
+
+**Attributes:**
+- `data` (required): JSON array of `{ label: string, value: number }` where `value` is between 0 and 1
+- `height`: explicit height in px
+- `color`: accent colour
+- `theme`: `"dark"` (default) or `"light"`
+
+---
+
+## Theming (Genres)
+
+Zyna UI ships with two built-in themes called "genres":
+
+- **Ops** (default): gold military HUD aesthetic (`--zyna: #C9A84C`)
+- **Cyberpunk**: acid green terminal aesthetic (`--zyna: #39FF14`)
+
+### Activate a genre via CSS (no JavaScript)
+
+Set `data-genre` on the `<html>` element:
+
+```html
+<html data-genre="cyberpunk">
+```
+
+### Activate a genre via JavaScript at runtime
+
+```js
+document.documentElement.dataset.genre = 'cyberpunk'
+```
+
+### Define a custom genre
+
+```js
+import { defineGenre, registerGenre } from 'zynaui/genres'
+
+const aurora = defineGenre({
+  name: 'Aurora',
+  // palette: preview swatches for genre-switcher UIs
+  palette: { brand: '#BF5FFF' },
+  // tokens: CSS custom properties set on <html> at runtime via JS
+  tokens: {
+    '--zyna':      '#BF5FFF',
+    '--zyna-dark': '#7A3DA0',
+  },
+  // styles: structural overrides scoped to html[data-genre="aurora"]
+  // Use this for changing clip-path shapes, badge geometry, bar positions, etc.
+  styles: {
+    'html[data-genre="aurora"]': {
+      '--z-btn-clip':   'inset(0)',           // rectangular buttons
+      '--z-badge-clip': 'inset(0 round 4px)', // pill-ish badges
+    },
+  },
+})
+
+registerGenre(aurora)
+
+// Activate:
+document.documentElement.dataset.genre = 'aurora'
+```
+
+`defineGenre` accepts an optional `extends` property to base your genre on an existing one (defaults to Ops).
+
+---
+
+## React / Next.js — Chart Wrappers
+
+The `zynaui/react` export provides typed React wrapper components for the **chart Web Components only**. These handle SSR safety (no `HTMLElement` reference at import time) and accept native JS values instead of JSON strings.
+
+```tsx
+import { ZynaWaffle, ZynaTimeline, ZynaNightingale, ZynaLollipop, ZynaOrbital } from 'zynaui/react'
+
+// The 'use client' directive is included in the package.
+// Works with Next.js App Router without extra setup.
+
+export default function Dashboard() {
+  return (
+    <ZynaWaffle
+      data={[
+        { label: 'Food', value: 35, color: '#C9A84C' },
+        { label: 'Shelter', value: 25, color: '#009EDB', outline: true },
+      ]}
+      cols={10}
+      gap={3}
+    />
+  )
+}
+```
+
+UI components (Button, Badge, Card, Alert) are pure CSS — use their class names directly in JSX. No React wrappers are needed or provided for them.
+
+---
+
+## Tailwind Theme Extension
+
+The plugin extends the Tailwind theme with semantic color and radius tokens:
+
+```html
+<!-- Semantic status colours -->
+<p class="text-zyna-success">Online</p>
+<p class="text-zyna-danger">Error</p>
+<p class="text-zyna-warning">Warning</p>
+<p class="text-zyna-info">Info</p>
+<p class="text-zyna">Brand gold</p>
+<p class="text-zyna-muted">Muted text</p>
+
+<!-- Corner radius tokens -->
+<div class="rounded-zyna-sm">...</div>
+<div class="rounded-zyna">...</div>
+<div class="rounded-zyna-lg">...</div>
+<div class="rounded-zyna-xl">...</div>
+```
+
+---
+
+## TypeScript
+
+The package ships TypeScript types. The plugin options type:
+
+```ts
+import type { ZynaUIOptions } from 'zynaui'
+// ZynaUIOptions = { prefix?: string }
+```
+
+---
+
+## Links
+
+- Full docs: https://zyna.dev
+- Button: https://zyna.dev/components/btn/
+- Badge: https://zyna.dev/components/badge/
+- Card: https://zyna.dev/components/card/
+- Alert: https://zyna.dev/components/alert/
+- Charts overview: https://zyna.dev/charts/
+- Waffle chart: https://zyna.dev/charts/waffle/
+- Timeline chart: https://zyna.dev/charts/timeline/
+- Nightingale chart: https://zyna.dev/charts/nightingale/
+- Lollipop chart: https://zyna.dev/charts/lollipop/
+- Orbital chart: https://zyna.dev/charts/orbital/
+- Genre builder: https://zyna.dev/genres/
+- npm: https://www.npmjs.com/package/zynaui
+- GitHub: https://github.com/binary-ly/zynaui
+- Issues: https://github.com/binary-ly/zynaui/issues
