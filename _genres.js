@@ -2,7 +2,7 @@
  * Genre runtime — applies genre token maps to :root at page load.
  * Genre definitions (tokens, swatches, styles) live in src/plugin/genres/.
  */
-import { GENRES } from '../src/plugin/genres/index.js'
+import { GENRES } from './dist/genres.js'
 
 export { GENRES }
 
