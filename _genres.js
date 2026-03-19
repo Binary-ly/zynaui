@@ -47,7 +47,7 @@ export function applyGenre(name) {
 
   // Progressive enhancement — browsers without View Transitions API snap as before.
   if (document.startViewTransition) {
-    document.startViewTransition(apply)
+    document.startViewTransition(apply).finished.catch(() => {})
   } else {
     apply()
   }
