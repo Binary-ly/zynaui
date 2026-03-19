@@ -49,6 +49,16 @@ export const styles = {
   // at [0,1,1]) wins without needing !important or additional specificity tricks.
   // The genre builder's inline setProperty() on html always wins over these rules.
   'html': {
+    // ── Page base ───────────────────────────────────────────────────────────
+    // Added 2026-03-17 during framework integration testing: without these the
+    // plugin tokens assume a dark context but the page itself stays browser-default
+    // white, causing components to render against the wrong background.
+    // color-scheme lives here (not :root) so future light genres can override it
+    // via html[data-genre="..."] at specificity [0,1,1] > html [0,0,1].
+    'color-scheme':     'dark',
+    'background-color': 'var(--z-surface-page)',
+    'color':            'var(--z-color-text)',
+
     // ── Button structural ───────────────────────────────────────────────────
     '--z-btn-clip':         `polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)))`,
     '--z-btn-corner':       'var(--z-corner)',

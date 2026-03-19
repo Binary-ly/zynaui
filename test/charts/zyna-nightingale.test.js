@@ -75,6 +75,40 @@ describe('zyna-nightingale', () => {
     expect(svg).to.be.null
   })
 
+  // ── Edge cases ────────────────────────────────────────────────────────────────
+
+  it('single data item renders one sector without errors', async () => {
+    // Real scenario: developer has only one category — must not crash.
+    // With 1 item: maxVal = 500, r = maxR * sqrt(500/500) = maxR (full radius).
+    // The arc spans 0 → 2π (a complete ring). D3's arcGenerator must not throw.
+    const data = JSON.stringify([
+      { label: 'Solo', value: 500, color: '#B03A2E' },
+    ])
+    const el = await fixture(`<zyna-nightingale data='${data}'></zyna-nightingale>`)
+    const sectors = el.querySelectorAll('g.ng-sector')
+    expect(sectors.length).to.equal(1)
+    const labels = [...el.querySelectorAll('text.ng-label')].map(t => t.textContent)
+    expect(labels).to.include('Solo')
+    // Arc must have a non-empty d attribute (confirms arcGenerator ran without throwing)
+    const arc = el.querySelector('path.ng-arc')
+    expect(arc).to.exist
+    expect(arc.getAttribute('d')).to.not.be.empty
+  })
+
+  it('value=0 sector renders without crashing', async () => {
+    // Zero-value: r = maxR * sqrt(0/300) = 0 → outerRadius(0) < innerRadius(innerR≥6).
+    // D3's arcGenerator must not throw on degenerate geometry; d attribute must be non-null.
+    const data = JSON.stringify([
+      { label: 'Real',  value: 300, color: '#B03A2E' },
+      { label: 'Empty', value: 0,   color: '#2D8C4E' },
+    ])
+    const el = await fixture(`<zyna-nightingale data='${data}'></zyna-nightingale>`)
+    const arcs = [...el.querySelectorAll('path.ng-arc')]
+    expect(arcs.length).to.equal(2)
+    // Both arc paths must have a d attribute — even a degenerate one must not be null
+    arcs.forEach(arc => expect(arc.getAttribute('d')).to.not.be.null)
+  })
+
   it('re-renders when data attribute changes', async () => {
     const el = await fixture(`<zyna-nightingale data='${sampleData}'></zyna-nightingale>`)
     const newData = JSON.stringify([

@@ -252,9 +252,45 @@
   .rounded {
     border-radius: 0.25rem;
   }
+  .rounded-zyna {
+    border-radius: var(--z-corner);
+  }
+  .rounded-zyna-lg {
+    border-radius: var(--z-corner-lg);
+  }
+  .rounded-zyna-sm {
+    border-radius: var(--z-corner-sm);
+  }
+  .rounded-zyna-xl {
+    border-radius: var(--z-corner-xl);
+  }
   .border {
     border-style: var(--tw-border-style);
     border-width: 1px;
+  }
+  .bg-zyna-danger {
+    background-color: var(--z-color-danger);
+  }
+  .text-\[var\(--z-color-success\)\] {
+    color: var(--z-color-success);
+  }
+  .text-zyna {
+    color: #C9A84C;
+  }
+  .text-zyna-danger {
+    color: var(--z-color-danger);
+  }
+  .text-zyna-info {
+    color: var(--z-color-info);
+  }
+  .text-zyna-muted {
+    color: var(--z-color-text-muted);
+  }
+  .text-zyna-success {
+    color: var(--z-color-success);
+  }
+  .text-zyna-warning {
+    color: var(--z-color-warning);
   }
   .uppercase {
     text-transform: uppercase;
@@ -341,6 +377,7 @@
     --z-color-border: rgba(255,255,255,0.05);
     --z-color-border-dim: rgba(255,255,255,0.035);
     --z-color-overlay: rgba(255,255,255,0.04);
+    --z-surface-page: #09080F;
     --z-surface-inset: #0C0B14;
     --z-surface-inset-hover: #0E0D18;
     --z-surface-inset-danger: #0C0508;
@@ -1339,6 +1376,9 @@
 }
 @layer base {
   html {
+    color-scheme: dark;
+    background-color: var(--z-surface-page);
+    color: var(--z-color-text);
     --z-btn-clip: polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)));
     --z-btn-corner: var(--z-corner);
     --z-btn-inner-clip: polygon(1px 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--btn-corner) + 1px)));
@@ -1594,6 +1634,11 @@
     @supports (color: color-mix(in lab, red, red)) {
       background: repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--zyna) 4.5%, transparent) 2px, color-mix(in oklch, var(--zyna) 4.5%, transparent) 3px);
     }
+  }
+}
+@layer base {
+  zyna-waffle, zyna-timeline, zyna-nightingale, zyna-lollipop, zyna-orbital {
+    display: block;
   }
 }
 @property --tw-rotate-x {

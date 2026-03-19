@@ -23,7 +23,10 @@ export const GENRES = [ops, cyberpunk]
 
 export { defineGenre, registerGenre } from './define.js'
 
-export default function genres() {
+// Named export (not default) so the public zynaui/genres bundle has only named
+// exports — avoids a Rollup "mixed named and default exports" warning in CJS.
+// The plugin imports this as { genresPlugin } rather than a default import.
+export function genresPlugin() {
   const rules = {}
   for (const genre of GENRES) {
     if (genre.styles) Object.assign(rules, genre.styles)

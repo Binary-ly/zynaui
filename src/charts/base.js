@@ -56,14 +56,15 @@ export class ZynaChart extends HTMLElement {
     // returns the real layout dimension rather than 0 (pre-layout).
     // If ResizeObserver already fired and set _lastW (visible elements), skip
     // to avoid a redundant second render in the same frame.
+    // 2026-03-17: removed the previous `if (w > 0)` guard — display:block (added
+    // to the plugin's addBase) now ensures real width in normal use, and individual
+    // charts already fall back to || 480 so they still render in edge-case inline
+    // contexts rather than going permanently blank with no error.
     requestAnimationFrame(() => {
-      const w = this.clientWidth
-      if (w > 0 && this._lastW === 0) {
-        this._lastW = w
+      if (this._lastW === 0) {
+        this._lastW = this.clientWidth
         this._render()
       }
-      // If w === 0 the element is hidden; ResizeObserver handles first render
-      // when it becomes visible (wasZero path above).
     })
   }
 
@@ -97,7 +98,9 @@ export class ZynaChart extends HTMLElement {
    * @returns {*}
    */
   _json(name, fallback) {
-    try { return JSON.parse(this.getAttribute(name)) } catch { return fallback }
+    const v = this.getAttribute(name)
+    if (v === null) return fallback
+    try { return JSON.parse(v) } catch { return fallback }
   }
 
   /**

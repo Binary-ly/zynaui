@@ -450,6 +450,9 @@
       cursor:pointer; transition:background 150ms, color 150ms;
     }
     .pkg-btn.active { background:var(--bg); color:var(--brand); }
+    .install-d3 { margin-bottom: 0.75rem; }
+    .install-d3-label { font-size: 0.8rem; color: var(--text2); margin: 0 0 0.4rem; font-family: var(--sans); }
+    .install-d3 .install-block { border-radius: var(--radius-sm); }
     .install-block {
       background:#0A0A10; border:1px solid var(--border);
       border-radius:0 var(--radius-sm) var(--radius-sm) var(--radius-sm);
@@ -1155,6 +1158,12 @@
           <div class="step-num">4</div>
           <div class="step-body">
             <h3>Optional: add D3 chart Web Components</h3>
+            <div class="install-d3" id="idx-d3-install">
+              <p class="install-d3-label">First, install the D3 peer dependencies:</p>
+              <div class="install-block" style="margin-bottom:0.75rem">
+                <div class="install-cmd"><code>npm install d3-array d3-scale d3-selection d3-shape</code></div>
+              </div>
+            </div>
             <div class="file-bar" id="idx-chart-bar">
               <button class="file-tab active" onclick="idxChartTab(this,'all')">All charts</button>
               <button class="file-tab" onclick="idxChartTab(this,'one')">One chart</button>
@@ -1343,6 +1352,9 @@
         const el = document.getElementById('idx-chart-' + t)
         if (el) el.classList.toggle('active', t === tab)
       })
+      // Hide D3 install step when CDN tab is active (CDN bundles D3 inline)
+      const d3Block = document.getElementById('idx-d3-install')
+      if (d3Block) d3Block.style.display = tab === 'cdn' ? 'none' : ''
     }
 
     // ── Scroll reveal (IntersectionObserver) ──

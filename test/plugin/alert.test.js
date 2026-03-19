@@ -57,6 +57,28 @@ describe('.alert component', () => {
     expect(css).toContain('.alert-dark')
   })
 
+  // ── Shape modifiers ───────────────────────────────────────────────────────────
+
+  test('generates .alert-square shape modifier', async () => {
+    const css = await generateCSS('<div class="alert-square">')
+    expect(css).toContain('.alert-square')
+  })
+
+  test('.alert-round hides the ::before bar and uses inset box-shadow instead', async () => {
+    // .alert-round uses a pill border-radius: the absolute-positioned bar ::before
+    // would not follow the rounded shape, so alert.js:219 sets display:none on it
+    // and uses inset box-shadow for the border ring instead.
+    const css = await generateCSS('<div class="alert-round">')
+    // Inset box-shadow provides the visual border ring (unique to .alert-round)
+    expect(css).toContain('inset 0 0 0 var(--z-alert-bar-width) var(--alert-bar-color)')
+    // The &::before rule INSIDE .alert-round's block must hide the bar.
+    // Use position-based check: 'display: none' must appear within .alert-round's block,
+    // not just somewhere in the full CSS (Tailwind's [hidden] reset also sets display:none).
+    const roundIdx = css.indexOf(':where(.alert-round)')
+    const roundBlock = css.slice(roundIdx, roundIdx + 400)
+    expect(roundBlock).toContain('display: none')
+  })
+
   test('full alert output matches snapshot', async () => {
     const css = await generateCSS('<div class="alert alert-success alert-danger alert-warning alert-info alert-neutral alert-dark">')
     expect(css).toMatchSnapshot()

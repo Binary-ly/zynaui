@@ -75,6 +75,13 @@ export default function tokens(theme) {
     '--z-color-border-dim': 'rgba(255,255,255,0.035)',
     '--z-color-overlay':    'rgba(255,255,255,0.04)',
 
+    // ── Page surface token ────────────────────────────────────────────────────
+    // Added 2026-03-17 during framework integration testing: provides the default
+    // page background consumed by ops.styles['html']. Kept on :root (not html) so
+    // it is a plain variable fallback, not a behavioural directive — genres override
+    // it via html[data-genre] custom-property inheritance at higher specificity.
+    '--z-surface-page':               '#09080F',
+
     // ── Tier 2: Inset surfaces (outlined variant interior fills) ─────────────
     '--z-surface-inset':              '#0C0B14',
     '--z-surface-inset-hover':        '#0E0D18',

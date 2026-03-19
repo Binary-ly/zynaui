@@ -46,6 +46,54 @@ module.exports = {
 
 ---
 
+### Plugin options
+
+#### `prefix` — avoid class name conflicts
+
+If another library in your project already uses `.btn`, `.card`, `.badge`, or `.alert`, add a prefix:
+
+**Tailwind v3:**
+
+```js
+plugins: [require('zynaui')({ prefix: 'z-' })]
+// → .z-btn, .z-btn-primary, .z-card, .z-badge, .z-alert …
+```
+
+**Tailwind v4:**
+
+```css
+@plugin "zynaui" {
+  prefix: z-;
+}
+```
+
+---
+
+### Tailwind utilities
+
+ZynaUI extends the Tailwind theme with semantic color and radius tokens, so you can use them as native utility classes:
+
+```html
+<!-- Status colors -->
+<span class="text-zyna-success">Operational</span>
+<span class="text-zyna-danger">Critical</span>
+<span class="text-zyna-warning">Degraded</span>
+<span class="text-zyna-info">Updating</span>
+<span class="text-zyna-muted">Offline</span>
+
+<!-- Brand color -->
+<span class="text-zyna">Gold accent</span>
+
+<!-- Corner radius (respects active genre) -->
+<div class="rounded-zyna-sm">…</div>
+<div class="rounded-zyna">…</div>
+<div class="rounded-zyna-lg">…</div>
+```
+
+These resolve to CSS variables (e.g. `text-zyna-success` → `color: var(--z-color-success)`) and update automatically when the active genre changes.
+
+---
+
 ### Buttons
 
 ```html
@@ -171,7 +219,31 @@ module.exports = {
 
 ## Chart Web Components
 
-### Via bundler (React / Vue / Svelte)
+### React & Next.js — typed wrapper components
+
+Install the wrapper and get typed React components that accept native arrays and numbers:
+
+```bash
+npm install zynaui
+```
+
+```tsx
+import { ZynaWaffle, ZynaTimeline, ZynaNightingale, ZynaLollipop, ZynaOrbital } from 'zynaui/react'
+
+export default function Charts() {
+  const data = [
+    { label: 'Food',    value: 35, color: '#C9A84C' },
+    { label: 'Shelter', value: 25, color: '#009EDB', outline: true },
+  ]
+  return <ZynaWaffle data={data} cols={10} gap={3} />
+}
+```
+
+The `'use client'` directive is baked into the package — works with Next.js App Router out of the box. The IIFE bundle is inlined, so no file copying or `next/script` setup is needed.
+
+---
+
+### Via bundler (Vue / Svelte / Astro)
 
 ```js
 import 'zynaui/charts'
@@ -187,10 +259,20 @@ import 'zynaui/charts/lollipop'
 import 'zynaui/charts/orbital'
 ```
 
-### Via CDN (no bundler)
+### Via CDN / Vanilla HTML (no bundler)
+
+Link the pre-compiled CSS and load the IIFE bundle — no build step needed:
 
 ```html
-<script src="https://unpkg.com/zynaui@0.1.0-beta.1/dist/zyna-charts.iife.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/zynaui/dist/zynaui.css" />
+<script src="https://cdn.jsdelivr.net/npm/zynaui/dist/zyna-charts.iife.js"></script>
+```
+
+Or if installed via npm:
+
+```html
+<link rel="stylesheet" href="node_modules/zynaui/dist/zynaui.css" />
+<script src="node_modules/zynaui/dist/zyna-charts.iife.js"></script>
 ```
 
 ---
@@ -311,6 +393,42 @@ Concentric arc chart — each ring filled as a proportion of a full circle.
 
 ---
 
+## Custom genres
+
+Create a fully custom visual paradigm with `defineGenre`:
+
+```js
+import { defineGenre, registerGenre } from 'zynaui/genres'
+
+const aurora = defineGenre({
+  name: 'Aurora',
+  palette: { brand: '#BF5FFF' },
+  tokens: {
+    '--zyna':            '#BF5FFF',
+    '--z-ease-enter':    'cubic-bezier(0.34, 1.56, 0.64, 1)',
+    '--z-duration-fast': '0.14s',
+  },
+  styles: {
+    'html[data-genre="aurora"]': {
+      '--z-btn-clip':   'inset(0)',
+      '--z-badge-clip': 'inset(0 round 4px)',
+    },
+  },
+})
+
+registerGenre(aurora)
+```
+
+Activate at runtime:
+
+```js
+document.documentElement.setAttribute('data-genre', 'aurora')
+```
+
+> **Note:** Genre structural styles (`styles`) are compiled into `zynaui.css` at Tailwind build time. Register custom genres before your build step runs so their rules are included in the output.
+
+---
+
 ## Build
 
 ```bash
@@ -324,8 +442,12 @@ Outputs:
 |------|--------|----------|
 | `dist/zyna-plugin.cjs` | CommonJS | Tailwind config `require()` |
 | `dist/zyna-plugin.js` | ESM | Bundler import |
+| `dist/genres.js` | ESM | `import { defineGenre } from 'zynaui/genres'` |
 | `dist/zyna-charts.js` | ESM | Bundler `import 'zynaui/charts'` |
 | `dist/zyna-charts.iife.js` | IIFE | `<script src>` with no bundler |
+| `dist/zyna-charts-stub.cjs` | CJS stub | SSR environments (auto-selected) |
+| `dist/react.js` | ESM | `import { ZynaWaffle } from 'zynaui/react'` |
+| `dist/zynaui.css` | CSS | Pre-compiled CSS for CDN / vanilla HTML |
 
 ```bash
 # Build only the Tailwind plugin

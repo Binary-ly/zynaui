@@ -43,6 +43,14 @@ describe('.card component', () => {
     expect(css).toContain('@keyframes zyna-card-pulse')
   })
 
+  test('.card-glow sets --card-animation to use zyna-card-pulse', async () => {
+    // The .card base rule applies animation: var(--card-animation).
+    // .card-glow overrides --card-animation: zyna-card-pulse ... (card.js:269).
+    // Without this, no animation runs even though the keyframe is defined.
+    const css = await generateCSS('<div class="card-glow">')
+    expect(css).toContain('--card-animation: zyna-card-pulse')
+  })
+
   test('generates .card-dark variant', async () => {
     const css = await generateCSS('<div class="card-dark">')
     expect(css).toContain('.card-dark')
@@ -51,6 +59,21 @@ describe('.card component', () => {
   test('generates .card-sm variant', async () => {
     const css = await generateCSS('<div class="card-sm">')
     expect(css).toContain('.card-sm')
+  })
+
+  // ── Shape modifiers ───────────────────────────────────────────────────────────
+
+  test('generates .card-round shape modifier', async () => {
+    const css = await generateCSS('<div class="card-round">')
+    expect(css).toContain('.card-round')
+  })
+
+  test('.card-bevel uses clip-path and nulls box-shadow', async () => {
+    // clip-path clips box-shadow, so .card-bevel must set --card-shadow: none
+    // and use filter:drop-shadow() instead (card.js:300-305).
+    const css = await generateCSS('<div class="card-bevel">')
+    expect(css).toContain('.card-bevel')
+    expect(css).toContain('--card-shadow: none')
   })
 
   test('full card output matches snapshot', async () => {
