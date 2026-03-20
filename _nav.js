@@ -7,8 +7,9 @@ const NAV_COMPONENTS = [
   {
     label: 'Getting Started',
     items: [
-      { label: 'Overview', href: '/' },
-      { label: 'Roadmap',  href: '/roadmap/' }
+      { label: 'Overview',   href: '/' },
+      { label: 'Changelog', href: '/changelog/' },
+      { label: 'Roadmap',   href: '/roadmap/' }
     ]
   },
   {

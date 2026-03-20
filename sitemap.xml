@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://zyna.dev/</loc><priority>1.0</priority></url>
+  <url><loc>https://zyna.dev/changelog/</loc><priority>0.9</priority></url>
+  <url><loc>https://zyna.dev/roadmap/</loc><priority>0.8</priority></url>
+  <url><loc>https://zyna.dev/components/</loc><priority>0.9</priority></url>
+  <url><loc>https://zyna.dev/components/btn/</loc><priority>0.8</priority></url>
+  <url><loc>https://zyna.dev/components/badge/</loc><priority>0.8</priority></url>
+  <url><loc>https://zyna.dev/components/card/</loc><priority>0.8</priority></url>
+  <url><loc>https://zyna.dev/components/alert/</loc><priority>0.8</priority></url>
+  <url><loc>https://zyna.dev/charts/</loc><priority>0.9</priority></url>
+  <url><loc>https://zyna.dev/charts/waffle/</loc><priority>0.7</priority></url>
+  <url><loc>https://zyna.dev/charts/timeline/</loc><priority>0.7</priority></url>
+  <url><loc>https://zyna.dev/charts/nightingale/</loc><priority>0.7</priority></url>
+  <url><loc>https://zyna.dev/charts/lollipop/</loc><priority>0.7</priority></url>
+  <url><loc>https://zyna.dev/charts/orbital/</loc><priority>0.7</priority></url>
+  <url><loc>https://zyna.dev/genres/</loc><priority>0.8</priority></url>
+</urlset>
