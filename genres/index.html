@@ -680,6 +680,8 @@
     /* Same unlayered override for badge — forces ::before to track the html-element token
        directly, bypassing @layer base so genre-builder setProperty calls take effect. */
     .gb-preview .badge::before { clip-path: var(--z-badge-inner-clip); }
+    /* Pulse dot — reset clip-path so the ::before renders as a circle, not a line */
+    .gb-preview .badge-pulse::before { clip-path: none; }
     /* Card bracket size fix — compiled zynaui.css may still reference the old
        element-level --card-bracket-size token. This unlayered rule forces ::before
        to read the html-element tokens directly, matching what cornerBrackets() outputs. */
