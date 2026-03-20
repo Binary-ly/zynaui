@@ -3,65 +3,79 @@ import { GENRES, applyGenre, loadGenre } from './_genres.js'
 // Apply genre immediately (before DOMContentLoaded) to prevent FOUC
 loadGenre()
 
-const NAV_COMPONENTS = [
+// Unified nav — all sections visible on every page
+const NAV = [
   {
-    label: 'Getting Started',
+    label: 'Project',
     items: [
-      { label: 'Overview',   href: '/' },
-      { label: 'Changelog', href: '/changelog/' },
-      { label: 'Roadmap',   href: '/roadmap/' }
+      { label: 'Overview',   href: '/',           meta: 'home' },
+      { label: 'Changelog',  href: '/changelog/',  meta: 'log'  },
+      { label: 'Roadmap',    href: '/roadmap/',    meta: 'map'  }
     ]
   },
   {
     label: 'Components',
+    count: 4,
     items: [
-      { label: 'All Components', href: '/components/' },
-      { label: 'Button',         href: '/components/btn/' },
-      { label: 'Card',           href: '/components/card/' },
-      { label: 'Badge',          href: '/components/badge/' },
-      { label: 'Alert',          href: '/components/alert/' }
-    ]
-  }
-]
-
-const NAV_CHARTS = [
-  {
-    label: 'Getting Started',
-    items: [
-      { label: 'Overview',   href: '/' },
-      { label: 'Changelog', href: '/changelog/' },
-      { label: 'Roadmap',   href: '/roadmap/' },
+      { label: 'All Components', href: '/components/'           },
+      { label: 'Button',         href: '/components/btn/',    meta: '.btn'   },
+      { label: 'Card',           href: '/components/card/',   meta: '.card'  },
+      { label: 'Badge',          href: '/components/badge/',  meta: '.badge' },
+      { label: 'Alert',          href: '/components/alert/',  meta: '.alert' }
     ]
   },
   {
     label: 'Charts',
+    count: 5,
     items: [
-      { label: 'All Charts',  href: '/charts/' },
-      { label: 'Waffle',      href: '/charts/waffle/' },
-      { label: 'Timeline',    href: '/charts/timeline/' },
-      { label: 'Nightingale', href: '/charts/nightingale/' },
-      { label: 'Lollipop',    href: '/charts/lollipop/' },
-      { label: 'Orbital',     href: '/charts/orbital/' }
+      { label: 'All Charts',  href: '/charts/'                        },
+      { label: 'Waffle',      href: '/charts/waffle/',      meta: 'grid'  },
+      { label: 'Timeline',    href: '/charts/timeline/',    meta: 'bar'   },
+      { label: 'Nightingale', href: '/charts/nightingale/', meta: 'arc'   },
+      { label: 'Lollipop',    href: '/charts/lollipop/',    meta: 'dot'   },
+      { label: 'Orbital',     href: '/charts/orbital/',     meta: 'orbit' }
     ]
   }
 ]
 
-function getNav(path) {
-  if (path.startsWith('/charts/')) return NAV_CHARTS
-  return NAV_COMPONENTS
+// Which category should be open by default for a given path (no saved state)
+function getDefaultOpen(path) {
+  if (path.startsWith('/components/')) return 'Components'
+  if (path.startsWith('/charts/'))     return 'Charts'
+  return 'Project'
+}
+
+// Build "you are here" path segments for sidebar breadcrumb
+function getPosition(path) {
+  if (path === '/') return null
+  const slugMap = {
+    components: 'components', charts: 'charts',
+    btn: 'button', card: 'card', badge: 'badge', alert: 'alert',
+    waffle: 'waffle', timeline: 'timeline', nightingale: 'nightingale',
+    lollipop: 'lollipop', orbital: 'orbital',
+    changelog: 'changelog', roadmap: 'roadmap', genres: 'genres'
+  }
+  return path.replace(/^\/|\/$/g, '').split('/').map(s => slugMap[s] || s)
 }
 
 // Topbar HTML
 function topbarHTML(currentPath) {
   const topbarLinks = [
-    { href: '/components/', label: 'Components' },
-    { href: '/charts/',     label: 'Charts' },
-    { href: '/genres/',     label: 'Genre Builder' },
-    { href: '/roadmap/',    label: 'Roadmap' },
+    { href: '/components/', label: 'Components',   num: '01', group: 'library' },
+    { href: '/charts/',     label: 'Charts',        num: '02', group: 'library' },
+    { href: '/changelog/',  label: 'Changelog',     num: '03', group: 'project' },
+    { href: '/roadmap/',    label: 'Roadmap',        num: '04', group: 'project' },
+    { href: '/genres/',     label: 'Genre Builder', num: '05', group: 'tools'   },
   ]
-  const navHTML = topbarLinks.map(({ href, label }) => {
+  let prevGroup = null
+  const navHTML = topbarLinks.map(({ href, label, num, group }) => {
+    let sep = ''
+    if (prevGroup && prevGroup !== group) {
+      sep = '<span class="topbar-group-sep" aria-hidden="true"></span>'
+    }
+    prevGroup = group
     const isActive = currentPath === href || (href !== '/' && currentPath.startsWith(href))
-    return `<a href="${href}" class="topbar-nav-link"${isActive ? ' aria-current="page"' : ''}>${label}</a>`
+    return sep + `<a href="${href}" class="topbar-nav-link"${isActive ? ' aria-current="page"' : ''}><span class="topbar-num" aria-hidden="true">${num}</span>${label}</a>`
   }).join('\n      ')
   return `
     <a href="/" class="topbar-logo" aria-label="ZynaUI home">
@@ -88,7 +102,7 @@ function topbarHTML(currentPath) {
       ${navHTML}
     </nav>
     <div class="topbar-right">
-      <span class="badge-version">v0.1.0-beta</span>
+      <span class="badge-version">v0.1.1-beta</span>
       <div class="genre-selector" id="genre-selector">
         <button class="genre-trigger" id="genre-trigger" aria-haspopup="listbox" aria-controls="genre-panel" aria-expanded="false">
           <span class="genre-trigger-label">[ <span id="genre-active-name">OPS</span> ]</span>
@@ -114,35 +128,49 @@ function topbarHTML(currentPath) {
 // Sidebar HTML
 function sidebarHTML(currentPath) {
   const STORAGE_KEY = 'zyna-nav-open'
-  let openCategories
+  let savedOpen
   try {
-    openCategories = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'))
+    savedOpen = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'))
   } catch {
-    openCategories = new Set()
+    savedOpen = new Set()
   }
 
-  const nav = getNav(currentPath)
+  // Always open the section containing the active page
+  const activeSection = NAV.find(cat => cat.items.some(i => i.href === currentPath))?.label
 
-  // Default: open the category of the active page
-  nav.forEach(cat => {
-    if (cat.items.some(i => i.href === currentPath)) {
-      openCategories.add(cat.label)
-    }
-  })
+  // If nothing saved yet, use path-based default
+  if (savedOpen.size === 0) savedOpen.add(getDefaultOpen(currentPath))
 
-  const categories = nav.map(cat => {
+  // Merge: saved state + active section (active always wins open)
+  const openCategories = new Set([...savedOpen, ...(activeSection ? [activeSection] : [])])
+
+  // Position breadcrumb — "you are here" terminal path
+  const posParts = getPosition(currentPath)
+  const posHTML = posParts ? `<div class="sidebar-position" aria-label="Current location">
+    <span>~</span>${posParts.map((p, i) => {
+      const isLast = i === posParts.length - 1
+      return `<span class="sidebar-pos-sep" aria-hidden="true">/</span><span${isLast ? ' class="sidebar-pos-leaf"' : ''}>${p}</span>`
+    }).join('')}
+  </div>` : ''
+
+  const categories = NAV.map(cat => {
     const isOpen = openCategories.has(cat.label)
     const items = cat.items.map(item => {
       const isActive = item.href === currentPath
+      const metaHTML = item.meta ? `<span class="sidebar-item-meta" aria-hidden="true">${item.meta}</span>` : ''
       return `<a href="${item.href}" class="sidebar-item${isActive ? ' active' : ''}"${isActive ? ' aria-current="page"' : ''}>
         <span class="sidebar-dot" aria-hidden="true"></span>
-        ${item.label}
+        ${item.label}${metaHTML}
       </a>`
     }).join('\n')
 
+    const countHTML = cat.count
+      ? `<span class="sidebar-cat-count" aria-label="${cat.count} items">${cat.count}</span>`
+      : ''
+
     return `<details class="sidebar-category" data-category="${cat.label}"${isOpen ? ' open' : ''}>
       <summary class="sidebar-category-header">
-        ${cat.label}
+        <span>${cat.label}${countHTML}</span>
         <span class="arrow" aria-hidden="true">›</span>
       </summary>
       ${items}
@@ -158,6 +186,7 @@ function sidebarHTML(currentPath) {
     : ''
 
   return `
+    ${posHTML}
     ${categories}
     <div class="sidebar-divider"></div>
     <div class="sidebar-snippet">
@@ -321,6 +350,7 @@ export function init() {
         <a href="/components/" class="mobile-nav-link">Components</a>
         <a href="/charts/" class="mobile-nav-link">Charts</a>
         <a href="/genres/" class="mobile-nav-link">Genre Builder</a>
+        <a href="/changelog/" class="mobile-nav-link">Changelog</a>
         <a href="/roadmap/" class="mobile-nav-link">Roadmap</a>
       `
       document.body.insertBefore(mobileNav, document.body.firstChild)
