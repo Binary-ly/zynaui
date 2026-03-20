@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{var _zg=localStorage.getItem('zyna-genre');if(_zg&&_zg!=='Ops'){document.documentElement.dataset.genre=_zg.toLowerCase();var _zt=JSON.parse(localStorage.getItem('zyna-genre-tokens')||'{}');for(var _zk in _zt)document.documentElement.style.setProperty(_zk,_zt[_zk])}}catch(e){}</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <title>Changelog — ZynaUI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=DM+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="../zynaui.css">
+  <link rel="stylesheet" href="../docs.css">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zyna.dev/changelog/">
+  <meta property="og:title" content="Changelog — ZynaUI">
+  <meta property="og:description" content="Release history for ZynaUI — all notable changes to components, charts, genres, and the plugin API.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Changelog — ZynaUI">
+  <meta name="twitter:description" content="Release history for ZynaUI — all notable changes to components, charts, genres, and the plugin API.">
+  <link rel="canonical" href="https://zyna.dev/changelog/">
+  <style>
+    /* ── Changelog page styles ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; }
+    }
+
+    /* ── Log header banner ── */
+    .log-banner {
+      display: flex;
+      align-items: stretch;
+      border: 1px solid var(--border);
+      border-radius: 0 var(--radius) 0 var(--radius);
+      overflow: hidden;
+      margin-bottom: 2.5rem;
+      background: var(--bg2);
+      position: relative;
+    }
+    .log-banner::before,
+    .log-banner::after {
+      content: '';
+      position: absolute;
+      width: 16px; height: 16px;
+      pointer-events: none; z-index: 1;
+    }
+    .log-banner::before { top: 5px; left: 5px; border-top: 1.5px solid var(--brand); border-left: 1.5px solid var(--brand); opacity: 0.4; }
+    .log-banner::after  { bottom: 5px; right: 5px; border-bottom: 1.5px solid var(--brand); border-right: 1.5px solid var(--brand); opacity: 0.4; }
+
+    .log-banner-status {
+      background: color-mix(in oklch, var(--brand) 8%, transparent);
+      border-right: 1px solid color-mix(in oklch, var(--brand) 20%, transparent);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+      min-width: 110px;
+      flex-shrink: 0;
+    }
+    .log-banner-status-label {
+      font-size: 0.52rem;
+      font-family: var(--mono);
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--brand);
+      opacity: 0.8;
+    }
+    .log-banner-status-ver {
+      font-size: 1.6rem;
+      font-weight: 900;
+      font-family: var(--mono);
+      color: var(--brand);
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+    .log-banner-status-sub {
+      font-size: 0.6rem;
+      font-family: var(--mono);
+      color: var(--brand);
+      opacity: 0.55;
+    }
+
+    .log-banner-details {
+      padding: 1.1rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.55rem;
+      flex: 1;
+      min-width: 0;
+    }
+    .log-banner-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.78rem;
+      color: var(--text2);
+    }
+    .log-banner-row-key {
+      font-size: 0.55rem;
+      font-family: var(--mono);
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text2);
+      opacity: 0.5;
+      min-width: 60px;
+      flex-shrink: 0;
+    }
+    .log-banner-row-val { color: var(--text); font-weight: 600; font-size: 0.8rem; }
+    .log-banner-row-val.brand { color: var(--brand); }
+
+    /* ── Release block ── */
+    .release-block {
+      border-left: 2px solid var(--brand);
+      margin-bottom: 2rem;
+      padding: 0;
+    }
+
+    .release-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+    .release-version {
+      font-size: 1.35rem;
+      font-weight: 900;
+      font-family: var(--mono);
+      color: var(--brand);
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .release-date {
+      font-size: 0.7rem;
+      font-family: var(--mono);
+      color: var(--text2);
+      opacity: 0.55;
+    }
+
+    /* ── Category group ── */
+    .cat-group {
+      margin-bottom: 1.5rem;
+    }
+    .cat-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .cat-list {
+      list-style: none;
+      padding: 0;
+      margin: 0.75rem 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .cat-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .cat-list li::before {
+      content: '›';
+      color: var(--brand);
+      font-weight: 700;
+      flex-shrink: 0;
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    code {
+      font-family: var(--mono);
+      background: var(--bg2);
+      padding: 0.1em 0.4em;
+      border-radius: 3px;
+      font-size: 0.82em;
+      color: var(--brand);
+    }
+
+    /* ── Page heading ── */
+    .cl-page-title {
+      font-size: 1.85rem;
+      font-weight: 900;
+      color: var(--text);
+      letter-spacing: -0.03em;
+      margin-bottom: 0.4rem;
+      line-height: 1.1;
+    }
+    .cl-page-sub {
+      font-size: 0.85rem;
+      color: var(--text2);
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div id="topbar"></div>
+  <div class="doc-layout">
+    <aside id="sidebar"></aside>
+    <main class="doc-main">
+      <div class="doc-content" style="max-width: 860px;">
+
+        <p class="cl-page-title">Changelog</p>
+        <p class="cl-page-sub">Release history for ZynaUI — all notable changes to components, charts, genres, and the plugin API.</p>
+
+        <!-- Log banner: latest version summary -->
+        <div class="log-banner">
+          <div class="log-banner-status">
+            <span class="log-banner-status-label">Latest</span>
+            <span class="log-banner-status-ver">0.1</span>
+            <span class="log-banner-status-sub">beta.1</span>
+          </div>
+          <div class="log-banner-details">
+            <div class="log-banner-row">
+              <span class="log-banner-row-key">Version</span>
+              <span class="log-banner-row-val brand">0.1.0-beta.1</span>
+              <span class="badge badge-success badge-pulse">LATEST</span>
+              <span class="badge badge-warning">BETA</span>
+            </div>
+            <div class="log-banner-row">
+              <span class="log-banner-row-key">Released</span>
+              <span class="log-banner-row-val">2026-03-19</span>
+            </div>
+            <div class="log-banner-row">
+              <span class="log-banner-row-key">Type</span>
+              <span class="log-banner-row-val">Initial beta release</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Release: 0.1.0-beta.1 -->
+        <div class="release-block">
+          <div class="card" style="border-left: 2px solid var(--brand); border-radius: 0 var(--radius) var(--radius) 0;">
+            <div class="release-header">
+              <span class="release-version">0.1.0-beta.1</span>
+              <span class="release-date">2026-03-19</span>
+              <span class="badge badge-warning">BETA</span>
+            </div>
+
+            <!-- Category: UI Components -->
+            <div class="cat-group">
+              <span class="badge badge-neutral">UI Components</span>
+              <ul class="cat-list">
+                <li><code>.btn</code> / <code>.btn-primary</code> / <code>.btn-secondary</code> / <code>.btn-ghost</code> / <code>.btn-danger</code>: button variants with scan-fill, drop-shadow glow, directional easing</li>
+                <li><code>.btn-sm</code> / <code>.btn-lg</code> / <code>.btn-icon</code>: size modifiers</li>
+                <li><code>.btn-cut</code> / <code>.btn-bevel</code> / <code>.btn-round</code> / <code>.btn-square</code>: shape modifiers</li>
+                <li><code>.badge</code> / <code>.badge-primary</code> / <code>.badge-success</code> / <code>.badge-danger</code> / <code>.badge-warning</code> / <code>.badge-info</code> / <code>.badge-neutral</code>: badge variants</li>
+                <li><code>.badge-lg</code> / <code>.badge-pulse</code>: badge size and pulse animation</li>
+                <li><code>.card</code> / <code>.card-dark</code> / <code>.card-glow</code> / <code>.card-compact</code>: card variants with animated corner bars</li>
+                <li><code>.alert</code> / <code>.alert-success</code> / <code>.alert-danger</code> / <code>.alert-warning</code> / <code>.alert-info</code>: alert variants with left accent bar</li>
+                <li>Two built-in genres: <code>ops</code> (military HUD, default) and <code>cyberpunk</code></li>
+                <li>Full CSS custom property API: create new variants without editing plugin source</li>
+                <li><code>prefers-reduced-motion</code> respected across all animated components</li>
+              </ul>
+            </div>
+
+            <!-- Category: Plugin Options -->
+            <div class="cat-group">
+              <span class="badge badge-neutral">Plugin Options</span>
+              <ul class="cat-list">
+                <li><code>prefix</code>: prepend a string to all component class names (e.g. <code>{ prefix: 'z-' }</code> → <code>.z-btn</code>)</li>
+              </ul>
+            </div>
+
+            <!-- Category: Tailwind Theme Extension -->
+            <div class="cat-group">
+              <span class="badge badge-neutral">Tailwind Theme Extension</span>
+              <ul class="cat-list">
+                <li><code>colors.zyna.*</code>: brand color + semantic status colors (<code>text-zyna-success</code>, <code>bg-zyna-danger</code>, etc.)</li>
+                <li><code>borderRadius.zyna-*</code>: corner-radius scale</li>
+              </ul>
+            </div>
+
+            <!-- Category: Charts -->
+            <div class="cat-group">
+              <span class="badge badge-neutral">Chart Web Components</span>
+              <ul class="cat-list">
+                <li><code>&lt;zyna-waffle&gt;</code>: square-grid waffle chart</li>
+                <li><code>&lt;zyna-timeline&gt;</code>: proportional-circle timeline</li>
+                <li><code>&lt;zyna-nightingale&gt;</code>: nightingale rose chart</li>
+                <li><code>&lt;zyna-lollipop&gt;</code>: horizontal lollipop chart</li>
+                <li><code>&lt;zyna-orbital&gt;</code>: concentric arc orbital chart</li>
+                <li>Responsive (ResizeObserver), accessible, SSR-safe — all charts powered by D3</li>
+              </ul>
+            </div>
+
+            <!-- Category: React Wrapper -->
+            <div class="cat-group">
+              <span class="badge badge-neutral">React Wrapper</span>
+              <ul class="cat-list">
+                <li><code>import { ZynaWaffle, ZynaTimeline, ZynaNightingale, ZynaLollipop, ZynaOrbital } from 'zynaui/react'</code></li>
+                <li>Typed props accepting native arrays and numbers (not JSON strings)</li>
+                <li><code>'use client'</code> directive included, compatible with Next.js App Router</li>
+              </ul>
+            </div>
+
+            <!-- Category: Distribution -->
+            <div class="cat-group">
+              <span class="badge badge-neutral">Distribution</span>
+              <ul class="cat-list">
+                <li><code>dist/zyna-plugin.js</code> / <code>.cjs</code>: Tailwind plugin (ESM + CJS)</li>
+                <li><code>dist/genres.js</code> / <code>.cjs</code>: genre API</li>
+                <li><code>dist/zyna-charts.js</code>: chart Web Components (ESM, D3 external)</li>
+                <li><code>dist/zyna-charts.iife.js</code>: chart Web Components (IIFE, D3 bundled, CDN-ready)</li>
+                <li><code>dist/react.js</code> / <code>.cjs</code>: React wrapper with IIFE inlined</li>
+                <li><code>dist/zynaui.css</code>: pre-compiled CSS (CDN / vanilla HTML)</li>
+                <li><code>dist/zyna-charts-stub.cjs</code>: SSR no-op stub for Node environments</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+  <script type="module" src="../../_nav.js"></script>
+</body>
+</html>
