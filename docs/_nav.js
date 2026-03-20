@@ -28,7 +28,9 @@ const NAV_CHARTS = [
   {
     label: 'Getting Started',
     items: [
-      { label: 'Overview', href: '/' }
+      { label: 'Overview',   href: '/' },
+      { label: 'Changelog', href: '/changelog/' },
+      { label: 'Roadmap',   href: '/roadmap/' },
     ]
   },
   {
