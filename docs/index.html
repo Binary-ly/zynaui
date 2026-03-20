@@ -1094,6 +1094,7 @@
               <button class="pkg-btn" onclick="idxPkgTab(this,'pnpm')">pnpm</button>
               <button class="pkg-btn" onclick="idxPkgTab(this,'yarn')">yarn</button>
               <button class="pkg-btn" onclick="idxPkgTab(this,'bun')">bun</button>
+              <button class="pkg-btn" onclick="idxPkgTab(this,'cdn')">CDN</button>
             </div>
             <div class="install-block">
               <div class="install-cmd" id="idx-pkg-npm">
@@ -1112,12 +1113,22 @@
                 <code>bun add zynaui</code>
                 <button class="copy-btn" onclick="copyText(this,'bun add zynaui')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
               </div>
+              <div id="idx-pkg-cdn" style="display:none;flex-direction:column;gap:0.5rem;padding:0.75rem 1rem">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem">
+                  <code style="font-size:0.78rem">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/zynaui/dist/zynaui.css"&gt;</code>
+                  <button class="copy-btn" onclick="copyText(this,'&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/zynaui/dist/zynaui.css&quot;&gt;')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem">
+                  <code style="font-size:0.78rem">&lt;script src="https://cdn.jsdelivr.net/npm/zynaui/dist/zyna-charts.iife.js"&gt;&lt;/script&gt;</code>
+                  <button class="copy-btn" onclick="copyText(this,'&lt;script src=&quot;https://cdn.jsdelivr.net/npm/zynaui/dist/zyna-charts.iife.js&quot;&gt;&lt;/script&gt;')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Step 2: Configure -->
-        <div class="install-step-row reveal reveal-delay-1">
+        <div class="install-step-row reveal reveal-delay-1" id="idx-step-2">
           <div class="step-num">2</div>
           <div class="step-body">
             <h3>Add the plugin to your Tailwind config</h3>
@@ -1342,10 +1353,12 @@
     function idxPkgTab(btn, pkg) {
       document.querySelectorAll('#idx-pkg-bar .pkg-btn').forEach(b => b.classList.remove('active'))
       btn.classList.add('active')
-      ;['npm','pnpm','yarn','bun'].forEach(p => {
+      ;['npm','pnpm','yarn','bun','cdn'].forEach(p => {
         const el = document.getElementById('idx-pkg-' + p)
         if (el) el.style.display = (p === pkg) ? 'flex' : 'none'
       })
+      const step2 = document.getElementById('idx-step-2')
+      if (step2) step2.style.display = pkg === 'cdn' ? 'none' : ''
     }
 
     // ── Config file tabs ──
