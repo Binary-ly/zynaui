@@ -18,187 +18,231 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://zyna.dev/changelog/">
   <meta property="og:title" content="Changelog — ZynaUI">
-  <meta property="og:description" content="Release history for ZynaUI — all notable changes to components, charts, genres, and the plugin API.">
+  <meta property="og:description" content="Live transmission log — every ZynaUI release traced to the exact GitHub commit.">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Changelog — ZynaUI">
-  <meta name="twitter:description" content="Release history for ZynaUI — all notable changes to components, charts, genres, and the plugin API.">
+  <meta name="twitter:description" content="Live transmission log — every ZynaUI release traced to the exact GitHub commit.">
   <link rel="canonical" href="https://zyna.dev/changelog/">
   <style>
-    /* ── Changelog page styles ── */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; }
     }
 
-    /* ── Log header banner ── */
-    .log-banner {
-      display: flex;
-      align-items: stretch;
-      border: 1px solid var(--border);
-      border-radius: 0 var(--radius) 0 var(--radius);
-      overflow: hidden;
-      margin-bottom: 2.5rem;
-      background: var(--bg2);
-      position: relative;
-    }
-    .log-banner::before,
-    .log-banner::after {
-      content: '';
-      position: absolute;
-      width: 16px; height: 16px;
-      pointer-events: none; z-index: 1;
-    }
-    .log-banner::before { top: 5px; left: 5px; border-top: 1.5px solid var(--brand); border-left: 1.5px solid var(--brand); opacity: 0.4; }
-    .log-banner::after  { bottom: 5px; right: 5px; border-bottom: 1.5px solid var(--brand); border-right: 1.5px solid var(--brand); opacity: 0.4; }
-
-    .log-banner-status {
-      background: color-mix(in oklch, var(--brand) 8%, transparent);
-      border-right: 1px solid color-mix(in oklch, var(--brand) 20%, transparent);
-      padding: 1.25rem 1.5rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.3rem;
-      min-width: 110px;
-      flex-shrink: 0;
-    }
-    .log-banner-status-label {
-      font-size: 0.52rem;
-      font-family: var(--mono);
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--brand);
-      opacity: 0.8;
-    }
-    .log-banner-status-ver {
-      font-size: 1.6rem;
-      font-weight: 900;
-      font-family: var(--mono);
-      color: var(--brand);
-      line-height: 1;
-      letter-spacing: -0.04em;
-    }
-    .log-banner-status-sub {
-      font-size: 0.6rem;
-      font-family: var(--mono);
-      color: var(--brand);
-      opacity: 0.55;
-    }
-
-    .log-banner-details {
-      padding: 1.1rem 1.5rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 0.55rem;
-      flex: 1;
-      min-width: 0;
-    }
-    .log-banner-row {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: 0.78rem;
-      color: var(--text2);
-    }
-    .log-banner-row-key {
-      font-size: 0.55rem;
-      font-family: var(--mono);
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text2);
-      opacity: 0.5;
-      min-width: 60px;
-      flex-shrink: 0;
-    }
-    .log-banner-row-val { color: var(--text); font-weight: 600; font-size: 0.8rem; }
-    .log-banner-row-val.brand { color: var(--brand); }
-
-    /* ── Release block ── */
-    .release-block {
-      margin-bottom: 2rem;
-    }
-
-    .release-header {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-      margin-bottom: 1.25rem;
-    }
-    .release-version {
-      font-size: 1.35rem;
-      font-weight: 900;
-      font-family: var(--mono);
-      color: var(--brand);
-      letter-spacing: -0.03em;
-      line-height: 1;
-    }
-    .release-date {
-      font-size: 0.7rem;
-      font-family: var(--mono);
-      color: var(--text2);
-      opacity: 0.55;
-    }
-
-    /* ── Category group ── */
-    .cat-group {
-      margin-bottom: 1.5rem;
-    }
-    .cat-group:last-child {
-      margin-bottom: 0;
-    }
-
-    .cat-list {
-      list-style: none;
-      padding: 0;
-      margin: 0.75rem 0 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-    .cat-list li {
-      display: flex;
-      align-items: baseline;
-      gap: 0.5rem;
-      font-size: 0.875rem;
-      color: var(--text);
-      line-height: 1.5;
-    }
-    .cat-list li::before {
-      content: '›';
-      color: var(--brand);
-      font-weight: 700;
-      flex-shrink: 0;
-      font-size: 1rem;
-      line-height: 1;
-    }
-
-    code {
-      font-family: var(--mono);
-      background: var(--bg2);
-      padding: 0.1em 0.4em;
-      border-radius: 3px;
-      font-size: 0.82em;
-      color: var(--brand);
-    }
-
     /* ── Page heading ── */
     .cl-page-title {
-      font-size: 1.85rem;
-      font-weight: 900;
-      color: var(--text);
-      letter-spacing: -0.03em;
-      margin-bottom: 0.4rem;
-      line-height: 1.1;
+      font-size: 1.85rem; font-weight: 900; color: var(--text);
+      letter-spacing: -0.03em; margin-bottom: 0.4rem; line-height: 1.1;
     }
     .cl-page-sub {
-      font-size: 0.85rem;
-      color: var(--text2);
+      font-size: 0.85rem; color: var(--text2);
+      margin-bottom: 1.75rem; line-height: 1.6;
+    }
+
+    /* ── Signal header ── */
+    .cl-signal {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; flex-wrap: wrap;
+      padding: 0.55rem 1rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
       margin-bottom: 2rem;
-      line-height: 1.6;
+      font-family: var(--mono); font-size: 0.72rem;
+      position: relative; overflow: hidden;
+    }
+    /* scan line animation */
+    .cl-signal::before {
+      content: '';
+      position: absolute; top: 0; bottom: 0; width: 30%;
+      background: linear-gradient(90deg, transparent, color-mix(in oklch, var(--brand) 7%, transparent), transparent);
+      animation: cl-scan 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes cl-scan { 0% { left: -35%; } 100% { left: 115%; } }
+
+    .cl-signal-left { display: flex; align-items: center; gap: 0.55rem; color: var(--text2); }
+    .cl-signal-label {
+      font-size: 0.5rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--brand); opacity: 0.6; font-weight: 700;
+    }
+    .cl-signal-sep { opacity: 0.25; }
+    .cl-repo { color: var(--text); font-weight: 600; }
+    .cl-branch {
+      color: var(--brand); font-size: 0.68rem;
+      background: color-mix(in oklch, var(--brand) 10%, transparent);
+      padding: 0.1rem 0.4rem; border-radius: 3px;
+    }
+    .cl-signal-right { display: flex; align-items: center; gap: 0.55rem; color: var(--text2); }
+    .cl-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--text2); flex-shrink: 0;
+    }
+    .cl-dot.connecting { background: var(--brand); animation: cl-blink 1s ease-in-out infinite; }
+    .cl-dot.synced     { background: #4ade80; }
+    .cl-dot.offline    { background: #f87171; }
+    @keyframes cl-blink { 0%,100% { opacity:1; } 50% { opacity:0.25; } }
+    #cl-status { color: var(--text2); }
+    #cl-rate { color: var(--text2); opacity: 0.45; font-size: 0.65rem; }
+
+    /* ── Version block ── */
+    .cl-vblock { margin-bottom: 2.25rem; }
+
+    .cl-vhead {
+      display: flex; align-items: center; gap: 0.6rem;
+      flex-wrap: wrap; margin-bottom: 0.6rem;
+    }
+    .cl-vnum {
+      font-family: var(--mono); font-size: 1.1rem; font-weight: 900;
+      color: var(--brand); letter-spacing: -0.03em; line-height: 1;
+    }
+    .cl-vdate {
+      font-family: var(--mono); font-size: 0.67rem;
+      color: var(--text2); opacity: 0.5;
+    }
+    .cl-ghlink {
+      margin-left: auto; display: inline-flex; align-items: center; gap: 0.3rem;
+      font-family: var(--mono); font-size: 0.65rem;
+      color: var(--text2); text-decoration: none; opacity: 0.5;
+      transition: opacity 0.15s, color 0.15s;
+    }
+    .cl-ghlink:hover { opacity: 1; color: var(--brand); }
+
+    /* ── Commit list (git graph) ── */
+    .cl-commits {
+      border: 1px solid var(--border);
+      border-left: 2px solid color-mix(in oklch, var(--brand) 30%, transparent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      background: var(--bg2);
+      overflow: hidden;
+    }
+
+    .cl-row {
+      display: flex; align-items: center;
+      border-bottom: 1px solid color-mix(in oklch, var(--border) 55%, transparent);
+      cursor: default;
+      transition: background 0.1s;
+    }
+    .cl-row:last-child { border-bottom: none; }
+    .cl-row:hover { background: color-mix(in oklch, var(--brand) 4%, transparent); }
+
+    /* graph column */
+    .cl-gcol {
+      width: 32px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      align-self: stretch; position: relative;
+    }
+    .cl-gcol::before {
+      content: '';
+      position: absolute; top: 0; bottom: 0; left: 50%;
+      width: 1px;
+      background: color-mix(in oklch, var(--brand) 18%, transparent);
+      transform: translateX(-50%);
+    }
+    .cl-row:last-child .cl-gcol::before { bottom: 50%; }
+    .cl-gdot {
+      width: 7px; height: 7px; border-radius: 50%; z-index: 1; position: relative;
+      background: color-mix(in oklch, var(--brand) 30%, transparent);
+      border: 1px solid color-mix(in oklch, var(--brand) 50%, transparent);
+      transition: background 0.12s, border-color 0.12s; flex-shrink: 0;
+    }
+    .cl-row:hover .cl-gdot { background: var(--brand); border-color: var(--brand); }
+
+    /* commit body */
+    .cl-body {
+      flex: 1; min-width: 0; display: flex; align-items: center; gap: 0.55rem;
+      padding: 0.48rem 0.9rem 0.48rem 0; font-size: 0.8rem;
+    }
+    .cl-sha {
+      font-family: var(--mono); font-size: 0.7rem; font-weight: 600;
+      color: var(--brand);
+      background: color-mix(in oklch, var(--brand) 10%, transparent);
+      padding: 0.1rem 0.38rem; border-radius: 3px;
+      text-decoration: none; flex-shrink: 0;
+      letter-spacing: 0.02em;
+      transition: background 0.1s;
+    }
+    .cl-sha:hover { background: color-mix(in oklch, var(--brand) 22%, transparent); }
+    .cl-sha:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 3px; }
+    .cl-av {
+      width: 16px; height: 16px; border-radius: 50%;
+      flex-shrink: 0; opacity: 0.65;
+    }
+    .cl-msg {
+      flex: 1; min-width: 0;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      color: var(--text);
+    }
+    .cl-time {
+      font-family: var(--mono); font-size: 0.63rem;
+      color: var(--text2); opacity: 0.45;
+      flex-shrink: 0; padding-right: 0.35rem;
+    }
+
+    /* ── Tooltip ── */
+    .cl-tooltip {
+      position: fixed; z-index: 9000;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-left: 2px solid var(--brand);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 0.75rem 1rem; max-width: 340px; min-width: 200px;
+      pointer-events: none;
+      opacity: 0; transform: translateY(-2px);
+      transition: opacity 0.12s, transform 0.12s;
+      box-shadow: 0 6px 24px color-mix(in oklch, black 40%, transparent);
+      font-size: 0.75rem;
+    }
+    .cl-tooltip.visible { opacity: 1; transform: translateY(0); }
+    .cl-tt-label {
+      font-family: var(--mono); font-size: 0.5rem; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--brand); opacity: 0.65;
+      margin-bottom: 0.4rem;
+    }
+    .cl-tt-msg { color: var(--text); font-weight: 600; margin-bottom: 0.45rem; line-height: 1.45; }
+    .cl-tt-stats { font-family: var(--mono); font-size: 0.7rem; margin-bottom: 0.4rem; }
+    .cl-tt-add { color: #4ade80; }
+    .cl-tt-del { color: #f87171; }
+    .cl-tt-sep, .cl-tt-total { color: var(--text2); opacity: 0.5; }
+    .cl-tt-files {
+      display: flex; flex-direction: column; gap: 0.18rem;
+      margin-top: 0.35rem; border-top: 1px solid var(--border); padding-top: 0.35rem;
+    }
+    .cl-tt-file { font-family: var(--mono); font-size: 0.66rem; color: var(--text2); opacity: 0.7; }
+    .cl-tt-loading { font-family: var(--mono); font-size: 0.68rem; color: var(--text2); opacity: 0.5; }
+
+    /* ── Skeleton loading ── */
+    @keyframes cl-skel { 0%,100% { opacity:0.35; } 50% { opacity:0.65; } }
+    .cl-skel-block { margin-bottom: 2.25rem; }
+    .cl-skel-hdr {
+      height: 22px; border-radius: 4px;
+      background: var(--bg2); margin-bottom: 0.6rem;
+      animation: cl-skel 1.6s ease-in-out infinite;
+    }
+    .cl-skel-list {
+      border: 1px solid var(--border);
+      border-left: 2px solid color-mix(in oklch, var(--brand) 20%, transparent);
+      border-radius: 0 var(--radius) var(--radius) 0; overflow: hidden;
+    }
+    .cl-skel-row {
+      display: flex; align-items: center; gap: 0.55rem;
+      padding: 0.5rem 0.9rem 0.5rem 0.5rem;
+      border-bottom: 1px solid color-mix(in oklch, var(--border) 55%, transparent);
+      animation: cl-skel 1.6s ease-in-out infinite;
+    }
+    .cl-skel-row:last-child { border-bottom: none; }
+    .cl-skel-row:nth-child(even) { animation-delay: 0.2s; }
+    .cl-sk-dot  { width:7px; height:7px; border-radius:50%; background:var(--bg2); flex-shrink:0; }
+    .cl-sk-sha  { width:52px; height:14px; border-radius:3px; background:var(--bg2); flex-shrink:0; }
+    .cl-sk-av   { width:16px; height:16px; border-radius:50%; background:var(--bg2); flex-shrink:0; }
+    .cl-sk-msg  { flex:1; height:13px; border-radius:3px; background:var(--bg2); }
+    .cl-sk-time { width:38px; height:10px; border-radius:3px; background:var(--bg2); flex-shrink:0; }
+
+    /* ── Offline note ── */
+    .cl-offline-note {
+      font-family: var(--mono); font-size: 0.72rem;
+      color: var(--text2); background: var(--bg2);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 0.6rem 0.9rem; margin-bottom: 1.5rem; opacity: 0.75;
     }
   </style>
 </head>
@@ -207,122 +251,382 @@
   <div id="docs-layout">
     <aside id="sidebar"></aside>
     <main id="content">
-      <div class="doc-content" style="max-width: 860px;">
+      <div class="doc-content" style="max-width:900px">
 
         <p class="cl-page-title">Changelog</p>
-        <p class="cl-page-sub">Release history for ZynaUI — all notable changes to components, charts, genres, and the plugin API.</p>
+        <p class="cl-page-sub">Live transmission log — every release traced to the exact GitHub commit. Hover any row for diff stats.</p>
 
-        <!-- Log banner: latest version summary -->
-        <div class="log-banner">
-          <div class="log-banner-status">
-            <span class="log-banner-status-label">Latest</span>
-            <span class="log-banner-status-ver">0.1</span>
-            <span class="log-banner-status-sub">beta.1</span>
+        <!-- Signal status header -->
+        <div class="cl-signal" role="status" aria-live="polite" aria-label="GitHub sync status">
+          <div class="cl-signal-left">
+            <span class="cl-signal-label">Transmission Feed</span>
+            <span class="cl-signal-sep">·</span>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="opacity:0.45;flex-shrink:0"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+            <span class="cl-repo">Binary-ly/zynaui</span>
+            <span class="cl-signal-sep">/</span>
+            <span class="cl-branch">main</span>
           </div>
-          <div class="log-banner-details">
-            <div class="log-banner-row">
-              <span class="log-banner-row-key">Version</span>
-              <span class="log-banner-row-val brand">0.1.0-beta.1</span>
-              <span class="badge badge-success badge-pulse">LATEST</span>
-              <span class="badge badge-warning">BETA</span>
+          <div class="cl-signal-right">
+            <span class="cl-dot connecting" id="cl-dot" aria-hidden="true"></span>
+            <span id="cl-status">Connecting</span>
+            <span id="cl-rate" style="display:none"></span>
+          </div>
+        </div>
+
+        <!-- Dynamic feed (populated by JS) -->
+        <div id="cl-feed">
+          <!-- Loading skeleton -->
+          <div id="cl-skeleton" aria-label="Loading changelog" aria-busy="true">
+            <div class="cl-skel-block">
+              <div class="cl-skel-hdr" style="width:130px"></div>
+              <div class="cl-skel-list">
+                <div class="cl-skel-row"><div class="cl-sk-dot"></div><div class="cl-sk-sha"></div><div class="cl-sk-av"></div><div class="cl-sk-msg" style="max-width:380px"></div><div class="cl-sk-time"></div></div>
+                <div class="cl-skel-row"><div class="cl-sk-dot"></div><div class="cl-sk-sha"></div><div class="cl-sk-av"></div><div class="cl-sk-msg" style="max-width:320px"></div><div class="cl-sk-time"></div></div>
+                <div class="cl-skel-row"><div class="cl-sk-dot"></div><div class="cl-sk-sha"></div><div class="cl-sk-av"></div><div class="cl-sk-msg" style="max-width:420px"></div><div class="cl-sk-time"></div></div>
+                <div class="cl-skel-row"><div class="cl-sk-dot"></div><div class="cl-sk-sha"></div><div class="cl-sk-av"></div><div class="cl-sk-msg" style="max-width:295px"></div><div class="cl-sk-time"></div></div>
+                <div class="cl-skel-row"><div class="cl-sk-dot"></div><div class="cl-sk-sha"></div><div class="cl-sk-av"></div><div class="cl-sk-msg" style="max-width:350px"></div><div class="cl-sk-time"></div></div>
+              </div>
             </div>
-            <div class="log-banner-row">
-              <span class="log-banner-row-key">Released</span>
-              <span class="log-banner-row-val">2026-03-19</span>
-            </div>
-            <div class="log-banner-row">
-              <span class="log-banner-row-key">Type</span>
-              <span class="log-banner-row-val">Initial beta release</span>
+            <div class="cl-skel-block">
+              <div class="cl-skel-hdr" style="width:155px"></div>
+              <div class="cl-skel-list">
+                <div class="cl-skel-row"><div class="cl-sk-dot"></div><div class="cl-sk-sha"></div><div class="cl-sk-av"></div><div class="cl-sk-msg" style="max-width:400px"></div><div class="cl-sk-time"></div></div>
+                <div class="cl-skel-row"><div class="cl-sk-dot"></div><div class="cl-sk-sha"></div><div class="cl-sk-av"></div><div class="cl-sk-msg" style="max-width:260px"></div><div class="cl-sk-time"></div></div>
+                <div class="cl-skel-row"><div class="cl-sk-dot"></div><div class="cl-sk-sha"></div><div class="cl-sk-av"></div><div class="cl-sk-msg" style="max-width:340px"></div><div class="cl-sk-time"></div></div>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Release: 0.1.0-beta.1 -->
-        <div class="release-block">
-          <div style="border-left: 2px solid var(--brand); border-radius: 0 var(--radius) var(--radius) 0; background: var(--bg2); border: 1px solid var(--border); border-left: 2px solid var(--brand); padding: 1.5rem 1.75rem;">
-            <div class="release-header">
-              <span class="release-version">0.1.0-beta.1</span>
-              <span class="release-date">2026-03-19</span>
-              <span class="badge badge-warning">BETA</span>
-            </div>
-
-            <!-- Category: UI Components -->
-            <div class="cat-group">
-              <span class="badge badge-neutral">UI Components</span>
-              <ul class="cat-list">
-                <li><code>.btn</code> / <code>.btn-primary</code> / <code>.btn-secondary</code> / <code>.btn-ghost</code> / <code>.btn-danger</code>: button variants with scan-fill, drop-shadow glow, directional easing</li>
-                <li><code>.btn-sm</code> / <code>.btn-lg</code> / <code>.btn-icon</code>: size modifiers</li>
-                <li><code>.btn-cut</code> / <code>.btn-bevel</code> / <code>.btn-round</code> / <code>.btn-square</code>: shape modifiers</li>
-                <li><code>.badge</code> / <code>.badge-primary</code> / <code>.badge-success</code> / <code>.badge-danger</code> / <code>.badge-warning</code> / <code>.badge-info</code> / <code>.badge-neutral</code>: badge variants</li>
-                <li><code>.badge-lg</code> / <code>.badge-pulse</code>: badge size and pulse animation</li>
-                <li><code>.card</code> / <code>.card-dark</code> / <code>.card-glow</code> / <code>.card-compact</code>: card variants with animated corner bars</li>
-                <li><code>.alert</code> / <code>.alert-success</code> / <code>.alert-danger</code> / <code>.alert-warning</code> / <code>.alert-info</code>: alert variants with left accent bar</li>
-                <li>Two built-in genres: <code>ops</code> (military HUD, default) and <code>cyberpunk</code></li>
-                <li>Full CSS custom property API: create new variants without editing plugin source</li>
-                <li><code>prefers-reduced-motion</code> respected across all animated components</li>
-              </ul>
-            </div>
-
-            <!-- Category: Plugin Options -->
-            <div class="cat-group">
-              <span class="badge badge-neutral">Plugin Options</span>
-              <ul class="cat-list">
-                <li><code>prefix</code>: prepend a string to all component class names (e.g. <code>{ prefix: 'z-' }</code> → <code>.z-btn</code>)</li>
-              </ul>
-            </div>
-
-            <!-- Category: Tailwind Theme Extension -->
-            <div class="cat-group">
-              <span class="badge badge-neutral">Tailwind Theme Extension</span>
-              <ul class="cat-list">
-                <li><code>colors.zyna.*</code>: brand color + semantic status colors (<code>text-zyna-success</code>, <code>bg-zyna-danger</code>, etc.)</li>
-                <li><code>borderRadius.zyna-*</code>: corner-radius scale</li>
-              </ul>
-            </div>
-
-            <!-- Category: Charts -->
-            <div class="cat-group">
-              <span class="badge badge-neutral">Chart Web Components</span>
-              <ul class="cat-list">
-                <li><code>&lt;zyna-waffle&gt;</code>: square-grid waffle chart</li>
-                <li><code>&lt;zyna-timeline&gt;</code>: proportional-circle timeline</li>
-                <li><code>&lt;zyna-nightingale&gt;</code>: nightingale rose chart</li>
-                <li><code>&lt;zyna-lollipop&gt;</code>: horizontal lollipop chart</li>
-                <li><code>&lt;zyna-orbital&gt;</code>: concentric arc orbital chart</li>
-                <li>Responsive (ResizeObserver), accessible, SSR-safe — all charts powered by D3</li>
-              </ul>
-            </div>
-
-            <!-- Category: React Wrapper -->
-            <div class="cat-group">
-              <span class="badge badge-neutral">React Wrapper</span>
-              <ul class="cat-list">
-                <li><code>import { ZynaWaffle, ZynaTimeline, ZynaNightingale, ZynaLollipop, ZynaOrbital } from 'zynaui/react'</code></li>
-                <li>Typed props accepting native arrays and numbers (not JSON strings)</li>
-                <li><code>'use client'</code> directive included, compatible with Next.js App Router</li>
-              </ul>
-            </div>
-
-            <!-- Category: Distribution -->
-            <div class="cat-group">
-              <span class="badge badge-neutral">Distribution</span>
-              <ul class="cat-list">
-                <li><code>dist/zyna-plugin.js</code> / <code>.cjs</code>: Tailwind plugin (ESM + CJS)</li>
-                <li><code>dist/genres.js</code> / <code>.cjs</code>: genre API</li>
-                <li><code>dist/zyna-charts.js</code>: chart Web Components (ESM, D3 external)</li>
-                <li><code>dist/zyna-charts.iife.js</code>: chart Web Components (IIFE, D3 bundled, CDN-ready)</li>
-                <li><code>dist/react.js</code> / <code>.cjs</code>: React wrapper with IIFE inlined</li>
-                <li><code>dist/zynaui.css</code>: pre-compiled CSS (CDN / vanilla HTML)</li>
-                <li><code>dist/zyna-charts-stub.cjs</code>: SSR no-op stub for Node environments</li>
-              </ul>
-            </div>
-
-          </div>
+        <!-- Diff stats tooltip (fixed-position, managed by JS) -->
+        <div class="cl-tooltip" id="cl-tooltip" role="tooltip" aria-hidden="true">
+          <div class="cl-tt-label">Commit Intel</div>
+          <div id="cl-tt-body"></div>
         </div>
 
       </div>
     </main>
   </div>
+
+  <!-- Static fallback data (used when GitHub API is unavailable) -->
+  <script id="cl-static" type="application/json">
+{
+  "releases": [
+    {
+      "version": "v0.1.1",
+      "tagSha": null,
+      "commits": [
+        { "sha": "01c7cf7c4d0fd6b9dd7edf95222a87dfc4ee9cb1", "message": "Remove duplicate charts CDN script from Step 1, add note pointing to Step 4", "date": "2026-03-20T14:45:10Z" },
+        { "sha": "2b37df19d17820f7dec37f03703ac430a381611d", "message": "Add CDN tab to installation section on landing page", "date": "2026-03-20T14:09:17Z" },
+        { "sha": "53c4ec11419f17c0ebb4600a9cdbf3b61503a2f3", "message": "Unify sidebar Getting Started section across components and charts pages", "date": "2026-03-20T13:56:12Z" },
+        { "sha": "fe1d9ee44fcc8cb5e94bd7309acb96e55ace0670", "message": "Fix changelog layout: use correct docs-layout and content IDs to match docs.css", "date": "2026-03-20T13:44:15Z" },
+        { "sha": "c1671db121504f5be56097fa747f09b2818f0e39", "message": "Fix changelog layout: replace card component with plain div to avoid clip-path clipping content", "date": "2026-03-20T03:46:55Z" },
+        { "sha": "e3d8ade6c28a28dc68e2befc7588e85297543c8a", "message": "Add changelog page, sitemap.xml, and Changelog link to nav and footer", "date": "2026-03-20T03:38:20Z" },
+        { "sha": "118335f82fa25359bebe5d1782b4170695b1cbce", "message": "Revert Node 24 deprecation warning fix attempts", "date": "2026-03-20T03:02:39Z" },
+        { "sha": "b448717944e077214c40295d0fc46018de2c0400", "message": "Fix badge pulse dot clipped to line in genre builder by resetting clip-path on ::before", "date": "2026-03-20T02:29:30Z" },
+        { "sha": "c11e62403d328800682970dafa77cece64829ffd", "message": "Add workflow_dispatch trigger to deploy workflow", "date": "2026-03-20T02:05:04Z" },
+        { "sha": "9e3b0761420834492b9000d40361cb8f9b11f306", "message": "Grant contents write permission to deploy workflow to allow pushing deploy branch", "date": "2026-03-20T02:02:58Z" },
+        { "sha": "dfaa6d3491781fe7c3de450ab17e8e449f9e0ce8", "message": "Track docs/dist/ in git so deploy branch includes bundled genres and charts files", "date": "2026-03-20T01:57:54Z" },
+        { "sha": "1e69f7db8d2c1d332c0cda8acb205aec25229867", "message": "Add GitHub Actions workflow to auto-deploy docs/ to Hostinger on push", "date": "2026-03-20T01:32:49Z" },
+        { "sha": "63a0069e745854072a52de112286d9720ba5aea6", "message": "Add llms.txt, robots.txt, and OpenGraph/canonical meta tags to all 14 docs pages", "date": "2026-03-19T18:12:54Z" }
+      ]
+    },
+    {
+      "version": "v0.1.0-beta.1",
+      "tagSha": "05590ed3a63579d3865db251b7bd39f2f65225ac",
+      "isInitial": true,
+      "commits": [
+        { "sha": "05590ed3a63579d3865db251b7bd39f2f65225ac", "message": "Update README and CHANGELOG", "date": "2026-03-19T13:45:05Z" },
+        { "sha": "93aeee798b64cf79de7756b64ce6b03a4af28b5b", "message": "Skip view transition on initial page load to prevent AbortError", "date": "2026-03-19T00:00:00Z" },
+        { "sha": "9973883", "message": "Silence AbortError on rapid View Transitions genre switches", "date": "2026-03-19T00:00:00Z" },
+        { "sha": "b0f7ae5", "message": "Bundle genres as self-contained ESM for docs deployment, fix src/ import 404s", "date": "2026-03-19T00:00:00Z" },
+        { "sha": "c2cb383", "message": "Add favicons and web manifest to all 14 docs pages", "date": "2026-03-18T00:00:00Z" },
+        { "sha": "3f54ffa", "message": "Fix repository.url format and whitespace in exports map", "date": "2026-03-18T00:00:00Z" },
+        { "sha": "4daf698", "message": "Add 235-test suite covering plugin and chart components", "date": "2026-03-17T00:00:00Z" },
+        { "sha": "41c44ed", "message": "Add roadmap page, SVG logo with cycle animation, and fix accessibility violations across docs", "date": "2026-03-17T00:00:00Z" }
+      ]
+    }
+  ]
+}
+  </script>
+
+  <link rel="modulepreload" href="../_nav.js">
   <script type="module" src="../_nav.js"></script>
+
+  <script>
+  (function () {
+    'use strict';
+
+    var REPO   = 'Binary-ly/zynaui';
+    var GH     = 'https://github.com/' + REPO;
+    var API    = 'https://api.github.com/repos/' + REPO;
+
+    var feed    = document.getElementById('cl-feed');
+    var skel    = document.getElementById('cl-skeleton');
+    var dot     = document.getElementById('cl-dot');
+    var stTxt   = document.getElementById('cl-status');
+    var rateTxt = document.getElementById('cl-rate');
+    var tooltip = document.getElementById('cl-tooltip');
+    var ttBody  = document.getElementById('cl-tt-body');
+
+    var hovRow = null, hovTimer = null;
+    var cache  = {};
+    var hasHover = window.matchMedia('(hover: hover)').matches;
+
+    /* ─── helpers ────────────────────────────────────────────── */
+    function esc(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+    function ea(s) { return String(s == null ? '' : s).replace(/"/g, '&quot;').replace(/'/g, '&#39;'); }
+
+    function ago(iso) {
+      if (!iso) return '';
+      var diff = Date.now() - new Date(iso).getTime();
+      var d = Math.floor(diff / 86400000);
+      var h = Math.floor(diff / 3600000);
+      var m = Math.floor(diff / 60000);
+      if (d > 90) return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: '2-digit' });
+      if (d > 0) return d + 'd ago';
+      if (h > 0) return h + 'h ago';
+      if (m > 0) return m + 'm ago';
+      return 'just now';
+    }
+
+    function fmtDate(iso) {
+      if (!iso) return '';
+      return new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    /* ─── status ─────────────────────────────────────────────── */
+    function setStatus(state, label, rate) {
+      dot.className = 'cl-dot ' + state;
+      stTxt.textContent = label;
+      if (rate) { rateTxt.textContent = rate; rateTxt.style.display = ''; }
+    }
+
+    /* ─── group commits by version tags ─────────────────────── */
+    function groupByTags(tags, commits) {
+      if (!tags.length) {
+        return [{ ver: 'v0.1.1', commits: commits, isLatest: true }];
+      }
+
+      // Map sha → index in commits array
+      var shaMap = {};
+      commits.forEach(function (c, i) { shaMap[c.sha] = i; });
+
+      // Resolve tag positions (tags may not appear if older than paged window)
+      var markers = tags
+        .map(function (t) { return { name: t.name, sha: t.commit.sha, i: shaMap[t.commit.sha] }; })
+        .filter(function (m) { return m.i != null; })
+        .sort(function (a, b) { return a.i - b.i; }); // newest first = smallest index
+
+      var groups = [];
+      var start  = 0;
+
+      markers.forEach(function (m, mi) {
+        groups.push({
+          ver:      m.name,
+          sha:      m.sha,
+          isLatest: start === 0,
+          commits:  commits.slice(start, m.i + 1)
+        });
+        start = m.i + 1;
+      });
+
+      // Commits before the oldest visible tag
+      if (start < commits.length) {
+        groups.push({ ver: 'Pre-release', commits: commits.slice(start), isPre: true });
+      }
+
+      return groups;
+    }
+
+    /* ─── rendering ──────────────────────────────────────────── */
+    function renderRow(c) {
+      var sha  = c.sha || '';
+      var s7   = sha.slice(0, 7);
+      var msg  = ((c.commit && c.commit.message) || c.message || '').split('\n')[0];
+      var date = (c.commit && c.commit.author && c.commit.author.date) || c.date || '';
+      var av   = (c.author && c.author.avatar_url) || '';
+      var aln  = (c.author && c.author.login) || '';
+
+      return '<div class="cl-row" data-sha="' + ea(sha) + '" data-msg="' + ea(msg) + '" data-date="' + ea(date) + '" role="listitem">' +
+        '<div class="cl-gcol" aria-hidden="true"><div class="cl-gdot"></div></div>' +
+        '<div class="cl-body">' +
+          '<a class="cl-sha" href="' + GH + '/commit/' + ea(sha) + '" target="_blank" rel="noopener noreferrer" tabindex="0" aria-label="View commit ' + esc(s7) + ' on GitHub">' + esc(s7) + '</a>' +
+          (av ? '<img class="cl-av" src="' + ea(av) + '" alt="' + ea(aln) + '" width="16" height="16" loading="lazy">' : '') +
+          '<span class="cl-msg" title="' + ea(msg) + '">' + esc(msg) + '</span>' +
+          '<span class="cl-time">' + esc(ago(date)) + '</span>' +
+        '</div>' +
+      '</div>';
+    }
+
+    function renderGroup(g, isFirst) {
+      var date    = '';
+      if (g.commits.length) {
+        date = (g.commits[0].commit && g.commits[0].commit.author && g.commits[0].commit.author.date)
+             || g.commits[0].date || '';
+      }
+
+      var isBeta = g.ver.indexOf('beta') !== -1;
+      var ghHref = g.sha ? (GH + '/releases/tag/' + ea(g.ver)) : (GH + '/commits/main');
+
+      var pills = '';
+      if (isFirst && !g.isPre) pills += '<span class="badge badge-success badge-pulse">LATEST</span>';
+      if (isBeta)               pills += '<span class="badge badge-warning">BETA</span>';
+      if (g.isPre)              pills += '<span class="badge badge-neutral">PRE-RELEASE</span>';
+
+      return '<div class="cl-vblock">' +
+        '<div class="cl-vhead">' +
+          '<span class="cl-vnum">' + esc(g.ver) + '</span>' +
+          (date ? '<span class="cl-vdate">' + esc(fmtDate(date)) + '</span>' : '') +
+          pills +
+          '<a class="cl-ghlink" href="' + ghHref + '" target="_blank" rel="noopener noreferrer" aria-label="View ' + esc(g.ver) + ' on GitHub">' +
+            '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>' +
+            'GitHub' +
+          '</a>' +
+        '</div>' +
+        '<div class="cl-commits" role="list" aria-label="Commits in ' + esc(g.ver) + '">' +
+          g.commits.map(renderRow).join('') +
+        '</div>' +
+      '</div>';
+    }
+
+    function render(groups) {
+      if (!groups.length) {
+        feed.innerHTML = '<p style="font-size:.8rem;color:var(--text2);padding:.5rem 0">No releases found.</p>';
+        return;
+      }
+      feed.innerHTML = groups.map(function (g, i) { return renderGroup(g, i === 0); }).join('');
+      if (hasHover) setupHovers();
+    }
+
+    /* ─── hover tooltip ──────────────────────────────────────── */
+    function setupHovers() {
+      document.querySelectorAll('.cl-row').forEach(function (row) {
+        row.addEventListener('mouseenter', rowEnter);
+        row.addEventListener('mouseleave', rowLeave);
+      });
+    }
+
+    function rowEnter(e) {
+      var row  = e.currentTarget;
+      hovRow   = row;
+      var rect = row.getBoundingClientRect();
+      var left = Math.max(8, Math.min(rect.left, window.innerWidth - 348));
+      var top  = rect.bottom + 6;
+      if (top + 160 > window.innerHeight) top = rect.top - 170;
+      tooltip.style.left = left + 'px';
+      tooltip.style.top  = top + 'px';
+      tooltip.setAttribute('aria-hidden', 'false');
+
+      var msg = row.dataset.msg;
+      ttBody.innerHTML = '<div class="cl-tt-msg">' + esc(msg) + '</div><div class="cl-tt-loading">Fetching diff stats…</div>';
+      tooltip.classList.add('visible');
+
+      clearTimeout(hovTimer);
+      hovTimer = setTimeout(function () {
+        if (hovRow !== row) return;
+        loadDetail(row.dataset.sha).then(function (d) {
+          if (hovRow !== row) return;
+          if (d && d.stats) {
+            var files = (d.files || []).slice(0, 5);
+            ttBody.innerHTML =
+              '<div class="cl-tt-msg">' + esc(msg) + '</div>' +
+              '<div class="cl-tt-stats">' +
+                '<span class="cl-tt-add">+' + d.stats.additions + '</span>' +
+                '<span class="cl-tt-sep"> / </span>' +
+                '<span class="cl-tt-del">−' + d.stats.deletions + '</span>' +
+                '<span class="cl-tt-total"> · ' + d.stats.total + ' change' + (d.stats.total !== 1 ? 's' : '') + '</span>' +
+              '</div>' +
+              (files.length
+                ? '<div class="cl-tt-files">' + files.map(function (f) { return '<span class="cl-tt-file">↳ ' + esc(f.filename) + '</span>'; }).join('') + '</div>'
+                : '');
+          } else {
+            ttBody.innerHTML = '<div class="cl-tt-msg">' + esc(msg) + '</div>';
+          }
+        });
+      }, 280);
+    }
+
+    function rowLeave() {
+      hovRow = null;
+      clearTimeout(hovTimer);
+      tooltip.classList.remove('visible');
+      tooltip.setAttribute('aria-hidden', 'true');
+    }
+
+    function loadDetail(sha) {
+      if (cache[sha]) return Promise.resolve(cache[sha]);
+      return fetch(API + '/commits/' + sha)
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) {
+          if (!d) return null;
+          var detail = { stats: d.stats, files: d.files || [] };
+          cache[sha] = detail;
+          return detail;
+        })
+        .catch(function () { return null; });
+    }
+
+    /* ─── static fallback ────────────────────────────────────── */
+    function renderFallback() {
+      try {
+        var raw  = document.getElementById('cl-static').textContent;
+        var data = JSON.parse(raw);
+        var groups = data.releases.map(function (r) {
+          return {
+            ver:      r.version,
+            sha:      r.tagSha || null,
+            isPre:    !!r.isInitial && !r.commits.length,
+            commits:  r.commits.map(function (c) {
+              return { sha: c.sha, commit: { message: c.message, author: { date: c.date } }, author: null };
+            })
+          };
+        });
+        render(groups);
+      } catch (err) {
+        feed.innerHTML = '<p style="font-size:.8rem;color:var(--text2);padding:.5rem 0">Failed to load changelog.</p>';
+      }
+    }
+
+    /* ─── init ───────────────────────────────────────────────── */
+    function init() {
+      setStatus('connecting', 'Connecting');
+
+      var tagsUrl    = API + '/tags?per_page=30';
+      var commitsUrl = API + '/commits?per_page=100';
+      var rateRem, rateLim;
+
+      Promise.all([fetch(tagsUrl), fetch(commitsUrl)])
+        .then(function (responses) {
+          var tr = responses[0], cr = responses[1];
+          if (!tr.ok || !cr.ok) throw new Error('API ' + (tr.ok ? cr.status : tr.status));
+          rateRem = cr.headers.get('X-RateLimit-Remaining');
+          rateLim = cr.headers.get('X-RateLimit-Limit');
+          return Promise.all([tr.json(), cr.json()]);
+        })
+        .then(function (data) {
+          var tags    = data[0];
+          var commits = data[1];
+          var rateStr = (rateRem && rateLim) ? rateRem + '/' + rateLim + ' req' : '';
+          setStatus('synced', 'Synced', rateStr);
+          render(groupByTags(tags, commits));
+        })
+        .catch(function () {
+          setStatus('offline', 'Offline · cached data');
+          var note = document.createElement('div');
+          note.className = 'cl-offline-note';
+          note.textContent = 'GitHub API unavailable — showing last known state.';
+          feed.insertBefore(note, feed.firstChild);
+          renderFallback();
+        });
+    }
+
+    init();
+  })();
+  </script>
 </body>
 </html>
