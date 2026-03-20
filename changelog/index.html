@@ -603,9 +603,14 @@
       Promise.all([fetch(tagsUrl), fetch(commitsUrl)])
         .then(function (responses) {
           var tr = responses[0], cr = responses[1];
-          if (!tr.ok || !cr.ok) throw new Error('API ' + (tr.ok ? cr.status : tr.status));
-          rateRem = cr.headers.get('X-RateLimit-Remaining');
-          rateLim = cr.headers.get('X-RateLimit-Limit');
+          // Read rate limit headers before potentially throwing (available even on 403)
+          rateRem = tr.headers.get('X-RateLimit-Remaining') || cr.headers.get('X-RateLimit-Remaining');
+          rateLim = tr.headers.get('X-RateLimit-Limit')     || cr.headers.get('X-RateLimit-Limit');
+          if (!tr.ok || !cr.ok) {
+            var err = new Error('API error');
+            err.rateLimited = rateRem === '0';
+            throw err;
+          }
           return Promise.all([tr.json(), cr.json()]);
         })
         .then(function (data) {
@@ -615,11 +620,14 @@
           setStatus('synced', 'Synced', rateStr);
           render(groupByTags(tags, commits));
         })
-        .catch(function () {
-          setStatus('offline', 'Offline · cached data');
+        .catch(function (err) {
+          var msg = (err && err.rateLimited) ? 'Rate limited · cached data' : 'Offline · cached data';
+          setStatus('offline', msg);
           var note = document.createElement('div');
           note.className = 'cl-offline-note';
-          note.textContent = 'GitHub API unavailable — showing last known state.';
+          note.textContent = err && err.rateLimited
+            ? 'GitHub API rate limit reached — showing last known state. Resets hourly.'
+            : 'GitHub API unavailable — showing last known state.';
           feed.insertBefore(note, feed.firstChild);
           renderFallback();
         });
