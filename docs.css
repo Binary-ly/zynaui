@@ -393,14 +393,14 @@ body.nav-open #mobile-nav { display: flex; }
     height: calc(100vh - var(--topbar-h));
     transform: translateX(-100%);
     transition: transform 200ms ease; z-index: 90;
-    box-shadow: 4px 0 24px rgba(0,0,0,0.4);
+    box-shadow: 4px 0 24px color-mix(in oklch, var(--text) 20%, transparent);
   }
   body.nav-open #sidebar { transform: translateX(0); }
 
   /* Overlay */
   body.nav-open::after {
     content: ''; position: fixed; inset: var(--topbar-h) 0 0 0;
-    background: rgba(0,0,0,0.5); z-index: 85;
+    background: color-mix(in oklch, var(--text) 40%, transparent); z-index: 85;
   }
 }
 
