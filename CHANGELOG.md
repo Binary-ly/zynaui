@@ -4,6 +4,29 @@ All notable changes to ZynaUI are documented here.
 
 ---
 
+## [0.1.6-beta] (2026-03-21)
+
+### Military genre
+
+- New built-in genre: **Ground Operations "FIELDCRAFT"** — tactical olive surfaces (`#131510`), ranger olive brand (`#8B9E4B`), Share Tech Mono field-radio typography
+- **Opposing diagonal chamfer button** — top-left AND bottom-right corners cut simultaneously, creating a dogtag / military ID card shape. No other genre or design system uses opposing-diagonal double chamfer on interactive elements
+- **Bottom accent bar on alerts** — first genre with a bottom-edge bar, referencing NATO ground symbology where a baseline below a unit marker indicates defensive position. Completes the four-direction set: Ops (left), Phosphor (right), Cyberpunk (top), Military (bottom)
+- **`"◈ "` alert prefix** — filled diamond, the NATO standard control point and waypoint marker on tactical overlays. Unique across all design systems
+- **Bottom-left notch badge** — `polygon(0 0, 100% 0, 100% 100%, 8px 100%, 0 calc(100% - 8px))`: a punch-hole notch at the lower-left corner, like a physical field identification tab or barcode label binding hole. First badge shape with a bottom-left corner clip
+- **Dual-axis crosshatch page texture** — body::before: 45° + −45° diagonal repeating gradients combine into a diamond grid at 3% opacity, referencing NATO tactical overlay paper, USGS topographic map hatching, and camouflage netting silhouette patterns
+- **Upward terrain surveillance sweep** — body::after: olive-green glow band (`rgba(139,158,75,0.035)` peak) ascending bottom-to-top every 12 s, opposite direction from Phosphor's downward CRT scan. Simulates ground-based LiDAR / surface surveillance radar sweeping upward through terrain
+- **Card acetate overlay texture** — `repeating-linear-gradient(45deg, ...)` applied as `--z-card-texture`: each card reads as a laminated field map covered with tactical acetate overlay paper
+- **Solid 2px stencil card bar** — `--z-card-bar-bg: var(--zyna)` with no gradient fade. Every other genre fades the top card rule; Military stencils are hard-edged
+- Ballistic motion: `cubic-bezier(0.16, 1, 0.3, 1)` enter (rangefinder locking on target), `cubic-bezier(0.4, 0, 1, 1)` exit. No spring, no overshoot — military equipment doesn't bounce in UI
+- Status colors grounded in operational vocabulary: vegetation green success, infrared-flare red danger, amber-signal-flare warning, topo-map-water-feature info
+- `prefers-reduced-motion` override placed inside military.js (after animation declaration) to win CSS source order over the genre's sweep beam — same pattern as Phosphor
+
+### Roadmap
+
+- Marked "Genre: Military" as done
+
+---
+
 ## [0.1.5-beta] (2026-03-21)
 
 ### Phosphor genre

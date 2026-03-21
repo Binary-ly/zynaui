@@ -1168,8 +1168,10 @@
       transition: background 0.12s;
     }
     .gb-toggle-group label:has(input:checked) .gb-alertbar-swatch::before { background: var(--brand); }
-    .gb-alertbar-left::before  { left: 0; top: 0; bottom: 0; width: 3px; }
-    .gb-alertbar-top::before   { top: 0; left: 0; right: 0; height: 3px; }
+    .gb-alertbar-left::before   { left: 0; top: 0; bottom: 0; width: 3px; }
+    .gb-alertbar-top::before    { top: 0; left: 0; right: 0; height: 3px; }
+    .gb-alertbar-right::before  { right: 0; top: 0; bottom: 0; width: 3px; }
+    .gb-alertbar-bottom::before { bottom: 0; left: 0; right: 0; height: 3px; }
 
     /* ── Visual mode wraps ── */
     .gb-comp-wrap {
@@ -1389,6 +1391,7 @@
               <div class="gb-chipset" id="cs-font-mono">
                 <button class="gb-chip gb-chip-font active" data-val="'DM Mono', 'Fira Code', ui-monospace, monospace" style="font-family:'DM Mono',monospace">DM Mono</button>
                 <button class="gb-chip gb-chip-font" data-val="'Share Tech Mono', 'Courier New', monospace" style="font-family:'Share Tech Mono','Courier New',monospace">Share Tech</button>
+                <button class="gb-chip gb-chip-font" data-val="'VT323', 'Courier New', monospace" style="font-family:'VT323','Courier New',monospace">VT323</button>
                 <button class="gb-chip gb-chip-font" data-val="'Courier New', monospace" style="font-family:'Courier New',monospace">Courier New</button>
                 <button class="gb-chip gb-chip-font" data-val="'Fira Code', ui-monospace, monospace" style="font-family:'Fira Code',monospace">Fira Code</button>
                 <button class="gb-chip gb-chip-font" data-val="ui-monospace, monospace">System</button>
@@ -1422,6 +1425,9 @@
                   <label><input type="radio" name="btnshape" value="rect" /><span>Rect</span></label>
                   <label><input type="radio" name="btnshape" value="bevel" /><span>Bevel</span></label>
                   <label><input type="radio" name="btnshape" value="round" /><span>Round</span></label>
+                  <label><input type="radio" name="btnshape" value="chevron" /><span>Chevron</span></label>
+                  <label><input type="radio" name="btnshape" value="dogear" /><span>Dog-ear</span></label>
+                  <label><input type="radio" name="btnshape" value="dogtag" /><span>Dogtag</span></label>
                 </div>
               </div>
 
@@ -1441,6 +1447,9 @@
                   <button class="gb-shape-reset" data-shape="rect">↩ Rect</button>
                   <button class="gb-shape-reset" data-shape="bevel">↩ Bevel</button>
                   <button class="gb-shape-reset" data-shape="round">↩ Round</button>
+                  <button class="gb-shape-reset" data-shape="chevron">↩ Chevron</button>
+                  <button class="gb-shape-reset" data-shape="dogear">↩ Dog-ear</button>
+                  <button class="gb-shape-reset" data-shape="dogtag">↩ Dogtag</button>
                 </div>
               </div>
 
@@ -1480,6 +1489,8 @@
                   <label><input type="radio" name="badgeshape" value="rect" /><span>Rect</span></label>
                   <label><input type="radio" name="badgeshape" value="pill" /><span>Pill</span></label>
                   <label><input type="radio" name="badgeshape" value="bevel" /><span>Bevel</span></label>
+                  <label><input type="radio" name="badgeshape" value="microround" /><span>Micro</span></label>
+                  <label><input type="radio" name="badgeshape" value="notch" /><span>Notch</span></label>
                 </div>
               </div>
 
@@ -1499,6 +1510,8 @@
                   <button class="gb-shape-reset" data-shape="rect">↩ Rect</button>
                   <button class="gb-shape-reset" data-shape="pill">↩ Pill</button>
                   <button class="gb-shape-reset" data-shape="bevel">↩ Bevel</button>
+                  <button class="gb-shape-reset" data-shape="microround">↩ Micro</button>
+                  <button class="gb-shape-reset" data-shape="notch">↩ Notch</button>
                 </div>
               </div>
 
@@ -1561,7 +1574,9 @@
                 <div class="gb-label" id="lbl-alertbar" style="margin-bottom:0.3rem">Bar Position</div>
                 <div class="gb-toggle-group" id="gb-alertbar" role="radiogroup" aria-labelledby="lbl-alertbar">
                   <label><input type="radio" name="alertbar" value="left" checked /><span>Left</span></label>
+                  <label><input type="radio" name="alertbar" value="right" /><span>Right</span></label>
                   <label><input type="radio" name="alertbar" value="top" /><span>Top</span></label>
+                  <label><input type="radio" name="alertbar" value="bottom" /><span>Bottom</span></label>
                 </div>
               </div>
 
@@ -1571,6 +1586,22 @@
                   <span class="gb-val-badge" id="lbl-alert-bw">3px</span>
                 </div>
                 <input class="gb-range" type="range" id="gb-alert-bw" min="1" max="8" step="0.5" value="3" aria-label="Alert bar width" />
+              </div>
+
+              <div class="gb-field">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.3rem">
+                  <span class="gb-label" style="margin-bottom:0">Bar Glow <span style="opacity:0.5">--z-alert-bar-glow</span></span>
+                  <button class="gb-onoff" id="onoff-alert-bar-glow">OFF</button>
+                </div>
+                <div id="wrap-alert-bar-glow" style="display:none">
+                  <div class="gb-chipset" id="cs-alert-bar-glow">
+                    <button class="gb-chip active" data-val="0 0 8px color-mix(in oklch, var(--alert-bar-color) 60%, transparent)">Soft</button>
+                    <button class="gb-chip" data-val="0 0 10px var(--alert-bar-color), 0 0 20px color-mix(in oklch, var(--alert-bar-color) 40%, transparent)">Neon</button>
+                    <button class="gb-chip" data-val="0 0 14px var(--alert-bar-color), 0 0 32px color-mix(in oklch, var(--alert-bar-color) 30%, transparent)">Flare</button>
+                    <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
+                  </div>
+                  <textarea class="gb-textarea gb-chipset-reveal" id="gb-alert-bar-glow" style="display:none" spellcheck="false" aria-label="Custom alert bar glow">none</textarea>
+                </div>
               </div>
 
               <div class="gb-field">
@@ -1661,6 +1692,28 @@
                   <span class="gb-val-badge" id="lbl-card-bh">1px</span>
                 </div>
                 <input class="gb-range" type="range" id="gb-card-bh" min="0" max="8" step="0.5" value="1" aria-label="Card bar height" />
+              </div>
+
+              <div class="gb-field">
+                <div class="gb-label" style="margin-bottom:0.3rem">Bar BG <span style="opacity:0.5">--z-card-bar-bg</span></div>
+                <div class="gb-chipset" id="cs-card-bar-bg">
+                  <button class="gb-chip active" data-val="linear-gradient(90deg, transparent 0%, color-mix(in oklch, var(--zyna) 55%, transparent) 20%, color-mix(in oklch, var(--zyna) 55%, transparent) 80%, transparent 100%)">Fade</button>
+                  <button class="gb-chip" data-val="var(--zyna)">Solid</button>
+                  <button class="gb-chip" data-val="transparent">None</button>
+                  <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
+                </div>
+                <input class="gb-text-input gb-chipset-reveal" type="text" id="gb-card-bar-bg" style="display:none;margin-top:6px" spellcheck="false" aria-label="Custom card bar background" />
+              </div>
+
+              <div class="gb-field">
+                <div class="gb-label" style="margin-bottom:0.3rem">Surface Texture <span style="opacity:0.5">--z-card-texture</span></div>
+                <div class="gb-chipset" id="cs-card-texture">
+                  <button class="gb-chip active" data-val="linear-gradient(transparent, transparent)">None</button>
+                  <button class="gb-chip" data-val="repeating-linear-gradient(45deg, rgba(255,255,255,0.022) 0px, rgba(255,255,255,0.022) 1px, transparent 1px, transparent 10px)">Hatch</button>
+                  <button class="gb-chip" data-val="repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.018) 2px, rgba(255,255,255,0.018) 3px)">Lines</button>
+                  <button class="gb-chip gb-chip-custom" data-val="__custom__">Custom ↓</button>
+                </div>
+                <textarea class="gb-textarea gb-chipset-reveal" id="gb-card-texture" style="display:none" spellcheck="false" aria-label="Custom card texture">none</textarea>
               </div>
 
               <div class="gb-field">
@@ -2141,6 +2194,9 @@
       '--z-card-default-glow-lo':    'rgba(0,0,0,0)',
       '--z-card-default-glow-hi':    'rgba(0,0,0,0)',
       '--z-alert-texture':        'none',
+      '--z-alert-bar-glow':       'none',
+      '--z-card-bar-bg':          'linear-gradient(90deg, transparent 0%, color-mix(in oklch, var(--zyna) 55%, transparent) 20%, color-mix(in oklch, var(--zyna) 55%, transparent) 80%, transparent 100%)',
+      '--z-card-texture':         'linear-gradient(transparent, transparent)',
     }
 
     const BTNSHAPE_PRESETS = {
@@ -2163,6 +2219,21 @@
         '--z-btn-clip':       'inset(0 round 9999px)',
         '--z-btn-inner-clip': 'inset(1.5px round 9999px)',
         '--z-btn-corner':     'var(--z-corner)',
+      },
+      chevron: {
+        '--z-btn-clip':       'polygon(var(--btn-corner) 0, 100% 0, 100% 100%, var(--btn-corner) 100%, 0 50%)',
+        '--z-btn-inner-clip': 'polygon(calc(var(--btn-corner) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px 50%)',
+        '--z-btn-corner':     '14px',
+      },
+      dogear: {
+        '--z-btn-clip':       'polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, 0 100%)',
+        '--z-btn-inner-clip': 'polygon(1px 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px))',
+        '--z-btn-corner':     '10px',
+      },
+      dogtag: {
+        '--z-btn-clip':       'polygon(var(--btn-corner) 0, 100% 0, 100% calc(100% - var(--btn-corner)), calc(100% - var(--btn-corner)) 100%, 0 100%, 0 var(--btn-corner))',
+        '--z-btn-inner-clip': 'polygon(calc(var(--btn-corner) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - calc(var(--btn-corner) + 1px)), calc(100% - calc(var(--btn-corner) + 1px)) calc(100% - 1px), 1px calc(100% - 1px), 1px calc(var(--btn-corner) + 1px))',
+        '--z-btn-corner':     '10px',
       },
     }
 
@@ -2187,6 +2258,16 @@
         '--z-badge-inner-clip': 'polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) 2px, calc(100% - 2px) calc(var(--badge-offset) + 2px), calc(100% - 2px) calc(100% - calc(var(--badge-offset) + 2px)), calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), calc(var(--badge-offset) + 2px) calc(100% - 2px), 2px calc(100% - calc(var(--badge-offset) + 2px)), 2px calc(var(--badge-offset) + 2px))',
         '--z-badge-radius':     '0',
       },
+      microround: {
+        '--z-badge-clip':       'inset(0 round 3px)',
+        '--z-badge-inner-clip': 'inset(2px round 1px)',
+        '--z-badge-radius':     '3px',
+      },
+      notch: {
+        '--z-badge-clip':       'polygon(0 0, 100% 0, 100% 100%, 8px 100%, 0 calc(100% - 8px))',
+        '--z-badge-inner-clip': 'polygon(2px 2px, calc(100% - 2px) 2px, calc(100% - 2px) calc(100% - 2px), calc(8px + 2px) calc(100% - 2px), 2px calc(100% - calc(8px + 2px)))',
+        '--z-badge-radius':     '0',
+      },
     }
 
     function inferBadgeShape(clip) {
@@ -2194,7 +2275,9 @@
       const c = clip.trim()
       if (c === 'inset(0)') return 'rect'
       if (c === 'inset(0 round 9999px)') return 'pill'
+      if (c === 'inset(0 round 3px)') return 'microround'
       if (c.startsWith('polygon') && c.split(',').length === 8) return 'bevel'
+      if (c.startsWith('polygon(0 0, 100% 0, 100% 100%, 8px')) return 'notch'
       return 'slant'
     }
 
@@ -2207,12 +2290,28 @@
         '--z-alert-padding-top':  '0.875rem',
         '--z-alert-padding-left': 'calc(1.25rem + var(--z-alert-bar-width))',
       },
+      right: {
+        '--z-alert-bar-inset':    '0 0 0 auto',
+        '--z-alert-bar-w':        'var(--z-alert-bar-width)',
+        '--z-alert-bar-h':        'auto',
+        '--z-alert-bar-radius':   '0',
+        '--z-alert-padding-top':  '0.875rem',
+        '--z-alert-padding-left': '1.25rem',
+      },
       top: {
         '--z-alert-bar-inset':    '0 0 auto 0',
         '--z-alert-bar-w':        '100%',
         '--z-alert-bar-h':        'var(--z-alert-bar-width)',
         '--z-alert-bar-radius':   '0',
         '--z-alert-padding-top':  'calc(0.875rem + var(--z-alert-bar-width))',
+        '--z-alert-padding-left': '1.25rem',
+      },
+      bottom: {
+        '--z-alert-bar-inset':    'auto 0 0 0',
+        '--z-alert-bar-w':        'auto',
+        '--z-alert-bar-h':        'var(--z-alert-bar-width)',
+        '--z-alert-bar-radius':   '0',
+        '--z-alert-padding-top':  '0.875rem',
         '--z-alert-padding-left': '1.25rem',
       },
     }
@@ -2224,14 +2323,19 @@
       rect:     [{x:0,y:0},{x:200,y:0},{x:200,y:80},{x:0,y:80}],
       bevel:    [{x:10,y:0},{x:190,y:0},{x:200,y:10},{x:200,y:70},{x:190,y:80},{x:10,y:80},{x:0,y:70},{x:0,y:10}],
       round:    [{x:40,y:0},{x:160,y:0},{x:200,y:0},{x:200,y:40},{x:200,y:80},{x:160,y:80},{x:40,y:80},{x:0,y:80},{x:0,y:40},{x:0,y:0}],
+      chevron:  [{x:14,y:0},{x:200,y:0},{x:200,y:80},{x:14,y:80},{x:0,y:40}],
+      dogear:   [{x:0,y:0},{x:190,y:0},{x:200,y:10},{x:200,y:80},{x:0,y:80}],
+      dogtag:   [{x:10,y:0},{x:200,y:0},{x:200,y:70},{x:190,y:80},{x:0,y:80},{x:0,y:10}],
     }
 
     const BADGE_EDITOR_H = 55
     const BADGE_SHAPE_EDITOR_PRESETS = {
-      slant: [{x:12,y:0},{x:200,y:0},{x:188,y:55},{x:0,y:55}],
-      rect:  [{x:0,y:0},{x:200,y:0},{x:200,y:55},{x:0,y:55}],
-      pill:  [{x:27,y:0},{x:173,y:0},{x:200,y:27},{x:200,y:28},{x:173,y:55},{x:27,y:55},{x:0,y:28},{x:0,y:27}],
-      bevel: [{x:10,y:0},{x:190,y:0},{x:200,y:10},{x:200,y:45},{x:190,y:55},{x:10,y:55},{x:0,y:45},{x:0,y:10}],
+      slant:      [{x:12,y:0},{x:200,y:0},{x:188,y:55},{x:0,y:55}],
+      rect:       [{x:0,y:0},{x:200,y:0},{x:200,y:55},{x:0,y:55}],
+      pill:       [{x:27,y:0},{x:173,y:0},{x:200,y:27},{x:200,y:28},{x:173,y:55},{x:27,y:55},{x:0,y:28},{x:0,y:27}],
+      bevel:      [{x:10,y:0},{x:190,y:0},{x:200,y:10},{x:200,y:45},{x:190,y:55},{x:10,y:55},{x:0,y:45},{x:0,y:10}],
+      microround: [{x:0,y:0},{x:200,y:0},{x:200,y:55},{x:0,y:55}],
+      notch:      [{x:0,y:0},{x:200,y:0},{x:200,y:55},{x:16,y:55},{x:0,y:43}],
     }
 
     // ── State ────────────────────────────────────────────────────────────────
@@ -2290,6 +2394,9 @@
       '--z-card-default-glow-lo': 'rgba(0,0,0,0)',
       '--z-card-default-glow-hi': 'rgba(0,0,0,0)',
       '--z-alert-texture': 'none',
+      '--z-alert-bar-glow': 'none',
+      '--z-card-bar-bg': 'linear-gradient(90deg, transparent 0%, color-mix(in oklch, var(--zyna) 55%, transparent) 20%, color-mix(in oklch, var(--zyna) 55%, transparent) 80%, transparent 100%)',
+      '--z-card-texture': 'linear-gradient(transparent, transparent)',
     }
 
     // ── Utilities ────────────────────────────────────────────────────────────
@@ -2300,12 +2407,21 @@
       const m = s.match(/cubic-bezier\(\s*([^,]+),\s*([^,]+),\s*([^,]+),\s*([^)]+)\)/)
       return m ? [m[1],m[2],m[3],m[4]].map(Number) : null
     }
+    // parseEasing: returns [x1,y1,x2,y2] for cubic-bezier, raw string for steps(), null otherwise
+    function parseEasing(s) {
+      if (!s) return null
+      if (/^steps\(/.test(s)) return s
+      return parseCB(s)
+    }
     function inferBtnShape(clip) {
       if (!clip) return 'diagonal'
       const c = clip.trim()
       if (c === 'inset(0 round 9999px)') return 'round'
       if (c === 'inset(0)') return 'rect'
-      if (c.startsWith('polygon(var(--btn-corner)')) return 'bevel'
+      if (c.startsWith('polygon(var(--btn-corner) 0%')) return 'bevel'
+      if (c.includes('0 50%')) return 'chevron'
+      if (c.startsWith('polygon(var(--btn-corner) 0, 100% 0, 100% calc')) return 'dogtag'
+      if (c.startsWith('polygon(0 0, calc(100%') && c.split(',').length === 5) return 'dogear'
       return 'diagonal'
     }
 
@@ -2380,7 +2496,11 @@
     }
 
     function inferAlertPos(inset) {
-      return (inset || '').trim() === '0 0 auto 0' ? 'top' : 'left'
+      const s = (inset || '').trim()
+      if (s === '0 0 auto 0') return 'top'
+      if (s === '0 0 0 auto') return 'right'
+      if (s === 'auto 0 0 0') return 'bottom'
+      return 'left'
     }
     function setEl(id, val) { const e=document.getElementById(id); if(e) e.value=val }
     function setLbl(id, txt) { const e=document.getElementById(id); if(e) e.textContent=txt }
@@ -2421,8 +2541,10 @@
       r.setProperty('--z-duration-slow', state['--z-duration-slow'] + 's')
 
       ;['--z-ease-enter','--z-ease-exit','--z-ease-spring'].forEach(k => {
-        const [x1,y1,x2,y2] = state[k]
-        r.setProperty(k, `cubic-bezier(${x1}, ${y1}, ${x2}, ${y2})`)
+        const v = state[k]
+        r.setProperty(k, Array.isArray(v)
+          ? `cubic-bezier(${v[0]}, ${v[1]}, ${v[2]}, ${v[3]})`
+          : String(v))
       })
 
       if (state['__btn-shape'] !== 'custom') {
@@ -2455,6 +2577,9 @@
       r.setProperty('--z-alert-bg-opacity', state['--z-alert-bg-opacity'] + '%')
       r.setProperty('--z-alert-prefix', state['--z-alert-prefix'])
       r.setProperty('--z-alert-texture', state['--z-alert-texture'])
+      r.setProperty('--z-alert-bar-glow', state['--z-alert-bar-glow'])
+      r.setProperty('--z-card-bar-bg', state['--z-card-bar-bg'])
+      r.setProperty('--z-card-texture', state['--z-card-texture'])
 
       r.setProperty('--z-card-bar-height', state['--z-card-bar-height'] + 'px')
       r.setProperty('--z-card-bracket-size', state['--z-card-bracket-size'] + 'px')
@@ -3022,7 +3147,8 @@
     function buildBezierEditor(containerId, stateKey) {
       const getColor = () => state['--zyna'] || '#C9A84C'
       const container = document.getElementById(containerId)
-      const [ix1, iy1, ix2, iy2] = state[stateKey]
+      const _initEasing = state[stateKey]
+      const [ix1, iy1, ix2, iy2] = Array.isArray(_initEasing) ? _initEasing : [0.22, 1, 0.36, 1]
 
       // SVG
       const svgNS = 'http://www.w3.org/2000/svg'
@@ -3109,7 +3235,7 @@
         const inp = document.createElement('input')
         inp.type = 'number'; inp.step = '0.01'; inp.min = '-2'; inp.max = '2'
         inp.className = 'gb-bezier-num'
-        inp.value = state[stateKey][i]
+        inp.value = Array.isArray(state[stateKey]) ? state[stateKey][i] : [0.22,1,0.36,1][i]
         nums.push(inp)
         const labEl = document.createElement('div')
         labEl.className = 'gb-bezier-num-label'
@@ -3134,7 +3260,8 @@
       }
 
       function refresh() {
-        const [x1,y1,x2,y2] = state[stateKey]
+        const _e = state[stateKey]
+        const [x1,y1,x2,y2] = Array.isArray(_e) ? _e : [0.22,1,0.36,1]
         const [p1x, p1y] = toSVG(x1, y1)
         const [p2x, p2y] = toSVG(x2, y2)
 
@@ -3167,7 +3294,8 @@
         const elapsed = (ts - ballStart) % CYCLE_MS
         if (elapsed < PLAY_MS) {
           const t = elapsed / PLAY_MS
-          const [x1,y1,x2,y2] = state[stateKey]
+          const _anim = state[stateKey]
+          const [x1,y1,x2,y2] = Array.isArray(_anim) ? _anim : [0.22,1,0.36,1]
           const bx = cubicBezier1D(t, 0, x1, x2, 1)
           const by = cubicBezier1D(t, 0, y1, y2, 1)
           ball.setAttribute('cx', String(clampX(bx * S)))
@@ -3197,7 +3325,7 @@
           const sy = (clientY - rect.top)  * (S / rect.height)
           const [cx, cy] = fromSVG(sx, sy)
 
-          const arr = [...state[stateKey]]
+          const arr = Array.isArray(state[stateKey]) ? [...state[stateKey]] : [0.22,1,0.36,1]
           if (idx === 0) { arr[0] = Math.round(cx*100)/100; arr[1] = Math.round(cy*100)/100 }
           else           { arr[2] = Math.round(cx*100)/100; arr[3] = Math.round(cy*100)/100 }
           state[stateKey] = arr
@@ -3221,7 +3349,7 @@
       // Number input wiring
       nums.forEach((inp, i) => {
         inp.addEventListener('input', () => {
-          const arr = [...state[stateKey]]
+          const arr = Array.isArray(state[stateKey]) ? [...state[stateKey]] : [0.22,1,0.36,1]
           arr[i] = parseFloat(inp.value) || 0
           state[stateKey] = arr
           refresh()
@@ -3259,9 +3387,9 @@
       setSld('gb-dur-base','lbl-dur-base', state['--z-duration-base'], v=>v.toFixed(2)+'s')
       setSld('gb-dur-slow','lbl-dur-slow', state['--z-duration-slow'], v=>v.toFixed(2)+'s')
 
-      bezierEditors['--z-ease-enter']?.setValues(state['--z-ease-enter'])
-      bezierEditors['--z-ease-exit']?.setValues(state['--z-ease-exit'])
-      bezierEditors['--z-ease-spring']?.setValues(state['--z-ease-spring'])
+      if (Array.isArray(state['--z-ease-enter']))  bezierEditors['--z-ease-enter']?.setValues(state['--z-ease-enter'])
+      if (Array.isArray(state['--z-ease-exit']))   bezierEditors['--z-ease-exit']?.setValues(state['--z-ease-exit'])
+      if (Array.isArray(state['--z-ease-spring'])) bezierEditors['--z-ease-spring']?.setValues(state['--z-ease-spring'])
 
       document.querySelectorAll('[name="btnshape"]').forEach(r => { r.checked = r.value === state['__btn-shape'] })
       syncRadioTabindex('btnshape')
@@ -3281,6 +3409,11 @@
       setSld('gb-alert-bg','lbl-alert-bg', state['--z-alert-bg-opacity'], v=>v+'%')
       syncChipset('cs-alert-prefix',     'gb-alert-prefix',     state['--z-alert-prefix'])
       syncChipset('cs-alert-texture',    'gb-alert-texture',    state['--z-alert-texture'])
+      syncOnOff('onoff-alert-bar-glow', 'wrap-alert-bar-glow', '--z-alert-bar-glow')
+      syncChipset('cs-alert-bar-glow',  'gb-alert-bar-glow',   state['--z-alert-bar-glow'])
+
+      syncChipset('cs-card-bar-bg',     'gb-card-bar-bg',      state['--z-card-bar-bg'])
+      syncChipset('cs-card-texture',    'gb-card-texture',     state['--z-card-texture'])
 
       setSld('gb-card-bh',      'lbl-card-bh',     state['--z-card-bar-height'],     v=>v+'px')
       setSld('gb-card-bs',      'lbl-card-bs',      state['--z-card-bracket-size'],   v=>Math.round(v)+'px')
@@ -3329,9 +3462,9 @@
       state['--z-duration-base'] = parseFloat(tok('--z-duration-base') || '0.22')
       state['--z-duration-slow'] = parseFloat(tok('--z-duration-slow') || '0.28')
 
-      state['--z-ease-enter']  = parseCB(tok('--z-ease-enter'))  || [0.22,1,0.36,1]
-      state['--z-ease-exit']   = parseCB(tok('--z-ease-exit'))   || [0.55,0,1,0.45]
-      state['--z-ease-spring'] = parseCB(tok('--z-ease-spring')) || [0.34,1.4,0.64,1]
+      state['--z-ease-enter']  = parseEasing(tok('--z-ease-enter'))  || [0.22,1,0.36,1]
+      state['--z-ease-exit']   = parseEasing(tok('--z-ease-exit'))   || [0.55,0,1,0.45]
+      state['--z-ease-spring'] = parseEasing(tok('--z-ease-spring')) || [0.34,1.4,0.64,1]
 
       state['__btn-shape']            = inferBtnShape(tok('--z-btn-clip'))
       state['__custom-shape-points']  = null
@@ -3377,6 +3510,9 @@
       state['--z-card-default-glow-lo']        = tok('--z-card-default-glow-lo') || 'rgba(0,0,0,0)'
       state['--z-card-default-glow-hi']        = tok('--z-card-default-glow-hi') || 'rgba(0,0,0,0)'
       state['--z-alert-texture']               = tok('--z-alert-texture') || 'none'
+      state['--z-alert-bar-glow']              = tok('--z-alert-bar-glow') || 'none'
+      state['--z-card-bar-bg']                 = tok('--z-card-bar-bg') || 'linear-gradient(90deg, transparent 0%, color-mix(in oklch, var(--zyna) 55%, transparent) 20%, color-mix(in oklch, var(--zyna) 55%, transparent) 80%, transparent 100%)'
+      state['--z-card-texture']                = tok('--z-card-texture') || 'linear-gradient(transparent, transparent)'
 
       // Apply visual preview first (user-facing), then yield before syncing controls
       applyPreview()
@@ -4015,6 +4151,10 @@
     wireChipset('cs-alert-radius',     'gb-alert-radius-val', '--z-alert-radius')
     wireChipset('cs-alert-border',     'gb-alert-border',     '--z-alert-border')
     wireChipset('cs-alert-texture',    'gb-alert-texture',    '--z-alert-texture')
+    wireOnOff('onoff-alert-bar-glow', 'wrap-alert-bar-glow', '--z-alert-bar-glow', '0 0 8px color-mix(in oklch, var(--alert-bar-color) 60%, transparent)')
+    wireChipset('cs-alert-bar-glow',  'gb-alert-bar-glow',   '--z-alert-bar-glow')
+    wireChipset('cs-card-bar-bg',     'gb-card-bar-bg',      '--z-card-bar-bg')
+    wireChipset('cs-card-texture',    'gb-card-texture',     '--z-card-texture')
     wireChipset('cs-card-border-color','gb-card-border-color','--z-card-border-color')
     wireChipset('cs-card-shadow',      'gb-card-shadow-val',  '--z-card-shadow')
     wireOnOff('onoff-card-bar-shadow', 'wrap-card-bar-shadow', '--z-card-bar-shadow', '0 0 8px color-mix(in oklch, var(--zyna) 50%, transparent)')

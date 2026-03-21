@@ -20,8 +20,9 @@ import ops from './ops.js'
 import cyberpunk from './cyberpunk.js'
 import corporate from './corporate.js'
 import phosphor from './phosphor.js'
+import military from './military.js'
 
-export const GENRES = [ops, cyberpunk, corporate, phosphor]
+export const GENRES = [ops, cyberpunk, corporate, phosphor, military]
 
 export { defineGenre, registerGenre } from './define.js'
 
