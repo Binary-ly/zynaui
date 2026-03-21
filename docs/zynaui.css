@@ -1757,28 +1757,40 @@
     --z-sidebar-active-shadow: inset 3px 0 0 var(--zyna);
   }
   :where(html[data-genre="corporate"]) :where(.badge-primary) {
-    --badge-bg: rgba(29,53,87,0.08);
+    --badge-bg: transparent;
     --badge-glow: none;
   }
   :where(html[data-genre="corporate"]) :where(.badge-success) {
-    --badge-bg: rgba(26,107,69,0.08);
+    --badge-bg: transparent;
     --badge-glow: none;
   }
   :where(html[data-genre="corporate"]) :where(.badge-danger) {
-    --badge-bg: rgba(163,22,33,0.08);
+    --badge-bg: transparent;
     --badge-glow: none;
   }
   :where(html[data-genre="corporate"]) :where(.badge-warning) {
-    --badge-bg: rgba(146,107,0,0.08);
+    --badge-bg: transparent;
     --badge-glow: none;
   }
   :where(html[data-genre="corporate"]) :where(.badge-info) {
-    --badge-bg: rgba(42,91,140,0.08);
+    --badge-bg: transparent;
     --badge-glow: none;
   }
   :where(html[data-genre="corporate"]) :where(.badge-secondary) {
-    --badge-bg: rgba(28,26,24,0.06);
+    --badge-bg: transparent;
     --badge-glow: none;
+  }
+  :where(html[data-genre="corporate"]) :where(.badge-slant) {
+    --z-badge-inset-shadow: none;
+    --badge-bg: currentColor;
+    --badge-interior: var(--z-surface-page);
+    --badge-inner-clip: polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), 1px calc(100% - 1px));
+  }
+  :where(html[data-genre="corporate"]) :where(.badge-bevel) {
+    --z-badge-inset-shadow: none;
+    --badge-bg: currentColor;
+    --badge-interior: var(--z-surface-page);
+    --badge-inner-clip: polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) 1px, calc(100% - 1px) calc(var(--badge-offset) + 1px), calc(100% - 1px) calc(100% - calc(var(--badge-offset) + 1px)), calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), calc(var(--badge-offset) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--badge-offset) + 1px)), 1px calc(var(--badge-offset) + 1px));
   }
   :where(html[data-genre="corporate"]) body::before {
     content: "";
