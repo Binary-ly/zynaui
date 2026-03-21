@@ -427,11 +427,11 @@ const INDEX = [
     type: 'guide',
     url: '/',
     section: 'project',
-    desc: 'ZynaUI home — military-aesthetic design system with genre-powered theming.',
+    desc: 'ZynaUI home — genre-powered CSS component library with dark and light themes.',
     classes: [],
     tokens: [],
-    keywords: ['home', 'overview', 'start', 'intro', 'zyna', 'zynaui', 'design system', 'getting started', 'install'],
-    sections: [{ heading: 'ZynaUI', content: 'Military aesthetic CSS component library genre theming zero dependency' }]
+    keywords: ['home', 'overview', 'start', 'intro', 'zyna', 'zynaui', 'design system', 'getting started', 'install', 'theme', 'light', 'dark', 'genre'],
+    sections: [{ heading: 'ZynaUI', content: 'CSS component library genre theming light dark zero dependency tailwind plugin' }]
   },
   {
     id: 'components',
@@ -442,7 +442,7 @@ const INDEX = [
     desc: 'Full index of ZynaUI components — buttons, badges, alerts, cards.',
     classes: ['.btn', '.badge', '.alert', '.card'],
     tokens: [],
-    keywords: ['components', 'index', 'library', 'list', 'all', 'ui'],
+    keywords: ['components', 'index', 'library', 'list', 'all', 'ui', 'scan', 'animation'],
     sections: [{ heading: 'Components', content: 'Interactive UI components scan-fill animations' }]
   },
   {
@@ -451,17 +451,28 @@ const INDEX = [
     type: 'component',
     url: '/components/btn/',
     section: 'components',
-    desc: 'Interactive action trigger with scan-fill animation. Primary, ghost, danger variants.',
-    classes: ['.btn', '.btn-primary', '.btn-ghost', '.btn-danger', '.btn-sm', '.btn-lg', '.btn-icon'],
-    tokens: ['--btn-bg', '--btn-color', '--btn-clip', '--btn-border', '--btn-radius', '--btn-px', '--btn-py',
-             '--btn-font-size', '--btn-font-weight', '--btn-letter-spacing', '--btn-hover-filter',
-             '--btn-active-scale', '--btn-scan-duration'],
-    keywords: ['button', 'click', 'press', 'primary', 'ghost', 'danger', 'scan', 'glow', 'clip',
-               'action', 'trigger', 'interactive', 'fill', 'animation', 'cta'],
+    desc: 'Interactive button with scan-fill animation. Primary, secondary, ghost, danger, plasma variants. Shape modifiers: round, bevel, cut, square.',
+    classes: [
+      '.btn', '.btn-primary', '.btn-secondary', '.btn-ghost', '.btn-danger', '.btn-plasma',
+      '.btn-sm', '.btn-lg', '.btn-icon',
+      '.btn-round', '.btn-bevel', '.btn-cut', '.btn-square'
+    ],
+    tokens: [
+      '--btn-bg', '--btn-color', '--btn-filter', '--btn-scan-color',
+      '--btn-hover-bg', '--btn-hover-color', '--btn-hover-filter', '--btn-hover-text-shadow',
+      '--btn-active-filter', '--btn-focus-color',
+      '--btn-interior', '--btn-hover-interior', '--btn-inner-clip', '--btn-corner'
+    ],
+    keywords: [
+      'button', 'click', 'press', 'primary', 'secondary', 'ghost', 'danger', 'plasma',
+      'scan', 'glow', 'filter', 'action', 'trigger', 'interactive', 'fill', 'animation', 'cta',
+      'round', 'bevel', 'cut', 'square', 'shape', 'focus', 'hover', 'interior', 'outlined', 'corner'
+    ],
     sections: [
-      { heading: 'Variants', content: 'Primary ghost danger sm lg icon disabled' },
-      { heading: 'Scan Fill', content: 'Animated clip-path fill on click configurable duration' },
-      { heading: 'Tokens', content: 'CSS custom properties bg color clip border radius sizing hover' }
+      { heading: 'Variants', content: 'Primary secondary ghost danger plasma sm lg icon disabled' },
+      { heading: 'Shape Modifiers', content: 'Round bevel cut square clip-path corner' },
+      { heading: 'Scan Fill', content: 'Animated scan-fill on click hover glow drop-shadow filter' },
+      { heading: 'Tokens', content: 'bg color filter scan-color hover-bg hover-color hover-filter hover-text-shadow active-filter focus-color interior hover-interior inner-clip corner' }
     ]
   },
   {
@@ -470,13 +481,31 @@ const INDEX = [
     type: 'component',
     url: '/components/card/',
     section: 'components',
-    desc: 'Container component with header, body and optional media slot.',
-    classes: ['.card', '.card-header', '.card-body', '.card-media', '.card-title', '.card-meta'],
-    tokens: ['--card-bg', '--card-border', '--card-radius', '--card-padding', '--card-shadow', '--card-gap'],
-    keywords: ['card', 'container', 'panel', 'header', 'body', 'media', 'layout', 'box'],
+    desc: 'Container with L-bracket corners and power bar header. Variants: dark, glow, round, sm, bevel, cyber.',
+    classes: [
+      '.card', '.card-dark', '.card-glow', '.card-round', '.card-sm', '.card-bevel', '.card-cyber',
+      '.card-header', '.card-body', '.card-footer', '.card-title', '.card-subtitle'
+    ],
+    tokens: [
+      '--card-gradient', '--card-border-color', '--card-shadow',
+      '--card-bracket-color', '--card-bracket-size', '--card-bracket-stroke',
+      '--card-bar-gradient', '--card-bar-shadow',
+      '--card-animation', '--card-glow-lo', '--card-glow-hi',
+      '--card-header-border', '--card-header-bg', '--card-header-color',
+      '--card-header-dot-color', '--card-header-dot-shadow',
+      '--card-header-text-shadow', '--card-title-text-shadow'
+    ],
+    keywords: [
+      'card', 'container', 'panel', 'header', 'body', 'footer', 'title', 'subtitle', 'layout',
+      'dark', 'glow', 'round', 'bevel', 'cyber', 'bracket', 'L-bracket', 'corner',
+      'pulse', 'animation', 'power bar', 'gradient', 'shadow', 'dot'
+    ],
     sections: [
-      { heading: 'Anatomy', content: 'Card header body media title meta slots' },
-      { heading: 'Tokens', content: 'Background border radius padding shadow gap' }
+      { heading: 'Variants', content: 'Dark glow round sm bevel cyber' },
+      { heading: 'Anatomy', content: 'Card header body footer title subtitle slots' },
+      { heading: 'L-Bracket', content: 'Corner bracket decoration bracket-color bracket-size bracket-stroke' },
+      { heading: 'Power Bar', content: 'Top luminescent header bar bar-gradient bar-shadow' },
+      { heading: 'Tokens', content: 'gradient border-color shadow bracket-color bracket-size bracket-stroke bar-gradient bar-shadow animation glow-lo glow-hi header-border header-bg header-color' }
     ]
   },
   {
@@ -485,15 +514,27 @@ const INDEX = [
     type: 'component',
     url: '/components/badge/',
     section: 'components',
-    desc: 'Status indicator with shape variants — pill, rect, slant, bevel.',
-    classes: ['.badge', '.badge-primary', '.badge-success', '.badge-warning', '.badge-danger', '.badge-sm', '.badge-lg'],
-    tokens: ['--badge-bg', '--badge-color', '--badge-border', '--badge-radius', '--badge-px',
-             '--badge-py', '--badge-font-size', '--badge-clip'],
-    keywords: ['badge', 'status', 'label', 'tag', 'chip', 'pill', 'slant', 'bevel', 'indicator', 'count'],
+    desc: 'Status label with shape variants: slant, pill, rect, bevel. Pulse animation. Primary, secondary, success, warning, danger, info, neutral, plasma variants.',
+    classes: [
+      '.badge', '.badge-primary', '.badge-secondary', '.badge-success', '.badge-warning',
+      '.badge-danger', '.badge-info', '.badge-neutral', '.badge-plasma',
+      '.badge-sm', '.badge-lg',
+      '.badge-outline', '.badge-pill', '.badge-rect', '.badge-slant', '.badge-bevel',
+      '.badge-pulse'
+    ],
+    tokens: [
+      '--badge-bg', '--badge-color', '--badge-glow', '--badge-scan-color',
+      '--badge-dot-size', '--badge-interior', '--badge-offset', '--badge-inner-clip'
+    ],
+    keywords: [
+      'badge', 'status', 'label', 'tag', 'chip', 'pill', 'slant', 'bevel', 'rect', 'indicator',
+      'count', 'pulse', 'dot', 'outline', 'neutral', 'plasma', 'info', 'glow', 'offset', 'shape', 'animation'
+    ],
     sections: [
-      { heading: 'Shape Variants', content: 'Pill rect slant bevel custom clip-path' },
-      { heading: 'Color Variants', content: 'Primary success warning danger muted' },
-      { heading: 'Tokens', content: 'Background color border clip radius sizing' }
+      { heading: 'Color Variants', content: 'Primary secondary success warning danger info neutral plasma' },
+      { heading: 'Shape Variants', content: 'Slant pill rect bevel outline clip-path offset' },
+      { heading: 'Pulse', content: 'Animated pulse dot status indicator' },
+      { heading: 'Tokens', content: 'bg color glow scan-color dot-size interior offset inner-clip' }
     ]
   },
   {
@@ -502,15 +543,27 @@ const INDEX = [
     type: 'component',
     url: '/components/alert/',
     section: 'components',
-    desc: 'Dismissible notification banner with severity variants and accent bar.',
-    classes: ['.alert', '.alert-info', '.alert-success', '.alert-warning', '.alert-danger', '.alert-bar'],
-    tokens: ['--alert-bg', '--alert-color', '--alert-border', '--alert-radius',
-             '--alert-bar-width', '--alert-bar-pos', '--alert-padding'],
-    keywords: ['alert', 'notification', 'banner', 'info', 'success', 'warning', 'danger', 'dismiss', 'bar', 'severity', 'message'],
+    desc: 'Notification banner with accent bar. Info, success, warning, danger, dark, neutral, plasma variants. Shape: round, square.',
+    classes: [
+      '.alert', '.alert-info', '.alert-success', '.alert-warning', '.alert-danger',
+      '.alert-dark', '.alert-neutral', '.alert-plasma',
+      '.alert-sm', '.alert-lg',
+      '.alert-round', '.alert-square',
+      '.alert-icon', '.alert-title'
+    ],
+    tokens: [
+      '--alert-bar-color', '--alert-bg', '--alert-color', '--alert-shadow', '--alert-title-shadow'
+    ],
+    keywords: [
+      'alert', 'notification', 'banner', 'info', 'success', 'warning', 'danger',
+      'dark', 'neutral', 'plasma', 'bar', 'accent bar', 'severity', 'message',
+      'round', 'square', 'shape', 'icon', 'title', 'shadow', 'glow'
+    ],
     sections: [
-      { heading: 'Severity', content: 'Info success warning danger severity variants' },
-      { heading: 'Accent Bar', content: 'Left right top bottom bar position token' },
-      { heading: 'Dismiss', content: 'Closeable dismissible notification' }
+      { heading: 'Variants', content: 'Info success warning danger dark neutral plasma' },
+      { heading: 'Sizes & Shapes', content: 'sm lg round square' },
+      { heading: 'Accent Bar', content: 'Left right top bottom bar-color position genre' },
+      { heading: 'Tokens', content: 'bar-color bg color shadow title-shadow' }
     ]
   },
   {
@@ -519,11 +572,11 @@ const INDEX = [
     type: 'guide',
     url: '/charts/',
     section: 'charts',
-    desc: 'ZynaUI chart components built with D3.js — waffle, timeline, nightingale, lollipop, orbital.',
+    desc: 'ZynaUI D3.js Web Component charts — waffle, timeline, nightingale, lollipop, orbital.',
     classes: [],
     tokens: [],
-    keywords: ['charts', 'data', 'visualization', 'd3', 'all', 'index', 'graph'],
-    sections: [{ heading: 'Charts', content: 'D3.js powered data visualization components' }]
+    keywords: ['charts', 'data', 'visualization', 'd3', 'all', 'index', 'graph', 'web component', 'zyna-waffle', 'zyna-timeline', 'zyna-nightingale', 'zyna-lollipop', 'zyna-orbital'],
+    sections: [{ heading: 'Charts', content: 'D3.js web component data visualization waffle timeline nightingale lollipop orbital' }]
   },
   {
     id: 'waffle',
@@ -531,13 +584,13 @@ const INDEX = [
     type: 'chart',
     url: '/charts/waffle/',
     section: 'charts',
-    desc: 'Grid-based area chart showing proportional data as filled squares.',
+    desc: 'Grid of squares showing proportional data. Web component: zyna-waffle.',
     classes: [],
-    tokens: ['--waffle-cell-size', '--waffle-gap', '--waffle-fill', '--waffle-empty'],
-    keywords: ['waffle', 'grid', 'square', 'proportion', 'percentage', 'area', 'fill', 'cells', 'treemap'],
+    tokens: [],
+    keywords: ['waffle', 'zyna-waffle', 'grid', 'square', 'proportion', 'percentage', 'area', 'fill', 'cells', 'treemap', 'color', 'cols', 'gap', 'theme', 'height', 'outline'],
     sections: [
-      { heading: 'Usage', content: 'Proportional grid data visualization percentage' },
-      { heading: 'Options', content: 'Cell size gap fill empty color' }
+      { heading: 'Usage', content: 'zyna-waffle proportional grid data visualization percentage cells' },
+      { heading: 'Attributes', content: 'data color cols gap theme height outline' }
     ]
   },
   {
@@ -546,13 +599,13 @@ const INDEX = [
     type: 'chart',
     url: '/charts/timeline/',
     section: 'charts',
-    desc: 'Horizontal Gantt-style bar chart for duration and schedule data.',
+    desc: 'Horizontal Gantt-style bar chart for duration and schedule data. Web component: zyna-timeline.',
     classes: [],
-    tokens: ['--timeline-bar-h', '--timeline-fill', '--timeline-track'],
-    keywords: ['timeline', 'gantt', 'bar', 'duration', 'schedule', 'horizontal', 'time', 'project'],
+    tokens: [],
+    keywords: ['timeline', 'zyna-timeline', 'gantt', 'bar', 'duration', 'schedule', 'horizontal', 'time', 'project', 'highlight', 'muted', 'muted-color', 'show-values', 'label-format'],
     sections: [
-      { heading: 'Usage', content: 'Duration schedule visualization gantt horizontal bar' },
-      { heading: 'Options', content: 'Bar height fill track color' }
+      { heading: 'Usage', content: 'zyna-timeline duration schedule gantt horizontal bar' },
+      { heading: 'Attributes', content: 'data color theme highlight muted-color height show-values label-format' }
     ]
   },
   {
@@ -561,13 +614,13 @@ const INDEX = [
     type: 'chart',
     url: '/charts/nightingale/',
     section: 'charts',
-    desc: 'Rose/polar area chart — radial segments scaled by value.',
+    desc: 'Rose/polar area chart — radial segments scaled by value. Web component: zyna-nightingale.',
     classes: [],
-    tokens: ['--nightingale-fill', '--nightingale-stroke', '--nightingale-r'],
-    keywords: ['nightingale', 'rose', 'polar', 'radial', 'arc', 'circular', 'florence', 'coxcomb'],
+    tokens: [],
+    keywords: ['nightingale', 'zyna-nightingale', 'rose', 'polar', 'radial', 'arc', 'circular', 'florence', 'coxcomb', 'show-values', 'label-format'],
     sections: [
-      { heading: 'Usage', content: 'Polar area radial rose chart circular' },
-      { heading: 'Options', content: 'Fill stroke radius segments' }
+      { heading: 'Usage', content: 'zyna-nightingale polar area radial rose chart circular segments' },
+      { heading: 'Attributes', content: 'data color theme height show-values label-format' }
     ]
   },
   {
@@ -576,13 +629,13 @@ const INDEX = [
     type: 'chart',
     url: '/charts/lollipop/',
     section: 'charts',
-    desc: 'Dot-on-stem chart — cleaner alternative to bar chart for ranked data.',
+    desc: 'Dot-on-stem chart for ranked data. Web component: zyna-lollipop.',
     classes: [],
-    tokens: ['--lollipop-dot-r', '--lollipop-stem-w', '--lollipop-fill'],
-    keywords: ['lollipop', 'dot', 'stem', 'ranked', 'bar', 'clean', 'minimal', 'categorical'],
+    tokens: [],
+    keywords: ['lollipop', 'zyna-lollipop', 'dot', 'stem', 'ranked', 'bar', 'categorical', 'highlight', 'muted', 'muted-color', 'ticks', 'show-values', 'label-format'],
     sections: [
-      { heading: 'Usage', content: 'Ranked categorical data comparison dot stem' },
-      { heading: 'Options', content: 'Dot radius stem width fill color' }
+      { heading: 'Usage', content: 'zyna-lollipop ranked categorical data comparison dot stem' },
+      { heading: 'Attributes', content: 'data color theme highlight muted-color ticks height show-values label-format' }
     ]
   },
   {
@@ -591,13 +644,13 @@ const INDEX = [
     type: 'chart',
     url: '/charts/orbital/',
     section: 'charts',
-    desc: 'Concentric ring chart for hierarchical or multi-level proportion data.',
+    desc: 'Concentric ring chart for multi-level proportion data. Web component: zyna-orbital.',
     classes: [],
-    tokens: ['--orbital-ring-gap', '--orbital-fill', '--orbital-stroke'],
-    keywords: ['orbital', 'orbit', 'ring', 'concentric', 'radial', 'donut', 'hierarchy', 'multi-level'],
+    tokens: [],
+    keywords: ['orbital', 'zyna-orbital', 'orbit', 'ring', 'concentric', 'radial', 'donut', 'hierarchy', 'multi-level', 'ring-thickness', 'show-values', 'label-format'],
     sections: [
-      { heading: 'Usage', content: 'Hierarchical multi-level concentric ring chart' },
-      { heading: 'Options', content: 'Ring gap fill stroke layers' }
+      { heading: 'Usage', content: 'zyna-orbital hierarchical multi-level concentric ring chart donut' },
+      { heading: 'Attributes', content: 'data color theme ring-thickness height show-values label-format' }
     ]
   },
   {
@@ -630,15 +683,23 @@ const INDEX = [
     type: 'genre',
     url: '/genres/',
     section: 'project',
-    desc: 'Visual editor for creating and customising ZynaUI genre themes — Ops, Cyberpunk.',
+    desc: 'Visual editor for creating and customising ZynaUI genre themes — Ops, Cyberpunk, Corporate, Phosphor, Military.',
     classes: [],
     tokens: ['--brand', '--bg', '--bg2', '--bg3', '--text', '--text2', '--text3', '--border'],
-    keywords: ['genre', 'theme', 'builder', 'ops', 'cyberpunk', 'customize', 'colors', 'tokens',
-               'visual', 'editor', 'palette', 'design'],
+    keywords: [
+      'genre', 'theme', 'builder', 'customize', 'colors', 'tokens', 'visual', 'editor', 'palette', 'design',
+      'ops', 'tactical', 'cyberpunk', 'neon',
+      'corporate', 'ledger', 'light', 'ivory', 'navy',
+      'phosphor', 'terminal', 'amber', 'crt', 'monochrome',
+      'military', 'fieldcraft', 'olive', 'dark', 'export', 'json', 'css'
+    ],
     sections: [
-      { heading: 'Genre Builder', content: 'Visual editor theme customization' },
-      { heading: 'Ops', content: 'Default military-aesthetic dark theme' },
-      { heading: 'Cyberpunk', content: 'Neon-bright cyberpunk theme colors' }
+      { heading: 'Genre Builder', content: 'Visual editor theme customization export JSON CSS' },
+      { heading: 'Ops', content: 'Default dark military HUD aesthetic amber gold' },
+      { heading: 'Cyberpunk', content: 'Neon purple dark futuristic glitch' },
+      { heading: 'Corporate', content: 'Light ivory warm navy professional ledger document' },
+      { heading: 'Phosphor', content: 'Amber CRT terminal dark monochrome phosphor scan' },
+      { heading: 'Military', content: 'Tactical olive dark fieldcraft earth tone Share Tech Mono' }
     ]
   }
 ]
