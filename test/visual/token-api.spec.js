@@ -49,13 +49,20 @@ test.describe('token-api / btn tokens', () => {
     )
   })
 
-  test('--btn-scan-color mutation changes sweep', async ({ page }) => {
-    await assertTokenMutation(
-      page, OPS,
-      `<button class="btn btn-primary" type="button">Button</button>`,
-      '.btn', '--btn-scan-color', 'rgba(255,0,0,0.5)',
-      'token-btn-scan-color-mutated'
-    )
+  test('--btn-hover-filter mutation changes glow on hover', async ({ page }) => {
+    const el = await setupPage(page, OPS, `<button class="btn btn-primary" type="button">Button</button>`)
+    const before = await el.screenshot()
+
+    await page.evaluate(() => {
+      const val = 'drop-shadow(0 0 20px rgba(255,0,0,1)) brightness(2)'
+      document.documentElement.style.setProperty('--btn-hover-filter', val)
+      document.querySelector('.btn').style.setProperty('--btn-hover-filter', val)
+    })
+    await page.hover('.btn')
+
+    const after = await el.screenshot()
+    expect(Buffer.compare(before, after)).not.toBe(0)
+    await expect(el).toHaveScreenshot('token-btn-hover-filter-mutated.png')
   })
 })
 
