@@ -4,6 +4,34 @@ All notable changes to ZynaUI are documented here.
 
 ---
 
+## [0.1.3-beta.1] (2026-03-21)
+
+### Signal Acquisition Search
+
+- Full-text search across all 15 docs pages — instant, zero fetch, hardcoded index
+- Weighted scoring: title exact (+120) → class names (+90) → CSS tokens (+85) → title partial (+70) → keywords (+60/35) → description (+25) → section headings (+40) → section content (+15) + contextual page boost (+20) for results in the same section as the current page
+- **Token mode** — prefix `--` to filter pages by CSS custom property (e.g. `--btn-bg` → Button page)
+- **Command mode** — `/genre <name>` switches the active genre inline and closes search
+- **Tab completion** — terminal-style two-stage completion: `/ge` → `Tab` → `/genre `, then `Cyb` → `Tab` → `Cyberpunk`
+- Viewport sweep animation on open (one-shot glowing line across full height)
+- 7-bar spectrum analyzer in the input row — pulses on keypress, locks on results, flatlines on no signal
+- Signal strength bar per result, animated from 0 to relevance %
+- Targeting reticle (4 CSS-only corner brackets) on keyboard-selected result
+- Type badges: `[COMPONENT]` gold · `[CHART]` cyan · `[GENRE]` purple · `[GUIDE]` muted
+- Status indicator: STANDBY / SCANNING… / TOKEN SCAN / COMMAND MODE / N SIGNALS LOCKED / NO SIGNAL
+- Last 5 searches persisted in `localStorage`; shown as a recent list when input is empty
+- `⌘K` / `Ctrl+K` global shortcut (platform-aware hint); `[ SCAN ]` button in topbar
+- `↑↓` navigate, `Enter` lock on, `Escape` abort, full focus trap with `Shift+Tab`
+- `aria-activedescendant` updated on keyboard navigation; `aria-live` status region; `role="dialog"` + `aria-modal`
+
+### Docs
+
+- Version badge now reads from `package.json` via `scripts/gen-version.js` — no more manual bumps
+- GitHub nav link changed to icon-only (no text)
+- Roadmap: marked "Docs: full-text search" as done
+
+---
+
 ## [0.1.2-beta.1] (2026-03-21)
 
 ### Genre Builder — multi-format export
