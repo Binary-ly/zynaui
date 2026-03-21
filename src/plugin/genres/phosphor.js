@@ -275,6 +275,14 @@ export const styles = {
     transform: 'translateY(-200px)',
     animation: 'phosphor-sweep 8s linear infinite',
   },
+
+  // ── prefers-reduced-motion — sweep beam stops for vestibular disorder users ──
+  // Must live here (inside the genre file, last in addBase source order) so it
+  // wins over the animation declaration above. motion.js runs before genresPlugin()
+  // and loses to genre rules via source order at equal specificity.
+  '@media (prefers-reduced-motion: reduce)': {
+    ':where(html[data-genre="phosphor"]) body::after': { animation: 'none' },
+  },
 }
 
 export default { name, tokens, swatches, styles }

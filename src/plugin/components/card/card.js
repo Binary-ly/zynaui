@@ -266,7 +266,7 @@ export default function(theme) {
       '--card-bracket-color': 'color-mix(in oklch, var(--zyna) 70%, transparent)',
       '--card-bracket-size':  '22px',
       '--card-bar-gradient':  'linear-gradient(90deg, transparent 0%, color-mix(in oklch, var(--zyna) 80%, transparent) 20%, color-mix(in oklch, var(--zyna) 80%, transparent) 80%, transparent 100%)',
-      '--card-animation':     'zyna-card-pulse var(--z-card-glow-duration) var(--z-ease-spring) infinite',
+      '--card-animation':     'zyna-card-pulse var(--z-card-glow-duration) ease-in-out infinite',
       '--card-glow-lo':       'color-mix(in oklch, var(--zyna) 12%, transparent)',
       '--card-glow-hi':       'color-mix(in oklch, var(--zyna) 26%, transparent)',
     },

@@ -898,7 +898,7 @@
     @supports (color: color-mix(in lab, red, red)) {
       --card-bar-gradient: linear-gradient(90deg, transparent 0%, color-mix(in oklch, var(--zyna) 80%, transparent) 20%, color-mix(in oklch, var(--zyna) 80%, transparent) 80%, transparent 100%);
     }
-    --card-animation: zyna-card-pulse var(--z-card-glow-duration) var(--z-ease-spring) infinite;
+    --card-animation: zyna-card-pulse var(--z-card-glow-duration) ease-in-out infinite;
     --card-glow-lo: var(--zyna);
     @supports (color: color-mix(in lab, red, red)) {
       --card-glow-lo: color-mix(in oklch, var(--zyna) 12%, transparent);
@@ -2012,6 +2012,11 @@
     background: linear-gradient(transparent 0%, rgba(255,159,10,0.025) 35%, rgba(255,159,10,0.055) 50%, rgba(255,159,10,0.025) 65%, transparent 100%);
     transform: translateY(-200px);
     animation: phosphor-sweep 8s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :where(html[data-genre="phosphor"]) body::after {
+      animation: none;
+    }
   }
 }
 @layer base {
