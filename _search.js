@@ -1,4 +1,4 @@
-import { applyGenre } from './_genres.js'
+import { applyGenre, GENRES } from './_genres.js'
 
 // ── CSS ───────────────────────────────────────────────────────────────────────
 const SEARCH_CSS = `
@@ -409,6 +409,7 @@ function buildHTML() {
     </div>
     <div class="scan-memory" id="scan-memory" hidden aria-label="Recent searches"></div>
     <div class="scan-results" id="scan-results" role="listbox" aria-label="Search results"></div>
+    <div class="scan-noresult" id="scan-noresult" hidden></div>
     <div class="scan-footer" aria-hidden="true">
       <span class="scan-hint">↑↓ Navigate</span>
       <span class="scan-hint">↵ Lock On</span>
@@ -713,6 +714,19 @@ function runSearch(query, currentPath) {
     .slice(0, 7)
 }
 
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function escapeHTML(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
+const isMac = /mac/i.test(navigator.userAgent)
+const modKey = isMac ? '⌘K' : 'Ctrl+K'
+
 // ── State ─────────────────────────────────────────────────────────────────────
 let activeIndex    = -1
 let currentResults = []
@@ -733,7 +747,7 @@ function saveRecent(q) {
 }
 
 // ── DOM Refs ──────────────────────────────────────────────────────────────────
-let scanEl, inputEl, resultsEl, statusEl, freqEl, memoryEl
+let scanEl, inputEl, resultsEl, noresultEl, statusEl, freqEl, memoryEl
 
 // ── Frequency Bars ────────────────────────────────────────────────────────────
 function freqPulse() {
@@ -775,13 +789,15 @@ function renderResults(results) {
   activeIndex    = -1
 
   if (!results.length) {
-    resultsEl.innerHTML = '<div class="scan-noresult">— NO SIGNAL —</div>'
+    resultsEl.innerHTML = ''
+    if (noresultEl) { noresultEl.textContent = '— NO SIGNAL —'; noresultEl.hidden = false }
     statusEl.textContent = 'NO SIGNAL'
     statusEl.className   = 'scan-status no-signal'
     freqFlat()
     return
   }
 
+  if (noresultEl) noresultEl.hidden = true
   const maxScore = results[0].score
   statusEl.textContent = `${results.length} SIGNAL${results.length === 1 ? '' : 'S'} LOCKED`
   statusEl.className   = 'scan-status has-results'
@@ -789,7 +805,7 @@ function renderResults(results) {
 
   resultsEl.innerHTML = results.map((r, i) => {
     const pct = Math.round((r.score / maxScore) * 100)
-    return `<div class="scan-result" role="option" aria-selected="false" tabindex="-1" data-index="${i}" data-url="${r.doc.url}">
+    return `<div class="scan-result" id="scan-result-${i}" role="option" aria-selected="false" tabindex="-1" data-index="${i}" data-url="${r.doc.url}">
       <span class="rc-tl" aria-hidden="true"></span>
       <span class="rc-tr" aria-hidden="true"></span>
       <span class="rc-bl" aria-hidden="true"></span>
@@ -839,7 +855,7 @@ function renderMemory() {
     <div class="scan-mem-list">
       ${recent.map(q => `<button class="scan-mem-item" type="button">
         <span class="scan-mem-arrow">↵</span>
-        <span class="scan-mem-query">${q}</span>
+        <span class="scan-mem-query">${escapeHTML(q)}</span>
       </button>`).join('')}
     </div>`
 
@@ -867,6 +883,7 @@ function selectResult(n) {
   })
   activeIndex = clamped
   cards[clamped].scrollIntoView({ block: 'nearest' })
+  if (resultsEl) resultsEl.setAttribute('aria-activedescendant', `scan-result-${clamped}`)
 }
 
 // ── Open / Close ──────────────────────────────────────────────────────────────
@@ -883,9 +900,10 @@ function openScan() {
   setTimeout(() => scanEl.classList.remove('is-sweeping'), 420)
 
   // Reset state
-  if (statusEl) { statusEl.textContent = 'STANDBY'; statusEl.className = 'scan-status' }
-  if (resultsEl) resultsEl.innerHTML = ''
-  if (inputEl)   inputEl.value = ''
+  if (statusEl)    { statusEl.textContent = 'STANDBY'; statusEl.className = 'scan-status' }
+  if (resultsEl)   resultsEl.innerHTML = ''
+  if (noresultEl)  noresultEl.hidden = true
+  if (inputEl)     inputEl.value = ''
   currentResults = []
   activeIndex    = -1
   freqIdle()
@@ -919,6 +937,12 @@ function execCommand(q) {
     // Sync genre label in topbar
     const nameEl = document.getElementById('genre-active-name')
     if (nameEl) nameEl.textContent = name.toUpperCase()
+    // Sync genre trigger border colour
+    const trigger = document.getElementById('genre-trigger')
+    const genre   = GENRES.find(g => g.name === name)
+    if (trigger && genre?.swatches?.brand) {
+      trigger.style.setProperty('--genre-trigger-color', genre.swatches.brand)
+    }
     closeScan()
     return true
   }
@@ -933,6 +957,7 @@ function handleInput() {
 
   if (!q) {
     resultsEl.innerHTML = ''
+    if (noresultEl) noresultEl.hidden = true
     currentResults      = []
     activeIndex         = -1
     statusEl.textContent = 'STANDBY'
@@ -949,8 +974,15 @@ function handleInput() {
     statusEl.textContent = 'TOKEN SCAN'
     statusEl.className   = 'scan-status token-mode'
   } else if (q.startsWith('/')) {
+    // Command mode — show prompt, clear results, do not search
     statusEl.textContent = 'COMMAND MODE'
     statusEl.className   = 'scan-status cmd-mode'
+    clearTimeout(debounceTimer)
+    resultsEl.innerHTML = ''
+    if (noresultEl) noresultEl.hidden = true
+    currentResults = []
+    activeIndex    = -1
+    return
   } else {
     statusEl.textContent = 'SCANNING…'
     statusEl.className   = 'scan-status'
@@ -960,6 +992,33 @@ function handleInput() {
   debounceTimer = setTimeout(() => {
     renderResults(runSearch(q, location.pathname))
   }, 80)
+}
+
+// ── Tab Completion ────────────────────────────────────────────────────────────
+const COMMANDS = ['genre']
+
+function tabComplete(value) {
+  // Stage 1: completing the command name — e.g. /ge → /genre·
+  if (!value.includes(' ')) {
+    const partial = value.slice(1).toLowerCase()
+    const match = COMMANDS.find(cmd => cmd.startsWith(partial))
+    if (match) return `/${match} `
+    return null
+  }
+
+  // Stage 2: completing the argument — e.g. /genre Cyb → /genre Cyberpunk
+  const spaceIdx = value.indexOf(' ')
+  const cmd      = value.slice(1, spaceIdx).toLowerCase()
+  const arg      = value.slice(spaceIdx + 1)
+
+  if (cmd === 'genre') {
+    const partial = arg.toLowerCase()
+    if (!partial) return null
+    const match = GENRES.find(g => g.name.toLowerCase().startsWith(partial))
+    if (match && match.name.toLowerCase() !== partial) return `/genre ${match.name}`
+  }
+
+  return null
 }
 
 // ── Focus Trap ────────────────────────────────────────────────────────────────
@@ -1005,6 +1064,16 @@ function handleKey(e) {
   }
 
   if (e.key === 'Tab') {
+    // Tab completion when input is focused and value starts with /
+    if (!e.shiftKey && document.activeElement === inputEl && inputEl?.value.startsWith('/')) {
+      const completed = tabComplete(inputEl.value)
+      if (completed !== null) {
+        e.preventDefault()
+        inputEl.value = completed
+        inputEl.dispatchEvent(new Event('input'))
+        return
+      }
+    }
     trapFocus(e)
     return
   }
@@ -1053,12 +1122,17 @@ function initSearch() {
   }
 
   // Cache DOM refs
-  scanEl    = document.getElementById('z-scan')
-  inputEl   = document.getElementById('scan-input')
-  resultsEl = document.getElementById('scan-results')
-  statusEl  = document.getElementById('scan-status')
-  freqEl    = document.getElementById('scan-freq')
-  memoryEl  = document.getElementById('scan-memory')
+  scanEl     = document.getElementById('z-scan')
+  inputEl    = document.getElementById('scan-input')
+  resultsEl  = document.getElementById('scan-results')
+  noresultEl = document.getElementById('scan-noresult')
+  statusEl   = document.getElementById('scan-status')
+  freqEl     = document.getElementById('scan-freq')
+  memoryEl   = document.getElementById('scan-memory')
+
+  // Platform-aware keyboard shortcut hint
+  const kbdEl = document.querySelector('#scan-trigger kbd')
+  if (kbdEl) kbdEl.textContent = modKey
 
   // Input listener
   inputEl?.addEventListener('input', handleInput)
