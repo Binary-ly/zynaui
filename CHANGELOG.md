@@ -4,6 +4,26 @@ All notable changes to ZynaUI are documented here.
 
 ---
 
+## [0.1.5-beta] (2026-03-21)
+
+### Phosphor genre
+
+- New built-in genre: **Terminal "PHOSPHOR"** — amber CRT phosphor aesthetic: warm near-black surfaces (`#0A0700`), P3 amber brand (`#FF9F0A`), VT323 terminal font
+- **Stepped easing** — `steps(6, end)` enter / `steps(4, start)` exit: first genre using discrete step timing for hover transitions, simulating phosphor persistence and digital-clock character refresh. No other design system or genre has shipped stepped motion for interactive UI transitions
+- **Left-side chevron button** — left edge indents to a point at vertical center (`polygon(corner 0, 100% 0, 100% 100%, corner 100%, 0 50%)`), reading as a punch-card slot or tape-drive bay entry port
+- **Right-side alert bar** — accent indicator on the RIGHT, terminating the text line like a cursor at end-of-line; `">> "` double-chevron prefix. First genre with a right-side alert bar
+- **CRT scanlines + vignette** — `body::before`: 1 px horizontal scan lines every 3 px + radial gradient darkening at edges (barrel distortion simulation), CSS-only
+- **Animated phosphor sweep beam** — `body::after`: faint amber glow band (200 px, 5.5% peak opacity) scanning top-to-bottom every 8 s via `transform: translateY` animation, simulating the CRT electron gun's raster refresh pass. First CSS genre texture that animates a physical electron beam path
+- Sharp rectangular badge (no parallelogram), 9 s scan duration for phosphor persistence effect
+- Status colors tuned to secondary phosphor emissions: P1 green success, red alarm danger, yellow-amber warning, P4 blue-white info
+
+### Docs
+
+- VT323 and Share Tech Mono added to the static Google Fonts `<link>` on all 15 docs pages — fonts load upfront with the page rather than being injected dynamically on genre switch
+- Roadmap: marked "Genre: Terminal" as done
+
+---
+
 ## [0.1.4-beta] (2026-03-21)
 
 ### Corporate genre
