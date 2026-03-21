@@ -2014,9 +2014,182 @@
     animation: phosphor-sweep 8s linear infinite;
   }
   @media (prefers-reduced-motion: reduce) {
-    :where(html[data-genre="phosphor"]) body::after {
+    :where(html[data-genre="military"]) body::after {
       animation: none;
     }
+  }
+  @keyframes field-sweep {
+    0% {
+      transform: translateY(100vh);
+    }
+    100% {
+      transform: translateY(-160px);
+    }
+  }
+  html[data-genre="military"] {
+    --zyna: #8B9E4B;
+    --zyna-dark: #5C6B2F;
+    --zp-success: #5B8A3C;
+    --zp-danger: #CC3300;
+    --zp-warning: #C98A00;
+    --zp-info: #4A7FA5;
+    --zp-text: #B8BD9B;
+    --z-color-text-inverse: #131510;
+    --z-surface-page: #131510;
+    --z-surface-inset: #1A1D13;
+    --z-surface-inset-hover: #1F2318;
+    --z-surface-inset-danger: #1A1208;
+    --z-surface-inset-danger-hover: #201508;
+    --z-surface-card: linear-gradient(160deg, #1B1F13 0%, #131510 100%);
+    --z-surface-card-deep: linear-gradient(160deg, #1F2318 0%, #1A1D13 100%);
+    --z-color-border: rgba(139,158,75,0.12);
+    --z-color-border-dim: rgba(139,158,75,0.06);
+    --z-color-overlay: rgba(139,158,75,0.04);
+    --z-shadow-card: 0 2px 8px rgba(0,0,0,0.60), 0 0 24px rgba(139,158,75,0.03);
+    --z-shadow-card-deep: 0 4px 18px rgba(0,0,0,0.75), 0 0 40px rgba(139,158,75,0.05);
+    --bg: #131510;
+    --bg2: #1A1D13;
+    --bg3: #1F2318;
+    --border: rgba(139,158,75,0.13);
+    --border2: rgba(139,158,75,0.07);
+    --text: #B8BD9B;
+    --text2: rgba(184,189,155,0.55);
+    --text3: rgba(184,189,155,0.32);
+    --topbar-bg: rgba(19,21,16,0.93);
+    --z-panel-bg: #1A1D13;
+    --z-panel-shadow: 0 8px 24px rgba(0,0,0,0.65), 0 0 28px rgba(139,158,75,0.04);
+    --z-font-mono: 'Share Tech Mono', 'Courier New', monospace;
+    --z-duration-fast: 0.15s;
+    --z-duration-base: 0.22s;
+    --z-duration-slow: 0.30s;
+    --z-duration-pulse: 3s;
+    --z-ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+    --z-ease-exit: cubic-bezier(0.4, 0, 1, 1);
+    --z-ease-spring: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    color-scheme: dark;
+    --z-btn-clip: polygon(var(--btn-corner) 0, 100% 0, 100% calc(100% - var(--btn-corner)), calc(100% - var(--btn-corner)) 100%, 0 100%, 0 var(--btn-corner));
+    --z-btn-inner-clip: polygon(calc(var(--btn-corner) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - calc(var(--btn-corner) + 1px)), calc(100% - calc(var(--btn-corner) + 1px)) calc(100% - 1px), 1px calc(100% - 1px), 1px calc(var(--btn-corner) + 1px));
+    --z-btn-corner: 10px;
+    --z-btn-active-scale: 0.97;
+    --z-btn-scan-stop: 60%;
+    --z-badge-clip: polygon(0 0, 100% 0, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+    --z-badge-radius: 0;
+    --z-badge-padding: 0.20rem 0.75rem;
+    --z-badge-letter-spacing: 0.11em;
+    --z-badge-inset-shadow: inset 0 0 0 1px currentColor;
+    --z-badge-scan-duration: 6s;
+    --z-badge-inner-clip: polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 9px calc(100% - 1px), 1px calc(100% - 9px));
+    --z-alert-radius: 3px 3px 0 0;
+    --z-alert-bar-width: 3px;
+    --z-alert-prefix: "◈ ";
+    --z-alert-bg-opacity: 6%;
+    --z-alert-border: none;
+    --z-alert-prefix-opacity: 0.45;
+    --z-alert-bar-glow: none;
+    --z-alert-texture: none;
+    --z-alert-padding-top: 0.875rem;
+    --z-alert-padding-left: 1.25rem;
+    --z-alert-bar-inset: auto 0 0 0;
+    --z-alert-bar-w: auto;
+    --z-alert-bar-h: var(--z-alert-bar-width);
+    --z-alert-bar-radius: 0;
+    --z-card-clip: none;
+    --z-card-filter: none;
+    --z-card-texture: repeating-linear-gradient(45deg, rgba(139,158,75,0.022) 0px, rgba(139,158,75,0.022) 1px, transparent 1px, transparent 10px);
+    --z-card-gradient: var(--z-surface-card);
+    --z-card-border-color: rgba(139,158,75,0.13);
+    --z-card-shadow: var(--z-shadow-card);
+    --z-card-bracket-color: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-card-bracket-color: color-mix(in oklch, var(--zyna) 40%, transparent);
+    }
+    --z-card-bracket-size: 18px;
+    --z-card-bracket-stroke: 1.5px;
+    --z-card-bar-height: 2px;
+    --z-card-bar-bg: var(--zyna);
+    --z-card-bar-shadow: none;
+    --z-card-header-bg: rgba(139,158,75,0.06);
+    --z-card-header-border: rgba(139,158,75,0.12);
+    --z-card-header-color: var(--zyna);
+    --z-card-header-letter-spacing: 0.14em;
+    --z-card-header-text-shadow: none;
+    --z-card-header-dot-size: 5px;
+    --z-card-header-dot-bg: var(--zyna);
+    --z-card-header-dot-shadow: none;
+    --z-card-header-dot-animation: none;
+    --z-card-title-text-shadow: none;
+    --z-card-glow-duration: 5s;
+    --z-card-default-glow-lo: rgba(139,158,75,0.03);
+    --z-card-default-glow-hi: rgba(139,158,75,0.08);
+    --z-topbar-border: rgba(139,158,75,0.12);
+    --z-topbar-glow: none;
+    --z-sidebar-active-shadow: inset 3px 0 0 var(--zyna), inset 5px 0 0 var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-sidebar-active-shadow: inset 3px 0 0 var(--zyna), inset 5px 0 0 color-mix(in oklch, var(--zyna) 22%, transparent);
+    }
+  }
+  :where(html[data-genre="military"]) :where(.badge-primary) {
+    --badge-bg: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in oklch, var(--zyna) 14%, transparent);
+    }
+    --badge-glow: none;
+  }
+  :where(html[data-genre="military"]) :where(.badge-success) {
+    --badge-bg: var(--z-color-success);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in oklch, var(--z-color-success) 12%, transparent);
+    }
+    --badge-glow: none;
+  }
+  :where(html[data-genre="military"]) :where(.badge-danger) {
+    --badge-bg: var(--z-color-danger);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in oklch, var(--z-color-danger) 11%, transparent);
+    }
+    --badge-glow: none;
+  }
+  :where(html[data-genre="military"]) :where(.badge-warning) {
+    --badge-bg: var(--z-color-warning);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in oklch, var(--z-color-warning) 11%, transparent);
+    }
+    --badge-glow: none;
+  }
+  :where(html[data-genre="military"]) :where(.badge-info) {
+    --badge-bg: var(--z-color-info);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in oklch, var(--z-color-info) 11%, transparent);
+    }
+    --badge-glow: none;
+  }
+  :where(html[data-genre="military"]) :where(.badge-secondary) {
+    --badge-bg: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in oklch, var(--zyna) 8%, transparent);
+    }
+    --badge-glow: none;
+  }
+  :where(html[data-genre="military"]) body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(45deg, rgba(139,158,75,0.03) 0px, rgba(139,158,75,0.03) 1px, transparent 1px, transparent 12px), repeating-linear-gradient(-45deg, rgba(139,158,75,0.02) 0px, rgba(139,158,75,0.02) 1px, transparent 1px, transparent 12px);
+  }
+  :where(html[data-genre="military"]) body::after {
+    content: "";
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 160px;
+    z-index: 0;
+    pointer-events: none;
+    background: linear-gradient(transparent 0%, rgba(139,158,75,0.018) 30%, rgba(139,158,75,0.035) 50%, rgba(139,158,75,0.018) 70%, transparent 100%);
+    transform: translateY(100vh);
+    animation: field-sweep 12s linear infinite;
   }
 }
 @layer base {
