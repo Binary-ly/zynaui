@@ -3638,6 +3638,11 @@
       loadGenreIntoState(e.detail?.name || 'Ops')
     })
 
+    // Sync to the active genre on page load (event may have fired before this listener registered)
+    const activeGenreName = document.documentElement.dataset.genre
+    const initialGenre = GENRES.find(g => g.name.toLowerCase() === activeGenreName)?.name || 'Ops'
+    loadGenreIntoState(initialGenre)
+
     // ── Custom shape editor ───────────────────────────────────────────────────
     function buildShapeEditor(container) {
       const W = 200, H = 80, ns = 'http://www.w3.org/2000/svg'
