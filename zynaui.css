@@ -1986,6 +1986,12 @@
       --badge-glow: drop-shadow(0 0 4px color-mix(in oklch, var(--zyna) 40%, transparent));
     }
   }
+  :where(html[data-genre="phosphor"]) :where(.badge)::after {
+    animation: zyna-badge-scan var(--z-badge-scan-duration) linear infinite;
+  }
+  :where(html[data-genre="phosphor"]) :where(.badge-pulse)::before {
+    animation: zyna-pulse-ring var(--z-duration-pulse) ease-in-out infinite;
+  }
   :where(html[data-genre="phosphor"]) body::before {
     content: "";
     position: fixed;
