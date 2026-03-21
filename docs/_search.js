@@ -451,9 +451,9 @@ const INDEX = [
     type: 'component',
     url: '/components/btn/',
     section: 'components',
-    desc: 'Interactive button with scan-fill animation. Primary, secondary, ghost, danger, plasma variants. Shape modifiers: round, bevel, cut, square.',
+    desc: 'Interactive button with scan-fill animation. Primary, secondary, ghost, danger variants. Shape modifiers: round, bevel, cut, square.',
     classes: [
-      '.btn', '.btn-primary', '.btn-secondary', '.btn-ghost', '.btn-danger', '.btn-plasma',
+      '.btn', '.btn-primary', '.btn-secondary', '.btn-ghost', '.btn-danger',
       '.btn-sm', '.btn-lg', '.btn-icon',
       '.btn-round', '.btn-bevel', '.btn-cut', '.btn-square'
     ],
@@ -481,9 +481,9 @@ const INDEX = [
     type: 'component',
     url: '/components/card/',
     section: 'components',
-    desc: 'Container with L-bracket corners and power bar header. Variants: dark, glow, round, sm, bevel, cyber.',
+    desc: 'Container with L-bracket corners and power bar header. Variants: dark, glow, round, sm, bevel.',
     classes: [
-      '.card', '.card-dark', '.card-glow', '.card-round', '.card-sm', '.card-bevel', '.card-cyber',
+      '.card', '.card-dark', '.card-glow', '.card-round', '.card-sm', '.card-bevel',
       '.card-header', '.card-body', '.card-footer', '.card-title', '.card-subtitle'
     ],
     tokens: [
@@ -514,10 +514,10 @@ const INDEX = [
     type: 'component',
     url: '/components/badge/',
     section: 'components',
-    desc: 'Status label with shape variants: slant, pill, rect, bevel. Pulse animation. Primary, secondary, success, warning, danger, info, neutral, plasma variants.',
+    desc: 'Status label with shape variants: slant, pill, rect, bevel. Pulse animation. Primary, secondary, success, warning, danger, info, neutral variants.',
     classes: [
       '.badge', '.badge-primary', '.badge-secondary', '.badge-success', '.badge-warning',
-      '.badge-danger', '.badge-info', '.badge-neutral', '.badge-plasma',
+      '.badge-danger', '.badge-info', '.badge-neutral',
       '.badge-sm', '.badge-lg',
       '.badge-outline', '.badge-pill', '.badge-rect', '.badge-slant', '.badge-bevel',
       '.badge-pulse'
@@ -543,10 +543,10 @@ const INDEX = [
     type: 'component',
     url: '/components/alert/',
     section: 'components',
-    desc: 'Notification banner with accent bar. Info, success, warning, danger, dark, neutral, plasma variants. Shape: round, square.',
+    desc: 'Notification banner with accent bar. Info, success, warning, danger, dark, neutral variants. Shape: round, square.',
     classes: [
       '.alert', '.alert-info', '.alert-success', '.alert-warning', '.alert-danger',
-      '.alert-dark', '.alert-neutral', '.alert-plasma',
+      '.alert-dark', '.alert-neutral',
       '.alert-sm', '.alert-lg',
       '.alert-round', '.alert-square',
       '.alert-icon', '.alert-title'
