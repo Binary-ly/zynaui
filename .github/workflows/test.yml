@@ -28,7 +28,9 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install chromium
-      - run: npm run build:css
+      # build:css also copies dist/zyna-charts.iife.js (from full vite build)
+      # which doesn't exist in CI. Build only what visual tests need.
+      - run: npx tailwindcss -i ./docs/input.css -o ./dist/zynaui.css
       - run: npm run test:visual
 
       # Always upload the HTML report so reviewers can download it and inspect
