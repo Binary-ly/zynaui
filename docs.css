@@ -239,6 +239,13 @@ pre, code { font-family: var(--mono); }
 }
 .btn-topbar:hover { color: var(--text); border-color: var(--border2); background: var(--bg2); }
 
+.github-icon-link {
+  display: flex; align-items: center;
+  color: var(--text3);
+  transition: color 150ms;
+}
+.github-icon-link:hover { color: var(--text); }
+
 /* Hamburger — mobile only */
 .hamburger {
   display: none; flex-direction: column; justify-content: center; align-items: center;
@@ -374,7 +381,7 @@ body.nav-open #mobile-nav { display: flex; }
 /* ── Mobile off-canvas ── */
 @media (max-width: 1023px) {
   .hamburger { display: flex; }
-  .topbar-right .btn-topbar:not(.btn-github-topbar) { display: none; }
+  .topbar-right .btn-topbar { display: none; }
 
   #sidebar {
     position: fixed; top: var(--topbar-h); left: 0;
