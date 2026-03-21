@@ -9,6 +9,8 @@
       "Courier New", monospace;
     --spacing: 0.25rem;
     --radius-sm: 0.25rem;
+    --ease-in: cubic-bezier(0.4, 0, 1, 1);
+    --ease-out: cubic-bezier(0, 0, 0.2, 1);
     --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
     --default-transition-duration: 150ms;
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -337,9 +339,17 @@
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
+  .ease-in {
+    --tw-ease: var(--ease-in);
+    transition-timing-function: var(--ease-in);
+  }
   .ease-in-out {
     --tw-ease: var(--ease-in-out);
     transition-timing-function: var(--ease-in-out);
+  }
+  .ease-out {
+    --tw-ease: var(--ease-out);
+    transition-timing-function: var(--ease-out);
   }
 }
 @layer base {
@@ -1647,6 +1657,137 @@
     @supports (color: color-mix(in lab, red, red)) {
       background: repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--zyna) 4.5%, transparent) 2px, color-mix(in oklch, var(--zyna) 4.5%, transparent) 3px);
     }
+  }
+  html[data-genre="corporate"] {
+    --zyna: #1D3557;
+    --zyna-dark: #0D1F36;
+    --zp-success: #1A6B45;
+    --zp-danger: #A31621;
+    --zp-warning: #926B00;
+    --zp-info: #2A5B8C;
+    --zp-text: #1C1A18;
+    --z-color-text-inverse: #F5F4F0;
+    --z-surface-page: #F5F4F0;
+    --z-surface-inset: #EDE9E2;
+    --z-surface-inset-hover: #E6E2D9;
+    --z-surface-inset-danger: #FCF0F0;
+    --z-surface-inset-danger-hover: #F7E4E4;
+    --z-surface-card: linear-gradient(160deg, #FFFFFF 0%, #F8F7F3 100%);
+    --z-surface-card-deep: linear-gradient(160deg, #F4F3EF 0%, #ECEAE3 100%);
+    --z-color-border: rgba(28,27,22,0.10);
+    --z-color-border-dim: rgba(28,27,22,0.055);
+    --z-color-overlay: rgba(28,27,22,0.03);
+    --z-shadow-card: 0 1px 3px rgba(0,0,0,0.07), 0 6px 20px rgba(0,0,0,0.05);
+    --z-shadow-card-deep: 0 2px 8px rgba(0,0,0,0.09), 0 12px 32px rgba(0,0,0,0.06);
+    --bg: #F5F4F0;
+    --bg2: #EDEAE3;
+    --bg3: #E5E1D9;
+    --border: rgba(28,27,22,0.13);
+    --border2: rgba(28,27,22,0.07);
+    --text: #1C1A18;
+    --text2: #6B6560;
+    --text3: #9E9994;
+    --topbar-bg: rgba(244,243,238,0.93);
+    --z-panel-bg: #EDEAE3;
+    --z-panel-shadow: 0 8px 24px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+    --z-duration-fast: 0.20s;
+    --z-duration-base: 0.28s;
+    --z-duration-slow: 0.38s;
+    --z-duration-pulse: 3.5s;
+    --z-ease-enter: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --z-ease-exit: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    --z-ease-spring: cubic-bezier(0.34, 1.06, 0.64, 1);
+    color-scheme: light;
+    --z-btn-clip: polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, 0 100%);
+    --z-btn-inner-clip: polygon(1px 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px));
+    --z-btn-corner: 10px;
+    --z-btn-active-scale: 0.97;
+    --z-btn-scan-stop: 38%;
+    --z-badge-clip: inset(0 round 3px);
+    --z-badge-radius: 3px;
+    --z-badge-padding: 0.19rem 0.75rem;
+    --z-badge-letter-spacing: 0.07em;
+    --z-badge-inset-shadow: inset 0 0 0 1px currentColor;
+    --z-badge-scan-duration: 9s;
+    --z-badge-inner-clip: inset(2px round 1px);
+    --z-alert-radius: 0 3px 3px 0;
+    --z-alert-bar-width: 2.5px;
+    --z-alert-prefix: "§ ";
+    --z-alert-bg-opacity: 5%;
+    --z-alert-border: 1px solid rgba(28,27,22,0.07);
+    --z-alert-prefix-opacity: 0.38;
+    --z-alert-bar-glow: none;
+    --z-alert-texture: none;
+    --z-alert-padding-top: 0.875rem;
+    --z-alert-padding-left: calc(1.25rem + var(--z-alert-bar-width));
+    --z-alert-bar-inset: 0 auto 0 0;
+    --z-alert-bar-w: var(--z-alert-bar-width);
+    --z-alert-bar-h: auto;
+    --z-alert-bar-radius: 0;
+    --z-card-clip: none;
+    --z-card-filter: none;
+    --z-card-texture: none;
+    --z-card-gradient: var(--z-surface-card);
+    --z-card-border-color: rgba(28,27,22,0.09);
+    --z-card-shadow: var(--z-shadow-card);
+    --z-card-bracket-color: transparent;
+    --z-card-bracket-size: 0px;
+    --z-card-bracket-stroke: 0px;
+    --z-card-bar-height: 2px;
+    --z-card-bar-bg: linear-gradient(90deg, var(--zyna) 0%, var(--zyna) 100%);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-card-bar-bg: linear-gradient(90deg, var(--zyna) 0%, color-mix(in oklch, var(--zyna) 0%, transparent) 100%);
+    }
+    --z-card-bar-shadow: none;
+    --z-card-header-bg: rgba(29,53,87,0.04);
+    --z-card-header-border: rgba(29,53,87,0.11);
+    --z-card-header-color: var(--zyna);
+    --z-card-header-letter-spacing: 0.08em;
+    --z-card-header-text-shadow: none;
+    --z-card-header-dot-size: 4px;
+    --z-card-header-dot-bg: var(--zyna);
+    --z-card-header-dot-shadow: none;
+    --z-card-header-dot-animation: none;
+    --z-card-title-text-shadow: none;
+    --z-card-glow-duration: 8s;
+    --z-card-default-glow-lo: rgba(29,53,87,0.03);
+    --z-card-default-glow-hi: rgba(29,53,87,0.08);
+    --z-topbar-border: rgba(28,27,22,0.09);
+    --z-topbar-glow: none;
+    --z-sidebar-active-shadow: inset 3px 0 0 var(--zyna);
+  }
+  :where(html[data-genre="corporate"]) :where(.badge-primary) {
+    --badge-bg: rgba(29,53,87,0.08);
+    --badge-glow: none;
+  }
+  :where(html[data-genre="corporate"]) :where(.badge-success) {
+    --badge-bg: rgba(26,107,69,0.08);
+    --badge-glow: none;
+  }
+  :where(html[data-genre="corporate"]) :where(.badge-danger) {
+    --badge-bg: rgba(163,22,33,0.08);
+    --badge-glow: none;
+  }
+  :where(html[data-genre="corporate"]) :where(.badge-warning) {
+    --badge-bg: rgba(146,107,0,0.08);
+    --badge-glow: none;
+  }
+  :where(html[data-genre="corporate"]) :where(.badge-info) {
+    --badge-bg: rgba(42,91,140,0.08);
+    --badge-glow: none;
+  }
+  :where(html[data-genre="corporate"]) :where(.badge-secondary) {
+    --badge-bg: rgba(28,26,24,0.06);
+    --badge-glow: none;
+  }
+  :where(html[data-genre="corporate"]) body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(rgba(29,53,87,0.045) 0 1px, transparent 1px 100%), repeating-linear-gradient(90deg, rgba(29,53,87,0.045) 0 1px, transparent 1px 100%);
+    background-size: 24px 24px;
   }
 }
 @layer base {

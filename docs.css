@@ -23,11 +23,16 @@
   --mono:      'DM Mono', 'Fira Code', monospace;
   --topbar-h:  64px;
   --sidebar-w: 260px;
+  --topbar-bg: rgba(12,12,15,0.92);  /* overridden by light genres via applyGenre() inline style */
 }
 
 html { font-family: var(--font); background: var(--bg); color: var(--text); }
 body { min-height: 100vh; overflow-x: hidden; }
 a { text-decoration: none; color: inherit; }
+/* btn anchors need explicit color — unlayered a{color:inherit} [0,0,1] beats @layer base
+   btn color rules. a.btn [0,1,1] unlayered wins over a [0,0,1] unlayered, letting
+   --btn-color (set per variant in @layer base) resolve correctly for light genres. */
+a.btn { color: var(--btn-color); }
 /* Scoped to non-zyna buttons only — unlayered rules beat @layer base, so applying
    background:none to all buttons would override .btn styles from the plugin. */
 button:not(.btn):not([class*="btn-"]) { cursor: pointer; font-family: inherit; border: none; background: none; }
@@ -41,7 +46,7 @@ pre, code { font-family: var(--mono); }
 #topbar {
   position: fixed; top: 0; left: 0; right: 0;
   height: var(--topbar-h); z-index: 96;
-  background: rgba(12,12,15,0.92);
+  background: var(--topbar-bg);
   /* --z-topbar-border / --z-topbar-glow: genre tokens — Cyberpunk adds neon accent */
   border-bottom: 1px solid var(--z-topbar-border, var(--border));
   box-shadow: var(--z-topbar-glow, none);
@@ -59,7 +64,7 @@ pre, code { font-family: var(--mono); }
   transition: background 300ms, border-color 300ms, backdrop-filter 300ms, box-shadow 300ms;
 }
 #topbar.topbar--hero.topbar--scrolled {
-  background: rgba(12,12,15,0.92);
+  background: var(--topbar-bg);
   border-bottom-color: var(--z-topbar-border, var(--border));
   box-shadow: var(--z-topbar-glow, none);
   backdrop-filter: blur(16px);
@@ -304,7 +309,7 @@ details summary::-webkit-details-marker { display: none; }
   color: var(--text2); border: 1px solid transparent;
   transition: color 150ms, background 150ms, border-color 150ms, box-shadow 150ms; margin-bottom: 0.1rem;
 }
-.sidebar-item:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+.sidebar-item:hover { color: var(--text); background: color-mix(in oklch, var(--text) 5%, transparent); }
 .sidebar-item[aria-current="page"],
 .sidebar-item.active {
   color: var(--brand); background: color-mix(in oklch, var(--brand) 8%, transparent);
@@ -376,7 +381,7 @@ body.nav-open #mobile-nav { display: flex; }
   font-size: 1.25rem; font-weight: 600; color: var(--text2); text-align: center;
   transition: color 150ms, background 150ms;
 }
-.mobile-nav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+.mobile-nav-link:hover { color: var(--text); background: color-mix(in oklch, var(--text) 5%, transparent); }
 
 /* ── Mobile off-canvas ── */
 @media (max-width: 1023px) {
@@ -559,12 +564,12 @@ pre {
 .genre-panel {
   position: absolute; top: calc(100% + 8px); right: 0;
   min-width: 180px;
-  background: rgba(12,11,20,0.97);
+  background: var(--z-panel-bg, rgba(12,11,20,0.97));
   border: 1px solid color-mix(in oklch, var(--brand) 25%, transparent);
   border-radius: var(--radius-sm);
   padding: 0.4rem;
   backdrop-filter: blur(16px);
-  box-shadow: 0 16px 48px rgba(0,0,0,0.7);
+  box-shadow: var(--z-panel-shadow, 0 16px 48px rgba(0,0,0,0.7));
   display: none; flex-direction: column; gap: 2px;
   z-index: 200;
 }
@@ -579,10 +584,10 @@ pre {
   color: var(--text2);
   transition: background 120ms, color 120ms;
 }
-.genre-option:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+.genre-option:hover { background: color-mix(in oklch, var(--text) 5%, transparent); color: var(--text); }
 .genre-option[aria-selected="true"] { color: var(--brand); }
 .genre-panel:focus-within .genre-option.is-active-descendant {
-  background: rgba(255,255,255,0.07);
+  background: color-mix(in oklch, var(--text) 7%, transparent);
   outline: 2px solid var(--brand);
   outline-offset: -2px;
 }
