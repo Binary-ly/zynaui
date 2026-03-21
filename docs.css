@@ -532,7 +532,7 @@ pre {
   color: var(--text2); vertical-align: top;
 }
 .api-table tr:last-child td { border-bottom: none; }
-.api-table tr:hover td { background: rgba(255,255,255,0.02); }
+.api-table tr:hover td { background: color-mix(in oklch, var(--text) 3%, transparent); }
 .t-var  { font-family: var(--mono); color: var(--brand); font-size: 0.78rem; }
 .t-type { font-family: var(--mono); color: #89DDFF; font-size: 0.75rem; }
 .t-def  { font-family: var(--mono); color: #C3E88D; font-size: 0.75rem; }
