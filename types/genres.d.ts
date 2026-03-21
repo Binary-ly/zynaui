@@ -96,3 +96,23 @@ export declare function registerGenre(genre: Genre): void
 
 /** All registered genres (built-in + any added via `registerGenre`). */
 export declare const GENRES: Genre[]
+
+/**
+ * Collect all registered genre styles into a Tailwind `addBase`-compatible object.
+ *
+ * Use this inside a custom Tailwind plugin to compile genre CSS into the build output:
+ *
+ * @example
+ * ```ts
+ * import plugin from 'tailwindcss/plugin'
+ * import { registerGenre, genresPlugin } from 'zynaui/genres'
+ * import myGenre from './my-genre.genre.js'
+ *
+ * registerGenre(myGenre)
+ *
+ * export default plugin(({ addBase }) => {
+ *   addBase(genresPlugin())
+ * })
+ * ```
+ */
+export declare function genresPlugin(): Record<string, Record<string, string>>

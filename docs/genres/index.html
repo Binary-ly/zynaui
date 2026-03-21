@@ -645,6 +645,325 @@
       background: color-mix(in oklch, #00FFB2 12%, transparent);
     }
 
+    .gb-fmt-tabs {
+      display: flex;
+      gap: 2px;
+    }
+    .gb-fmt-tab {
+      padding: 2px 10px;
+      font-size: 11px;
+      font-family: var(--mono);
+      background: transparent;
+      border: 1px solid color-mix(in oklch, var(--brand) 20%, transparent);
+      border-radius: 4px;
+      color: var(--brand);
+      cursor: pointer;
+      opacity: 0.5;
+      transition: opacity 0.15s;
+    }
+    .gb-fmt-tab.is-active,
+    .gb-fmt-tab:hover {
+      opacity: 1;
+    }
+    .gb-fmt-tab.is-active {
+      background: color-mix(in oklch, var(--brand) 10%, transparent);
+    }
+    .gb-code-actions {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .gb-download-btn {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--brand);
+      background: color-mix(in oklch, var(--brand) 10%, transparent);
+      border: 1px solid color-mix(in oklch, var(--brand) 30%, transparent);
+      border-radius: 3px;
+      padding: 0.18rem 0.6rem;
+      cursor: pointer;
+      transition: background 0.12s, box-shadow 0.12s;
+      opacity: 0.7;
+    }
+    .gb-download-btn:hover {
+      background: color-mix(in oklch, var(--brand) 18%, transparent);
+      box-shadow: 0 0 8px color-mix(in oklch, var(--brand) 20%, transparent);
+      opacity: 1;
+    }
+
+    /* ── Integration guide panel ── */
+    .gb-guide {
+      border-top: 1px dashed color-mix(in oklch, var(--brand) 18%, transparent);
+    }
+    .gb-guide-toggle {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      width: 100%;
+      padding: 8px 1.5rem;
+      background: transparent;
+      border: none;
+      color: color-mix(in oklch, var(--brand) 55%, transparent);
+      cursor: pointer;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-align: left;
+      transition: color 0.15s;
+    }
+    .gb-guide-toggle:hover { color: var(--brand); }
+    .gb-guide-toggle-ico { font-size: 0.65rem; }
+    .gb-guide-toggle-txt { flex: 1; }
+    .gb-guide-toggle-arr {
+      font-size: 0.75rem;
+      transition: transform 0.2s ease;
+      display: inline-block;
+    }
+    .gb-guide[data-open] .gb-guide-toggle-arr { transform: rotate(90deg); }
+    /* smooth expand via CSS grid trick */
+    .gb-guide-body {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.28s ease;
+    }
+    .gb-guide-body.is-open { grid-template-rows: 1fr; }
+    .gb-guide-inner { overflow: hidden; padding: 0 1.5rem 1.25rem; }
+    /* meta line */
+    .gb-guide-meta {
+      font-family: var(--mono);
+      font-size: 0.56rem;
+      letter-spacing: 0.07em;
+      opacity: 0.45;
+      margin-bottom: 0.9rem;
+      padding-top: 0.1rem;
+    }
+    /* stack tabs */
+    .gb-guide-stacks {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 1.1rem;
+      border-bottom: 1px solid color-mix(in oklch, var(--brand) 10%, transparent);
+      padding-bottom: 0.7rem;
+      flex-wrap: wrap;
+    }
+    .gb-stack-tab {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 3px;
+      padding: 3px 9px;
+      color: inherit;
+      cursor: pointer;
+      opacity: 0.4;
+      transition: opacity 0.15s, border-color 0.15s, background 0.15s;
+    }
+    .gb-stack-tab:hover { opacity: 0.8; }
+    .gb-stack-tab.is-active {
+      opacity: 1;
+      color: var(--brand);
+      border-color: color-mix(in oklch, var(--brand) 28%, transparent);
+      background: color-mix(in oklch, var(--brand) 7%, transparent);
+    }
+    /* file tree */
+    .gb-file-tree {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      line-height: 1.7;
+      margin: 0 0 1.1rem;
+      padding: 8px 12px;
+      background: color-mix(in oklch, var(--brand) 3%, var(--bg));
+      border: 1px solid color-mix(in oklch, var(--brand) 10%, transparent);
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+    .gb-tree-root { opacity: 0.45; }
+    .gb-tree-export {
+      color: var(--brand);
+    }
+    .gb-tree-mark {
+      opacity: 0.45;
+      font-style: italic;
+    }
+    /* steps */
+    .gb-guide-steps { display: flex; flex-direction: column; }
+    .gb-step { display: flex; gap: 12px; }
+    .gb-step-rail {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+      width: 26px;
+    }
+    .gb-step-num {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--brand);
+      background: color-mix(in oklch, var(--brand) 10%, transparent);
+      border: 1px solid color-mix(in oklch, var(--brand) 22%, transparent);
+      border-radius: 3px;
+      width: 24px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .gb-step-line {
+      flex: 1;
+      width: 1px;
+      background: color-mix(in oklch, var(--brand) 12%, transparent);
+      margin: 3px 0;
+      min-height: 12px;
+    }
+    .gb-step-content {
+      flex: 1;
+      padding-bottom: 1rem;
+    }
+    .gb-step:last-child .gb-step-content { padding-bottom: 0; }
+    .gb-step-hd {
+      display: flex;
+      align-items: baseline;
+      gap: 9px;
+      margin-bottom: 5px;
+      flex-wrap: wrap;
+    }
+    .gb-step-lbl {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+    .gb-step-file {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      color: var(--brand);
+      opacity: 0.75;
+    }
+    .gb-step-file-dec { margin-right: 3px; font-size: 0.5rem; }
+    .gb-step-terminal {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--brand);
+      opacity: 0.5;
+      border: 1px solid color-mix(in oklch, var(--brand) 20%, transparent);
+      border-radius: 2px;
+      padding: 1px 5px;
+    }
+    .gb-step-note {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      line-height: 1.55;
+      opacity: 0.6;
+      margin: 0 0 7px;
+    }
+    .gb-step-codeblock {
+      position: relative;
+      background: color-mix(in oklch, var(--brand) 3%, var(--bg));
+      border: 1px solid color-mix(in oklch, var(--brand) 10%, transparent);
+      border-radius: 3px;
+      margin-bottom: 5px;
+    }
+    .gb-step-pre {
+      margin: 0;
+      padding: 7px 42px 7px 10px;
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      line-height: 1.55;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .gb-step-copy {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      font-family: var(--mono);
+      font-size: 0.48rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      background: color-mix(in oklch, var(--brand) 8%, transparent);
+      border: 1px solid color-mix(in oklch, var(--brand) 18%, transparent);
+      border-radius: 2px;
+      padding: 2px 6px;
+      color: var(--brand);
+      cursor: pointer;
+      opacity: 0.65;
+      transition: opacity 0.12s;
+    }
+    .gb-step-copy:hover { opacity: 1; }
+    .gb-step-alt {
+      margin-top: 4px;
+    }
+    .gb-step-alt summary {
+      font-family: var(--mono);
+      font-size: 0.57rem;
+      opacity: 0.5;
+      cursor: pointer;
+      padding: 2px 0;
+      transition: opacity 0.12s;
+      list-style: none;
+    }
+    .gb-step-alt summary::-webkit-details-marker { display: none; }
+    .gb-step-alt summary::before { content: '›› '; color: var(--brand); }
+    .gb-step-alt summary:hover { opacity: 0.85; }
+    .gb-step-alt[open] summary::before { content: '›› '; }
+    /* no-bundler message */
+    .gb-guide-msg {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      line-height: 1.6;
+      padding: 11px 13px;
+      background: color-mix(in oklch, var(--brand) 4%, transparent);
+      border: 1px solid color-mix(in oklch, var(--brand) 15%, transparent);
+      border-radius: 4px;
+    }
+    .gb-guide-msg p { margin: 0 0 8px; opacity: 0.75; }
+    .gb-guide-msg p:last-of-type { margin-bottom: 10px; }
+    .gb-guide-hint { opacity: 0.55 !important; font-size: 0.58rem !important; }
+    .gb-guide-switch-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      background: color-mix(in oklch, var(--brand) 10%, transparent);
+      border: 1px solid color-mix(in oklch, var(--brand) 28%, transparent);
+      border-radius: 3px;
+      padding: 4px 10px;
+      color: var(--brand);
+      cursor: pointer;
+      transition: background 0.12s;
+      margin-top: 2px;
+    }
+    .gb-guide-switch-btn:hover { background: color-mix(in oklch, var(--brand) 18%, transparent); }
+    .gb-guide-options { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+    .gb-guide-option { display: flex; flex-direction: column; gap: 4px; }
+    .gb-guide-option-lbl {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      font-weight: 700;
+      opacity: 0.8;
+    }
+    .gb-guide-option-hint { font-size: 0.57rem !important; opacity: 0.5 !important; margin: 0 !important; }
+    .gb-guide-empty {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      opacity: 0.4;
+      margin: 0;
+    }
+
     .gb-code-pre {
       background: var(--bg);
       border: 1px solid var(--border);
@@ -1720,10 +2039,36 @@
 
         <div class="gb-code-main">
           <div class="gb-code-main-header">
-            <span class="gb-code-label">defineGenre() output</span>
-            <button class="gb-copy-btn" id="gb-copy">Copy</button>
+            <div class="gb-fmt-tabs" role="tablist" aria-label="Export format">
+              <button class="gb-fmt-tab is-active" data-fmt="js"   role="tab" aria-selected="true">JS</button>
+              <button class="gb-fmt-tab"            data-fmt="css"  role="tab" aria-selected="false">CSS</button>
+              <button class="gb-fmt-tab"            data-fmt="json" role="tab" aria-selected="false">JSON</button>
+            </div>
+            <div class="gb-code-actions">
+              <button class="gb-copy-btn" id="gb-copy">Copy</button>
+              <button class="gb-download-btn" id="gb-download">Download</button>
+            </div>
           </div>
           <pre class="gb-code-pre" id="gb-code"></pre>
+
+          <div class="gb-guide" id="gb-guide">
+            <button class="gb-guide-toggle" id="gb-guide-toggle" aria-expanded="false" aria-controls="gb-guide-body">
+              <span class="gb-guide-toggle-ico">◈</span>
+              <span class="gb-guide-toggle-txt">where does this go?</span>
+              <span class="gb-guide-toggle-arr">›</span>
+            </button>
+            <div class="gb-guide-body" id="gb-guide-body">
+              <div class="gb-guide-inner">
+                <div class="gb-guide-meta" id="gb-guide-meta"></div>
+                <div class="gb-guide-stacks" role="tablist" aria-label="Project type">
+                  <button class="gb-stack-tab is-active" data-stack="tw4"      role="tab" aria-selected="true">Tailwind v4</button>
+                  <button class="gb-stack-tab" data-stack="tailwind" role="tab" aria-selected="false">Tailwind v3</button>
+                  <button class="gb-stack-tab" data-stack="html"     role="tab" aria-selected="false">Plain HTML</button>
+                </div>
+                <div class="gb-guide-steps" id="gb-guide-steps"></div>
+              </div>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -2168,6 +2513,280 @@
     ])
 
     let _codeTimer = 0
+    let currentFormat = 'js'
+    const formats = { js: '', css: '', json: '' }
+    let currentStack = 'tw4'
+
+    const FORMAT_META = {
+      js:   'defineGenre() · requires a Tailwind build step · compiles structural CSS at build time',
+      css:  'CSS variables · paste into any stylesheet · no build step required for plain HTML',
+      json: 'portable snapshot · use programmatically · convert to JS or paste tokens into CSS',
+    }
+
+    function escHtml(s) {
+      if (typeof s !== 'string') return ''
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    }
+
+    function getFileTree(fmt, stack, slug) {
+      const f = `${slug}.genre.${fmt}`
+      const trees = {
+        js: {
+          tw4:      [`src/genres/${f}`, 'src/genres/zynaui-genres.plugin.js', 'src/input.css'],
+          tailwind: [`src/genres/${f}`, 'tailwind.config.js'],
+          html:     null,
+        },
+        css: {
+          tw4:      [`src/genres/${f}`, 'src/input.css'],
+          tailwind: [`src/genres/${f}`, 'src/input.css'],
+          html:     [f, 'index.html'],
+        },
+        json: {
+          tw4:      [`src/genres/${slug}.genre.json`, `src/genres/${slug}.genre.js`, 'src/genres/zynaui-genres.plugin.js'],
+          tailwind: [`src/genres/${slug}.genre.json`, `src/genres/${slug}.genre.js`, 'tailwind.config.js'],
+          html:     null,
+        },
+      }
+      return trees[fmt]?.[stack] || null
+    }
+
+    function renderFileTree(files) {
+      if (!files || !files.length) return ''
+      const lines = files.map((f, i) => {
+        const isLast = i === files.length - 1
+        const branch = isLast ? '└─ ' : '├─ '
+        const isExport = i === 0
+        const cls = isExport ? ' class="gb-tree-export"' : ''
+        return `<span${cls}>${branch}${escHtml(f)}${isExport ? '<span class="gb-tree-mark"> ← your export</span>' : ''}</span>`
+      }).join('\n')
+      return `<pre class="gb-file-tree"><span class="gb-tree-root">my-project/</span>\n${lines}</pre>`
+    }
+
+    function renderGuideStep(step, i, total) {
+      const isLast = i === total - 1
+      const fileBadge = step.file
+        ? `<span class="gb-step-file"><span class="gb-step-file-dec">◈</span>${escHtml(step.file)}</span>`
+        : (step.terminal ? `<span class="gb-step-terminal">terminal</span>` : '')
+      const codeHtml = step.code
+        ? `<div class="gb-step-codeblock"><pre class="gb-step-pre">${escHtml(step.code)}</pre><button class="gb-step-copy">Copy</button></div>`
+        : ''
+      const altHtml = step.alt
+        ? `<details class="gb-step-alt"><summary>${escHtml(step.alt.label)}</summary><div class="gb-step-codeblock"><pre class="gb-step-pre">${escHtml(step.alt.code)}</pre><button class="gb-step-copy">Copy</button></div></details>`
+        : ''
+      return `<div class="gb-step">
+        <div class="gb-step-rail">
+          <span class="gb-step-num">${escHtml(step.num)}</span>
+          ${isLast ? '' : '<span class="gb-step-line"></span>'}
+        </div>
+        <div class="gb-step-content">
+          <div class="gb-step-hd">
+            <span class="gb-step-lbl">${escHtml(step.label)}</span>${fileBadge}
+          </div>
+          ${step.note ? `<p class="gb-step-note">${escHtml(step.note)}</p>` : ''}
+          ${codeHtml}${altHtml}
+        </div>
+      </div>`
+    }
+
+    function getGuideSteps(fmt, stack, name, slug) {
+      const f  = `${slug}.genre.${fmt}`
+      const v  = slug.replace(/-([a-z])/g, (_, c) => c.toUpperCase()) // camelCase var name
+      const G = {
+        js: {
+          // Tailwind v4: CSS-first config, no tailwind.config.js, plugins via @plugin
+          tw4: [
+            { num:'01', label:'Save the file', file:`src/genres/${f}`,
+              note:`Drop the downloaded file here. The path is just a convention; adapt it to match your project structure. The file itself needs no edits.` },
+            { num:'02', label:'Create a plugin wrapper', file:'src/genres/zynaui-genres.plugin.js',
+              note:`Tailwind v4 replaced tailwind.config.js with CSS-first config. Plugins are now loaded via @plugin in your CSS entry file. Create this wrapper once. Add more genres to it as needed.`,
+              code:`import plugin from 'tailwindcss/plugin'\nimport { registerGenre, genresPlugin } from 'zynaui/genres'\nimport ${v} from './${f}'\n\nregisterGenre(${v})\n\nexport default plugin(({ addBase }) => {\n  addBase(genresPlugin())\n})` },
+            { num:'03', label:'Load in your CSS entry file', file:'src/input.css',
+              note:`Load your genres plugin before zynaui so the genre is registered when zynaui initialises. Order matters here.`,
+              code:`@import "tailwindcss";\n@plugin "./src/genres/zynaui-genres.plugin.js";\n@plugin "zynaui";` },
+            { num:'04', label:`Activate "${name}"`, file:'your root layout or template',
+              note:`Add data-genre="${slug}" to your <html> element, wherever that lives in your project (index.html, app/layout.tsx, app.blade.php, etc.). The compiled rule html[data-genre="${slug}"] takes effect as soon as the attribute is present.`,
+              code:`<html data-genre="${slug}" lang="en">\n  <!-- ... -->\n</html>`,
+              alt:{ label:'Or switch genres at runtime with JavaScript',
+                    code:`// Switch genre at runtime — no import needed\ndocument.documentElement.setAttribute('data-genre', '${slug}')` } },
+          ],
+          // Tailwind v3: JavaScript config, plugins array, content globs
+          tailwind: [
+            { num:'01', label:'Save the file', file:`src/genres/${f}`,
+              note:`Drop the downloaded file here. The exact path doesn't matter as long as the import in step 2 matches.` },
+            { num:'02', label:'Register in tailwind.config.js', file:'tailwind.config.js',
+              note:`Import your genre and call registerGenre() before the plugin runs. That's what compiles ${name}'s structural CSS into your output stylesheet. Update the content globs to match your project structure.`,
+              code:`import { registerGenre } from 'zynaui/genres'\nimport ${v} from './src/genres/${f}'\n\nregisterGenre(${v})\n\nexport default {\n  content: [\n    // adapt these paths to your project:\n    './src/**/*.{html,js,ts,jsx,tsx,vue,svelte}',\n    './**/*.blade.php',\n  ],\n  plugins: [require('zynaui')],\n}` },
+            { num:'03', label:'Rebuild', terminal:true,
+              note:`Rebuild your CSS.`,
+              code:`npm run build` },
+            { num:'04', label:`Activate "${name}"`, file:'your root layout or template',
+              note:`Add data-genre="${slug}" to your <html> element, wherever that lives in your project. The compiled rule html[data-genre="${slug}"] takes effect as soon as the attribute is present.`,
+              code:`<html data-genre="${slug}" lang="en">\n  <!-- ... -->\n</html>`,
+              alt:{ label:'Or switch genres at runtime with JavaScript',
+                    code:`// Switch genre at runtime — no import needed\ndocument.documentElement.setAttribute('data-genre', '${slug}')` } },
+          ],
+          html: { _type:'no-bundler',
+            message:`The JS export uses defineGenre(), a build-time function. It needs Tailwind to compile the structural CSS into your stylesheet first. Plain HTML has no build step, so this format won't work on its own.`,
+            hint:`The CSS export has the same token values as CSS rules that work in any HTML file without a build step.`,
+            switchTo:'css' },
+        },
+        css: {
+          // Tailwind v4: @import in CSS entry after @plugin directives
+          tw4: [
+            { num:'01', label:'Save the file', file:`src/genres/${f}`,
+              note:`Save the CSS file anywhere in your project, then match the path in step 2. It has two blocks: :root {} for global tokens and html[data-genre="${slug}"] {} for structural tokens. No JS registration needed.` },
+            { num:'02', label:'Import in your CSS entry file', file:'your CSS entry file',
+              note:`Add @import after your @plugin lines. In v4 this is typically your main .css file where @import "tailwindcss" lives.`,
+              code:`@import "tailwindcss";\n@plugin "zynaui";\n@import "./genres/${f}"; /* adjust path to match step 1 */` },
+            { num:'03', label:'Rebuild', terminal:true,
+              note:`Compile the updated stylesheet.`,
+              code:`npm run build` },
+            { num:'04', label:`Activate "${name}"`, file:'your root layout or template',
+              note:`Add data-genre="${slug}" to <html>. The selector html[data-genre="${slug}"] is already in your compiled CSS and takes effect as soon as the attribute is there.`,
+              code:`<html data-genre="${slug}" lang="en">\n  <!-- ... -->\n</html>` },
+          ],
+          // Tailwind v3: @import before @tailwind directives in PostCSS entry
+          tailwind: [
+            { num:'01', label:'Save the file', file:`src/genres/${f}`,
+              note:`Save the CSS file anywhere, then match the path in step 2. It has two blocks: :root {} for global tokens and html[data-genre="${slug}"] {} for structural tokens.` },
+            { num:'02', label:'Import in your CSS entry file', file:'your CSS entry file',
+              note:`Add @import at the top of your PostCSS/Tailwind entry file, before the @tailwind directives. Use the path from step 1.`,
+              code:`@import './${f}'; /* adjust path as needed */\n\n@tailwind base;\n@tailwind components;\n@tailwind utilities;` },
+            { num:'03', label:'Rebuild', terminal:true,
+              note:`Recompile your stylesheet to include the genre rules.`,
+              code:`npm run build` },
+            { num:'04', label:`Activate "${name}"`, file:'your root layout or template',
+              note:`Add data-genre="${slug}" to <html>. The selector html[data-genre="${slug}"] is already in your compiled CSS.`,
+              code:`<html data-genre="${slug}" lang="en">\n  <!-- ... -->\n</html>` },
+          ],
+          // Plain HTML: no build step, link the file directly
+          html: [
+            { num:'01', label:'Save the file', file:f,
+              note:`Save the CSS file anywhere. The same folder as your HTML file is simplest, but any path works as long as step 2 matches.` },
+            { num:'02', label:'Link the stylesheet', file:'index.html',
+              note:`Add two <link> tags in <head>: one for the zynaui component library and one for your genre file. No build step needed.`,
+              code:`<head>\n  <!-- zynaui component library -->\n  <link rel="stylesheet" href="./zynaui.css">\n  <!-- your ${name} genre -->\n  <link rel="stylesheet" href="./${f}">\n</head>` },
+            { num:'03', label:`Activate "${name}"`, file:'index.html',
+              note:`Add data-genre="${slug}" to <html>. The genre turns on immediately. No JavaScript or build step needed.`,
+              code:`<html data-genre="${slug}" lang="en">\n  <head>...</head>\n  <body>...</body>\n</html>`,
+              alt:{ label:`Scope genre to a specific section only`,
+                    code:`<!-- genre only applies inside this container -->\n<div data-genre="${slug}">\n  <button class="btn btn-primary">Scoped to this section</button>\n</div>` } },
+          ],
+        },
+        json: {
+          // Tailwind v4: JS wrapper → plugin wrapper → @plugin in CSS
+          tw4: [
+            { num:'01', label:'Save the JSON file', file:`src/genres/${slug}.genre.json`,
+              note:`Commit this file. It's the definitive record of ${name}'s tokens and styles, and since it's plain JSON it diffs cleanly in version control.` },
+            { num:'02', label:'Create a JS wrapper', file:`src/genres/${slug}.genre.js`,
+              note:`Create this file. It passes the JSON to defineGenre() and returns the genre object the plugin wrapper expects.`,
+              code:`import { defineGenre } from 'zynaui/genres'\nimport data from './${slug}.genre.json' with { type: 'json' }\n\nexport default defineGenre(data)` },
+            { num:'03', label:'Create a plugin wrapper', file:'src/genres/zynaui-genres.plugin.js',
+              note:`This file registers your genre and emits all genre CSS via addBase(). Create it once. You can add more genres to it later.`,
+              code:`import plugin from 'tailwindcss/plugin'\nimport { registerGenre, genresPlugin } from 'zynaui/genres'\nimport ${v} from './${slug}.genre.js'\n\nregisterGenre(${v})\n\nexport default plugin(({ addBase }) => {\n  addBase(genresPlugin())\n})` },
+            { num:'04', label:'Load in your CSS entry file', file:'your CSS entry file',
+              note:`Load your genres plugin before zynaui, then activate with data-genre on <html>.`,
+              code:`@import "tailwindcss";\n@plugin "./src/genres/zynaui-genres.plugin.js";\n@plugin "zynaui";\n\n/* then in your root layout: <html data-genre="${slug}"> */` },
+          ],
+          // Tailwind v3: JS wrapper → tailwind.config.js
+          tailwind: [
+            { num:'01', label:'Save the JSON file', file:`src/genres/${slug}.genre.json`,
+              note:`Commit this file as ${name}'s genre definition. Plain JSON diffs cleanly and is easy to pass around.` },
+            { num:'02', label:'Create a JS wrapper', file:`src/genres/${slug}.genre.js`,
+              note:`Create this file. It imports the JSON and passes it to defineGenre(), which is the format tailwind.config.js expects.`,
+              code:`import { defineGenre } from 'zynaui/genres'\nimport data from './${slug}.genre.json' with { type: 'json' }\n\nexport default defineGenre(data)` },
+            { num:'03', label:'Register in tailwind.config.js', file:'tailwind.config.js',
+              note:`Import the wrapper and register it. Update the content globs to match your project structure.`,
+              code:`import { registerGenre } from 'zynaui/genres'\nimport ${v} from './src/genres/${slug}.genre.js'\n\nregisterGenre(${v})\n\nexport default {\n  content: [\n    // adapt to your project:\n    './src/**/*.{html,js,ts,jsx,tsx,vue,svelte}',\n    './**/*.blade.php',\n  ],\n  plugins: [require('zynaui')],\n}` },
+            { num:'04', label:'Build and activate', file:'your root layout or template',
+              note:`Run the build, then add data-genre="${slug}" to <html>.`,
+              code:`<html data-genre="${slug}" lang="en">\n  <!-- ... -->\n</html>`,
+              alt:{ label:'Terminal: run the build', code:`npm run build` } },
+          ],
+          html: { _type:'no-bundler',
+            message:`JSON is a data format, not a stylesheet. You can't link it directly in HTML. Two options:`,
+            options:[
+              { label:'Switch to the CSS export',
+                hint:'The CSS export has all the same rules. Link it as a file or paste it into a stylesheet. No build step.',
+                switchTo:'css' },
+              { label:'Apply tokens manually',
+                hint:'Quick prototype: copy the "tokens" values from the JSON into a <style> :root {} block in your HTML.',
+                code:`<style>\n  :root {\n    /* paste values from the "tokens" object in the JSON here */\n    /* example: --zyna: oklch(0.7 0.2 240); */\n  }\n</style>` },
+            ] },
+        },
+      }
+      return G[fmt]?.[stack] || null
+    }
+
+    function buildGuide() {
+      const el     = document.getElementById('gb-guide-steps')
+      const metaEl = document.getElementById('gb-guide-meta')
+      const body   = document.getElementById('gb-guide-body')
+      if (!el || !body || !body.classList.contains('is-open')) return
+
+      const name = state.name || 'Custom'
+      const slug = name.toLowerCase().replace(/\s+/g, '-')
+
+      if (metaEl) metaEl.textContent = FORMAT_META[currentFormat] || ''
+
+      const steps = getGuideSteps(currentFormat, currentStack, name, slug)
+
+      if (!steps) {
+        el.innerHTML = '<p class="gb-guide-empty">No guide available for this combination.</p>'
+        return
+      }
+
+      if (steps._type === 'no-bundler') {
+        let html = `<div class="gb-guide-msg"><p>${escHtml(steps.message)}</p>`
+        if (steps.hint)     html += `<p class="gb-guide-hint">${escHtml(steps.hint)}</p>`
+        if (steps.switchTo) html += `<button class="gb-guide-switch-btn" data-switch="${escHtml(steps.switchTo)}">↳ switch to ${escHtml(steps.switchTo.toUpperCase())} export</button>`
+        if (steps.options) {
+          html += '<div class="gb-guide-options">'
+          steps.options.forEach(opt => {
+            html += `<div class="gb-guide-option">`
+            if (opt.switchTo) html += `<button class="gb-guide-switch-btn" data-switch="${escHtml(opt.switchTo)}">↳ ${escHtml(opt.label)}</button>`
+            else html += `<span class="gb-guide-option-lbl">${escHtml(opt.label)}</span>`
+            html += `<p class="gb-guide-option-hint gb-step-note">${escHtml(opt.hint)}</p>`
+            if (opt.code) html += `<div class="gb-step-codeblock"><pre class="gb-step-pre">${escHtml(opt.code)}</pre><button class="gb-step-copy">Copy</button></div>`
+            html += `</div>`
+          })
+          html += '</div>'
+        }
+        html += '</div>'
+        el.innerHTML = html
+      } else {
+        const tree = getFileTree(currentFormat, currentStack, slug)
+        el.innerHTML = renderFileTree(tree) + steps.map((step, i) => renderGuideStep(step, i, steps.length)).join('')
+      }
+
+      // wire copy buttons in guide
+      el.querySelectorAll('.gb-step-copy').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const pre = btn.closest('.gb-step-codeblock')?.querySelector('.gb-step-pre')
+          if (!pre) return
+          try {
+            await navigator.clipboard.writeText(pre.textContent.trim())
+            const orig = btn.textContent
+            btn.textContent = '✓'
+            setTimeout(() => { btn.textContent = orig }, 1500)
+          } catch {}
+        })
+      })
+
+      // wire format-switch buttons
+      el.querySelectorAll('[data-switch]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const fmt = btn.dataset.switch
+          currentFormat = fmt
+          document.querySelectorAll('.gb-fmt-tab').forEach(t => {
+            t.classList.toggle('is-active', t.dataset.fmt === fmt)
+            t.setAttribute('aria-selected', t.dataset.fmt === fmt ? 'true' : 'false')
+          })
+          renderFormat()
+        })
+      })
+    }
+
     function scheduleCodeUpdate(bw, bh, bdgW, bdgH) {
       clearTimeout(_codeTimer)
       _codeTimer = setTimeout(() => updateCode(bw, bh, bdgW, bdgH), 0)
@@ -2295,35 +2914,70 @@
       const hasTokenDiff  = Object.keys(tokenDiff).length > 0
       const hasStylesDiff = Object.keys(stylesDiff).length > 0
 
-      const codeEl = document.getElementById('gb-code')
-
       if (!hasTokenDiff && !hasStylesDiff) {
-        codeEl.innerHTML = highlight(
-          `import { defineGenre } from 'zynaui/genres'\n\n// No overrides — identical to Ops defaults\nexport default defineGenre({\n  name: '${name}',\n})`
-        )
-        return
+        formats.js = `import { defineGenre } from 'zynaui/genres'\n\n// No overrides — identical to Ops defaults\nexport default defineGenre({\n  name: '${name}',\n})`
+      } else {
+        const lines = [
+          `import { defineGenre } from 'zynaui/genres'\n`,
+          `export default defineGenre({`,
+          `  name: '${name}',`,
+        ]
+        if (hasTokenDiff) {
+          lines.push(`  tokens: {`)
+          Object.entries(tokenDiff).forEach(([k, v]) => lines.push(`    '${k}': '${v}',`))
+          lines.push(`  },`)
+        }
+        if (hasStylesDiff) {
+          lines.push(`  styles: {`)
+          lines.push(`    'html[data-genre="${slug}"]': {`)
+          Object.entries(stylesDiff).forEach(([k, v]) => lines.push(`      '${k}': '${v}',`))
+          lines.push(`    },`)
+          lines.push(`  },`)
+        }
+        lines.push(`})`)
+        formats.js = lines.join('\n')
       }
 
-      const lines = [
-        `import { defineGenre } from 'zynaui/genres'\n`,
-        `export default defineGenre({`,
-        `  name: '${name}',`,
-      ]
-      if (hasTokenDiff) {
-        lines.push(`  tokens: {`)
-        Object.entries(tokenDiff).forEach(([k, v]) => lines.push(`    '${k}': '${v}',`))
-        lines.push(`  },`)
-      }
-      if (hasStylesDiff) {
-        lines.push(`  styles: {`)
-        lines.push(`    'html[data-genre="${slug}"]': {`)
-        Object.entries(stylesDiff).forEach(([k, v]) => lines.push(`      '${k}': '${v}',`))
-        lines.push(`    },`)
-        lines.push(`  },`)
-      }
-      lines.push(`})`)
+      // CSS format — full snapshot
+      const cssLines = [`:root {`]
+      GLOBAL_TOKEN_KEYS.forEach(k => {
+        if (k === '--zyna-dark' && state['--zyna']) {
+          cssLines.push(`  ${k}: ${darken(state['--zyna'], 0.45)};`)
+        } else if (k in state) {
+          cssLines.push(`  ${k}: ${getTokenValue(k)};`)
+        }
+      })
+      cssLines.push(`}`, ``, `html[data-genre="${slug}"] {`)
+      // all non-global resolved tokens from diff + cssKeys full set
+      const allResolved = {}
+      cssKeys.forEach(k => { if (!GLOBAL_TOKEN_KEYS.has(k)) allResolved[k] = getTokenValue(k) })
+      // also include any shape/virtual expansions already in stylesDiff
+      Object.entries(stylesDiff).forEach(([k, v]) => { allResolved[k] = v })
+      Object.entries(allResolved).forEach(([k, v]) => cssLines.push(`  ${k}: ${v};`))
+      cssLines.push(`}`)
+      formats.css = cssLines.join('\n')
 
-      codeEl.innerHTML = highlight(lines.join('\n'))
+      // JSON format — full snapshot
+      const jsonTokens = {}
+      GLOBAL_TOKEN_KEYS.forEach(k => {
+        if (k === '--zyna-dark' && state['--zyna']) jsonTokens[k] = darken(state['--zyna'], 0.45)
+        else if (k in state) jsonTokens[k] = getTokenValue(k)
+      })
+      const jsonStyles = {}
+      Object.entries(allResolved).forEach(([k, v]) => { jsonStyles[k] = v })
+      formats.json = JSON.stringify({ name, tokens: jsonTokens, styles: { [`html[data-genre="${slug}"]`]: jsonStyles } }, null, 2)
+
+      renderFormat()
+    }
+
+    function renderFormat() {
+      const codeEl = document.getElementById('gb-code')
+      if (currentFormat === 'js') {
+        codeEl.innerHTML = highlight(formats.js)
+      } else {
+        codeEl.textContent = formats[currentFormat]
+      }
+      buildGuide()
     }
 
     // ── Syntax highlighting ──────────────────────────────────────────────────
@@ -2915,14 +3569,68 @@
     wireRange('gb-card-glow',   'lbl-card-glow',     '--z-card-glow-duration',   v => v+'s')
 
     document.getElementById('gb-copy').addEventListener('click', async () => {
-      const code = document.getElementById('gb-code').textContent
       try {
-        await navigator.clipboard.writeText(code)
+        await navigator.clipboard.writeText(formats[currentFormat])
         const btn = document.getElementById('gb-copy')
         btn.textContent = 'Copied!'
         btn.classList.add('copied')
         setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied') }, 1800)
       } catch {}
+    })
+
+    document.querySelector('.gb-fmt-tabs').addEventListener('click', e => {
+      const btn = e.target.closest('.gb-fmt-tab')
+      if (!btn) return
+      currentFormat = btn.dataset.fmt
+      document.querySelectorAll('.gb-fmt-tab').forEach(t => {
+        t.classList.toggle('is-active', t === btn)
+        t.setAttribute('aria-selected', t === btn ? 'true' : 'false')
+      })
+      renderFormat()
+    })
+
+    document.getElementById('gb-download').addEventListener('click', () => {
+      const ext  = { js: 'js', css: 'css', json: 'json' }[currentFormat]
+      const mime = { js: 'text/javascript', css: 'text/css', json: 'application/json' }[currentFormat]
+      const name = (state.name || 'genre').toLowerCase().replace(/\s+/g, '-')
+      const blob = new Blob([formats[currentFormat]], { type: mime })
+      const url  = URL.createObjectURL(blob)
+      const a    = Object.assign(document.createElement('a'), { href: url, download: `${name}.genre.${ext}` })
+      a.click()
+      URL.revokeObjectURL(url)
+
+      // Auto-open the guide so the user immediately sees where to put the file
+      const guideBody   = document.getElementById('gb-guide-body')
+      const guideToggle = document.getElementById('gb-guide-toggle')
+      const guideEl     = document.getElementById('gb-guide')
+      if (guideBody && !guideBody.classList.contains('is-open')) {
+        guideBody.classList.add('is-open')
+        guideToggle?.setAttribute('aria-expanded', 'true')
+        guideEl?.setAttribute('data-open', '')
+        buildGuide()
+        setTimeout(() => guideEl?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50)
+      }
+    })
+
+    // ── Guide toggle ─────────────────────────────────────────────────────────
+    document.getElementById('gb-guide-toggle')?.addEventListener('click', () => {
+      const guideBody = document.getElementById('gb-guide-body')
+      const guideEl   = document.getElementById('gb-guide')
+      const isOpen    = guideBody.classList.toggle('is-open')
+      document.getElementById('gb-guide-toggle').setAttribute('aria-expanded', String(isOpen))
+      guideEl.toggleAttribute('data-open', isOpen)
+      if (isOpen) buildGuide()
+    })
+
+    document.querySelector('.gb-guide-stacks')?.addEventListener('click', e => {
+      const btn = e.target.closest('.gb-stack-tab')
+      if (!btn) return
+      currentStack = btn.dataset.stack
+      document.querySelectorAll('.gb-stack-tab').forEach(t => {
+        t.classList.toggle('is-active', t === btn)
+        t.setAttribute('aria-selected', t === btn ? 'true' : 'false')
+      })
+      buildGuide()
     })
 
     // Genre switch listener — load genre tokens into state + sync UI
