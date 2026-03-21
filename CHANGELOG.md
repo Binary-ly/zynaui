@@ -4,6 +4,21 @@ All notable changes to ZynaUI are documented here.
 
 ---
 
+## [0.1.7-beta] (2026-03-22)
+
+### Search
+
+- Fixed contextual boost applying to zero-match queries — unrelated searches no longer return false 100% results
+- Removed fabricated CSS token names from the search index; all component token arrays now reflect actual compiled tokens
+- Removed non-compiled variant classes (`btn-plasma`, `badge-plasma`, `card-cyber`, `alert-plasma`) from the index — these are custom-example classes defined in docs pages, not in `dist/zynaui.css`
+
+### Roadmap
+
+- Added 4 planned light genres: Blueprint "SCHEMATIC", Washi "BRUSHWORK", Laboratory "LABBOOK", Atelier "MAISON"
+- Marked Playwright visual regression suite as done
+
+---
+
 ## [0.1.6-beta] (2026-03-21)
 
 ### Military genre
