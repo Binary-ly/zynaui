@@ -763,8 +763,8 @@ function runSearch(query, currentPath) {
       }
     }
 
-    // Contextual boost — same section as current page
-    if (doc.section === currentSection) score += 20
+    // Contextual boost — same section as current page (only when there's a real match)
+    if (score > 0 && doc.section === currentSection) score += 20
 
     return { doc, score }
   })
