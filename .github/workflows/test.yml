@@ -13,3 +13,30 @@ jobs:
       - run: npm ci
       - run: npm run test:plugin
       - run: npm run test:charts
+
+  visual-tests:
+    # macOS runner matches baseline generation environment.
+    # Chromium renders via Skia (cross-platform) but system font fallbacks
+    # differ between OSes — using macos-latest keeps pixel output identical
+    # to developer machines and avoids false failures from OS rendering diffs.
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install chromium
+      - run: npm run build:css
+      - run: npm run test:visual
+
+      # Always upload the HTML report so reviewers can download it and inspect
+      # visual diffs — even if all tests pass (useful for reviewing baseline
+      # updates committed alongside a visual fix PR).
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30

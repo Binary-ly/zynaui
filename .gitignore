@@ -9,3 +9,5 @@ composer.json
 .vscode/
 *.php
 docs/zynaui.css
+playwright-report/
+test-results/
