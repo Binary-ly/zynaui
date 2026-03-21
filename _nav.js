@@ -1,5 +1,6 @@
 import { GENRES, applyGenre, loadGenre } from './_genres.js'
 import './_search.js'
+import { version } from './_version.js'
 
 // Apply genre immediately (before DOMContentLoaded) to prevent FOUC
 loadGenre()
@@ -106,7 +107,7 @@ function topbarHTML(currentPath) {
       <button class="scan-trigger" id="scan-trigger" type="button" aria-label="Search (⌘K)">
         <span>[ SCAN ]</span><kbd>⌘K</kbd>
       </button>
-      <span class="badge-version">v0.1.2-beta</span>
+      <span class="badge-version">v${version}</span>
       <div class="genre-selector" id="genre-selector">
         <button class="genre-trigger" id="genre-trigger" aria-haspopup="listbox" aria-controls="genre-panel" aria-expanded="false">
           <span class="genre-trigger-label">[ <span id="genre-active-name">OPS</span> ]</span>
