@@ -256,6 +256,9 @@
         <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.25rem">Override only the variables you need. The cyan "cyber" example below creates an electric-blue card.</p>
         <style>
           .card-cyber {
+            /* card bg is always dark — force light text regardless of genre's --zp-text */
+            --z-color-text-solid: rgba(220,248,255,0.88);
+            --z-color-text-muted: rgba(220,248,255,0.55);
             --card-gradient:          linear-gradient(145deg, rgba(0,20,30,0.97) 0%, rgba(0,10,18,0.97) 100%);
             --card-border-color:      rgba(0,212,255,0.22);
             --card-shadow:            0 0 0 1px rgba(0,212,255,0.15), 0 8px 32px rgba(0,0,0,0.6);

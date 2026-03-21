@@ -27,36 +27,8 @@
   <link rel="stylesheet" href="./docs.css" />
   <script type="module" src="./_nav.js"></script>
   <style>
-    :root {
-      --bg:       #0C0C0F;
-      --bg2:      #12121A;
-      --bg3:      #1A1A24;
-      --border:   #252530;
-      --border2:  #1A1A28;
-      --text:     #F0EBE0;
-      --text2:    #A09888;
-      --text3:    #6A6460;
-      --brand:    var(--zyna);
-      --brand-d:  var(--zyna-dark);
-      --brand-l:  color-mix(in oklch, var(--zyna) 70%, white);
-      --green:    #2D8C4E;
-      --red:      #C0392B;
-      --blue:     #009EDB;
-      --radius:   0.75rem;
-      --radius-sm:0.5rem;
-      --font:     'Outfit', system-ui, sans-serif;
-      --mono:     'DM Mono', 'Fira Code', monospace;
-    }
-    html { font-family: var(--font); background: var(--bg); color: var(--text); }
-    body { min-height: 100vh; overflow-x: hidden; }
-    a { text-decoration: none; color: inherit; }
-    button { cursor: pointer; font-family: inherit; }
-    pre, code { font-family: var(--mono); }
-
-    /* ── Scrollbar ── */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    /* Base resets (:root, html, body, a, scrollbar, pre/code) live in docs.css,
+       which is already linked above. Only landing-page-specific styles live here. */
 
     /* ── Noise texture overlay ── */
     body::before {
