@@ -231,6 +231,17 @@ export const styles = {
     '--badge-glow': 'drop-shadow(0 0 4px color-mix(in oklch, var(--zyna) 40%, transparent))',
   },
 
+  // ── Badge animation easing overrides ──────────────────────────────────────
+  // steps() is right for hover interactions (typewriter snap), but wrong for
+  // continuous background animations. Phosphor glows and fades smoothly —
+  // the pulse ring and scan sweep must use smooth easing, not discrete steps.
+  ':where(html[data-genre="phosphor"]) :where(.badge)::after': {
+    animation: 'zyna-badge-scan var(--z-badge-scan-duration) linear infinite',
+  },
+  ':where(html[data-genre="phosphor"]) :where(.badge-pulse)::before': {
+    animation: 'zyna-pulse-ring var(--z-duration-pulse) ease-in-out infinite',
+  },
+
   // ── CRT phosphor overlay — scanlines + radial vignette ────────────────────
   // Horizontal scanlines: authentic CRT raster line structure, 1 px every 3 px.
   // Radial vignette: barrel distortion — the glass darkens at the CRT bezel edges.
