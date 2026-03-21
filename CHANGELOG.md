@@ -4,6 +4,25 @@ All notable changes to ZynaUI are documented here.
 
 ---
 
+## [0.1.4-beta] (2026-03-21)
+
+### Corporate genre
+
+- New built-in genre: **Corporate "LEDGER"** — warm ivory surfaces (`#F5F4F0`), institutional navy brand (`#1D3557`), document dog-ear button shape, graph-paper grid page texture at 4.5% opacity, `§` legal alert prefix, tight typographic spacing
+- `color-scheme: light` applied to flip browser chrome (scrollbars, form controls) in light mode
+- Topbar, sidebar, genre panel, and all hover states adapted for light mode using `color-mix` (no hardcoded white overlays)
+- Badge variants (primary, success, danger, warning, info, secondary) set to transparent fill with `currentColor` border — no glow
+- Badge slant and bevel shapes switch to inner-clip border model: rectangular `box-shadow: inset` was cutting at diagonal corners; inner-clip traces the polygon exactly with a 1px strip
+- Card header, card glow, alert bar, and sidebar active indicator tuned for light backgrounds
+- SVG logo Z path changed from hardcoded `#f0ebe0` to `var(--text)` to adapt across light and dark genres
+
+### Docs
+
+- Genre builder now syncs to the active genre on page load — previously always initialized to Ops if the `zyna-genre` event fired before the listener registered
+- Mobile nav overlay and sidebar off-canvas shadow changed from hardcoded black `rgba(0,0,0,…)` to `color-mix(in oklch, var(--text) X%, transparent)` — correct on both dark and light genres
+
+---
+
 ## [0.1.3-beta.1] (2026-03-21)
 
 ### Signal Acquisition Search
