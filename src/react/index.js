@@ -26,7 +26,7 @@ function useZyna() {
   useEffect(_inject, [])
 }
 
-export function ZynaWaffle({ data, cols = 10, gap = 2, color, theme, ...rest }) {
+export function ZynaWaffle({ data, cols = 10, gap = 3, color, theme, ...rest }) {
   useZyna()
   return createElement('zyna-waffle', {
     data: JSON.stringify(data),
