@@ -1420,7 +1420,7 @@
     --z-alert-bar-inset: 0 auto 0 0;
     --z-alert-bar-w: var(--z-alert-bar-width);
     --z-alert-bar-h: auto;
-    --z-alert-bar-radius: var(--z-alert-radius) 0 0 var(--z-alert-radius);
+    --z-alert-bar-radius: 3px 0 0 3px;
     --z-card-clip: none;
     --z-card-filter: none;
     --z-card-texture: linear-gradient(transparent, transparent);
