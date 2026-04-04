@@ -48,8 +48,12 @@ export class ZynaOrbital extends ZynaChart {
 
     const cx      = W / 2, cy = H / 2
     const outerR  = Math.min(cx, cy) * 0.80
-    const spacing = outerR * 0.21
     const ringTW  = rtAttr > 0 ? outerR * rtAttr : outerR * 0.115
+    // Adapt spacing so all rings stay above a positive radius regardless of data length.
+    // For ≤5 items the default 0.21 factor is unchanged; for more items it scales down.
+    const spacing = data.length > 1
+      ? Math.min(outerR * 0.21, (outerR - ringTW) / (data.length - 1))
+      : outerR * 0.21
     const radii   = data.map((_, i) => outerR - i * spacing)
 
     // _uid is inherited from ZynaChart — stable across renders for the same element.

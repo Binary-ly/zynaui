@@ -105,9 +105,10 @@ export class ZynaNightingale extends ZynaChart {
           .attr('cx', ex).attr('cy', ey).attr('r', 3).attr('fill', color)
       })
 
-    // Centre cap — select-or-create so it doesn't stack on every resize.
+    // Centre cap — select-or-create, then raise to stay on top of any newly joined sectors.
     let cap = svg.select('.ng-cap')
     if (cap.empty()) cap = svg.append('circle').attr('class', 'ng-cap')
+    cap.raise()
     cap.attr('cx', cx).attr('cy', cy).attr('r', innerR * 1.4)
       .attr('fill', bgC).attr('stroke', dark ? '#2A2A30' : '#E5E7EB').attr('stroke-width', 1)
   }

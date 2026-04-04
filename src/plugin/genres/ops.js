@@ -85,7 +85,7 @@ export const styles = {
     '--z-alert-bar-inset':    '0 auto 0 0',   // top right bottom left
     '--z-alert-bar-w':        'var(--z-alert-bar-width)',
     '--z-alert-bar-h':        'auto',
-    '--z-alert-bar-radius':   'var(--z-alert-radius) 0 0 var(--z-alert-radius)',
+    '--z-alert-bar-radius':   '3px 0 0 3px',
 
     // ── Card structural ─────────────────────────────────────────────────────
     '--z-card-clip':                  'none',

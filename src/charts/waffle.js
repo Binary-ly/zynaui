@@ -23,8 +23,10 @@ export class ZynaWaffle extends ZynaChart {
   _render() {
     const data   = this._json('data', [])
     const accent = this._attr('color', this._brand())
-    const cols   = parseInt(this._attr('cols', '10'))
-    const gap    = parseInt(this._attr('gap', '3'))
+    const colsRaw = parseInt(this._attr('cols', '10'))
+    const cols    = colsRaw > 0 ? colsRaw : 10
+    const gapRaw  = parseInt(this._attr('gap', '3'))
+    const gap     = gapRaw >= 0 ? gapRaw : 3
     const dark       = this._attr('theme', 'dark') !== 'light'
     const heightAttr = parseInt(this._attr('height', '0'))
 
@@ -37,6 +39,8 @@ export class ZynaWaffle extends ZynaChart {
 
     const W  = this.clientWidth || 480
     const cs = Math.floor((W - gap * (cols - 1)) / cols)
+    // Guard: cs ≤ 0 means the container is too narrow for the requested column count.
+    if (cs <= 0) return
     const H  = heightAttr > 0 ? heightAttr : rows * (cs + gap) - gap
     // Border-radius scales with cell size so it looks right at any width.
     const rx = Math.max(1, Math.floor(cs * 0.08))

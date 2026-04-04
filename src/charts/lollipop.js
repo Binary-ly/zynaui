@@ -35,7 +35,8 @@ export class ZynaLollipop extends ZynaChart {
     const fmtVal     = v => this._fmt(v, fmt)
     const showVals   = this._attr('show-values', 'true') !== 'false'
     const heightAttr = parseInt(this._attr('height', '0'))
-    const tickCount  = parseInt(this._attr('ticks', '5'))
+    const tickCountRaw = parseInt(this._attr('ticks', '5'))
+    const tickCount    = tickCountRaw > 0 ? tickCountRaw : 5
     const dark       = this._attr('theme', 'dark') !== 'light'
     const textC      = dark ? '#F0EBE0' : '#1A1A20'
 
