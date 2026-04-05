@@ -4,6 +4,48 @@ All notable changes to ZynaUI are documented here.
 
 ---
 
+## [0.1.8-beta] (2026-04-05)
+
+### Genre: Blueprint "SCHEMATIC"
+
+New built-in genre: **Blueprint "SCHEMATIC"** — precision ISO engineering drawing aesthetic: prussian blue (`#1B3A6B`) on drafting vellum (`#EDF2FA`), DM Mono notation font, dual-tier metric grid page texture.
+
+- **Right-angle stepped notch button** — top-right corner is cut as a 90° step (width = corner, height = corner), reproducing a machined shoulder, PCB routing keepout step, or precision tolerance feature. No other genre or design system uses a right-angle orthogonal step cut on an interactive element. The shape reads as a manufactured part, not a design choice.
+- **Top-center V-notch badge** — a downward-pointing triangular cut at the midpoint of the top edge, exactly reproducing the datum feature symbol opening in ISO 1101 / ASME Y14.5 GD&T annotation. First badge in any design system with a top-center notch; extra top padding (0.38 rem) keeps text clear of the 5 px notch.
+- **Partial-height left witness line alert bar** — the alert bar spans 15 %→85 % of the component height (inset: 15% auto 15% 0), anchored to the content region rather than pinned edge-to-edge. References ISO 128 dimension practice: witness lines project only from the feature they measure. First partial-height alert bar in any CSS design system.
+- **`"⊗ "` alert prefix** — circled times symbol (U+2297): the into-page orthographic vector marker, used in engineering drawings to indicate a force or reference terminating into the page. Unique across all design systems.
+- **Constant-velocity (linear) motion** — both enter and exit use `linear` timing. A drafting arm, pantograph, or CMM probe moves at constant speed with no acceleration or deceleration. The only genre in ZynaUI using linear() for interactive UI transitions.
+- **Dual-tier precision metric grid body texture** — four CSS gradient layers: horizontal + vertical at 5 px (minor) and 25 px (major), a 5:1 subdivision ratio matching ISO metric drafting paper standard. Distinct from Corporate's single-tier 24 px graph-paper grid.
+- **Horizontal pen plotter sweep** — `body::after`: a faint 3 px prussian-blue vertical slit crossing the viewport left-to-right every 14 s, simulating an HP 7475A pen plotter head traversing the drawing surface at constant speed. The only horizontal sweep animation in ZynaUI; the only genre sweep on a light background.
+- **Double witness-line sidebar indicator** — three stacked inset box-shadows (`inset 2px … var(--zyna)` / `inset 4px … var(--bg)` / `inset 6px … faint-prussian`) produce two 2 px prussian lines separated by a 2 px gap — the extension/witness line pair used in ISO 128 dimension callouts. Never implemented in any design system or UI library.
+- **Ruled schedule-line card texture** — `repeating-linear-gradient` at 18 px horizontal spacing, giving each card the appearance of a blank engineering parts list or schedule table ready for annotation.
+- **Solid title-block card bar** — 2 px solid prussian bar with no gradient fade, referencing the hard-edge top border of an ISO drawing sheet title block.
+- Status colors grounded in engineering inspection vocabulary: tolerance green (pass), rejection red (non-conformance), reference amber (informational dimension), annotation prussian (info callout).
+- `prefers-reduced-motion` override placed last in addBase source order to win over the plotter sweep animation — same pattern as Phosphor and Military.
+
+### Bug Fixes (Charts)
+
+- **`zyna-waffle`**: `parseInt` on `cols` and `gap` attributes can return `NaN` when the attribute value is `''` — `NaN > 0` and `NaN >= 0` both evaluate to `false`, causing `cols` to fall through to `NaN` and `gap` to `NaN`, then propagating `NaN` into the cell-size arithmetic. Added explicit guards: `colsRaw > 0 ? colsRaw : 10` and `gapRaw >= 0 ? gapRaw : 3`. Added `if (cs <= 0) return` to prevent rendering into a container too narrow for the requested column count.
+- **`zyna-lollipop`**: `parseInt` on the `ticks` attribute returns `NaN` for empty/invalid values. Added `tickCountRaw > 0 ? tickCountRaw : 5` guard.
+- **`zyna-orbital`**: with 6+ data items, `spacing = outerR * 0.21` causes inner rings to have negative radii, producing degenerate arc paths. Replaced with `Math.min(outerR * 0.21, (outerR - ringTW) / (data.length - 1))` — preserves the default 0.21 factor for ≤5 items, scales down automatically for more without requiring consumer intervention.
+- **`zyna-nightingale`**: D3's `join()` appends enter nodes at the end of the parent, after any existing siblings. When new data items were added, the `.ng-cap` center circle (appended once at creation) was buried under newly-joined sector groups and rendered invisible. Fixed by calling `cap.raise()` after the join so the cap is always the last child (rendered on top), regardless of how many sectors are added or removed.
+
+### Bug Fixes (Genre)
+
+- **Ops `--z-alert-bar-radius`**: the previous value `'var(--z-alert-radius) 0 0 var(--z-alert-radius)'` caused CSS variable substitution to expand `--z-alert-radius: '0 3px 3px 0'` into a 10-value `border-radius` shorthand, which is invalid CSS and was silently ignored — the bar radius fell back to `0` on all browsers but the intent was to round the left-facing corners of the left-side alert bar. Fixed to the literal `'3px 0 0 3px'`.
+
+### Docs
+
+- **Genre section on landing page**: fixed palette strip not rendering for dynamically activated genres — strip now re-renders on every `zyna-genre` event regardless of whether the genre was already active.
+- **`ZynaWaffle` React wrapper**: corrected default `gap` value passed from the React component to the Web Component.
+- Updated visual regression baselines for 6 Ops alert snapshots affected by the `--z-alert-bar-radius` fix.
+
+### Roadmap
+
+- Marked Blueprint "SCHEMATIC" as done
+
+---
+
 ## [0.1.7-beta] (2026-03-22)
 
 ### Search

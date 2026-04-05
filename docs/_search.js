@@ -683,7 +683,7 @@ const INDEX = [
     type: 'genre',
     url: '/genres/',
     section: 'project',
-    desc: 'Visual editor for creating and customising ZynaUI genre themes — Ops, Cyberpunk, Corporate, Phosphor, Military.',
+    desc: 'Visual editor for creating and customising ZynaUI genre themes — Ops, Cyberpunk, Corporate, Phosphor, Military, Blueprint.',
     classes: [],
     tokens: ['--brand', '--bg', '--bg2', '--bg3', '--text', '--text2', '--text3', '--border'],
     keywords: [
@@ -691,7 +691,8 @@ const INDEX = [
       'ops', 'tactical', 'cyberpunk', 'neon',
       'corporate', 'ledger', 'light', 'ivory', 'navy',
       'phosphor', 'terminal', 'amber', 'crt', 'monochrome',
-      'military', 'fieldcraft', 'olive', 'dark', 'export', 'json', 'css'
+      'military', 'fieldcraft', 'olive', 'dark', 'export', 'json', 'css',
+      'blueprint', 'schematic', 'prussian', 'drafting', 'engineering', 'technical', 'vellum', 'cad', 'iso'
     ],
     sections: [
       { heading: 'Genre Builder', content: 'Visual editor theme customization export JSON CSS' },
@@ -699,7 +700,8 @@ const INDEX = [
       { heading: 'Cyberpunk', content: 'Neon purple dark futuristic glitch' },
       { heading: 'Corporate', content: 'Light ivory warm navy professional ledger document' },
       { heading: 'Phosphor', content: 'Amber CRT terminal dark monochrome phosphor scan' },
-      { heading: 'Military', content: 'Tactical olive dark fieldcraft earth tone Share Tech Mono' }
+      { heading: 'Military', content: 'Tactical olive dark fieldcraft earth tone Share Tech Mono' },
+      { heading: 'Blueprint', content: 'Light prussian blue drafting vellum engineering technical ISO schematic precision' }
     ]
   }
 ]
