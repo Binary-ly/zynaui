@@ -327,6 +327,10 @@
     --tw-invert: invert(100%);
     filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
   }
+  .sepia {
+    --tw-sepia: sepia(100%);
+    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+  }
   .filter {
     filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
   }
@@ -2014,7 +2018,7 @@
     animation: phosphor-sweep 8s linear infinite;
   }
   @media (prefers-reduced-motion: reduce) {
-    :where(html[data-genre="blueprint"]) body::after {
+    :where(html[data-genre="washi"]) body::after {
       animation: none;
     }
   }
@@ -2379,6 +2383,194 @@
     background: linear-gradient(to bottom, transparent 0%, rgba(27,58,107,0.03) 20%, rgba(27,58,107,0.06) 50%, rgba(27,58,107,0.03) 80%, transparent 100%);
     transform: translateX(-4px);
     animation: schematic-plotter 14s linear infinite;
+  }
+  @keyframes brushwork-sweep {
+    0% {
+      transform: rotate(-12deg) translateX(-400px);
+    }
+    100% {
+      transform: rotate(-12deg) translateX(calc(100vw + 400px));
+    }
+  }
+  html[data-genre="washi"] {
+    --zyna: #C93C23;
+    --zyna-dark: #8B2210;
+    --zp-success: #2D6B3C;
+    --zp-danger: #9B1A0A;
+    --zp-warning: #B07A00;
+    --zp-info: #3A6B8A;
+    --zp-text: #2A1A0E;
+    --z-color-text-inverse: #F7F0E6;
+    --z-surface-page: #F7F0E6;
+    --z-surface-inset: #EDE4D5;
+    --z-surface-inset-hover: #E4D7C3;
+    --z-surface-inset-danger: #F5E4E0;
+    --z-surface-inset-danger-hover: #EDD5CF;
+    --z-surface-card: linear-gradient(160deg, #FDFAF6 0%, #F7F0E6 100%);
+    --z-surface-card-deep: linear-gradient(160deg, #F0E8DA 0%, #E9DFD0 100%);
+    --z-color-border: rgba(42,26,14,0.11);
+    --z-color-border-dim: rgba(42,26,14,0.055);
+    --z-color-overlay: rgba(42,26,14,0.03);
+    --z-shadow-card: 0 1px 2px rgba(42,26,14,0.09), 0 4px 14px rgba(42,26,14,0.06);
+    --z-shadow-card-deep: 0 2px 4px rgba(42,26,14,0.11), 0 8px 28px rgba(42,26,14,0.08);
+    --bg: #F7F0E6;
+    --bg2: #EDE4D5;
+    --bg3: #E4D7C3;
+    --border: rgba(42,26,14,0.11);
+    --border2: rgba(42,26,14,0.06);
+    --text: #2A1A0E;
+    --text2: #6B4D35;
+    --text3: #A07E66;
+    --topbar-bg: rgba(247,240,230,0.93);
+    --z-panel-bg: #EDE4D5;
+    --z-panel-shadow: 0 8px 24px rgba(42,26,14,0.09), 0 2px 6px rgba(42,26,14,0.05);
+    --z-duration-fast: 0.17s;
+    --z-duration-base: 0.24s;
+    --z-duration-slow: 0.34s;
+    --z-duration-pulse: 5s;
+    --z-ease-enter: cubic-bezier(0.06, 0.92, 0.16, 1);
+    --z-ease-exit: cubic-bezier(0.70, 0, 0.94, 0.42);
+    --z-ease-spring: cubic-bezier(0.22, 1.35, 0.36, 1);
+    color-scheme: light;
+    --z-btn-clip: polygon(var(--btn-corner) 0, 100% 0, 100% 100%, 0 100%, 0 var(--btn-corner));
+    --z-btn-inner-clip: polygon(calc(var(--btn-corner) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px), 1px calc(var(--btn-corner) + 1px));
+    --z-btn-corner: 11px;
+    --z-btn-active-scale: 0.97;
+    --z-btn-scan-stop: 45%;
+    --z-badge-clip: polygon(0 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%);
+    --z-badge-radius: 0;
+    --z-badge-padding: 0.20rem 0.78rem;
+    --z-badge-letter-spacing: 0.09em;
+    --z-badge-inset-shadow: inset 0 0 0 1px currentColor;
+    --z-badge-scan-duration: 7s;
+    --z-badge-inner-clip: polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 8px), calc(100% - 8px) calc(100% - 1px), 1px calc(100% - 1px));
+    --z-alert-radius: 0 3px 3px 0;
+    --z-alert-bar-width: 3px;
+    --z-alert-prefix: "「 ";
+    --z-alert-bg-opacity: 5%;
+    --z-alert-border: 1px solid rgba(42,26,14,0.07);
+    --z-alert-prefix-opacity: 0.42;
+    --z-alert-bar-glow: none;
+    --z-alert-texture: linear-gradient(to right, var(--alert-bar-color) 0px, transparent 16px);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-alert-texture: linear-gradient(to right, color-mix(in oklch, var(--alert-bar-color) 10%, transparent) 0px, transparent 16px);
+    }
+    --z-alert-padding-top: 0.875rem;
+    --z-alert-padding-left: calc(1.25rem + var(--z-alert-bar-width));
+    --z-alert-bar-inset: 0 auto 0 0;
+    --z-alert-bar-w: var(--z-alert-bar-width);
+    --z-alert-bar-h: auto;
+    --z-alert-bar-radius: 0;
+    --z-card-clip: none;
+    --z-card-filter: none;
+    --z-card-texture: repeating-linear-gradient(45deg, rgba(201,60,35,0.018) 0px, rgba(201,60,35,0.018) 1px, transparent 1px, transparent 12px), repeating-linear-gradient(-45deg, rgba(201,60,35,0.018) 0px, rgba(201,60,35,0.018) 1px, transparent 1px, transparent 12px);
+    --z-card-gradient: var(--z-surface-card);
+    --z-card-border-color: rgba(42,26,14,0.09);
+    --z-card-shadow: var(--z-shadow-card);
+    --z-card-bracket-color: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-card-bracket-color: color-mix(in oklch, var(--zyna) 30%, transparent);
+    }
+    --z-card-bracket-size: 16px;
+    --z-card-bracket-stroke: 1px;
+    --z-card-bar-height: 3px;
+    --z-card-bar-bg: linear-gradient(90deg, var(--zyna) 0%, var(--zyna) 35%, var(--zyna) 65%, transparent 100%);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-card-bar-bg: linear-gradient(90deg, var(--zyna) 0%, color-mix(in oklch, var(--zyna) 70%, transparent) 35%, color-mix(in oklch, var(--zyna) 20%, transparent) 65%, transparent 100%);
+    }
+    --z-card-bar-shadow: none;
+    --z-card-header-bg: rgba(201,60,35,0.05);
+    --z-card-header-border: rgba(42,26,14,0.09);
+    --z-card-header-color: var(--zyna);
+    --z-card-header-letter-spacing: 0.11em;
+    --z-card-header-text-shadow: none;
+    --z-card-header-dot-size: 5px;
+    --z-card-header-dot-bg: var(--zyna);
+    --z-card-header-dot-shadow: none;
+    --z-card-header-dot-animation: none;
+    --z-card-title-text-shadow: none;
+    --z-card-glow-duration: 5s;
+    --z-card-default-glow-lo: rgba(201,60,35,0.022);
+    --z-card-default-glow-hi: rgba(201,60,35,0.06);
+    --z-topbar-border: rgba(42,26,14,0.08);
+    --z-topbar-glow: none;
+    --z-sidebar-active-shadow: inset 4px 0 0 var(--zyna);
+  }
+  :where(html[data-genre="washi"]) :where(.badge-primary) {
+    --badge-bg: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in oklch, var(--zyna) 8%, transparent);
+    }
+    --badge-glow: none;
+  }
+  :where(html[data-genre="washi"]) :where(.badge-success) {
+    --badge-bg: var(--z-color-success);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in oklch, var(--z-color-success) 8%, transparent);
+    }
+    --badge-glow: none;
+  }
+  :where(html[data-genre="washi"]) :where(.badge-danger) {
+    --badge-bg: var(--z-color-danger);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in oklch, var(--z-color-danger) 7%, transparent);
+    }
+    --badge-glow: none;
+  }
+  :where(html[data-genre="washi"]) :where(.badge-warning) {
+    --badge-bg: var(--z-color-warning);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in oklch, var(--z-color-warning) 7%, transparent);
+    }
+    --badge-glow: none;
+  }
+  :where(html[data-genre="washi"]) :where(.badge-info) {
+    --badge-bg: var(--z-color-info);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in oklch, var(--z-color-info) 7%, transparent);
+    }
+    --badge-glow: none;
+  }
+  :where(html[data-genre="washi"]) :where(.badge-secondary) {
+    --badge-bg: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in oklch, var(--zyna) 5%, transparent);
+    }
+    --badge-glow: none;
+  }
+  :where(html[data-genre="washi"]) :where(.badge-slant) {
+    --z-badge-inset-shadow: none;
+    --badge-bg: currentColor;
+    --badge-interior: var(--z-surface-page);
+    --badge-inner-clip: polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), 1px calc(100% - 1px));
+  }
+  :where(html[data-genre="washi"]) :where(.badge-bevel) {
+    --z-badge-inset-shadow: none;
+    --badge-bg: currentColor;
+    --badge-interior: var(--z-surface-page);
+    --badge-inner-clip: polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) 1px, calc(100% - 1px) calc(var(--badge-offset) + 1px), calc(100% - 1px) calc(100% - calc(var(--badge-offset) + 1px)), calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), calc(var(--badge-offset) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--badge-offset) + 1px)), 1px calc(var(--badge-offset) + 1px));
+  }
+  :where(html[data-genre="washi"]) body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(8deg, rgba(42,26,14,0.025) 0px, rgba(42,26,14,0.025) 1px, transparent 1px, transparent 22px), repeating-linear-gradient(-5deg, rgba(42,26,14,0.020) 0px, rgba(42,26,14,0.020) 1px, transparent 1px, transparent 28px), repeating-linear-gradient(83deg, rgba(42,26,14,0.015) 0px, rgba(42,26,14,0.015) 1px, transparent 1px, transparent 16px);
+  }
+  :where(html[data-genre="washi"]) body::after {
+    content: "";
+    position: fixed;
+    top: -50vh;
+    left: 0;
+    width: 12px;
+    height: 200vh;
+    z-index: 0;
+    pointer-events: none;
+    background: linear-gradient(to right, transparent 0%, rgba(201,60,35,0.022) 20%, rgba(201,60,35,0.055) 50%, rgba(201,60,35,0.022) 80%, transparent 100%);
+    transform-origin: center center;
+    transform: rotate(-12deg) translateX(-400px);
+    animation: brushwork-sweep 18s linear infinite;
   }
 }
 @layer base {
