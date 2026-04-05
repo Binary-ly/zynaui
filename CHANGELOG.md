@@ -4,6 +4,26 @@ All notable changes to ZynaUI are documented here.
 
 ---
 
+## [0.1.9-beta] (2026-04-05)
+
+### Genre: Washi "BRUSHWORK"
+
+New built-in genre: **Washi "BRUSHWORK"** — the visual language of Japanese handmade paper (和紙) and sumi ink calligraphy. Shu-iro cinnabar vermilion (`#C93C23` — Tōrii Vermilion, Pantone 7597 C) on kozo washi cream (`#F7F0E6`), warm sumi ink brown-black text.
+
+- **Top-left single chamfer button** — only the top-left corner is cut diagonally, reproducing the nyū-hō (入鋒) — the initial placement of the brush on paper before the stroke begins. Every shodo character starts at the top-left; the chamfer is that starting point made physical. No other genre or design system uses a single top-left corner chamfer on a button.
+- **Bottom-right chamfer badge (tanzaku slip)** — tanzaku (短冊) are the long rectangular slips used for haiku, tanka poetry, and Tanabata wish-writing; they carry a diagonal bottom-right cut to distinguish them as composed artifacts. First badge with a bottom-right corner chamfer in any design system.
+- **"「 " alert prefix (kagikakko)** — Japanese corner bracket (U+300C) replaces a Western typographic symbol. In Japanese document conventions, 「text」 signals an annotated note — the opening bracket alone signals "an important annotation begins here." Never used as a UI alert prefix anywhere.
+- **Shimi ink-bleed alert texture** — on absorbent washi, sumi ink spreads beyond the brushstroke edge into the fiber network (滲み, shimi). `--z-alert-texture` applies a horizontal gradient bleeding the bar colour at 10% opacity leftward into the alert body at exactly the 16 px spread radius of ink on kozo washi. The bar is the brushstroke; the gradient is the shimi. No other genre uses the texture token this way.
+- **Calligraphic motion (nyū-hō / shū-hō / shimi)** — all three easings map to named phases in shodo brushwork practice: enter `cubic-bezier(0.06, 0.92, 0.16, 1)` (brush strikes paper with high initial force then settles), exit `cubic-bezier(0.70, 0, 0.94, 0.42)` (brush slows then lifts cleanly), spring `cubic-bezier(0.22, 1.35, 0.36, 1)` (ink spreads beyond intent then contracts as it dries). Every easing has a real physical referent in calligraphy technique.
+- **Kozo fiber network page texture** — three `repeating-linear-gradient` layers at off-axis angles (8°, −5°, 83°) simulate the long irregular kozo fibers visible in handmade washi when held to light (透かし見, sukashimi). Not a grid, not scanlines — an organic fiber structure. No design system has used off-axis multi-angle gradients to simulate natural paper fiber directionality.
+- **Diagonal brushstroke sweep at −12°** — `body::after` is 12 px wide, 200 vh tall, rotated −12° from vertical (the natural angle of the calligrapher's arm sweep), translating left-to-right every 18 s at linear speed. The only diagonal sweep animation in ZynaUI; the only sweep that references a calligraphic body motion. Duration 18 s: calligraphy is unhurried, each stroke considered.
+- **Sashiko diamond stitch card texture** — two `repeating-linear-gradient` layers at ±45° form a diamond grid at 12 px pitch (hishi-moyō, 菱模様) — the simplest sashiko running-stitch pattern. At 1.8% opacity each, the combined textile structure gives cards tactile depth that reads as handcrafted rather than printed. No design system has rendered Japanese textile stitching as a card texture.
+- **Tapered brushstroke card bar** — 3 px height, heavy cinnabar at the left (nyū-hō, brush presses down on entry), gradient fading to transparent at the right (枯れ, kare — the brush running dry). References the way sumi ink fades as the brush exhausts its ink supply.
+- **Single cinnabar brush-stroke sidebar** — `inset 4px 0 0 var(--zyna)`: the exact width of a calligraphy brush stroke at reading scale. One mark, no secondary line, no glow. A seal mark is fixed and complete.
+- Status colors drawn from Japanese natural dye vocabulary: tokiwa-iro (常盤色, evergreen pine `#2D6B3C`), akane-iro (茜色, madder crimson `#9B1A0A`), yamabuki-iro (山吹色, golden kerria `#B07A00`), nando-iro (納戸色, indigo storage blue `#3A6B8A`).
+
+---
+
 ## [0.1.8-beta] (2026-04-05)
 
 ### Genre: Blueprint "SCHEMATIC"

@@ -692,7 +692,8 @@ const INDEX = [
       'corporate', 'ledger', 'light', 'ivory', 'navy',
       'phosphor', 'terminal', 'amber', 'crt', 'monochrome',
       'military', 'fieldcraft', 'olive', 'dark', 'export', 'json', 'css',
-      'blueprint', 'schematic', 'prussian', 'drafting', 'engineering', 'technical', 'vellum', 'cad', 'iso'
+      'blueprint', 'schematic', 'prussian', 'drafting', 'engineering', 'technical', 'vellum', 'cad', 'iso',
+      'washi', 'brushwork', 'japanese', 'calligraphy', 'cinnabar', 'sumi', 'kozo', 'shodo', 'vermilion', 'torii', 'paper', 'washi paper'
     ],
     sections: [
       { heading: 'Genre Builder', content: 'Visual editor theme customization export JSON CSS' },
@@ -701,7 +702,8 @@ const INDEX = [
       { heading: 'Corporate', content: 'Light ivory warm navy professional ledger document' },
       { heading: 'Phosphor', content: 'Amber CRT terminal dark monochrome phosphor scan' },
       { heading: 'Military', content: 'Tactical olive dark fieldcraft earth tone Share Tech Mono' },
-      { heading: 'Blueprint', content: 'Light prussian blue drafting vellum engineering technical ISO schematic precision' }
+      { heading: 'Blueprint', content: 'Light prussian blue drafting vellum engineering technical ISO schematic precision' },
+      { heading: 'Washi', content: 'Light japanese washi paper cream cinnabar vermilion sumi ink calligraphy shodo brushwork torii' }
     ]
   }
 ]
