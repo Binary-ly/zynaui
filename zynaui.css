@@ -2018,7 +2018,7 @@
     animation: phosphor-sweep 8s linear infinite;
   }
   @media (prefers-reduced-motion: reduce) {
-    :where(html[data-genre="washi"]) body::after {
+    :where(html[data-genre="laboratory"]) body::after {
       animation: none;
     }
   }
@@ -2571,6 +2571,209 @@
     transform-origin: center center;
     transform: rotate(-12deg) translateX(-400px);
     animation: brushwork-sweep 18s linear infinite;
+  }
+  @keyframes labbook-scan {
+    0% {
+      transform: translateX(-4px);
+      opacity: 1;
+    }
+    85% {
+      transform: translateX(calc(100vw + 4px));
+      opacity: 1;
+    }
+    85.001% {
+      transform: translateX(-4px);
+      opacity: 0;
+    }
+    94% {
+      transform: translateX(-4px);
+      opacity: 0;
+    }
+    94.001% {
+      transform: translateX(-4px);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(-4px);
+      opacity: 1;
+    }
+  }
+  html[data-genre="laboratory"] {
+    --zyna: #0090B0;
+    --zyna-dark: #006B84;
+    --zp-success: #1A7A4A;
+    --zp-danger: #C42B1A;
+    --zp-warning: #B87200;
+    --zp-info: #007A96;
+    --zp-text: #0C1E24;
+    --z-color-text-inverse: #EDFAFC;
+    --z-surface-page: #EDFAFC;
+    --z-surface-inset: #D4EFF5;
+    --z-surface-inset-hover: #BEE4EE;
+    --z-surface-inset-danger: #F5E8EB;
+    --z-surface-inset-danger-hover: #EDD4DA;
+    --z-surface-card: linear-gradient(160deg, #F5FCFD 0%, #EDFAFC 100%);
+    --z-surface-card-deep: linear-gradient(160deg, #D4EFF5 0%, #BEE4EE 100%);
+    --z-color-border: rgba(12,30,36,0.10);
+    --z-color-border-dim: rgba(12,30,36,0.05);
+    --z-color-overlay: rgba(12,30,36,0.025);
+    --z-shadow-card: 0 1px 2px rgba(12,30,36,0.08), 0 4px 14px rgba(12,30,36,0.05);
+    --z-shadow-card-deep: 0 2px 4px rgba(12,30,36,0.10), 0 8px 28px rgba(12,30,36,0.06);
+    --bg: #EDFAFC;
+    --bg2: #CBE9F3;
+    --bg3: #B5DCEC;
+    --border: rgba(12,30,36,0.10);
+    --border2: rgba(12,30,36,0.05);
+    --text: #0C1E24;
+    --text2: #1A5C70;
+    --text3: #4A8899;
+    --topbar-bg: rgba(237,250,252,0.93);
+    --z-panel-bg: #CBE9F3;
+    --z-panel-shadow: 0 8px 24px rgba(12,30,36,0.07), 0 2px 6px rgba(12,30,36,0.04);
+    --z-duration-fast: 0.11s;
+    --z-duration-base: 0.18s;
+    --z-duration-slow: 0.28s;
+    --z-duration-pulse: 3.5s;
+    --z-ease-enter: cubic-bezier(0.22, 1.58, 0.44, 1);
+    --z-ease-exit: cubic-bezier(0.40, 0, 1.00, 1);
+    --z-ease-spring: cubic-bezier(0.18, 1.85, 0.38, 1);
+    color-scheme: light;
+    --z-btn-clip: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px));
+    --z-btn-inner-clip: polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 11px), calc(100% - 11px) calc(100% - 1px), 11px calc(100% - 1px), 1px calc(100% - 11px));
+    --z-btn-corner: 10px;
+    --z-btn-active-scale: 0.97;
+    --z-btn-scan-stop: 40%;
+    --z-badge-clip: polygon(0 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 0 100%);
+    --z-badge-radius: 0;
+    --z-badge-padding: 0.18rem 1.0rem 0.18rem 0.72rem;
+    --z-badge-letter-spacing: 0.07em;
+    --z-badge-inset-shadow: inset 0 0 0 1px currentColor;
+    --z-badge-scan-duration: 5s;
+    --z-badge-inner-clip: polygon(1px 1px, calc(100% - 9px) 1px, calc(100% - 2px) 50%, calc(100% - 9px) calc(100% - 1px), 1px calc(100% - 1px));
+    --z-alert-radius: 0 0 3px 3px;
+    --z-alert-bar-width: 0;
+    --z-alert-prefix: "∴ ";
+    --z-alert-bg-opacity: 5%;
+    --z-alert-border: 1px solid rgba(12,30,36,0.07);
+    --z-alert-prefix-opacity: 0.36;
+    --z-alert-bar-glow: none;
+    --z-alert-texture: none;
+    --z-alert-padding-top: calc(0.875rem + 3px);
+    --z-alert-padding-left: 1.25rem;
+    --z-alert-bar-inset: 0 0 auto 0;
+    --z-alert-bar-w: auto;
+    --z-alert-bar-h: 3px;
+    --z-alert-bar-radius: 0;
+    --z-card-clip: none;
+    --z-card-filter: none;
+    --z-card-texture: repeating-linear-gradient(90deg, rgba(0,144,176,0.042) 0px, rgba(0,144,176,0.042) 1px, transparent 1px, transparent 6px);
+    --z-card-gradient: var(--z-surface-card);
+    --z-card-border-color: rgba(12,30,36,0.08);
+    --z-card-shadow: var(--z-shadow-card);
+    --z-card-bracket-color: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-card-bracket-color: color-mix(in oklch, var(--zyna) 28%, transparent);
+    }
+    --z-card-bracket-size: 14px;
+    --z-card-bracket-stroke: 1px;
+    --z-card-bar-height: 4px;
+    --z-card-bar-bg: linear-gradient(to bottom, var(--zyna) 0, var(--zyna) 1px, transparent 1px, transparent 3px, var(--zyna) 3px);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-card-bar-bg: linear-gradient(to bottom, var(--zyna) 0, var(--zyna) 1px, transparent 1px, transparent 3px, color-mix(in oklch, var(--zyna) 42%, transparent) 3px);
+    }
+    --z-card-bar-shadow: none;
+    --z-card-header-bg: rgba(0,144,176,0.04);
+    --z-card-header-border: rgba(12,30,36,0.08);
+    --z-card-header-color: var(--zyna);
+    --z-card-header-letter-spacing: 0.09em;
+    --z-card-header-text-shadow: none;
+    --z-card-header-dot-size: 5px;
+    --z-card-header-dot-bg: var(--zyna);
+    --z-card-header-dot-shadow: none;
+    --z-card-header-dot-animation: none;
+    --z-card-title-text-shadow: none;
+    --z-card-glow-duration: 3.5s;
+    --z-card-default-glow-lo: rgba(0,144,176,0.018);
+    --z-card-default-glow-hi: rgba(0,144,176,0.048);
+    --z-topbar-border: rgba(12,30,36,0.08);
+    --z-topbar-glow: none;
+    --z-sidebar-active-shadow: inset 3px 0 0 var(--zyna);
+  }
+  :where(html[data-genre="laboratory"]) :where(.badge-primary) {
+    --badge-bg: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in oklch, var(--zyna) 8%, transparent);
+    }
+    --badge-glow: none;
+  }
+  :where(html[data-genre="laboratory"]) :where(.badge-success) {
+    --badge-bg: var(--z-color-success);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in oklch, var(--z-color-success) 8%, transparent);
+    }
+    --badge-glow: none;
+  }
+  :where(html[data-genre="laboratory"]) :where(.badge-danger) {
+    --badge-bg: var(--z-color-danger);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in oklch, var(--z-color-danger) 7%, transparent);
+    }
+    --badge-glow: none;
+  }
+  :where(html[data-genre="laboratory"]) :where(.badge-warning) {
+    --badge-bg: var(--z-color-warning);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in oklch, var(--z-color-warning) 7%, transparent);
+    }
+    --badge-glow: none;
+  }
+  :where(html[data-genre="laboratory"]) :where(.badge-info) {
+    --badge-bg: var(--z-color-info);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in oklch, var(--z-color-info) 7%, transparent);
+    }
+    --badge-glow: none;
+  }
+  :where(html[data-genre="laboratory"]) :where(.badge-secondary) {
+    --badge-bg: var(--zyna);
+    @supports (color: color-mix(in lab, red, red)) {
+      --badge-bg: color-mix(in oklch, var(--zyna) 5%, transparent);
+    }
+    --badge-glow: none;
+  }
+  :where(html[data-genre="laboratory"]) :where(.badge-slant) {
+    --z-badge-inset-shadow: none;
+    --badge-bg: currentColor;
+    --badge-interior: var(--z-surface-page);
+    --badge-inner-clip: polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), 1px calc(100% - 1px));
+  }
+  :where(html[data-genre="laboratory"]) :where(.badge-bevel) {
+    --z-badge-inset-shadow: none;
+    --badge-bg: currentColor;
+    --badge-interior: var(--z-surface-page);
+    --badge-inner-clip: polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) 1px, calc(100% - 1px) calc(var(--badge-offset) + 1px), calc(100% - 1px) calc(100% - calc(var(--badge-offset) + 1px)), calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), calc(var(--badge-offset) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--badge-offset) + 1px)), 1px calc(var(--badge-offset) + 1px));
+  }
+  :where(html[data-genre="laboratory"]) body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, rgba(0,144,176,0.15) 1px, transparent 1px);
+    background-size: 8px 8px;
+  }
+  :where(html[data-genre="laboratory"]) body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    background: linear-gradient(to bottom, transparent 0%, rgba(0,144,176,0.03) 12%, rgba(0,144,176,0.09) 50%, rgba(0,144,176,0.03) 88%, transparent 100%);
+    transform: translateX(-4px);
+    animation: labbook-scan 9s linear infinite;
   }
 }
 @layer base {
