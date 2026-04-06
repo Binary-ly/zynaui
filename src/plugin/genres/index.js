@@ -24,8 +24,9 @@ import military from './military.js'
 import blueprint from './blueprint.js'
 import washi from './washi.js'
 import laboratory from './laboratory.js'
+import atelier from './atelier.js'
 
-export const GENRES = [ops, cyberpunk, corporate, phosphor, military, blueprint, washi, laboratory]
+export const GENRES = [ops, cyberpunk, corporate, phosphor, military, blueprint, washi, laboratory, atelier]
 
 export { defineGenre, registerGenre } from './define.js'
 

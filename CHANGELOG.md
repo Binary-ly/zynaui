@@ -4,6 +4,24 @@ All notable changes to ZynaUI are documented here.
 
 ---
 
+## [0.1.11-beta] (2026-04-06)
+
+### Genre: Atelier "MAISON"
+
+New built-in genre: **Atelier "MAISON"** — luxury editorial fashion houses. 22-karat gold (`#B8920A` — the amber-gold of hot-stamp foil on Hermès and Chanel archive cards) on warm ecru vellum (`#F5EFDF` — Arches 300 gsm cream, HSL 38°, 51% sat, 91% lightness). Slowest motions, widest sweep, and highest typographic refinement in ZynaUI.
+
+- **Both-right-corners chamfered button (luxury ribbon label)** — flat left edge, both right corners cut at equal 45° angles. A right-shouldered ribbon form: the silhouette of a woven satin garment label or a gold-foil price tag on a Hermès belt. Shape survey: Ops=opposing diagonal; Corporate=top-right only; Phosphor=left chevron; Military=opposing diagonal; Blueprint=top-right step; Washi=top-left only; Laboratory=both bottom corners (different side). Atelier is the only genre with both RIGHT corners cut. First ribbon-label button in any CSS design system.
+- **Left-center V-notch badge (couture price-tag ribbon hole)** — a rectangle with a triangular V-notch (10 px deep, 10 px tall) cut from the left-center edge. Physical luxury price tags (Chanel, Hermès, Dior) are punched with a ribbon-notch; this badge is that punched tag. Badge survey: Corporate/Phosphor=rectangles; Military/Washi=corner chamfers; Blueprint=top-center V-notch (different axis); Laboratory=right-pointing arrow. Atelier's notch is on the LEFT (not top), a new shape class. First left-notch badge in any CSS design system.
+- **Right partial-height alert bar** — accent bar on the RIGHT edge at 15%–85% vertical (`inset: 15% 0 15% auto`, `width: 3px`). References the short gold annotation mark drawn in the right margin of couture pattern cards — not a full-height page boundary rule, but a crop-height approval mark. Alert bar survey: Ops/Corporate/Washi=left full; Phosphor=right full; Military=bottom; Blueprint=left partial-height; Laboratory=top. Atelier is the only genre with right partial-height.
+- **"» " alert prefix (right guillemet, U+00BB)** — the French right double guillemet is the standard editorial quotation and section-continuation mark in Parisian fashion typography. It reads as "the point of view continues here." Distinct from Phosphor's ASCII ">>" (two separate characters, different cultural register). First guillemet used as a UI alert prefix in any design system.
+- **Laid paper dual-axis page texture** — THE ONLY DUAL-AXIS PAGE TEXTURE IN ZYNAUI. Two crossing `repeating-linear-gradient` layers: horizontal laid lines at 4 px pitch (0°) + vertical chain lines at 40 px pitch (90°). Reproduces hand-made paper structure (Arches, Fabriano, Moulin du Roy): closely-spaced horizontal wires of the paper mould and the coarser vertical wires binding it. The ONLY genre with two crossing gradient axes for page texture.
+- **Gold leaf shimmer sweep (120 px, 28 s)** — WIDEST AND SLOWEST SWEEP IN ZYNAUI. A 120 px wide warm-gold gradient (peak 12% opacity at center) traverses the viewport at ease-in-out over 28 s. Reproduces the roll of oblique reflected light across hot-stamped gold foil on an atelier title card. Sweep survey: Phosphor=3px/8s; Military=2px/12s; Blueprint=1px/14s; Laboratory=3px/9s; Washi=8px/18s; Atelier=120px/28s. Every parameter is a genre maximum.
+- **Silk drape motion (slowest in ZynaUI)** — 0.20s fast, 0.38s base (longest in ZynaUI), 0.52s slow (longest in ZynaUI). Enter `cubic-bezier(0.25, 0.46, 0.45, 0.94)` (silk unfurl: slow start, flowing arc, gentle land), exit `cubic-bezier(0.55, 0, 1, 0.45)` (silk gather: smooth acceleration, precise arrest), spring `cubic-bezier(0.34, 1.26, 0.64, 1)` (garment settle: barely-perceptible overshoot, elegant rest). The most restrained spring in ZynaUI.
+- **Centered gold fade card bar** — 2 px, `linear-gradient(to right, transparent 0%, var(--zyna) 40%, var(--zyna) 60%, transparent 100%)`. Reaches full brand-gold at center, reproducing the centered rule on luxury letterheads and name cards. Distinct from Ops's center-weighted gradient (Ops peaks at 55% opacity; Atelier reaches full opacity). First center-to-full-opacity rule in any CSS design system.
+- **Warm ecru palette** — ecru vellum page (`#F5EFDF`, HSL 38°), parchment sidebar (`#EDE3C8`), warm ink brown-black text (`#1C1208`), amber-brown secondary (`#5C3D00`), gold-brown tertiary (`#8C6B20`). Status colors in French fine-arts pigment vocabulary: sap green (bookbinder's green), alizarin crimson (1868 synthetic red lake), yellow ochre (iron oxide, oldest known pigment), Prussian blue (first synthetic pigment, 1704).
+
+---
+
 ## [0.1.10-beta] (2026-04-06)
 
 ### Genre: Laboratory "LABBOOK"
