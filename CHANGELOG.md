@@ -4,6 +4,24 @@ All notable changes to ZynaUI are documented here.
 
 ---
 
+## [0.1.10-beta] (2026-04-06)
+
+### Genre: Laboratory "LABBOOK"
+
+New built-in genre: **Laboratory "LABBOOK"** — precision analytical instruments and dot-grid laboratory notebooks. Cobalt titanate teal (`#0090B0` — CoTiO₃, the teal of UV filter glass, Keysight oscilloscope housings, and Eppendorf tube lids) on teal-white clinical surface (`#EDFAFC`). HSL 195° hue — a full 20–25° rotation away from Corporate's navy (220°) and Blueprint's prussian (215°), reading as a distinct colour at a glance.
+
+- **Both-bottom-corners chamfered button (inverted trapezoid)** — flat top, both bottom corners cut at equal 45° angles. No ZynaUI genre cuts both bottom corners: Ops cuts opposing diagonal; Corporate top-right only; Phosphor left-chevron; Military opposing diagonal; Blueprint top-right step; Washi top-left only. Laboratory is the only genre with a flat top and symmetric bottom chamfers. References the DIN VDE 0868 trapezoidal instrument push-button standard and the cross-section of an Eppendorf microcentrifuge tube cap.
+- **Right-pointing arrow badge** — a right-pointing pentagon (straight top, left, bottom; two diagonal edges converging to a right-hand tip at 50% height). No ZynaUI badge has any arrow shape. References directional labels on analytical instrument sample flow paths (HPLC, GC, spectrophotometer) and the arrow-profile batch-code tags on laboratory reagent bottle racks. First right-pointing arrow badge in any CSS design system.
+- **Top-edge alert bar** — the accent bar runs along the TOP of the alert (`inset: 0 0 auto 0`, `height: 3px`). Alert bar position survey: Ops/Corporate/Washi=left full; Phosphor=right; Military=bottom; Blueprint=left partial-height. Laboratory is the only genre with a top-positioned bar, referencing the horizontal section-header ruling at the top of each laboratory notebook entry. First top-bar alert in any CSS design system.
+- **"∴ " alert prefix (therefore, U+2234)** — the therefore symbol concludes scientific observations in every branch of lab science ("∴ the compound is an ester"). No other ZynaUI genre uses ∴. First scientific logical symbol used as a UI alert prefix in any design system.
+- **Radial-gradient dot-grid page texture** — THE ONLY RADIAL-GRADIENT PAGE TEXTURE IN ZYNAUI. All other genres use repeating-linear-gradient. A `radial-gradient(circle, ...)` array at 8 px pitch places 1 px circular dots matching the 2 mm dot grid of Leuchtturm1917 and Rhodia dotPad laboratory notebooks.
+- **Oscilloscope sawtooth retrace sweep** — THE ONLY SAWTOOTH ANIMATION IN ZYNAUI. A 3 px vertical beam traverses left-to-right (85% of cycle), then instantly resets to origin with opacity 0 (flyback blanking, exactly as CRT oscilloscopes blank the Z-axis during retrace), holds blanked for 9% of cycle, then resumes. No other ZynaUI sweep retraces.
+- **Galvanometer critically damped motion** — fastest base durations in ZynaUI (0.11s fast, 0.18s base). Enter `cubic-bezier(0.22, 1.58, 0.44, 1)` (galvanometer coil energising), exit `cubic-bezier(0.40, 0, 1.00, 1)` (crisp instrument release), spring `cubic-bezier(0.18, 1.85, 0.38, 1)` (under-damped transient + magnetic brake settle). Every easing maps to a measurable galvanometer behaviour.
+- **Fine vertical spectral lines card texture** — pure 90° vertical lines at 6 px pitch only (no horizontal component). Perpendicular to Blueprint's horizontal schedule rules. References spectrophotometric cuvette column spacing and GC column plate-height graduation marks.
+- **Dual-beam spectrophotometer card bar** — 4 px total height: 1 px solid teal (signal beam) + 2 px transparent gap + 1 px 42%-teal (reference beam). First dual-line card bar in any CSS design system. References the dual optical path of a double-beam UV/Vis spectrophotometer.
+
+---
+
 ## [0.1.9-beta] (2026-04-05)
 
 ### Genre: Washi "BRUSHWORK"

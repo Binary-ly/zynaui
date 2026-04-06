@@ -693,7 +693,8 @@ const INDEX = [
       'phosphor', 'terminal', 'amber', 'crt', 'monochrome',
       'military', 'fieldcraft', 'olive', 'dark', 'export', 'json', 'css',
       'blueprint', 'schematic', 'prussian', 'drafting', 'engineering', 'technical', 'vellum', 'cad', 'iso',
-      'washi', 'brushwork', 'japanese', 'calligraphy', 'cinnabar', 'sumi', 'kozo', 'shodo', 'vermilion', 'torii', 'paper', 'washi paper'
+      'washi', 'brushwork', 'japanese', 'calligraphy', 'cinnabar', 'sumi', 'kozo', 'shodo', 'vermilion', 'torii', 'paper', 'washi paper',
+      'laboratory', 'labbook', 'lab', 'cobalt', 'teal', 'clinical', 'science', 'notebook', 'oscilloscope', 'instrument', 'chemistry', 'dot grid', 'galvanometer', 'spectrophotometer'
     ],
     sections: [
       { heading: 'Genre Builder', content: 'Visual editor theme customization export JSON CSS' },
@@ -703,7 +704,8 @@ const INDEX = [
       { heading: 'Phosphor', content: 'Amber CRT terminal dark monochrome phosphor scan' },
       { heading: 'Military', content: 'Tactical olive dark fieldcraft earth tone Share Tech Mono' },
       { heading: 'Blueprint', content: 'Light prussian blue drafting vellum engineering technical ISO schematic precision' },
-      { heading: 'Washi', content: 'Light japanese washi paper cream cinnabar vermilion sumi ink calligraphy shodo brushwork torii' }
+      { heading: 'Washi', content: 'Light japanese washi paper cream cinnabar vermilion sumi ink calligraphy shodo brushwork torii' },
+      { heading: 'Laboratory', content: 'Light clinical teal cobalt science lab notebook dot grid oscilloscope galvanometer spectrophotometer instrument chemistry' }
     ]
   }
 ]
