@@ -678,6 +678,51 @@ const INDEX = [
     sections: [{ heading: 'Roadmap', content: 'Upcoming features planned work milestones' }]
   },
   {
+    id: 'css-api',
+    title: 'CSS API',
+    type: 'guide',
+    url: '/css-api/',
+    section: 'project',
+    desc: 'Public CSS custom property API reference — all 83 stable tokens locked from v0.2.0.',
+    classes: [],
+    tokens: [
+      '--zyna', '--zyna-dark',
+      '--z-corner-sm', '--z-corner', '--z-corner-lg', '--z-corner-xl',
+      '--z-duration-fast', '--z-duration-base', '--z-duration-slow', '--z-duration-pulse',
+      '--z-ease-enter', '--z-ease-exit', '--z-ease-spring', '--z-ease', '--z-ease-snap', '--z-ease-out',
+      '--z-font-mono',
+      '--z-color-text', '--z-color-text-muted', '--z-color-text-dim', '--z-color-text-solid', '--z-color-text-inverse',
+      '--z-color-success', '--z-color-danger', '--z-color-warning', '--z-color-info',
+      '--z-color-border', '--z-color-border-dim', '--z-color-overlay',
+      '--z-surface-page', '--z-surface-inset', '--z-surface-inset-hover', '--z-surface-inset-danger', '--z-surface-inset-danger-hover',
+      '--z-surface-card', '--z-surface-card-deep', '--z-shadow-card', '--z-shadow-card-deep',
+      '--btn-bg', '--btn-color', '--btn-filter', '--btn-hover-bg', '--btn-hover-color', '--btn-hover-filter',
+      '--badge-bg', '--badge-color', '--badge-glow',
+      '--card-gradient', '--card-border-color', '--card-shadow', '--card-bar-gradient',
+      '--alert-bar-color', '--alert-bg', '--alert-color', '--alert-shadow'
+    ],
+    keywords: [
+      'css api', 'css variables', 'custom properties', 'tokens', 'design tokens', 'public api',
+      'semver', 'stable', 'contract', 'locked', 'v0.2.0', 'breaking change', 'major',
+      'brand', 'shape', 'motion', 'typography', 'color', 'surface', 'shadow',
+      'button tokens', 'badge tokens', 'card tokens', 'alert tokens',
+      '--z-', '--btn-', '--badge-', '--card-', '--alert-', '--zyna',
+      'override', 'customize', 'css custom property', 'var(', 'tier 1', 'tier 2', 'primitive', 'semantic'
+    ],
+    sections: [
+      { heading: 'CSS API', content: 'Public CSS custom property API semver contract stable tokens v0.2.0' },
+      { heading: 'Brand Tokens', content: '--zyna --zyna-dark brand color override tailwind' },
+      { heading: 'Shape Tokens', content: '--z-corner corner radius scale sm md lg xl' },
+      { heading: 'Motion Tokens', content: '--z-duration --z-ease animation timing easing spring enter exit' },
+      { heading: 'Color Tokens', content: '--z-color text muted dim solid inverse success danger warning info border overlay' },
+      { heading: 'Surface Tokens', content: '--z-surface --z-shadow page inset card gradient background' },
+      { heading: 'Button Tokens', content: '--btn-bg --btn-color --btn-filter --btn-hover variant custom button' },
+      { heading: 'Badge Tokens', content: '--badge-bg --badge-color --badge-glow badge variant custom' },
+      { heading: 'Card Tokens', content: '--card-gradient --card-border-color --card-shadow --card-bar-gradient card variant custom' },
+      { heading: 'Alert Tokens', content: '--alert-bar-color --alert-bg --alert-color --alert-shadow alert variant custom' }
+    ]
+  },
+  {
     id: 'genres',
     title: 'Genre Builder',
     type: 'genre',

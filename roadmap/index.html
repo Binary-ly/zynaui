@@ -156,7 +156,7 @@
     .mp-fill {
       position: absolute;
       inset: 0;
-      width: 10%;
+      width: 20%;
       background: linear-gradient(90deg, var(--brand), color-mix(in oklch, var(--brand) 65%, white));
       border-radius: 3px;
     }
@@ -447,7 +447,7 @@
         </nav>
         <div style="display:flex;align-items:center;gap:0.85rem;flex-wrap:wrap;margin-bottom:0.5rem">
           <h1 class="page-title" style="margin:0">Roadmap</h1>
-          <span class="badge-version">v0.1.8-beta</span>
+          <span class="badge-version" id="js-page-version"></span>
         </div>
         <p class="page-desc">ZynaUI is in active beta. Every milestone and deliverable on the path to v1.0.0 is tracked here.</p>
       </div>
@@ -456,17 +456,17 @@
       <div class="mission-banner" role="region" aria-label="Mission status">
         <div class="mission-status">
           <div class="mission-status-label">Phase</div>
-          <div class="mission-status-phase">01</div>
+          <div class="mission-status-phase">02</div>
           <div class="mission-status-total">of 10</div>
         </div>
         <div class="mission-details">
           <div class="mission-row">
             <span class="mission-row-key">Status</span>
-            <span class="mission-row-val brand">Beta: Phase 1 Shipped</span>
+            <span class="mission-row-val brand">Beta: Phase 2 Shipped</span>
           </div>
           <div class="mission-row">
             <span class="mission-row-key">Next up</span>
-            <span class="mission-row-val">v0.2.0: API Hardening &amp; Distribution</span>
+            <span class="mission-row-val">v0.3.0: Chart Expansion</span>
           </div>
           <div class="mission-row">
             <span class="mission-row-key">Target</span>
@@ -476,7 +476,7 @@
         <div class="mission-progress" aria-hidden="true">
           <div class="mp-label">
             <span>Progress to v1</span>
-            <span>10%</span>
+            <span>20%</span>
           </div>
           <div class="mp-track">
             <div class="mp-fill"></div>
@@ -491,13 +491,13 @@
       <!-- Beta callout -->
       <div class="beta-note" role="note">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" style="flex-shrink:0;color:var(--brand);margin-top:1px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        <span><strong>Beta means the core API may change.</strong> The CSS variable surface, genre token names, and component class names are subject to breaking changes until the v0.2.0 API stability contract is locked. Pin your version and check the changelog before upgrading.</span>
+        <span><strong>v0.2.0-beta — CSS variable API is now locked.</strong> The 83 public tokens (<code style="font-size:0.82em">--zyna</code>, <code style="font-size:0.82em">--z-*</code>, <code style="font-size:0.82em">--btn-*</code>, <code style="font-size:0.82em">--badge-*</code>, <code style="font-size:0.82em">--card-*</code>, <code style="font-size:0.82em">--alert-*</code>) will not be renamed or removed without a major version bump. Component class names and internal tokens (<code style="font-size:0.82em">--zp-*</code>, <code style="font-size:0.82em">--z-btn-*</code>) remain subject to change until v1.0.0. See the <a href="/css-api/" style="color:var(--brand)">CSS API reference</a>.</span>
       </div>
 
       <!-- ── Stats strip ── -->
       <div class="doc-section">
-        <h2 class="section-title">v0.1.0-beta: What Shipped</h2>
-        <p style="font-size:0.86rem;color:var(--text2);margin-bottom:1.25rem;line-height:1.65">The initial beta ships the core architecture: the Tailwind CSS plugin, the three-tier token system, the genre engine, four components, five D3 chart Web Components, and a full ARIA APG compliance audit.</p>
+        <h2 class="section-title">v0.2.0-beta: What Shipped</h2>
+        <p style="font-size:0.86rem;color:var(--text2);margin-bottom:1.25rem;line-height:1.65">v0.2.0 locks the public CSS variable API under a semver guarantee, ships 7 new genres (Corporate, Phosphor, Military, Blueprint, Washi, Laboratory, Atelier), adds automated visual regression testing via Playwright, and publishes full-text search and a versioned API reference in the docs.</p>
         <div class="stat-strip" role="list" aria-label="Release statistics">
           <div class="stat-cell" role="listitem">
             <div class="stat-num">4</div>
@@ -508,8 +508,8 @@
             <div class="stat-label">Charts<span class="stat-sub">Waffle · Timeline · Nightingale · Lollipop · Orbital</span></div>
           </div>
           <div class="stat-cell" role="listitem">
-            <div class="stat-num">2</div>
-            <div class="stat-label">Genres<span class="stat-sub">Ops · Cyberpunk</span></div>
+            <div class="stat-num">9</div>
+            <div class="stat-label">Genres<span class="stat-sub">Ops · Cyberpunk · Corporate · Phosphor · Military · Blueprint · Washi · Laboratory · Atelier</span></div>
           </div>
           <div class="stat-cell" role="listitem">
             <div class="stat-num">60</div>
@@ -538,16 +538,16 @@
               <div class="phase-node-ver">v0.1.0</div>
               <div class="phase-node-name">Beta</div>
             </div>
-            <div class="phase-node next">
+            <div class="phase-node shipped">
               <div class="phase-node-row">
-                <div class="phase-node-dot next" aria-hidden="true"></div>
+                <div class="phase-node-dot shipped" aria-hidden="true"></div>
               </div>
               <div class="phase-node-ver">v0.2.0</div>
               <div class="phase-node-name">API Lock</div>
             </div>
-            <div class="phase-node">
+            <div class="phase-node next">
               <div class="phase-node-row">
-                <div class="phase-node-dot planned" aria-hidden="true"></div>
+                <div class="phase-node-dot next" aria-hidden="true"></div>
               </div>
               <div class="phase-node-ver">v0.3.0</div>
               <div class="phase-node-name">Charts+</div>
@@ -640,20 +640,20 @@
             </div>
           </div>
 
-          <!-- ── v0.2.0 NEXT ── -->
-          <div class="roadmap-phase state-next">
-            <div class="phase-head next">
+          <!-- ── v0.2.0 SHIPPED ── -->
+          <div class="roadmap-phase state-shipped">
+            <div class="phase-head shipped">
               <div>
                 <div class="phase-phase-num">Phase 02 / 10</div>
-                <div class="phase-ver next">v0.2.0</div>
+                <div class="phase-ver">v0.2.0</div>
                 <h3 class="phase-name">API Hardening &amp; Distribution</h3>
-                <div class="phase-target">Target · Apr 2026</div>
+                <div class="phase-target">Released · Apr 2026</div>
               </div>
-              <span class="phase-badge next">Next</span>
+              <span class="phase-badge shipped">Shipped</span>
             </div>
             <div class="phase-body">
               <ul class="phase-items">
-                <li class="phase-item"><span class="pi-dot" aria-hidden="true">◦</span>Semver API stability contract: public CSS variable surface locked</li>
+                <li class="phase-item done"><span class="pi-dot" aria-hidden="true">✓</span>Semver API stability contract: public CSS variable surface locked</li>
                 <li class="phase-item done"><span class="pi-dot" aria-hidden="true">✓</span>npm sub-path exports (zynaui/charts, zynaui/genres, zynaui/plugin)</li>
                 <li class="phase-item done"><span class="pi-dot" aria-hidden="true">✓</span>CDN bundle via jsDelivr / unpkg</li>
                 <li class="phase-item done"><span class="pi-dot" aria-hidden="true">✓</span>Genre: Corporate: clean, minimal, professional palette</li>
@@ -671,16 +671,16 @@
             </div>
           </div>
 
-          <!-- ── v0.3.0 ── -->
-          <div class="roadmap-phase state-planned">
-            <div class="phase-head planned">
+          <!-- ── v0.3.0 NEXT ── -->
+          <div class="roadmap-phase state-next">
+            <div class="phase-head next">
               <div>
                 <div class="phase-phase-num">Phase 03 / 10</div>
-                <div class="phase-ver">v0.3.0</div>
+                <div class="phase-ver next">v0.3.0</div>
                 <h3 class="phase-name">Chart Expansion</h3>
                 <div class="phase-target">Target · May–Jun 2026 · 3–5 new charts per month</div>
               </div>
-              <span class="phase-badge planned">Planned</span>
+              <span class="phase-badge next">Next</span>
             </div>
             <div class="phase-body">
               <ul class="phase-items">
@@ -879,6 +879,10 @@
 
   <link rel="modulepreload" href="../_nav.js">
   <script type="module" src="../_nav.js"></script>
+  <script type="module">
+    import { version } from '../_version.js'
+    document.getElementById('js-page-version').textContent = 'v' + version
+  </script>
   <footer></footer>
 </body>
 </html>
