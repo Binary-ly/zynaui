@@ -4,6 +4,41 @@ All notable changes to ZynaUI are documented here.
 
 ---
 
+## [0.2.0-beta] (2026-04-06)
+
+### Semver API stability contract: public CSS variable surface locked
+
+ZynaUI's public CSS custom property API is now formally declared and locked under semver. This is the API hardening milestone that allows projects to depend on ZynaUI without risk of silent CSS breakage on upgrade.
+
+**83 public tokens are now locked.** Renaming or removing any of them requires a major version bump. Adding new public tokens is a minor release. Changing a default value as a bug fix is a patch.
+
+- **`docs/css-api.md`** — Complete reference of all 83 public tokens and 80 internal tokens, with type, default value, and purpose for each. Includes the semver policy table and examples for creating custom component variants and custom genres.
+- **`types/index.d.ts`** — TypeScript union types for the full public token surface: `ZynaPublicToken` (all 83), plus granular types `ZynaBrandToken`, `ZynaShapeToken`, `ZynaMotionToken`, `ZynaTypographyToken`, `ZynaColorToken`, `ZynaSurfaceToken`, `ZynaButtonToken`, `ZynaBadgeToken`, `ZynaCardToken`, `ZynaAlertToken`. Use these in TypeScript projects for token name validation.
+- **`src/plugin/tokens.js`** — Inline contract header documenting the public/internal split at the source level so genre authors and contributors have the full map at hand.
+
+**Public token counts by category:**
+
+| Category | Count | Tokens |
+|---|---|---|
+| Brand | 2 | `--zyna`, `--zyna-dark` |
+| Shape | 4 | `--z-corner-sm/[md]/lg/xl` |
+| Motion | 10 | `--z-duration-*` (4), `--z-ease-*` (6) |
+| Typography | 1 | `--z-font-mono` |
+| Colors | 12 | text (5), status (4), border/overlay (3) |
+| Surfaces | 9 | page, inset (4), card (2), shadow (2) |
+| Button | 14 | `--btn-*` |
+| Badge | 8 | `--badge-*` |
+| Card | 18 | `--card-*` |
+| Alert | 5 | `--alert-*` |
+| **Total** | **83** | |
+
+**Internal tokens (80) — not for user override:**
+`--zp-*` primitives (15), `--z-btn-*` genre structural (5), `--z-badge-*` genre structural (7), `--z-card-*` genre structural (25), `--z-alert-*` genre structural (14), docs chrome (14 — consumed only by the ZynaUI docs site, not by any component).
+
+**Why this matters:** No other Tailwind-plugin component library (DaisyUI, FlyonUI, or others) formally declares which CSS variables are stable public API. Users of those libraries override internal variables and get silently broken by minor releases. ZynaUI is now the first plugin-based component library with a formal CSS variable stability contract.
+
+---
+
 ## [0.1.11-beta] (2026-04-06)
 
 ### Genre: Atelier "MAISON"

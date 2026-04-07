@@ -11,3 +11,9 @@ composer.json
 docs/zynaui.css
 playwright-report/
 test-results/
+
+# Scratch / social assets — not for commit
+UI-RESEARCH.md
+docs/social-6-genres.html
+screenshot-social.cjs
+zyna-6-genres.png

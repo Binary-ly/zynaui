@@ -7,10 +7,37 @@ import ops from './genres/ops.js'
  * in the plugin entry point. Extracted here so index.js is a pure orchestration
  * file (single responsibility: plugin registration + wiring).
  *
+ * ── Semver API stability contract (effective v0.2.0) ─────────────────────────
+ *
+ * PUBLIC (83 tokens) — locked. Rename/remove requires a major version bump.
+ *   --zyna / --zyna-dark     Brand color pair (2)
+ *   --z-corner-*             Shape scale: sm, [md], lg, xl (4)
+ *   --z-duration-*           Motion durations: fast, base, slow, pulse (4)
+ *   --z-ease-*               Easing curves: enter, exit, spring, [std], snap, out (6 + 3 = but see below)
+ *   --z-font-mono            Monospace font stack (1)
+ *   --z-color-*              Text, status, border, overlay colors (12)
+ *   --z-surface-* / --z-shadow-*  Page, inset, card surfaces and shadows (9)
+ *   --btn-*                  Button element-level API (14)
+ *   --badge-*                Badge element-level API (8)
+ *   --card-*                 Card element-level API (18)
+ *   --alert-*                Alert element-level API (5)
+ *
+ * INTERNAL — may change in any minor release without notice.
+ *   --zp-*                   Primitives (raw values feeding semantic tokens)
+ *   --z-btn-*                Genre structural: button shape/geometry defaults
+ *   --z-badge-*              Genre structural: badge shape/padding defaults
+ *   --z-card-*               Genre structural: card surface/texture/bar defaults
+ *   --z-alert-*              Genre structural: alert bar position/prefix/texture
+ *   --bg / --bg2 / --bg3 / --text* / --border* / --topbar-* / --z-panel-*
+ *                            Docs chrome only — not consumed by any component
+ *
+ * Full reference: docs/css-api.md
+ * TypeScript types: types/index.d.ts → ZynaPublicToken
+ *
  * Token naming tiers:
- *   --zp-*    Primitives (raw values: corner sizes, ease curves, palette). Internal.
- *   --z-*     Genre structural tokens. Set on html by genre CSS selectors;
- *             end users should not set these directly.
+ *   --zp-*    Primitives (raw values: corner sizes, ease curves, palette). INTERNAL.
+ *   --z-*     Semantic tokens consumed by components (PUBLIC) plus genre structural
+ *             tokens set on html by the genre system (INTERNAL — see above).
  *   --btn-*   Public element-level tokens per component (--btn-bg, --card-border-color, etc.).
  *   --card-*  Each falls back to its --z-* genre token so the genre controls the default
  *   --badge-* and element overrides are purely opt-in.

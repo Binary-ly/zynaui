@@ -12,7 +12,8 @@ const NAV = [
     items: [
       { label: 'Overview',   href: '/',           meta: 'home' },
       { label: 'Changelog',  href: '/changelog/',  meta: 'log'  },
-      { label: 'Roadmap',    href: '/roadmap/',    meta: 'map'  }
+      { label: 'Roadmap',    href: '/roadmap/',    meta: 'map'  },
+      { label: 'CSS API',    href: '/css-api/',    meta: 'api'  }
     ]
   },
   {
@@ -68,6 +69,7 @@ function topbarHTML(currentPath) {
     { href: '/changelog/',  label: 'Changelog',     num: '03', group: 'project' },
     { href: '/roadmap/',    label: 'Roadmap',        num: '04', group: 'project' },
     { href: '/genres/',     label: 'Genre Builder', num: '05', group: 'tools'   },
+    { href: '/css-api/',    label: 'CSS API',        num: '06', group: 'project' },
   ]
   let prevGroup = null
   const navHTML = topbarLinks.map(({ href, label, num, group }) => {

@@ -1,6 +1,6 @@
 {
   "name": "zynaui",
-  "version": "0.1.11-beta",
+  "version": "0.2.0-beta",
   "description": "Tailwind CSS component library + D3 chart Web Components by Binary Tech Ltd",
   "author": "Binary Tech Ltd <hello@binary.ly>",
   "license": "MIT",
