@@ -82,3 +82,15 @@ export function ZynaOrbital({ data, height, color, theme, ...rest }) {
     ...rest,
   })
 }
+
+export function ZynaLine({ data, annotations, height, tension, theme, ...rest }) {
+  useZyna()
+  return createElement('zyna-line', {
+    data: JSON.stringify(data),
+    ...(annotations != null && { annotations: JSON.stringify(annotations) }),
+    ...(height      != null && { height: String(height) }),
+    ...(tension     != null && { tension: String(tension) }),
+    ...(theme       != null && { theme }),
+    ...rest,
+  })
+}
