@@ -56,10 +56,6 @@ export class ZynaChart extends HTMLElement {
     // returns the real layout dimension rather than 0 (pre-layout).
     // If ResizeObserver already fired and set _lastW (visible elements), skip
     // to avoid a redundant second render in the same frame.
-    // 2026-03-17: removed the previous `if (w > 0)` guard — display:block (added
-    // to the plugin's addBase) now ensures real width in normal use, and individual
-    // charts already fall back to || 480 so they still render in edge-case inline
-    // contexts rather than going permanently blank with no error.
     requestAnimationFrame(() => {
       if (this._lastW === 0) {
         this._lastW = this.clientWidth
@@ -154,6 +150,8 @@ export class ZynaChart extends HTMLElement {
 
   _brand()     { return getComputedStyle(document.documentElement).getPropertyValue('--zyna').trim()      || '#C9A84C' }
   _brandDark() { return getComputedStyle(document.documentElement).getPropertyValue('--zyna-dark').trim() || '#7A6230' }
+  _success()   { return getComputedStyle(document.documentElement).getPropertyValue('--zp-success').trim() || '#00FFB2' }
+  _danger()    { return getComputedStyle(document.documentElement).getPropertyValue('--zp-danger').trim()  || '#FF3366' }
 
   _render() {}
 }

@@ -37,7 +37,6 @@ export class ZynaGauge extends ZynaChart {
     const rawValue   = this._attr('value', '')
     const minAttr    = parseFloat(this._attr('min', '0'))
     const maxAttrRaw = parseFloat(this._attr('max', '100'))
-    const dark       = this._attr('theme', 'dark') !== 'light'
     const labelAttr  = this._attr('label', '')
     const fmt        = this._attr('label-format', '')
     const thkAttr    = parseFloat(this._attr('thickness', '0'))
@@ -47,20 +46,17 @@ export class ZynaGauge extends ZynaChart {
     const startLabel = this._attr('start-label', '')
     const endLabel   = this._attr('end-label', '')
     const zones      = this._json('zones', null)
+    const dark       = this._attr('theme', 'dark') !== 'light'
 
-    // Pick text colour from the actual rendered background luminance rather
-    // than the `theme` attribute — guarantees contrast across genres and any
-    // parent surface the gauge is dropped onto.
-    const bgIsDark = this._bgIsDark()
-    const textC = bgIsDark ? '#FFFFFF' : '#0B0B0F'
-    const endC  = textC
-    const markerFill   = bgIsDark ? '#FFFFFF' : '#0B0B0F'
-    const markerStroke = bgIsDark ? '#0B0B0F' : '#FFFFFF'
-
+    // Validate required inputs before doing any DOM or style work.
     if (rawValue === '' || rawValue === null) { this._warnEmpty('zyna-gauge'); return }
     const valueNum = parseFloat(rawValue)
     if (!Number.isFinite(valueNum)) { this._warnEmpty('zyna-gauge'); return }
     if (!Array.isArray(zones) || zones.length === 0) { this._warnEmpty('zyna-gauge'); return }
+
+    const textC        = dark ? '#FFFFFF' : '#0B0B0F'
+    const markerFill   = dark ? '#FFFFFF' : '#0B0B0F'
+    const markerStroke = dark ? '#0B0B0F' : '#FFFFFF'
 
     const minVal = Number.isFinite(minAttr) ? minAttr : 0
     const maxVal = Number.isFinite(maxAttrRaw) && maxAttrRaw > minVal ? maxAttrRaw : minVal + 1
@@ -78,9 +74,9 @@ export class ZynaGauge extends ZynaChart {
 
     // Reserve horizontal margin for the start/end labels so they don't clip
     // at the edges of the viewBox. Approximate glyph width ≈ 0.6·fontSize.
-    const fEnd0     = Math.max(10, W * 0.028)
+    const fEnd0      = Math.max(10, W * 0.028)
     const labelChars = Math.max(startLabel.length, endLabel.length)
-    const labelPad  = labelChars > 0 ? labelChars * fEnd0 * 0.6 + 6 : 0
+    const labelPad   = labelChars > 0 ? labelChars * fEnd0 * 0.6 + 6 : 0
 
     const cx     = W / 2
     const cy     = isHalf ? H * 0.82 : H * 0.55
@@ -111,16 +107,15 @@ export class ZynaGauge extends ZynaChart {
     // Clear old segment/marker nodes — simpler than a keyed join for a tiny N.
     svg.selectAll('.gauge-segment, .gauge-marker, .gauge-value, .gauge-label, .gauge-end-label').remove()
 
-    // Locate the active zone (value falls within [from, to]). Inclusive on the
-    // lower bound, exclusive on the upper — except for the final zone which
-    // is inclusive on both so max-value lands cleanly.
+    // Locate the active zone using clamped value so out-of-range readings still
+    // show the nearest zone label (min clamped → first zone, max clamped → last zone).
     let activeZone = null
     for (let i = 0; i < zones.length; i++) {
-      const z = zones[i]
-      const from = Number(z.from)
-      const to   = Number(z.to)
+      const z      = zones[i]
+      const from   = Number(z.from)
+      const to     = Number(z.to)
       const isLast = i === zones.length - 1
-      if (valueNum >= from && (isLast ? valueNum <= to : valueNum < to)) {
+      if (clamped >= from && (isLast ? clamped <= to : clamped < to)) {
         activeZone = z
         break
       }
@@ -142,10 +137,17 @@ export class ZynaGauge extends ZynaChart {
 
       const isPast = markerAngle < rawStart - 0.0001
 
+      // Cap corner radius so narrow zones don't visually collapse. A safe upper
+      // bound is ~30% of the arc chord length at the segment's midpoint.
+      const segSweep  = segEnd - segStart
+      const centreR_  = (innerR + outerR) / 2
+      const maxCorner = Math.max(0, segSweep * centreR_ * 0.3)
+      const cornerR   = Math.min(thickness * 0.4, maxCorner)
+
       const segArc = arcGenerator()
         .innerRadius(innerR).outerRadius(outerR)
         .startAngle(segStart).endAngle(segEnd)
-        .cornerRadius(thickness)
+        .cornerRadius(cornerR)
 
       svg.append('path')
         .attr('class', 'gauge-segment')
@@ -170,9 +172,9 @@ export class ZynaGauge extends ZynaChart {
       .attr('stroke-width', 1.5)
 
     // Centre value + label.
-    const valText = fmt ? this._fmt(valueNum, fmt) : String(valueNum)
-    const fVal = Math.max(18, W * 0.095)
-    const fLbl = Math.max(11, W * 0.034)
+    const valText  = fmt ? this._fmt(valueNum, fmt) : String(valueNum)
+    const fVal     = Math.max(18, W * 0.095)
+    const fLbl     = Math.max(11, W * 0.034)
     const subLabel = labelAttr || (activeZone && activeZone.label) || ''
 
     svg.append('text')
@@ -193,7 +195,7 @@ export class ZynaGauge extends ZynaChart {
       .text(subLabel)
 
     // Start / end labels sit just outside the arc ends, aligned away from centre.
-    const fEnd = fEnd0
+    const fEnd   = fEnd0
     const labelR = outerR + thickness * 0.4 + fEnd * 0.2
     const placeEndLabel = (text, angle, anchor) => {
       if (!text) return
@@ -204,36 +206,13 @@ export class ZynaGauge extends ZynaChart {
         .attr('x', lx).attr('y', ly)
         .attr('text-anchor', anchor)
         .attr('font-family', 'monospace')
-        .attr('font-size', `${fEnd}px`).attr('fill', endC).attr('opacity', 0.75)
+        .attr('font-size', `${fEnd}px`).attr('fill', textC).attr('opacity', 0.75)
         .attr('font-weight', '600')
         .text(text)
     }
     placeEndLabel(startLabel, startA, 'end')
     placeEndLabel(endLabel,   endA,   'start')
   }
-}
-
-/**
- * Walk up the DOM until we find a non-transparent background, then test its
- * luminance. Falls back to the `theme` attribute when every ancestor is
- * transparent (e.g. unattached fragment).
- */
-ZynaGauge.prototype._bgIsDark = function () {
-  let node = this
-  while (node && node.nodeType === 1) {
-    const bg = getComputedStyle(node).backgroundColor
-    const m = bg && bg.match(/rgba?\(([^)]+)\)/)
-    if (m) {
-      const parts = m[1].split(',').map(s => parseFloat(s.trim()))
-      const [r, g, b, a = 1] = parts
-      if (a > 0.05) {
-        const lum = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255
-        return lum < 0.5
-      }
-    }
-    node = node.parentElement
-  }
-  return this._attr('theme', 'dark') !== 'light'
 }
 
 if (!customElements.get('zyna-gauge')) {

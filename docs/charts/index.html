@@ -215,7 +215,14 @@
         <!-- Gauge -->
         <a href="/charts/gauge/" class="chart-card">
           <div class="chart-preview">
-            <zyna-gauge value="64" min="0" max="100" label="Memory %" height='260'></zyna-gauge>
+            <zyna-gauge
+              value="64" min="0" max="100" label="Memory %" height="260"
+              zones='[
+                {"from":0,  "to":30,  "color":"#11864f","label":"Low"},
+                {"from":30, "to":60,  "color":"#f1c40f","label":"Medium"},
+                {"from":60, "to":80,  "color":"#e67e22","label":"High"},
+                {"from":80, "to":100, "color":"#e74c3c","label":"Critical"}
+              ]'></zyna-gauge>
           </div>
           <div class="chart-info">
             <div class="chart-name">

@@ -114,7 +114,7 @@
     // …
   ]'</span>
   <span class="atr">color</span>=<span class="val">"#C9A84C"</span>
-  <span class="atr">bear-color</span>=<span class="val">"#B03A2E"</span>
+  <span class="atr">bear-color</span>=<span class="val">"#FF5252"</span>
   <span class="atr">theme</span>=<span class="val">"dark"</span>
 <span class="tag">&gt;&lt;/zyna-candlestick&gt;</span></pre>
             </div>
@@ -132,13 +132,12 @@
                 </thead>
                 <tbody>
                   <tr><td class="t-var">data</td><td class="t-type">JSON array</td><td class="t-def">—</td><td>Array of <code>{ date, open, high, low, close }</code> objects; <code>date</code> as a string.</td></tr>
-                  <tr><td class="t-var">color</td><td class="t-type">hex</td><td class="t-def">var(--zyna)</td><td>Fill colour for bullish candles (close ≥ open).</td></tr>
-                  <tr><td class="t-var">bear-color</td><td class="t-type">hex</td><td class="t-def">#B03A2E</td><td>Fill colour for bearish candles (close &lt; open).</td></tr>
+                  <tr><td class="t-var">color</td><td class="t-type">hex</td><td class="t-def">var(--zp-success)</td><td>Fill colour for bullish candles (close ≥ open).</td></tr>
+                  <tr><td class="t-var">bear-color</td><td class="t-type">hex</td><td class="t-def">var(--zp-danger)</td><td>Fill colour for bearish candles (close &lt; open).</td></tr>
                   <tr><td class="t-var">theme</td><td class="t-type">dark | light</td><td class="t-def">dark</td><td>Controls gridline and axis-label colour.</td></tr>
                   <tr><td class="t-var">height</td><td class="t-type">number</td><td class="t-def">—</td><td>Explicit height in px. Auto-derived from width when omitted.</td></tr>
                   <tr><td class="t-var">show-axis</td><td class="t-type">boolean</td><td class="t-def">true</td><td>Set to <code style="font-family:var(--mono);font-size:0.75rem">"false"</code> to hide y-axis ticks and x-axis labels.</td></tr>
                   <tr><td class="t-var">label-format</td><td class="t-type">string</td><td class="t-def">—</td><td>D3-style number format for y-axis tick labels (e.g. <code style="font-family:var(--mono);font-size:0.75rem">$,.0f</code>).</td></tr>
-                  <tr><td class="t-var">animate</td><td class="t-type">boolean</td><td class="t-def">true</td><td>Set to <code style="font-family:var(--mono);font-size:0.75rem">"false"</code> to skip the first-render growth animation.</td></tr>
                   <tr><td class="t-var">ticks</td><td class="t-type">number</td><td class="t-def">5</td><td>Approximate number of y-axis tick marks.</td></tr>
                 </tbody>
               </table>

@@ -92,7 +92,6 @@ export class ZynaOrbital extends ZynaChart {
       .attr('opacity', 0.16)
 
     // Outer tick marks — count proportional to radius so they scale with container.
-    // Replace feGaussianBlur filter with CSS filter on the group — GPU-accelerated.
     const tickCount = Math.max(36, Math.min(120, Math.round(outerR)))
     const tickData  = Array.from({ length: tickCount }, (_, t) => t)
 

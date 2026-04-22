@@ -127,6 +127,14 @@ describe('zyna-gauge', () => {
     expect(marker.getAttribute('cx')).to.not.be.empty
     // Centre text still shows the raw value.
     expect(el.querySelector('text.gauge-value').textContent).to.equal('150')
+    // Active zone uses clamped value (100) → last zone "Great" should show.
+    expect(el.querySelector('text.gauge-label').textContent).to.equal('Great')
+  })
+
+  it('out-of-range value still shows the nearest zone label', async () => {
+    // value=-10 clamps to 0 → falls in first zone "Bad"
+    const el = await fixture(`<zyna-gauge value="-10" min="0" max="100" zones='${ZONES}'></zyna-gauge>`)
+    expect(el.querySelector('text.gauge-label').textContent).to.equal('Bad')
   })
 
   it('clamps values below min without crashing', async () => {

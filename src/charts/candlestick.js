@@ -1,5 +1,5 @@
 import { ZynaChart } from './base.js'
-import { select, pointer } from 'd3-selection'
+import { select } from 'd3-selection'
 import { min, max } from 'd3-array'
 import { scaleBand, scaleLinear } from 'd3-scale'
 
@@ -10,8 +10,8 @@ import { scaleBand, scaleLinear } from 'd3-scale'
  *
  * Attributes:
  *   data         — JSON array of { date, open, high, low, close }; date as ISO string.
- *   color        — fill for bullish candles (close ≥ open). Default: var(--zyna)
- *   bear-color   — fill for bearish candles (close < open). Default: #B03A2E
+ *   color        — fill for bullish candles (close ≥ open). Default: var(--zp-success)
+ *   bear-color   — fill for bearish candles (close < open). Default: var(--zp-danger)
  *   theme        — 'dark' (default) or 'light'
  *   height       — explicit height in px. Auto-derived from width when omitted.
  *   show-axis    — set to "false" to hide axis ticks and labels. Default: true
@@ -25,8 +25,8 @@ export class ZynaCandlestick extends ZynaChart {
 
   _render() {
     const data       = this._json('data', [])
-    const bull       = this._attr('color', '#4CAF50')
-    const bear       = this._attr('bear-color', '#FF5252')
+    const bull       = this._attr('color',      this._success())
+    const bear       = this._attr('bear-color', this._danger())
     const dark       = this._attr('theme', 'dark') !== 'light'
     const heightAttr = parseInt(this._attr('height', '0'))
     const showAxis   = this._attr('show-axis', 'true') !== 'false'
@@ -42,7 +42,7 @@ export class ZynaCandlestick extends ZynaChart {
     const H = heightAttr > 0 ? heightAttr : Math.max(280, Math.round(W * 0.55))
 
     const m      = {
-      left:   showAxis ? Math.max(42, W * 0.08) : 12,
+      left:   showAxis ? Math.max(52, W * 0.10) : 12,
       right:  12,
       top:    10,
       bottom: showAxis ? 28 : 10
@@ -75,12 +75,16 @@ export class ZynaCandlestick extends ZynaChart {
       // Y-axis ticks + gridlines
       const yTicks = yScale.ticks(tickCount)
       svg.selectAll('g.cs-ytick').data(yTicks, t => t)
-        .join(enter => {
-          const g = enter.append('g').attr('class', 'cs-ytick')
-          g.append('line').attr('class', 'cs-tick-line')
-          g.append('text').attr('class', 'cs-tick-label')
-          return g
-        })
+        .join(
+          enter => {
+            const g = enter.append('g').attr('class', 'cs-ytick')
+            g.append('line').attr('class', 'cs-tick-line')
+            g.append('text').attr('class', 'cs-tick-label')
+            return g
+          },
+          update => update,
+          exit   => exit.remove()
+        )
         .each((tick, i, nodes) => {
           const g  = select(nodes[i])
           const ty = m.top + yScale(tick)
@@ -89,8 +93,9 @@ export class ZynaCandlestick extends ZynaChart {
             .attr('y1', ty).attr('y2', ty)
             .attr('stroke', gridC).attr('stroke-width', 0.8)
           g.select('.cs-tick-label')
-            .attr('x', m.left - 6).attr('y', ty + fSm * 0.35)
-            .attr('text-anchor', 'end').attr('font-family', 'monospace')
+            .attr('x', m.left - 10).attr('y', ty + fSm * 0.35)
+            .attr('text-anchor', 'end').attr('direction', 'ltr')
+            .attr('font-family', 'monospace')
             .attr('font-size', `${fSm}px`).attr('fill', labelC)
             .text(fmt ? this._fmt(tick, fmt) : tick)
         })
@@ -99,14 +104,19 @@ export class ZynaCandlestick extends ZynaChart {
       const maxLabels = Math.max(2, Math.floor(innerW / 80))
       const labelStep = Math.max(1, Math.ceil(data.length / maxLabels))
       svg.selectAll('text.cs-xlabel').data(data, d => d.date)
-        .join(enter => enter.append('text').attr('class', 'cs-xlabel'))
+        .join(
+          enter => enter.append('text').attr('class', 'cs-xlabel'),
+          update => update,
+          exit   => exit.remove()
+        )
         .each((d, i, nodes) => {
           const visible = i % labelStep === 0
           const tx      = m.left + xScale(d.date) + bw / 2
           select(nodes[i])
             .attr('display', visible ? null : 'none')
             .attr('x', tx).attr('y', H - m.bottom + 16)
-            .attr('text-anchor', 'middle').attr('font-family', 'monospace')
+            .attr('text-anchor', 'middle').attr('direction', 'ltr')
+            .attr('font-family', 'monospace')
             .attr('font-size', `${fSm}px`).attr('fill', labelC)
             .text(d.date)
         })
@@ -117,22 +127,26 @@ export class ZynaCandlestick extends ZynaChart {
 
     // Per-candle groups keyed by date so D3 reuses existing elements on resize.
     svg.selectAll('g.cs-candle').data(data, d => d.date)
-      .join(enter => {
-        const g = enter.append('g').attr('class', 'cs-candle')
-        g.append('line').attr('class', 'cs-wick')
-        g.append('rect').attr('class', 'cs-body')
-        return g
-      })
+      .join(
+        enter => {
+          const g = enter.append('g').attr('class', 'cs-candle')
+          g.append('line').attr('class', 'cs-wick')
+          g.append('rect').attr('class', 'cs-body')
+          return g
+        },
+        update => update,
+        exit   => exit.remove()
+      )
       .each((pt, i, nodes) => {
-        const g     = select(nodes[i])
+        const g      = select(nodes[i])
         const isBull = pt.close >= pt.open
-        const c     = isBull ? bull : bear
-        const cx    = m.left + xScale(pt.date) + bw / 2
-        const yHi   = m.top + yScale(pt.high)
-        const yLo   = m.top + yScale(pt.low)
-        const yTop  = m.top + yScale(Math.max(pt.open, pt.close))
-        const yBot  = m.top + yScale(Math.min(pt.open, pt.close))
-        const bodyH = Math.max(1, yBot - yTop)
+        const c      = isBull ? bull : bear
+        const cx     = m.left + xScale(pt.date) + bw / 2
+        const yHi    = m.top + yScale(pt.high)
+        const yLo    = m.top + yScale(pt.low)
+        const yTop   = m.top + yScale(Math.max(pt.open, pt.close))
+        const yBot   = m.top + yScale(Math.min(pt.open, pt.close))
+        const bodyH  = Math.max(1, yBot - yTop)
 
         g.select('.cs-wick')
           .attr('x1', cx).attr('x2', cx)
@@ -146,97 +160,6 @@ export class ZynaCandlestick extends ZynaChart {
           .attr('height', bodyH)
           .attr('fill', c).attr('stroke', c).attr('stroke-width', 1)
       })
-
-    // ── Crosshair + tooltip ───────────────────────────────────────────────────
-    const crossC   = dark ? 'rgba(255,255,255,0.22)' : 'rgba(0,0,0,0.18)'
-    const tipBgC   = dark ? '#16161E' : '#F5F2EA'
-    const tipBrC   = dark ? '#2A2A36' : '#D8D4C8'
-    const tipTextC = dark ? '#8A8090' : '#6A6460'
-    const tipHlC   = dark ? '#E0D8CC' : '#1A1510'
-
-    const tipPad = 8
-    const lineH  = Math.round(fSm * 1.65)
-    const tipW   = Math.max(96, fSm * 9)
-    const tipH   = tipPad * 2 + lineH * 2
-
-    let xhG = svg.select('g.cs-crosshair')
-    if (xhG.empty()) {
-      xhG = svg.append('g').attr('class', 'cs-crosshair').attr('display', 'none')
-      xhG.append('line').attr('class', 'cs-ch-v')
-      xhG.append('line').attr('class', 'cs-ch-h')
-      const tip = xhG.append('g').attr('class', 'cs-tip')
-      tip.append('rect').attr('class', 'cs-tip-bg').attr('rx', 4)
-      ;['cs-tip-date', 'cs-tip-price'].forEach(cls => {
-        tip.append('text').attr('class', cls).attr('font-family', 'monospace')
-      })
-    }
-
-    const chV = xhG.select('.cs-ch-v')
-    const chH = xhG.select('.cs-ch-h')
-    const tip = xhG.select('.cs-tip')
-
-    chV.attr('y1', m.top).attr('y2', m.top + innerH)
-       .attr('stroke', crossC).attr('stroke-width', 1).attr('stroke-dasharray', '3,3')
-    chH.attr('x1', m.left).attr('x2', m.left + innerW)
-       .attr('stroke', crossC).attr('stroke-width', 1).attr('stroke-dasharray', '3,3')
-
-    tip.select('.cs-tip-bg')
-       .attr('width', tipW).attr('height', tipH)
-       .attr('fill', tipBgC).attr('stroke', tipBrC).attr('stroke-width', 1)
-
-    // transparent overlay on top — captures all mouse events
-    let overlay = svg.select('rect.cs-overlay')
-    if (overlay.empty()) {
-      overlay = svg.append('rect').attr('class', 'cs-overlay')
-                   .attr('fill', 'none').style('pointer-events', 'all')
-                   .attr('cursor', 'crosshair')
-    }
-    overlay.attr('x', m.left).attr('y', m.top).attr('width', innerW).attr('height', innerH)
-
-    const step = xScale.step()
-
-    overlay.on('mousemove', (event) => {
-      const [mx, my] = pointer(event, svg.node())
-      const relX = mx - m.left
-      const relY = my - m.top
-      if (relX < 0 || relX > innerW || relY < 0 || relY > innerH) {
-        xhG.attr('display', 'none'); return
-      }
-
-      const idx   = Math.min(data.length - 1, Math.max(0, Math.floor(relX / step)))
-      const pt    = data[idx]
-      const cx    = m.left + xScale(pt.date) + bw / 2
-      const price = yScale.invert(relY)
-
-      xhG.attr('display', null)
-      chV.attr('x1', cx).attr('x2', cx)
-      chH.attr('y1', my).attr('y2', my)
-
-      // position tooltip — flip when near right or bottom edge
-      let tx = cx + 12
-      if (tx + tipW > m.left + innerW - 4) tx = cx - tipW - 12
-      let ty = my - tipH / 2
-      if (ty < m.top + 4) ty = m.top + 4
-      if (ty + tipH > m.top + innerH - 4) ty = m.top + innerH - tipH - 4
-
-      tip.select('.cs-tip-bg').attr('x', tx).attr('y', ty)
-
-      const rows = [
-        { cls: 'cs-tip-date',  text: pt.date,                                         color: tipHlC,   bold: true },
-        { cls: 'cs-tip-price', text: fmt ? this._fmt(price, fmt) : price.toFixed(2),  color: tipTextC },
-      ]
-      rows.forEach(({ cls, text, color, bold }, i) => {
-        tip.select(`.${cls}`)
-           .attr('x', tx + tipPad)
-           .attr('y', ty + tipPad + fSm + i * lineH)
-           .attr('font-size', `${fSm}px`)
-           .attr('fill', color)
-           .attr('font-weight', bold ? 'bold' : 'normal')
-           .text(text)
-      })
-    })
-
-    overlay.on('mouseleave', () => xhG.attr('display', 'none'))
   }
 }
 
