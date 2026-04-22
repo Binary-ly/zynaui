@@ -14,7 +14,7 @@
 | Package | Description |
 |---------|-------------|
 | **Tailwind plugin** | Semantic classes: `.btn`, `.card`, `.badge`, `.alert` |
-| **Chart Web Components** | `<zyna-waffle>`, `<zyna-timeline>`, `<zyna-nightingale>`, `<zyna-lollipop>`, `<zyna-orbital>` |
+| **Chart Web Components** | `<zyna-waffle>`, `<zyna-timeline>`, `<zyna-nightingale>`, `<zyna-lollipop>`, `<zyna-orbital>`, `<zyna-candlestick>`, `<zyna-gauge>`, `<zyna-line>` |
 
 Framework-agnostic. Works in React, Vue, Svelte, Blade, or plain HTML.
 
@@ -228,7 +228,11 @@ npm install zynaui
 ```
 
 ```tsx
-import { ZynaWaffle, ZynaTimeline, ZynaNightingale, ZynaLollipop, ZynaOrbital } from 'zynaui/react'
+import {
+  ZynaWaffle, ZynaTimeline, ZynaNightingale,
+  ZynaLollipop, ZynaOrbital, ZynaCandlestick,
+  ZynaGauge, ZynaLine,
+} from 'zynaui/react'
 
 export default function Charts() {
   const data = [
@@ -257,6 +261,9 @@ import 'zynaui/charts/timeline'
 import 'zynaui/charts/nightingale'
 import 'zynaui/charts/lollipop'
 import 'zynaui/charts/orbital'
+import 'zynaui/charts/candlestick'
+import 'zynaui/charts/gauge'
+import 'zynaui/charts/line'
 ```
 
 ### Via CDN / Vanilla HTML (no bundler)
@@ -389,6 +396,110 @@ Concentric arc chart. Each ring is filled as a proportion of a full circle.
     { "label": "Planned",   "value": 0.32, "color": "#00FFB2" }
   ]'
 ></zyna-orbital>
+```
+
+---
+
+### `<zyna-candlestick>`
+
+OHLC candlestick chart for time-series price data. Bullish candles (close ≥ open) use the genre brand color; bearish candles use `bear-color`.
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `data` | JSON array | `[]` | `[{ date, open, high, low, close }]` in chronological order |
+| `color` | hex | genre brand | Bullish candle color |
+| `bear-color` | hex | `#B03A2E` | Bearish candle color |
+| `theme` | `dark`/`light` | `dark` | Color theme |
+| `show-axis` | boolean | `true` | Show/hide axis ticks and labels |
+| `label-format` | string | — | D3 number format for y-axis labels (e.g. `'$,.0f'`) |
+| `ticks` | number | `5` | Approximate y-axis tick count |
+| `height` | number | auto | Explicit height in px |
+
+```html
+<zyna-candlestick
+  data='[
+    { "date": "Apr 1",  "open": 100, "high": 104, "low": 97,  "close": 103 },
+    { "date": "Apr 2",  "open": 103, "high": 107, "low": 102, "close": 106 },
+    { "date": "Apr 3",  "open": 106, "high": 108, "low": 101, "close": 102 }
+  ]'
+  label-format="$,.0f"
+></zyna-candlestick>
+```
+
+---
+
+### `<zyna-gauge>`
+
+Segmented arc gauge for a single reading against a min/max range. Zones past the marker dim automatically so the "up-to-here" reading is clear.
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `value` | number | — | Current reading (required) |
+| `min` | number | `0` | Range minimum |
+| `max` | number | `100` | Range maximum |
+| `zones` | JSON array | — | `[{ from, to, color, label? }]` (required) |
+| `theme` | `dark`/`light` | `dark` | Color theme |
+| `arc-degrees` | number | `180` | Total arc sweep in degrees |
+| `start-label` | string | — | Label at the arc start end |
+| `end-label` | string | — | Label at the arc end |
+| `label` | string | active zone label | Static caption override |
+| `label-format` | string | — | D3 number format for the centre value |
+| `thickness` | number | auto | Arc thickness in px |
+| `dim-opacity` | number | `0.35` | Opacity of zones past the marker |
+| `height` | number | auto | Explicit height in px |
+
+```html
+<zyna-gauge
+  value="64" min="0" max="100"
+  zones='[
+    { "from": 0,  "to": 30,  "color": "#11864f", "label": "Low" },
+    { "from": 30, "to": 60,  "color": "#f1c40f", "label": "Medium" },
+    { "from": 60, "to": 80,  "color": "#e67e22", "label": "High" },
+    { "from": 80, "to": 100, "color": "#e74c3c", "label": "Critical" }
+  ]'
+></zyna-gauge>
+```
+
+---
+
+### `<zyna-line>`
+
+Multi-series area-line chart. Each series gets its own line and filled region; fills stack between adjacent series for a layered depth effect.
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `data` | JSON array | `[]` | `[{ label?, color?, values: [{ x, y }] }]` |
+| `annotations` | JSON array | `[]` | `[{ series, x, label?, direction? }]` — `direction` is `'up'` or `'down'` |
+| `tension` | number | `0` | Curve smoothing: `0` = straight lines, `1` = max Catmull-Rom |
+| `y-min` | number | auto | Explicit y-axis lower bound |
+| `y-max` | number | auto | Explicit y-axis upper bound |
+| `ticks` | number | `4` | Y-axis tick count |
+| `theme` | `dark`/`light` | `dark` | Color theme |
+| `height` | number | auto | Explicit height in px |
+
+Set `x: ''` on intermediate data points to suppress crowded x-axis labels.
+
+```html
+<zyna-line
+  data='[
+    {
+      "label": "Revenue",
+      "values": [
+        { "x": "Jan", "y": 312 }, { "x": "Feb", "y": 298 },
+        { "x": "Mar", "y": 341 }, { "x": "Apr", "y": 367 }
+      ]
+    },
+    {
+      "label": "Target", "color": "#4BBFA8",
+      "values": [
+        { "x": "Jan", "y": 300 }, { "x": "Feb", "y": 310 },
+        { "x": "Mar", "y": 320 }, { "x": "Apr", "y": 340 }
+      ]
+    }
+  ]'
+  annotations='[{ "series": 0, "x": "Apr", "label": "Peak", "direction": "up" }]'
+  tension="0.4"
+></zyna-line>
 ```
 
 ---
