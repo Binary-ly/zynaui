@@ -44,8 +44,9 @@ export class ZynaLine extends ZynaChart {
     // tension: 0 = linear, 1 = max smooth. Maps to curveCardinal.tension(1 - t).
     const tension    = Math.min(1, Math.max(0, parseFloat(this._attr('tension', '0')) || 0))
 
-    // Default color palette for series without an explicit color
-    const palette = ['#C9A84C', '#4BBFA8', '#A07DC0', '#E07B54', '#5A8FC2', '#7CBD6B']
+    // Default color palette for series without an explicit color.
+    // First slot uses the genre brand token so the primary series always matches the active genre.
+    const palette = [this._brand(), '#4BBFA8', '#A07DC0', '#E07B54', '#5A8FC2', '#7CBD6B']
     const series = raw.map((s, i) => ({
       label:  s.label  || '',
       color:  s.color  || palette[i % palette.length],
@@ -78,7 +79,7 @@ export class ZynaLine extends ZynaChart {
     const hasLegend = series.some(s => s.label)
     const legendH   = hasLegend ? fSm + 14 : 0
 
-    const m      = { top: 20, right: Math.max(40, W * 0.08), bottom: 36 + legendH, left: 10 }
+    const m      = { top: 20, right: Math.max(40, W * 0.08), bottom: 36 + legendH, left: Math.max(30, W * 0.05) }
     const innerW = W - m.left - m.right
     const innerH = H - m.top - m.bottom
 
@@ -270,10 +271,6 @@ export class ZynaLine extends ZynaChart {
       const legY      = innerH + 36 + legendH * 0.5
       const swatchW   = 16
       const gap       = 6
-      // Estimate total legend width to center it
-      const itemW     = swatchW + gap + series.reduce((sum, s) => {
-        return sum + (s.label ? s.label.length * fSm * 0.55 : 0)
-      }, 0)
       const itemSpacingW = innerW / series.filter(s => s.label).length
       const legSeries = series.filter(s => s.label)
 

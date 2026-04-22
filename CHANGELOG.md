@@ -4,6 +4,24 @@ All notable changes to ZynaUI are documented here.
 
 ---
 
+## [0.2.2-beta] (2026-04-22)
+
+### Chart: Line `<zyna-line>`
+
+New chart: **multi-series area-line chart** with stacked filled regions, smooth Catmull-Rom curve control, annotation markers, and an auto-generated legend.
+
+- **Multi-series** — pass any number of series via `data: [{ label?, color?, values: [{x, y}] }]`. Each series gets its own line and fill region.
+- **Stacked fills** — the area below the bottom series is filled; each subsequent series fills the gap between itself and the series below it, giving a layered depth effect.
+- **Tension control** — `tension` attribute (0–1): `0` = straight segments (default), `1` = maximum Catmull-Rom smoothing.
+- **Annotation markers** — per-point `annotations` array: filled dot + optional `▲`/`▼` triangle + label per data point. `series` index targets the correct line.
+- **Auto legend** — rendered below the x-axis when any series has a `label`. Swatch line + dot per entry, evenly spaced.
+- **Genre-aware palette** — first series defaults to `var(--zyna)` so it always matches the active genre. Remaining slots use a fixed palette; all can be overridden per-series via `color`.
+- **y-min / y-max** — explicit axis bound overrides for locked scales.
+- **`label-format`-compatible** — x-axis labels rendered from the `x` key in each data point; set `x: ''` on intermediate points to suppress crowding.
+- React wrapper, TypeScript definitions (`ZynaLineSeries`, `ZynaLineAnnotation`, `ZynaLineAttributes`, `ZynaLineProps`), and docs page included.
+
+---
+
 ## [0.2.1-beta] (2026-04-17)
 
 ### Two new chart Web Components: `<zyna-candlestick>` and `<zyna-gauge>`
