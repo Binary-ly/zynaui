@@ -88,6 +88,7 @@
     "build:iife": "vite build --config vite.iife.config.js",
     "build:css": "tailwindcss -i ./docs/input.css -o ./docs/zynaui.css && tailwindcss -i ./docs/input.css -o ./dist/zynaui.css && cp dist/zyna-charts.iife.js docs/dist/zyna-charts.iife.js",
     "dev": "vite build --watch",
+    "dev:charts": "node scripts/dev-charts.js",
     "preview": "vite preview --open docs/index.html",
     "dev:docs": "vite --config vite.docs.config.js",
     "preview:docs": "vite preview --config vite.docs.config.js",
