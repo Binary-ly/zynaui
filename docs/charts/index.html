@@ -86,10 +86,10 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://zyna.dev/charts/">
   <meta property="og:title" content="Charts — ZynaUI">
-  <meta property="og:description" content="ZynaUI data visualization components: waffle chart, timeline, nightingale/rose chart, lollipop chart, and orbital chart.">
+  <meta property="og:description" content="ZynaUI data visualization components: waffle, timeline, nightingale/rose, lollipop, orbital, candlestick, and gauge charts.">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Charts — ZynaUI">
-  <meta name="twitter:description" content="ZynaUI data visualization components: waffle chart, timeline, nightingale/rose chart, lollipop chart, and orbital chart.">
+  <meta name="twitter:description" content="ZynaUI data visualization components: waffle, timeline, nightingale/rose, lollipop, orbital, candlestick, and gauge charts.">
   <link rel="canonical" href="https://zyna.dev/charts/">
 </head>
 <body>
@@ -192,6 +192,44 @@
               <span class="arrow">→</span>
             </div>
             <div class="chart-desc">Concentric arc chart where each ring fills a proportion of a full circle (0–1). Includes tick marks, radial glow, and elbow leader lines.</div>
+          </div>
+        </a>
+
+        <!-- Candlestick -->
+        <a href="/charts/candlestick/" class="chart-card">
+          <div class="chart-preview">
+            <zyna-candlestick
+              data='[{"date":"04-01","open":100,"high":104,"low":97,"close":103},{"date":"04-02","open":103,"high":107,"low":102,"close":106},{"date":"04-03","open":106,"high":108,"low":101,"close":102},{"date":"04-04","open":102,"high":105,"low":99,"close":104},{"date":"04-05","open":104,"high":110,"low":103,"close":109},{"date":"04-06","open":109,"high":112,"low":107,"close":108},{"date":"04-07","open":108,"high":109,"low":101,"close":102},{"date":"04-08","open":102,"high":103,"low":96,"close":98},{"date":"04-09","open":98,"high":101,"low":95,"close":100},{"date":"04-10","open":100,"high":104,"low":99,"close":103}]'
+              height='280' show-axis="false">
+            </zyna-candlestick>
+          </div>
+          <div class="chart-info">
+            <div class="chart-name">
+              Candlestick
+              <span class="arrow">→</span>
+            </div>
+            <div class="chart-desc">OHLC candlestick chart for time-series price data. Wick plus body per period, with bullish/bearish colouring.</div>
+          </div>
+        </a>
+
+        <!-- Gauge -->
+        <a href="/charts/gauge/" class="chart-card">
+          <div class="chart-preview">
+            <zyna-gauge
+              value="64" min="0" max="100" label="Memory %" height="260"
+              zones='[
+                {"from":0,  "to":30,  "color":"#11864f","label":"Low"},
+                {"from":30, "to":60,  "color":"#f1c40f","label":"Medium"},
+                {"from":60, "to":80,  "color":"#e67e22","label":"High"},
+                {"from":80, "to":100, "color":"#e74c3c","label":"Critical"}
+              ]'></zyna-gauge>
+          </div>
+          <div class="chart-info">
+            <div class="chart-name">
+              Gauge
+              <span class="arrow">→</span>
+            </div>
+            <div class="chart-desc">Radial gauge for a single reading against a min/max range. Three-quarter (default) or half-gauge variants for dashboard KPIs.</div>
           </div>
         </a>
 

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{var _zg=localStorage.getItem('zyna-genre');if(_zg&&_zg!=='Ops'){document.documentElement.dataset.genre=_zg.toLowerCase();var _zt=JSON.parse(localStorage.getItem('zyna-genre-tokens')||'{}');for(var _zk in _zt)document.documentElement.style.setProperty(_zk,_zt[_zk])}}catch(e){}</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="../../favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+  <link rel="manifest" href="../../site.webmanifest">
+  <title>Candlestick — Zyna UI Charts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=DM+Mono:wght@400;500&family=Share+Tech+Mono&family=VT323&display=swap" media="print" onload="this.media='all'">
+  <script src="/dist/zyna-charts.iife.js" defer></script>
+  <link rel="stylesheet" href="../../zynaui.css">
+  <link rel="stylesheet" href="../../docs.css">
+  <style>
+    .theme-sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;user-select:none;font-size:.72rem;color:var(--text3);font-weight:600;letter-spacing:.04em;padding:0 4px}
+    .theme-sw input{position:absolute;opacity:0;width:0;height:0}
+    .theme-track{position:relative;display:block;width:32px;height:18px;background:var(--bg3);border:1px solid var(--border);border-radius:9px;transition:background .2s;flex-shrink:0}
+    .theme-track::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:var(--text3);transition:transform .2s}
+    .theme-sw input:checked~.theme-track{background:color-mix(in oklch,var(--zyna) 15%,var(--bg3))}
+    .theme-sw input:checked~.theme-track::after{transform:translateX(14px);background:var(--zyna)}
+  </style>
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zyna.dev/charts/candlestick/">
+  <meta property="og:title" content="Candlestick Chart — ZynaUI">
+  <meta property="og:description" content="ZynaUI OHLC candlestick chart for time-series price data. Wick plus body per period, with bullish/bearish colouring.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Candlestick Chart — ZynaUI">
+  <meta name="twitter:description" content="ZynaUI OHLC candlestick chart for time-series price data. Wick plus body per period, with bullish/bearish colouring.">
+  <link rel="canonical" href="https://zyna.dev/charts/candlestick/">
+</head>
+<body>
+  <header id="topbar"></header>
+  <div id="docs-layout">
+    <aside id="sidebar"></aside>
+    <main id="content">
+
+      <div class="page-header">
+        <nav aria-label="Breadcrumb" class="breadcrumb">
+          <ol>
+            <li><a href="/charts/">Charts</a></li>
+            <li><span class="breadcrumb-sep" aria-hidden="true">›</span><span aria-current="page">Candlestick</span></li>
+          </ol>
+        </nav>
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap">
+          <h1 class="page-title" style="margin-bottom:0">Candlestick</h1>
+          <code style="font-family:var(--mono);font-size:0.78rem;padding:0.2rem 0.6rem;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--brand)">&lt;zyna-candlestick&gt;</code>
+        </div>
+        <p class="page-desc">OHLC candlestick chart. Each period is drawn as a wick (high to low) with a body showing open and close. Bullish candles (close above open) use the accent colour; bearish candles use the bear colour.</p>
+      </div>
+
+      <!-- Demo -->
+      <div class="doc-section">
+        <h2 class="section-title">Demo</h2>
+        <div class="tabs-bar" role="tablist" aria-label="Candlestick demo" style="display:flex;align-items:center">
+          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="cs-p" id="tab-cs-p" tabindex="0" onclick="tab(this,'cs-p')">Preview</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="cs-c" id="tab-cs-c" tabindex="-1" onclick="tab(this,'cs-c')">Code</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="cs-a" id="tab-cs-a" tabindex="-1" onclick="tab(this,'cs-a')">Attributes</button>
+          <label class="theme-sw" style="margin-left:auto">
+            <input type="checkbox" role="switch" id="theme-chk" onchange="setTheme(this.checked)">
+            <span class="theme-track"></span>
+            <span>Light</span>
+          </label>
+        </div>
+        <div>
+          <div id="cs-p" class="tab-panel active" role="tabpanel" aria-labelledby="tab-cs-p" tabindex="0">
+            <div class="preview-box col" data-chart-bg style="min-height:360px;padding:1.5rem">
+              <p style="font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:1rem">Daily OHLC — synthetic price series</p>
+              <zyna-candlestick
+                data='[
+                  {"date":"04-01","open":100,"high":104,"low":97,"close":103},
+                  {"date":"04-02","open":103,"high":107,"low":102,"close":106},
+                  {"date":"04-03","open":106,"high":108,"low":101,"close":102},
+                  {"date":"04-04","open":102,"high":105,"low": 99,"close":104},
+                  {"date":"04-05","open":104,"high":110,"low":103,"close":109},
+                  {"date":"04-06","open":109,"high":112,"low":107,"close":108},
+                  {"date":"04-07","open":108,"high":109,"low":101,"close":102},
+                  {"date":"04-08","open":102,"high":103,"low": 96,"close": 98},
+                  {"date":"04-09","open": 98,"high":101,"low": 95,"close":100},
+                  {"date":"04-10","open":100,"high":104,"low": 99,"close":103},
+                  {"date":"04-11","open":103,"high":107,"low":102,"close":106},
+                  {"date":"04-12","open":106,"high":108,"low":102,"close":103},
+                  {"date":"04-13","open":103,"high":105,"low": 98,"close": 99},
+                  {"date":"04-14","open": 99,"high":102,"low": 96,"close":101},
+                  {"date":"04-15","open":101,"high":106,"low":100,"close":105},
+                  {"date":"04-16","open":105,"high":111,"low":104,"close":110},
+                  {"date":"04-17","open":110,"high":114,"low":108,"close":113},
+                  {"date":"04-18","open":113,"high":115,"low":109,"close":110},
+                  {"date":"04-19","open":110,"high":112,"low":105,"close":107},
+                  {"date":"04-20","open":107,"high":111,"low":106,"close":110}
+                ]'
+                style="display:block;width:100%">
+              </zyna-candlestick>
+            </div>
+          </div>
+          <div id="cs-c" class="tab-panel" role="tabpanel" aria-labelledby="tab-cs-c" tabindex="0">
+            <div class="code-box">
+              <div class="code-toolbar">
+                <span class="code-lang">HTML</span>
+                <button class="copy-btn" aria-label="Copy candlestick example" onclick="cp(this,'cs-code')">
+                  <svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                  Copy
+                </button>
+              </div>
+              <pre id="cs-code"><span class="tag">&lt;zyna-candlestick</span>
+  <span class="atr">data</span>=<span class="val">'[
+    {"date":"04-01","open":100,"high":104,"low":97, "close":103},
+    {"date":"04-02","open":103,"high":107,"low":102,"close":106},
+    {"date":"04-03","open":106,"high":108,"low":101,"close":102}
+    // …
+  ]'</span>
+  <span class="atr">color</span>=<span class="val">"#C9A84C"</span>
+  <span class="atr">bear-color</span>=<span class="val">"#FF5252"</span>
+  <span class="atr">theme</span>=<span class="val">"dark"</span>
+<span class="tag">&gt;&lt;/zyna-candlestick&gt;</span></pre>
+            </div>
+          </div>
+          <div id="cs-a" class="tab-panel" role="tabpanel" aria-labelledby="tab-cs-a" tabindex="0">
+            <div style="border:1px solid var(--border);border-top:none;border-bottom-left-radius:var(--radius);border-bottom-right-radius:var(--radius);overflow:hidden">
+              <table class="api-table" aria-label="Candlestick attributes" style="border:none;border-radius:0">
+                <thead>
+                  <tr>
+                    <th>Attribute</th>
+                    <th>Type</th>
+                    <th>Default</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td class="t-var">data</td><td class="t-type">JSON array</td><td class="t-def">—</td><td>Array of <code>{ date, open, high, low, close }</code> objects; <code>date</code> as a string.</td></tr>
+                  <tr><td class="t-var">color</td><td class="t-type">hex</td><td class="t-def">var(--zp-success)</td><td>Fill colour for bullish candles (close ≥ open).</td></tr>
+                  <tr><td class="t-var">bear-color</td><td class="t-type">hex</td><td class="t-def">var(--zp-danger)</td><td>Fill colour for bearish candles (close &lt; open).</td></tr>
+                  <tr><td class="t-var">theme</td><td class="t-type">dark | light</td><td class="t-def">dark</td><td>Controls gridline and axis-label colour.</td></tr>
+                  <tr><td class="t-var">height</td><td class="t-type">number</td><td class="t-def">—</td><td>Explicit height in px. Auto-derived from width when omitted.</td></tr>
+                  <tr><td class="t-var">show-axis</td><td class="t-type">boolean</td><td class="t-def">true</td><td>Set to <code style="font-family:var(--mono);font-size:0.75rem">"false"</code> to hide y-axis ticks and x-axis labels.</td></tr>
+                  <tr><td class="t-var">label-format</td><td class="t-type">string</td><td class="t-def">—</td><td>D3-style number format for y-axis tick labels (e.g. <code style="font-family:var(--mono);font-size:0.75rem">$,.0f</code>).</td></tr>
+                  <tr><td class="t-var">ticks</td><td class="t-type">number</td><td class="t-def">5</td><td>Approximate number of y-axis tick marks.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tips -->
+      <div class="doc-section">
+        <h2 class="section-title">Usage Tips</h2>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;font-size:0.875rem;color:var(--text2);line-height:1.75">
+          <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:0.4rem">
+            <li>Feed data in chronological order — the chart uses the input order as the x-axis order.</li>
+            <li>Pre-format date strings on the server; the chart renders them as-is on the x-axis.</li>
+            <li>Keep series between 20 and 80 candles for best legibility. Denser series work but individual bodies get thin.</li>
+            <li>Don't mix timeframes in one chart (daily + hourly). The band scale gives equal width to every entry.</li>
+          </ul>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script type="module" src="../../_nav.js"></script>
+  <script>
+    function setTheme(isLight) {
+      document.querySelectorAll('zyna-candlestick').forEach(el => {
+        if (isLight) el.setAttribute('theme', 'light')
+        else el.removeAttribute('theme')
+      })
+      document.querySelectorAll('[data-chart-bg]').forEach(b => {
+        b.style.background = isLight ? '#F8F6F2' : ''
+        b.style.backgroundImage = isLight ? 'none' : ''
+      })
+    }
+    function tab(btn, panelId) {
+      const bar = btn.parentElement
+      bar.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('active')
+        b.setAttribute('aria-selected', 'false')
+        b.setAttribute('tabindex', '-1')
+      })
+      btn.classList.add('active')
+      btn.setAttribute('aria-selected', 'true')
+      btn.setAttribute('tabindex', '0')
+      btn.focus()
+      const container = bar.nextElementSibling
+      container.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'))
+      document.getElementById(panelId).classList.add('active')
+    }
+    document.addEventListener('keydown', function(e) {
+      const btn = e.target.closest('[role="tab"]')
+      if (!btn) return
+      const bar = btn.closest('[role="tablist"]')
+      if (!bar) return
+      const tabs = [...bar.querySelectorAll('[role="tab"]')]
+      const idx = tabs.indexOf(btn)
+      let next
+      if (e.key === 'ArrowRight') next = tabs[(idx + 1) % tabs.length]
+      else if (e.key === 'ArrowLeft') next = tabs[(idx - 1 + tabs.length) % tabs.length]
+      else if (e.key === 'Home') next = tabs[0]
+      else if (e.key === 'End') next = tabs[tabs.length - 1]
+      if (next) { e.preventDefault(); next.click() }
+    })
+    function cp(btn, id) {
+      const txt = document.getElementById(id).innerText
+      navigator.clipboard.writeText(txt).then(() => {
+        btn.classList.add('ok')
+        btn.innerHTML = '<svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!'
+        setTimeout(() => {
+          btn.classList.remove('ok')
+          btn.innerHTML = '<svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy'
+        }, 2000)
+      })
+    }
+  </script>
+  <footer></footer>
+</body>
+</html>

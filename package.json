@@ -1,6 +1,6 @@
 {
   "name": "zynaui",
-  "version": "0.2.0-beta",
+  "version": "0.2.1-beta",
   "description": "Tailwind CSS component library + D3 chart Web Components by Binary Tech Ltd",
   "author": "Binary Tech Ltd <hello@binary.ly>",
   "license": "MIT",
@@ -58,7 +58,9 @@
     "./charts/timeline": "./dist/charts/timeline.js",
     "./charts/nightingale": "./dist/charts/nightingale.js",
     "./charts/lollipop": "./dist/charts/lollipop.js",
-    "./charts/orbital": "./dist/charts/orbital.js"
+    "./charts/orbital": "./dist/charts/orbital.js",
+    "./charts/candlestick": "./dist/charts/candlestick.js",
+    "./charts/gauge": "./dist/charts/gauge.js"
   },
   "files": [
     "dist",
@@ -74,7 +76,9 @@
     "./dist/charts/timeline.js",
     "./dist/charts/nightingale.js",
     "./dist/charts/lollipop.js",
-    "./dist/charts/orbital.js"
+    "./dist/charts/orbital.js",
+    "./dist/charts/candlestick.js",
+    "./dist/charts/gauge.js"
   ],
   "scripts": {
     "build": "node scripts/gen-version.js && vite build && vite build --config vite.iife.config.js && vite build --config vite.react.config.js && vite build --config vite.genres-docs.config.js && npm run build:css",

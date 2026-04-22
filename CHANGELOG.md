@@ -4,6 +4,17 @@ All notable changes to ZynaUI are documented here.
 
 ---
 
+## [0.2.1-beta] (2026-04-17)
+
+### Two new chart Web Components: `<zyna-candlestick>` and `<zyna-gauge>`
+
+Chart count goes from 5 to 7. Both new elements use only the existing peer deps (`d3-selection`, `d3-array`, `d3-scale`, `d3-shape`) — no new runtime dependencies. Both share the same resize/debounce lifecycle and `theme` / `label-format` conventions as the other five charts.
+
+- **`<zyna-candlestick>`** — OHLC candlestick chart. Data is `[{ date, open, high, low, close }]` in chronological order. Bullish candles (close ≥ open) use the `color` attribute (defaults to the active genre's brand color via `--zyna`); bearish candles use `bear-color` (default `#FF5252`). `scaleBand` on x, `scaleLinear` on y with 5% vertical padding. Y-axis gridlines and x-axis labels every Nth candle so long series stay legible. Interactive crosshair with a snap-to-nearest-candle tooltip showing date and price. `show-axis="false"` hides all axis ticks and labels.
+- **`<zyna-gauge>`** — segmented half-gauge. Colour bands are a `zones` JSON array of `{ from, to, color, label }`; `value`, `min`, and `max` are separate scalar attributes. Configurable arc sweep via `arc-degrees` (default `180`). A dot marker sits on the arc at the value's position; zones past the marker render at `dim-opacity` (default `0.35`) so the "up-to-here" reading is clear without a needle. The active zone's `label` auto-renders as the caption; pass the `label` attribute to override with a static string. `start-label` and `end-label` sit just outside the arc ends. Out-of-range values clamp to `[min, max]`.
+
+---
+
 ## [0.2.0-beta] (2026-04-06)
 
 ### Semver API stability contract: public CSS variable surface locked

@@ -43,6 +43,8 @@ export default defineConfig({
         'charts/nightingale':   resolve(__dirname, 'src/charts/nightingale.js'),
         'charts/lollipop':      resolve(__dirname, 'src/charts/lollipop.js'),
         'charts/orbital':       resolve(__dirname, 'src/charts/orbital.js'),
+        'charts/candlestick':   resolve(__dirname, 'src/charts/candlestick.js'),
+        'charts/gauge':         resolve(__dirname, 'src/charts/gauge.js'),
       },
       formats: ['es', 'cjs'],
       fileName: (format, entryName) => {
