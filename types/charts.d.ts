@@ -48,6 +48,7 @@ export interface ZynaOrbitalItem {
   color?: string
 }
 
+<<<<<<< HEAD
 export interface ZynaCandlestickItem {
   /** Period identifier rendered on the x-axis. ISO date string or any label. */
   date: string
@@ -55,6 +56,33 @@ export interface ZynaCandlestickItem {
   high: number
   low: number
   close: number
+=======
+export interface ZynaLinePoint {
+  /** Tick label shown on the x-axis. Pass '' to suppress the label for that point */
+  x: string
+  /** Y value */
+  y: number
+}
+
+export interface ZynaLineSeries {
+  /** Legend label for this series */
+  label?: string
+  /** CSS colour string. Defaults to the built-in palette */
+  color?: string
+  /** Data points for this series */
+  values: ZynaLinePoint[]
+}
+
+export interface ZynaLineAnnotation {
+  /** 0-based index into the data array identifying which series */
+  series: number
+  /** Must match a data point's x value exactly */
+  x: string
+  /** Text displayed near the dot */
+  label?: string
+  /** Renders a ▲ (up) or ▼ (down) triangle above the dot */
+  direction?: 'up' | 'down'
+>>>>>>> 5b68ef0 (Add <zyna-line> multi-series area-line chart)
 }
 
 // ── Attribute interfaces ──────────────────────────────────────────────────────
@@ -154,6 +182,29 @@ export interface ZynaGaugeAttributes extends ZynaChartBase {
   height?: string | number
 }
 
+export interface ZynaLineAttributes {
+  /** JSON-serialised array of {@link ZynaLineSeries} */
+  data?: string
+  /** JSON-serialised array of {@link ZynaLineAnnotation} */
+  annotations?: string
+  /** Curve tension: 0 = straight lines (default), 1 = maximum smoothing */
+  tension?: string | number
+  /** Explicit y-axis lower bound */
+  'y-min'?: string | number
+  /** Explicit y-axis upper bound */
+  'y-max'?: string | number
+  /** Number of y-axis ticks. Default: 4 */
+  ticks?: string | number
+  /** Explicit height in px */
+  height?: string | number
+  /** Colour theme. Default: 'dark' */
+  theme?: 'dark' | 'light'
+  class?: string
+  id?: string
+  style?: string
+  slot?: string
+}
+
 // ── Global HTMLElementTagNameMap augmentation (DOM / vanilla TS) ──────────────
 
 declare global {
@@ -165,6 +216,7 @@ declare global {
     'zyna-orbital':     HTMLElement
     'zyna-candlestick': HTMLElement
     'zyna-gauge':       HTMLElement
+    'zyna-line':        HTMLElement
   }
 }
 
@@ -183,6 +235,7 @@ declare namespace React {
       'zyna-orbital':     ZynaOrbitalAttributes     & { ref?: React.Ref<HTMLElement> }
       'zyna-candlestick': ZynaCandlestickAttributes & { ref?: React.Ref<HTMLElement> }
       'zyna-gauge':       ZynaGaugeAttributes       & { ref?: React.Ref<HTMLElement> }
+      'zyna-line':        ZynaLineAttributes        & { ref?: React.Ref<HTMLElement> }
     }
   }
 }

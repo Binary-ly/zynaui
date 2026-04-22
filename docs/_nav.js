@@ -29,7 +29,7 @@ const NAV = [
   },
   {
     label: 'Charts',
-    count: 7,
+    count: 8,
     items: [
       { label: 'All Charts',  href: '/charts/'                        },
       { label: 'Waffle',      href: '/charts/waffle/',      meta: 'grid'  },
@@ -38,7 +38,8 @@ const NAV = [
       { label: 'Lollipop',    href: '/charts/lollipop/',    meta: 'dot'   },
       { label: 'Orbital',     href: '/charts/orbital/',     meta: 'orbit' },
       { label: 'Candlestick', href: '/charts/candlestick/', meta: 'ohlc'  },
-      { label: 'Gauge',       href: '/charts/gauge/',       meta: 'arc'   }
+      { label: 'Gauge',       href: '/charts/gauge/',       meta: 'arc'   },
+      { label: 'Line',        href: '/charts/line/',        meta: 'line'  }
     ]
   }
 ]
@@ -58,7 +59,7 @@ function getPosition(path) {
     btn: 'button', card: 'card', badge: 'badge', alert: 'alert',
     waffle: 'waffle', timeline: 'timeline', nightingale: 'nightingale',
     lollipop: 'lollipop', orbital: 'orbital',
-    candlestick: 'candlestick', gauge: 'gauge',
+    candlestick: 'candlestick', gauge: 'gauge', line: 'line',
     changelog: 'changelog', roadmap: 'roadmap', genres: 'genres'
   }
   return path.replace(/^\/|\/$/g, '').split('/').map(s => slugMap[s] || s)

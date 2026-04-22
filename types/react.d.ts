@@ -13,6 +13,8 @@ import type {
   ZynaNightingaleItem,
   ZynaLollipopItem,
   ZynaOrbitalItem,
+  ZynaLineSeries,
+  ZynaLineAnnotation,
 } from './charts'
 
 import type { HTMLAttributes } from 'react'
@@ -56,8 +58,25 @@ export interface ZynaOrbitalProps extends Base {
   height?: number
 }
 
-export declare function ZynaWaffle(props: ZynaWaffleProps):      React.ReactElement | null
-export declare function ZynaTimeline(props: ZynaTimelineProps):  React.ReactElement | null
+export interface ZynaLineProps extends Base {
+  data: ZynaLineSeries[]
+  /** Annotation markers on specific data points */
+  annotations?: ZynaLineAnnotation[]
+  /** Chart height in pixels */
+  height?: number
+  /** Curve tension: 0 = straight lines (default), 1 = maximum smoothing */
+  tension?: number
+  /** Y-axis lower bound */
+  'y-min'?: number
+  /** Y-axis upper bound */
+  'y-max'?: number
+  /** Y-axis tick count. Default: 4 */
+  ticks?: number
+}
+
+export declare function ZynaWaffle(props: ZynaWaffleProps):          React.ReactElement | null
+export declare function ZynaTimeline(props: ZynaTimelineProps):      React.ReactElement | null
 export declare function ZynaNightingale(props: ZynaNightingaleProps): React.ReactElement | null
-export declare function ZynaLollipop(props: ZynaLollipopProps):  React.ReactElement | null
-export declare function ZynaOrbital(props: ZynaOrbitalProps):    React.ReactElement | null
+export declare function ZynaLollipop(props: ZynaLollipopProps):      React.ReactElement | null
+export declare function ZynaOrbital(props: ZynaOrbitalProps):        React.ReactElement | null
+export declare function ZynaLine(props: ZynaLineProps):               React.ReactElement | null

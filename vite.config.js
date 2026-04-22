@@ -45,6 +45,7 @@ export default defineConfig({
         'charts/orbital':       resolve(__dirname, 'src/charts/orbital.js'),
         'charts/candlestick':   resolve(__dirname, 'src/charts/candlestick.js'),
         'charts/gauge':         resolve(__dirname, 'src/charts/gauge.js'),
+        'charts/line':          resolve(__dirname, 'src/charts/line.js'),
       },
       formats: ['es', 'cjs'],
       fileName: (format, entryName) => {
