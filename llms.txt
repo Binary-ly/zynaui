@@ -59,7 +59,7 @@ Only one option is available:
 Link the compiled CSS directly:
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/zynaui/dist/zynaui.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/zynaui/dist/zynaui.css" />
 ```
 
 ---
@@ -274,7 +274,8 @@ import 'zynaui/charts'
 Or load via CDN (IIFE, no bundler required):
 
 ```html
-<script src="https://unpkg.com/zynaui/dist/zyna-charts.iife.js"></script>
+<!-- D3 is bundled inline — no extra dependencies required -->
+<script src="https://cdn.jsdelivr.net/npm/zynaui/dist/zyna-charts.iife.js"></script>
 ```
 
 All charts accept data as a JSON string attribute, are responsive (resize with their container via ResizeObserver), and support dark/light themes.
