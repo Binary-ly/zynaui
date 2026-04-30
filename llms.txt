@@ -389,6 +389,96 @@ Concentric ring chart — each ring encodes a proportion (0–1).
 
 ---
 
+### `<zyna-candlestick>`
+
+OHLC candlestick chart for time-series price data. Bullish candles (close ≥ open) use the genre brand colour; bearish candles use `bear-color`.
+
+```html
+<zyna-candlestick
+  data='[
+    { "date": "Apr 1", "open": 100, "high": 104, "low": 97,  "close": 103 },
+    { "date": "Apr 2", "open": 103, "high": 107, "low": 102, "close": 106 },
+    { "date": "Apr 3", "open": 106, "high": 108, "low": 101, "close": 102 }
+  ]'
+  label-format="$,.0f"
+></zyna-candlestick>
+```
+
+**Attributes:**
+- `data` (required): JSON array of `{ date, open, high, low, close }` in chronological order
+- `color`: bullish candle colour (defaults to genre brand)
+- `bear-color` (default: `"#B03A2E"`): bearish candle colour
+- `show-axis` (default: `"true"`): set `"false"` to hide axis ticks and labels
+- `label-format`: D3 number format for y-axis labels (e.g. `"$,.0f"`)
+- `ticks` (default: `"5"`): approximate y-axis tick count
+- `height`: explicit height in px; auto-derived from width when omitted
+- `theme`: `"dark"` (default) or `"light"`
+
+---
+
+### `<zyna-gauge>`
+
+Segmented arc gauge for a single reading against a min/max range. Zones past the marker dim automatically so the up-to-here reading is clear.
+
+```html
+<zyna-gauge
+  value="64" min="0" max="100"
+  zones='[
+    { "from": 0,  "to": 30,  "color": "#11864f", "label": "Low" },
+    { "from": 30, "to": 60,  "color": "#f1c40f", "label": "Medium" },
+    { "from": 60, "to": 80,  "color": "#e67e22", "label": "High" },
+    { "from": 80, "to": 100, "color": "#e74c3c", "label": "Critical" }
+  ]'
+></zyna-gauge>
+```
+
+**Attributes:**
+- `value` (required): current reading; clamped to `[min, max]`
+- `min` (default: `"0"`), `max` (default: `"100"`): range bounds
+- `zones` (required): JSON array of `{ from, to, color, label? }`
+- `arc-degrees` (default: `"180"`): total arc sweep in degrees
+- `start-label`, `end-label`: optional labels at the arc ends
+- `label`: static caption override (defaults to active zone's label)
+- `label-format`: D3 number format for the centre value (e.g. `".1%"`)
+- `thickness`: arc thickness in px (scales with radius when omitted)
+- `dim-opacity` (default: `"0.35"`): opacity of zones past the marker
+- `height`: explicit height in px
+- `theme`: `"dark"` (default) or `"light"`
+
+---
+
+### `<zyna-line>`
+
+Multi-series area-line chart. Each series gets its own line and filled region; fills stack between adjacent series for a layered depth effect.
+
+```html
+<zyna-line
+  data='[
+    { "label": "Revenue", "values": [
+      { "x": "Jan", "y": 312 }, { "x": "Feb", "y": 298 },
+      { "x": "Mar", "y": 341 }, { "x": "Apr", "y": 367 }
+    ]},
+    { "label": "Target", "color": "#4BBFA8", "values": [
+      { "x": "Jan", "y": 300 }, { "x": "Feb", "y": 310 },
+      { "x": "Mar", "y": 320 }, { "x": "Apr", "y": 340 }
+    ]}
+  ]'
+  annotations='[{ "series": 0, "x": "Apr", "label": "Peak", "direction": "up" }]'
+  tension="0.4"
+></zyna-line>
+```
+
+**Attributes:**
+- `data` (required): JSON array of `{ label?, color?, values: [{ x, y }] }`. Pass `x: ""` on intermediate points to suppress crowded x-axis labels.
+- `annotations`: JSON array of `{ series, x, label?, direction? }` where `direction` is `"up"` or `"down"`
+- `tension` (default: `"0"`): curve smoothing — `0` = straight lines, `1` = maximum Catmull-Rom
+- `y-min`, `y-max`: explicit y-axis bounds (auto when omitted)
+- `ticks` (default: `"4"`): y-axis tick count
+- `height`: explicit height in px
+- `theme`: `"dark"` (default) or `"light"`
+
+---
+
 ## Theming (Genres)
 
 Zyna UI ships with two built-in themes called "genres":
@@ -449,7 +539,7 @@ document.documentElement.dataset.genre = 'aurora'
 The `zynaui/react` export provides typed React wrapper components for the **chart Web Components only**. These handle SSR safety (no `HTMLElement` reference at import time) and accept native JS values instead of JSON strings.
 
 ```tsx
-import { ZynaWaffle, ZynaTimeline, ZynaNightingale, ZynaLollipop, ZynaOrbital } from 'zynaui/react'
+import { ZynaWaffle, ZynaTimeline, ZynaNightingale, ZynaLollipop, ZynaOrbital, ZynaCandlestick, ZynaGauge, ZynaLine } from 'zynaui/react'
 
 // The 'use client' directive is included in the package.
 // Works with Next.js App Router without extra setup.
@@ -518,6 +608,9 @@ import type { ZynaUIOptions } from 'zynaui'
 - Nightingale chart: https://zyna.dev/charts/nightingale/
 - Lollipop chart: https://zyna.dev/charts/lollipop/
 - Orbital chart: https://zyna.dev/charts/orbital/
+- Candlestick chart: https://zyna.dev/charts/candlestick/
+- Gauge chart: https://zyna.dev/charts/gauge/
+- Line chart: https://zyna.dev/charts/line/
 - Genre builder: https://zyna.dev/genres/
 - npm: https://www.npmjs.com/package/zynaui
 - GitHub: https://github.com/binary-ly/zynaui
