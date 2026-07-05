@@ -89,10 +89,15 @@ export class ZynaLine extends ZynaChart {
     // curveCardinal.tension(1) = linear, .tension(0) = max smooth
     const crv = curveCardinal.tension(1 - tension)
 
+    // Number.isFinite, not a null check: NaN passes `!= null` and one NaN point
+    // corrupts the whole path ("MNaN,NaN…") — the domain calc above already
+    // filters NaN, so the geometry must match it.
+    const okY = d => d != null && Number.isFinite(d.y)
+
     const mkLine = values => line()
       .x((d, i) => xScale(i))
       .y(d => yScale(d.y))
-      .defined(d => d != null && d.y != null)
+      .defined(okY)
       .curve(crv)(values)
 
     // Area from series i down to series i-1 (or baseline for i=0)
@@ -100,10 +105,10 @@ export class ZynaLine extends ZynaChart {
       .x((d, i) => xScale(i))
       .y0((d, i) => {
         const lv = lower?.[i]
-        return lv != null && lv.y != null ? yScale(lv.y) : yScale(yMin)
+        return okY(lv) ? yScale(lv.y) : yScale(yMin)
       })
-      .y1(d => d != null && d.y != null ? yScale(d.y) : yScale(yMin))
-      .defined((d, i) => d != null && d.y != null)
+      .y1(d => okY(d) ? yScale(d.y) : yScale(yMin))
+      .defined(okY)
       .curve(crv)(upper)
 
     const uid = this._uid
@@ -227,7 +232,7 @@ export class ZynaLine extends ZynaChart {
       const idx = s.values.findIndex(d => String(d.x) === String(ann.x))
       if (idx === -1) return null
       const pt  = s.values[idx]
-      if (pt == null || pt.y == null) return null
+      if (!okY(pt)) return null
       return { ...ann, si, idx, yVal: pt.y, color: s.color }
     }).filter(Boolean)
 

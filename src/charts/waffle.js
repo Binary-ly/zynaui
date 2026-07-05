@@ -32,9 +32,12 @@ export class ZynaWaffle extends ZynaChart {
 
     if (!data.length) { this._warnEmpty('zyna-waffle'); return }
 
-    const total = data.reduce((s, d) => s + d.value, 0)
+    // Non-numeric values count as 0 — one bad segment must not NaN the total
+    // (NaN total → NaN cell count → zero cells rendered with no diagnostic).
+    const total = data.reduce((s, d) => s + (Number.isFinite(+d.value) ? Math.max(0, +d.value) : 0), 0)
     // Cap at 100 cells — this chart is a proportion-grid, not a bar chart.
     const cells = Math.min(total, 100)
+    if (cells <= 0) { this._warnEmpty('zyna-waffle'); return }
     const rows  = Math.ceil(cells / cols)
 
     const W  = this.clientWidth || 480

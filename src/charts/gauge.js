@@ -49,10 +49,20 @@ export class ZynaGauge extends ZynaChart {
     const dark       = this._attr('theme', 'dark') !== 'light'
 
     // Validate required inputs before doing any DOM or style work.
-    if (rawValue === '' || rawValue === null) { this._warnEmpty('zyna-gauge'); return }
+    // The generic _warnEmpty tells users to add a `data` attribute, which the
+    // gauge doesn't have — its inputs are `value` and `zones`.
+    const warnInputs = () => {
+      if (!this.hasAttribute('data-silent')) {
+        console.warn('[zyna-gauge] Missing or invalid `value`/`zones`. Provide a numeric `value` and a JSON `zones` array of { from, to, color, label? }.')
+      }
+    }
+    if (rawValue === '' || rawValue === null) { warnInputs(); return }
     const valueNum = parseFloat(rawValue)
-    if (!Number.isFinite(valueNum)) { this._warnEmpty('zyna-gauge'); return }
-    if (!Array.isArray(zones) || zones.length === 0) { this._warnEmpty('zyna-gauge'); return }
+    if (!Number.isFinite(valueNum)) { warnInputs(); return }
+    if (!Array.isArray(zones) || zones.length === 0) { warnInputs(); return }
+    // Sort by `from` so the active-zone scan and last-zone inclusivity rule
+    // don't silently mis-pick when the author lists zones out of order.
+    zones.sort((a, b) => Number(a.from) - Number(b.from))
 
     const textC        = dark ? '#FFFFFF' : '#0B0B0F'
     const markerFill   = dark ? '#FFFFFF' : '#0B0B0F'

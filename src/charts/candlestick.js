@@ -24,7 +24,7 @@ export class ZynaCandlestick extends ZynaChart {
   }
 
   _render() {
-    const data       = this._json('data', [])
+    let data         = this._json('data', [])
     const bull       = this._attr('color',      this._success())
     const bear       = this._attr('bear-color', this._danger())
     const dark       = this._attr('theme', 'dark') !== 'light'
@@ -37,6 +37,17 @@ export class ZynaCandlestick extends ZynaChart {
     const labelC     = dark ? '#5A5050' : '#8A8478'
 
     if (!data.length) { this._warnEmpty('zyna-candlestick'); return }
+
+    // Drop rows with non-numeric OHLC — a single "n/a" high otherwise becomes
+    // yScale(NaN) → broken candles plus a console flood of SVG attribute errors.
+    const rows = data
+      .filter(d => d && ['open', 'high', 'low', 'close'].every(k => Number.isFinite(+d[k])))
+      .map(d => ({ ...d, open: +d.open, high: +d.high, low: +d.low, close: +d.close }))
+    if (rows.length < data.length && !this.hasAttribute('data-silent')) {
+      console.warn(`[zyna-candlestick] Skipped ${data.length - rows.length} row(s) with missing or non-numeric OHLC values.`)
+    }
+    if (!rows.length) return
+    data = rows
 
     const W = this.clientWidth || 600
     const H = heightAttr > 0 ? heightAttr : Math.max(280, Math.round(W * 0.55))

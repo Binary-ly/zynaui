@@ -96,6 +96,8 @@ export class ZynaChart extends HTMLElement {
 
   /**
    * Returns the JSON-parsed value of an attribute, or `fallback` if absent or unparseable.
+   * Malformed JSON gets its own warning — otherwise a typo'd `data` attribute
+   * falls through to _warnEmpty's "No data provided", which actively misleads.
    * @param {string} name
    * @param {*} fallback
    * @returns {*}
@@ -103,7 +105,12 @@ export class ZynaChart extends HTMLElement {
   _json(name, fallback) {
     const v = this.getAttribute(name)
     if (v === null) return fallback
-    try { return JSON.parse(v) } catch { return fallback }
+    try { return JSON.parse(v) } catch (e) {
+      if (!this.hasAttribute('data-silent')) {
+        console.warn(`[${this.localName}] Malformed JSON in \`${name}\` attribute — ignoring it. ${e.message}`)
+      }
+      return fallback
+    }
   }
 
   /**

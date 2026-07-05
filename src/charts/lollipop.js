@@ -103,7 +103,9 @@ export class ZynaLollipop extends ZynaChart {
       .each(function(pt, i) {
         const g     = select(this)
         const y     = m.top + (i + 0.5) * (innerH / data.length)
-        const x     = m.left + xScale(pt.value)
+        // Clamp into the [0, domainMax] domain — negative or non-numeric values
+        // otherwise place the dot left of the margin, unclipped.
+        const x     = m.left + xScale(Math.max(0, Number.isFinite(+pt.value) ? +pt.value : 0))
         const isTop = pt.label === hlLabel
         const c     = isTop ? accent : muted
         const ct    = isTop ? textC : mutedT
