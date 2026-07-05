@@ -1,9 +1,9 @@
 /**
  * Zyna UI — Chart Web Component type definitions
  *
- * Covers all 7 chart elements: <zyna-waffle>, <zyna-timeline>,
+ * Covers all 8 chart elements: <zyna-waffle>, <zyna-timeline>,
  * <zyna-nightingale>, <zyna-lollipop>, <zyna-orbital>,
- * <zyna-candlestick>, <zyna-gauge>.
+ * <zyna-candlestick>, <zyna-gauge>, <zyna-line>.
  *
  * Augments the global HTMLElementTagNameMap for TypeScript DOM lib usage
  * and declares React JSX intrinsic elements for React 18+ / Preact / Solid.
@@ -48,7 +48,6 @@ export interface ZynaOrbitalItem {
   color?: string
 }
 
-<<<<<<< HEAD
 export interface ZynaCandlestickItem {
   /** Period identifier rendered on the x-axis. ISO date string or any label. */
   date: string
@@ -56,7 +55,8 @@ export interface ZynaCandlestickItem {
   high: number
   low: number
   close: number
-=======
+}
+
 export interface ZynaLinePoint {
   /** Tick label shown on the x-axis. Pass '' to suppress the label for that point */
   x: string
@@ -82,7 +82,6 @@ export interface ZynaLineAnnotation {
   label?: string
   /** Renders a ▲ (up) or ▼ (down) triangle above the dot */
   direction?: 'up' | 'down'
->>>>>>> 5b68ef0 (Add <zyna-line> multi-series area-line chart)
 }
 
 // ── Attribute interfaces ──────────────────────────────────────────────────────
@@ -220,22 +219,26 @@ declare global {
   }
 }
 
-// ── React JSX intrinsic elements (React 18+, Preact, Solid) ──────────────────
-// Place this file in your tsconfig `types` array or import it once in a .d.ts
-// shim to enable autocomplete for <zyna-*> elements in JSX/TSX files.
+// ── JSX intrinsic elements (React ≤18 global JSX, Preact, Solid) ─────────────
+// Augments the *global* JSX namespace so <zyna-*> tags type-check in TSX.
+// React 19 consumers get typed components from `zynaui/react` instead.
 
-declare namespace React {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
+type ZynaElementRef =
+  | ((instance: HTMLElement | null) => void)
+  | { current: HTMLElement | null }
+  | null
+
+declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'zyna-waffle':      ZynaWaffleAttributes      & { ref?: React.Ref<HTMLElement> }
-      'zyna-timeline':    ZynaTimelineAttributes    & { ref?: React.Ref<HTMLElement> }
-      'zyna-nightingale': ZynaNightingaleAttributes & { ref?: React.Ref<HTMLElement> }
-      'zyna-lollipop':    ZynaLollipopAttributes    & { ref?: React.Ref<HTMLElement> }
-      'zyna-orbital':     ZynaOrbitalAttributes     & { ref?: React.Ref<HTMLElement> }
-      'zyna-candlestick': ZynaCandlestickAttributes & { ref?: React.Ref<HTMLElement> }
-      'zyna-gauge':       ZynaGaugeAttributes       & { ref?: React.Ref<HTMLElement> }
-      'zyna-line':        ZynaLineAttributes        & { ref?: React.Ref<HTMLElement> }
+      'zyna-waffle':      ZynaWaffleAttributes      & { ref?: ZynaElementRef }
+      'zyna-timeline':    ZynaTimelineAttributes    & { ref?: ZynaElementRef }
+      'zyna-nightingale': ZynaNightingaleAttributes & { ref?: ZynaElementRef }
+      'zyna-lollipop':    ZynaLollipopAttributes    & { ref?: ZynaElementRef }
+      'zyna-orbital':     ZynaOrbitalAttributes     & { ref?: ZynaElementRef }
+      'zyna-candlestick': ZynaCandlestickAttributes & { ref?: ZynaElementRef }
+      'zyna-gauge':       ZynaGaugeAttributes       & { ref?: ZynaElementRef }
+      'zyna-line':        ZynaLineAttributes        & { ref?: ZynaElementRef }
     }
   }
 }
