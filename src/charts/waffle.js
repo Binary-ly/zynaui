@@ -54,6 +54,7 @@ export class ZynaWaffle extends ZynaChart {
     }
     svg.attr('viewBox', `0 0 ${W} ${H}`).attr('width', W).attr('height', H)
       .style('background', bgC)
+    this._applyA11y(svg, `Waffle chart: ${data.map(d => `${d.label} ${d.value}`).join(', ')}`)
 
     const cellData = []
     data.forEach(d => {

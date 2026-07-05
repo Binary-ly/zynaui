@@ -61,6 +61,7 @@ export class ZynaTimeline extends ZynaChart {
       svg = select(this).append('svg').style('display', 'block')
     }
     svg.attr('viewBox', `0 0 ${W} ${H}`).attr('width', W).attr('height', H)
+    this._applyA11y(svg, `Timeline chart: ${data.map(d => `${d.label} ${fmtVal(d.value)}`).join(', ')}`)
 
     // Static baseline and rail — select-or-create rather than append-every-render.
     let baseline = svg.select('.tl-baseline')

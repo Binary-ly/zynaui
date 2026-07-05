@@ -66,6 +66,7 @@ export class ZynaLollipop extends ZynaChart {
       svg = select(this).append('svg').style('display', 'block')
     }
     svg.attr('viewBox', `0 0 ${W} ${H}`).attr('width', W).attr('height', H)
+    this._applyA11y(svg, `Lollipop chart: ${data.map(d => `${d.label} ${fmtVal(d.value)}`).join(', ')}`)
 
     // Tick grid lines — keyed by tick value so they reuse elements on resize.
     const ticks = xScale.ticks(tickCount)

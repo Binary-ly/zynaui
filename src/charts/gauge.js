@@ -177,6 +177,20 @@ export class ZynaGauge extends ZynaChart {
     const fLbl     = Math.max(11, W * 0.034)
     const subLabel = labelAttr || (activeZone && activeZone.label) || ''
 
+    // W3C APG meter pattern: the gauge is a live scalar reading, so it gets
+    // role="meter" with the value triplet rather than the role="img" the other
+    // charts use. aria-valuetext carries the formatted value + zone label.
+    if (!this.hasAttribute('role')) this.setAttribute('role', 'meter')
+    this.setAttribute('aria-valuemin', String(minVal))
+    this.setAttribute('aria-valuemax', String(maxVal))
+    this.setAttribute('aria-valuenow', String(clamped))
+    this.setAttribute('aria-valuetext', subLabel ? `${valText} — ${subLabel}` : String(valText))
+    if (!this.getAttribute('aria-label') || this.__ariaAuto) {
+      this.setAttribute('aria-label', labelAttr || 'Gauge')
+      this.__ariaAuto = true
+    }
+    svg.attr('aria-hidden', 'true')
+
     svg.append('text')
       .attr('class', 'gauge-value')
       .attr('x', cx).attr('y', cy + fVal * 0.32)

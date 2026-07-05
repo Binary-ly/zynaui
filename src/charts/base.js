@@ -155,6 +155,24 @@ export class ZynaChart extends HTMLElement {
     return (isDollar ? '$' : '') + str + (isPct ? '%' : '')
   }
 
+  /**
+   * Gives the chart a text alternative: role="img" on the host, an aria-label
+   * (an explicit `aria-label` attribute always wins; otherwise the generated
+   * summary is applied and kept up to date on re-render), and aria-hidden on
+   * the SVG so its internal <text> nodes aren't announced as a garbled stream
+   * of tick values by screen readers.
+   * @param {*} svg  d3 selection of the chart's <svg>
+   * @param {string} generatedLabel  data-derived summary from the subclass
+   */
+  _applyA11y(svg, generatedLabel) {
+    if (!this.hasAttribute('role')) this.setAttribute('role', 'img')
+    if (!this.getAttribute('aria-label') || this.__ariaAuto) {
+      this.setAttribute('aria-label', generatedLabel)
+      this.__ariaAuto = true
+    }
+    svg.attr('aria-hidden', 'true')
+  }
+
   _brand()     { return getComputedStyle(document.documentElement).getPropertyValue('--zyna').trim()      || '#C9A84C' }
   _brandDark() { return getComputedStyle(document.documentElement).getPropertyValue('--zyna-dark').trim() || '#7A6230' }
   _success()   { return getComputedStyle(document.documentElement).getPropertyValue('--zp-success').trim() || '#00FFB2' }

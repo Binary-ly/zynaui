@@ -111,6 +111,8 @@ export class ZynaLine extends ZynaChart {
     let svg = select(this).select('svg')
     if (svg.empty()) svg = select(this).append('svg').style('display', 'block')
     svg.attr('viewBox', `0 0 ${W} ${H}`).attr('width', W).attr('height', H)
+    const seriesNames = series.map(s => s.label).filter(Boolean).join(', ')
+    this._applyA11y(svg, `Line chart, ${series.length} series${seriesNames ? ': ' + seriesNames : ''}`)
 
     // Clip path (group-local coordinates — applied to fills and lines)
     let defs = svg.select('defs')

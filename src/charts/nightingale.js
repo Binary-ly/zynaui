@@ -43,6 +43,7 @@ export class ZynaNightingale extends ZynaChart {
       svg = select(this).append('svg').style('display', 'block')
     }
     svg.attr('viewBox', `0 0 ${W} ${H}`).attr('width', W).attr('height', H)
+    this._applyA11y(svg, `Nightingale chart: ${data.map(d => `${d.label} ${fmtVal(d.value)}`).join(', ')}`)
 
     const cx = W / 2, cy = H / 2
     const maxR   = Math.min(cx, cy) * 0.52

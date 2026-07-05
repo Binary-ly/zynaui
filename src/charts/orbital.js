@@ -45,6 +45,7 @@ export class ZynaOrbital extends ZynaChart {
         .style('display', 'block').style('overflow', 'visible')
     }
     svg.attr('viewBox', `0 0 ${W} ${H}`).attr('width', W).attr('height', H)
+    this._applyA11y(svg, `Orbital chart: ${data.map(d => `${d.label} ${Math.round(d.value * 100)}%`).join(', ')}`)
 
     const cx      = W / 2, cy = H / 2
     const outerR  = Math.min(cx, cy) * 0.80

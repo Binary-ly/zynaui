@@ -70,6 +70,7 @@ export class ZynaCandlestick extends ZynaChart {
       svg = select(this).append('svg').style('display', 'block')
     }
     svg.attr('viewBox', `0 0 ${W} ${H}`).attr('width', W).attr('height', H)
+    this._applyA11y(svg, `Candlestick chart, ${data.length} periods from ${data[0].date} to ${data[data.length - 1].date}`)
 
     if (showAxis) {
       // Y-axis ticks + gridlines
