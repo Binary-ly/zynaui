@@ -21,7 +21,14 @@ const emitChartsStub = {
         '// No-op CJS stub for server/Node environments — zynaui charts are browser-only',
         '// custom elements. SSR runtimes resolve this via the "node"/"require" export',
         '// conditions; browsers get the real implementation via "browser"/"import".',
-        'module.exports = {};',
+        '// Chart classes are exported as inert stand-ins (assigned one by one so',
+        '// cjs-module-lexer detects them) — otherwise `import { ZynaWaffle }` in',
+        '// native Node ESM throws "Named export not found" at import time.',
+        'class ZynaChartStub {}',
+        ...[
+          'ZynaChart', 'ZynaWaffle', 'ZynaTimeline', 'ZynaNightingale',
+          'ZynaLollipop', 'ZynaOrbital', 'ZynaCandlestick', 'ZynaGauge', 'ZynaLine',
+        ].map(n => `module.exports.${n} = ZynaChartStub;`),
       ].join('\n'),
     })
   },

@@ -54,14 +54,62 @@
       "import": "./dist/react.js",
       "require": "./dist/react.cjs"
     },
-    "./charts/waffle": "./dist/charts/waffle.js",
-    "./charts/timeline": "./dist/charts/timeline.js",
-    "./charts/nightingale": "./dist/charts/nightingale.js",
-    "./charts/lollipop": "./dist/charts/lollipop.js",
-    "./charts/orbital": "./dist/charts/orbital.js",
-    "./charts/candlestick": "./dist/charts/candlestick.js",
-    "./charts/gauge":       "./dist/charts/gauge.js",
-    "./charts/line":        "./dist/charts/line.js"
+    "./charts/waffle": {
+      "types": "./types/charts.d.ts",
+      "browser": "./dist/charts/waffle.js",
+      "node": "./dist/zyna-charts-stub.cjs",
+      "import": "./dist/charts/waffle.js",
+      "require": "./dist/zyna-charts-stub.cjs"
+    },
+    "./charts/timeline": {
+      "types": "./types/charts.d.ts",
+      "browser": "./dist/charts/timeline.js",
+      "node": "./dist/zyna-charts-stub.cjs",
+      "import": "./dist/charts/timeline.js",
+      "require": "./dist/zyna-charts-stub.cjs"
+    },
+    "./charts/nightingale": {
+      "types": "./types/charts.d.ts",
+      "browser": "./dist/charts/nightingale.js",
+      "node": "./dist/zyna-charts-stub.cjs",
+      "import": "./dist/charts/nightingale.js",
+      "require": "./dist/zyna-charts-stub.cjs"
+    },
+    "./charts/lollipop": {
+      "types": "./types/charts.d.ts",
+      "browser": "./dist/charts/lollipop.js",
+      "node": "./dist/zyna-charts-stub.cjs",
+      "import": "./dist/charts/lollipop.js",
+      "require": "./dist/zyna-charts-stub.cjs"
+    },
+    "./charts/orbital": {
+      "types": "./types/charts.d.ts",
+      "browser": "./dist/charts/orbital.js",
+      "node": "./dist/zyna-charts-stub.cjs",
+      "import": "./dist/charts/orbital.js",
+      "require": "./dist/zyna-charts-stub.cjs"
+    },
+    "./charts/candlestick": {
+      "types": "./types/charts.d.ts",
+      "browser": "./dist/charts/candlestick.js",
+      "node": "./dist/zyna-charts-stub.cjs",
+      "import": "./dist/charts/candlestick.js",
+      "require": "./dist/zyna-charts-stub.cjs"
+    },
+    "./charts/gauge": {
+      "types": "./types/charts.d.ts",
+      "browser": "./dist/charts/gauge.js",
+      "node": "./dist/zyna-charts-stub.cjs",
+      "import": "./dist/charts/gauge.js",
+      "require": "./dist/zyna-charts-stub.cjs"
+    },
+    "./charts/line": {
+      "types": "./types/charts.d.ts",
+      "browser": "./dist/charts/line.js",
+      "node": "./dist/zyna-charts-stub.cjs",
+      "import": "./dist/charts/line.js",
+      "require": "./dist/zyna-charts-stub.cjs"
+    }
   },
   "files": [
     "dist",
