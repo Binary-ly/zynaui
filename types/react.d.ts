@@ -13,6 +13,8 @@ import type {
   ZynaNightingaleItem,
   ZynaLollipopItem,
   ZynaOrbitalItem,
+  ZynaCandlestickItem,
+  ZynaGaugeZone,
   ZynaLineSeries,
   ZynaLineAnnotation,
 } from './charts'
@@ -28,7 +30,7 @@ export interface ZynaWaffleProps extends Base {
   data: ZynaWaffleItem[]
   /** Number of columns. Default: 10 */
   cols?: number
-  /** Gap between cells in pixels. Default: 2 */
+  /** Gap between cells in pixels. Default: 3 */
   gap?: number
 }
 
@@ -58,6 +60,48 @@ export interface ZynaOrbitalProps extends Base {
   height?: number
 }
 
+export interface ZynaCandlestickProps extends Base {
+  /** Candles in chronological order */
+  data: ZynaCandlestickItem[]
+  /** Fill colour for bearish candles. Defaults to the computed `--zp-danger` token */
+  'bear-color'?: string
+  /** Chart height in pixels */
+  height?: number
+  /** Set to "false" to hide axis ticks and labels. Default: true */
+  'show-axis'?: 'true' | 'false' | boolean
+  /** D3-style number format for y-axis tick labels (e.g. '$,.0f') */
+  'label-format'?: string
+  /** Approximate y-axis tick count. Default: 5 */
+  ticks?: number
+}
+
+export interface ZynaGaugeProps extends Base {
+  /** Scalar reading. Clamped to [min, max] when drawing */
+  value: number
+  /** Minimum of the range. Default: 0 */
+  min?: number
+  /** Maximum of the range. Default: 100 */
+  max?: number
+  /** Colour zones covering [min, max] */
+  zones: ZynaGaugeZone[]
+  /** Optional label at the arc's start end */
+  'start-label'?: string
+  /** Optional label at the arc's end end */
+  'end-label'?: string
+  /** Static caption under the value. Defaults to the active zone's label */
+  label?: string
+  /** D3-style number format for the centre value (e.g. '.1%') */
+  'label-format'?: string
+  /** Arc thickness in px. Scales with radius when omitted */
+  thickness?: number
+  /** Total arc sweep in degrees. Default: 180 */
+  'arc-degrees'?: number
+  /** Opacity applied to zones past the marker. Default: 0.35 */
+  'dim-opacity'?: number
+  /** Chart height in pixels */
+  height?: number
+}
+
 export interface ZynaLineProps extends Base {
   data: ZynaLineSeries[]
   /** Annotation markers on specific data points */
@@ -79,4 +123,6 @@ export declare function ZynaTimeline(props: ZynaTimelineProps):      React.React
 export declare function ZynaNightingale(props: ZynaNightingaleProps): React.ReactElement | null
 export declare function ZynaLollipop(props: ZynaLollipopProps):      React.ReactElement | null
 export declare function ZynaOrbital(props: ZynaOrbitalProps):        React.ReactElement | null
+export declare function ZynaCandlestick(props: ZynaCandlestickProps): React.ReactElement | null
+export declare function ZynaGauge(props: ZynaGaugeProps):             React.ReactElement | null
 export declare function ZynaLine(props: ZynaLineProps):               React.ReactElement | null

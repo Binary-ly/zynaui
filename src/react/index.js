@@ -83,6 +83,34 @@ export function ZynaOrbital({ data, height, color, theme, ...rest }) {
   })
 }
 
+export function ZynaCandlestick({ data, height, ticks, color, theme, ...rest }) {
+  useZyna()
+  return createElement('zyna-candlestick', {
+    data: JSON.stringify(data),
+    ...(height != null && { height: String(height) }),
+    ...(ticks  != null && { ticks: String(ticks) }),
+    ...(color  != null && { color }),
+    ...(theme  != null && { theme }),
+    ...rest,
+  })
+}
+
+export function ZynaGauge({ value, min, max, zones, label, height, thickness, color, theme, ...rest }) {
+  useZyna()
+  return createElement('zyna-gauge', {
+    ...(value     != null && { value: String(value) }),
+    ...(min       != null && { min: String(min) }),
+    ...(max       != null && { max: String(max) }),
+    ...(zones     != null && { zones: JSON.stringify(zones) }),
+    ...(label     != null && { label }),
+    ...(height    != null && { height: String(height) }),
+    ...(thickness != null && { thickness: String(thickness) }),
+    ...(color     != null && { color }),
+    ...(theme     != null && { theme }),
+    ...rest,
+  })
+}
+
 export function ZynaLine({ data, annotations, height, tension, theme, ...rest }) {
   useZyna()
   return createElement('zyna-line', {
