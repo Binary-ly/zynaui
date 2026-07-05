@@ -37,6 +37,8 @@ module.exports = {
 }
 ```
 
+> **Note:** the plugin uses only the classic `tailwindcss/plugin` API, so v3 is expected to work, but the test suite currently runs against Tailwind v4 only — treat v3 as believed-compatible and report issues if you hit one.
+
 **Tailwind v4** (`app.css`):
 
 ```css
@@ -271,9 +273,11 @@ import 'zynaui/charts/line'
 Link the pre-compiled CSS and load the IIFE bundle. No build step needed:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/zynaui/dist/zynaui.css" />
-<script src="https://cdn.jsdelivr.net/npm/zynaui/dist/zyna-charts.iife.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/zynaui@0.2/dist/zynaui.css" />
+<script src="https://cdn.jsdelivr.net/npm/zynaui@0.2/dist/zyna-charts.iife.js"></script>
 ```
+
+The stylesheet contains only ZynaUI's tokens, components, and genres — no Tailwind preflight reset — so it is safe to drop into an existing page. Bundler users can equivalently `import 'zynaui/style.css'`. (URLs are pinned to the 0.2 line; unpinned `/npm/zynaui/` floats to whatever `latest` is.)
 
 Or if installed via npm:
 
@@ -408,7 +412,7 @@ OHLC candlestick chart for time-series price data. Bullish candles (close ≥ op
 |-----------|------|---------|-------------|
 | `data` | JSON array | `[]` | `[{ date, open, high, low, close }]` in chronological order |
 | `color` | hex | genre brand | Bullish candle color |
-| `bear-color` | hex | `#B03A2E` | Bearish candle color |
+| `bear-color` | hex | computed `--zp-danger` (`#FF3366` under Ops) | Bearish candle color |
 | `theme` | `dark`/`light` | `dark` | Color theme |
 | `show-axis` | boolean | `true` | Show/hide axis ticks and labels |
 | `label-format` | string | — | D3 number format for y-axis labels (e.g. `'$,.0f'`) |

@@ -13,7 +13,7 @@ import ops from './genres/ops.js'
  *   --zyna / --zyna-dark     Brand color pair (2)
  *   --z-corner-*             Shape scale: sm, [md], lg, xl (4)
  *   --z-duration-*           Motion durations: fast, base, slow, pulse (4)
- *   --z-ease-*               Easing curves: enter, exit, spring, [std], snap, out (6 + 3 = but see below)
+ *   --z-ease-*               Easing curves: enter, exit, spring, [std], snap, out (6)
  *   --z-font-mono            Monospace font stack (1)
  *   --z-color-*              Text, status, border, overlay colors (12)
  *   --z-surface-* / --z-shadow-*  Page, inset, card surfaces and shadows (9)
@@ -30,6 +30,8 @@ import ops from './genres/ops.js'
  *   --z-alert-*              Genre structural: alert bar position/prefix/texture
  *   --bg / --bg2 / --bg3 / --text* / --border* / --topbar-* / --z-panel-*
  *                            Docs chrome only — not consumed by any component
+ *                            and filtered out of the published plugin CSS
+ *                            (see DOCS_ONLY_TOKENS in genres/index.js)
  *
  * Full reference: docs/css-api.md
  * TypeScript types: types/index.d.ts → ZynaPublicToken

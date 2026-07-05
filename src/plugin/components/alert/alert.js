@@ -55,7 +55,9 @@ export default function(theme) {
     '--alert-bar-color':    'rgba(255,255,255,0.10)',
     '--alert-bg':           'rgba(255,255,255,0.02)',
     '--alert-color':        'var(--z-color-text-dim)',  // WCAG AA ≥4.5:1 on dark
-    '--alert-shadow':       'none',
+    // No-op shadow rather than 'none' so shape modifiers can compose it into
+    // a shadow list ('inset …, none' would invalidate the whole declaration).
+    '--alert-shadow':       '0 0 0 0 transparent',
     '--alert-title-shadow': 'none',
 
     display: 'flex',
@@ -216,7 +218,9 @@ export default function(theme) {
       // Reset padding-left — round has no visible bar
       padding: '0.875rem 1.25rem',
       border: 'none',
-      boxShadow: 'inset 0 0 0 var(--z-alert-bar-width) var(--alert-bar-color)',
+      // Compose with --alert-shadow instead of discarding it — the inset ring
+      // replaces the bar, not the variant's public shadow API.
+      boxShadow: 'inset 0 0 0 var(--z-alert-bar-width) var(--alert-bar-color), var(--alert-shadow)',
       // Hide the absolute bar pseudo-element — beta uses inset ring instead
       '&::before': { display: 'none' },
     },
