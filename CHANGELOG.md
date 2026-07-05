@@ -4,6 +4,52 @@ All notable changes to ZynaUI are documented here.
 
 ---
 
+## [0.2.4-beta] (2026-07-05)
+
+Repair release — fixes every blocker found in a full library audit. If you are on 0.2.3-beta, upgrade: that version shipped broken TypeScript definitions and a broken React path.
+
+### Fixed — release blockers
+
+- **`types/charts.d.ts` shipped with unresolved git merge conflict markers** (introduced by a botched rebase in 0.2.3-beta), breaking TypeScript compilation for every consumer of `zynaui/charts` and `zynaui/react`. `ZynaCandlestickItem` is restored alongside the `ZynaLine*` interfaces.
+- **`types/index.d.ts` did not compile**: `export =` mixed with named exports (TS2309), and a `tailwindcss/types/config` import that only resolves on Tailwind v3. Public types now re-export through the merged namespace with local structural types.
+- **`ZynaCandlestick` and `ZynaGauge` React wrappers were documented but did not exist** — added, with `ZynaCandlestickProps` / `ZynaGaugeProps` types.
+- **`<zyna-candlestick>`, `<zyna-gauge>`, and `<zyna-line>` never sized or resized** — they were missing from the plugin's `display: block` host rule. The base class now also self-defaults host display for CDN/standalone usage with no plugin CSS.
+- **Per-chart subpath imports (`zynaui/charts/line` etc.) crashed Node/SSR** — they lacked the `node` export condition. All eight subpaths now resolve to the server stub, which also exports named no-op classes so Node ESM named imports parse (`types` conditions added too).
+- **Five of six genres' `prefers-reduced-motion` blocks were silently deleted** by a shallow `Object.assign` merge on the identical media-query key — the full-viewport sweep animations kept running for reduced-motion users. Genre styles now deep-merge.
+
+### Fixed — accessibility
+
+- All eight charts now expose a text alternative: `role="img"` plus a data-derived `aria-label` (your own `aria-label` attribute always wins), with `aria-hidden` on the SVG so tick values are no longer announced as a garbled stream. `<zyna-gauge>` implements the W3C APG meter pattern (`role="meter"`, `aria-valuemin/max/now`, `aria-valuetext`).
+- New `forced-colors: active` rules give button, badge, card, and alert real borders so their boundaries survive Windows High Contrast mode.
+- The `.badge-pulse` status dot now degrades to an opacity-only fade under reduced motion instead of disappearing — reduced motion means no movement, not no information.
+- Removed the bare `[role="button"]` and `[role="alert"]` selectors that restyled third-party widgets (Radix/Headless UI triggers, toast libraries) at un-prefixable specificity. Styling is opt-in via `.btn` / `.alert`; pair the class with the ARIA role in markup.
+
+### Fixed — theming and CSS hygiene
+
+- Docs-chrome tokens (`--bg`, `--text`, `--border`, …) are no longer compiled into the published plugin CSS, where they hijacked identically named variables in consumer codebases.
+- `dist/zynaui.css` is now built from a plugin-only entry: no Tailwind preflight reset, no repo-scanned utilities. The CDN stylesheet is safe to drop into an existing page.
+- New `--z-chart-theme` token: the five light genres set it to `light`, and charts without an explicit `theme` attribute follow it. Charts also re-render when `data-genre` (or a class) changes on `<html>` — the `zyna-genre` event is no longer required.
+- Timeline baseline/rail, orbital percentage text, and lollipop tick colors were hardcoded dark values; all are theme-aware now. Chart brand tokens resolve from the element scope, so container-level `--zyna` overrides reach charts.
+- `defineGenre({ extends })` now remaps inherited `data-genre` selectors to the new genre (previously a genre extending cyberpunk inherited dead or leaking cyberpunk-scoped rules). Genre names are validated against the selector contract.
+- `.alert-round` composes its inset ring with the public `--alert-shadow` token instead of discarding it (`--alert-shadow` default changed from `none` to a no-op transparent shadow to keep shadow lists valid).
+
+### Fixed — chart runtime
+
+- Attribute changes coalesce into a single microtask render with a same-value short-circuit — a five-attribute element no longer renders five times on upgrade, and identical React re-serialisations are free. The initial-render rAF is cancelled on disconnect.
+- Malformed `data` JSON gets its own console warning instead of the misleading "No data provided". Non-numeric OHLC rows are skipped with a warning; a single `NaN` point no longer corrupts an entire line path; waffle totals are NaN-safe; lollipop clamps negative values into the domain; gauge zones are sorted and its warning names the actual `value`/`zones` inputs.
+- The React wrapper detects CSP-blocked inline-script injection and logs an actionable error instead of rendering blank charts forever; it also skips the inline IIFE when `zynaui/charts` is already registered.
+
+### Docs
+
+- Corrected the `bear-color` default everywhere it was documented (it is the computed `--zp-danger`, `#FF3366` under Ops — not `#B03A2E` or `#FF5252`). llms.txt now lists all nine genres instead of two. README CDN URLs are pinned to the 0.2 line, Tailwind v3 is honestly labelled as believed-compatible-but-untested, and the custom-genre build-time registration contract is documented in `defineGenre`.
+
+### Release-hygiene notes
+
+- 0.2.3-beta was published to npm without a changelog entry; its contents were the version bump, llms.txt updates, and CDN URL alignment — plus, inadvertently, the merge-conflict-broken types this release fixes.
+- 0.2.2-beta (the `<zyna-line>` entry below) was tagged in this changelog but never published to npm; `<zyna-line>` first shipped to the registry in 0.2.3-beta.
+
+---
+
 ## [0.2.2-beta] (2026-04-22)
 
 ### Chart: Line `<zyna-line>`

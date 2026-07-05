@@ -131,7 +131,7 @@ export interface ZynaOrbitalAttributes extends ZynaChartBase {
 export interface ZynaCandlestickAttributes extends ZynaChartBase {
   /** JSON-serialised array of {@link ZynaCandlestickItem}, chronological order */
   data?: string
-  /** Fill colour for bearish candles (close < open). Default: #B03A2E */
+  /** Fill colour for bearish candles (close < open). Defaults to the computed `--zp-danger` token (#FF3366 under the default Ops genre) */
   'bear-color'?: string
   /** Explicit height in px. Auto-derived from width when omitted */
   height?: string | number
