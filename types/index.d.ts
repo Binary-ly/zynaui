@@ -1,9 +1,13 @@
-import type { PluginCreator, Config } from 'tailwindcss/types/config'
+// Structural stand-ins for Tailwind's plugin types, declared locally because
+// `tailwindcss/types/config` exists only in Tailwind v3 — this file must
+// type-check for both v3 and v4 consumers without either installed.
+type PluginCreator = (api: Record<string, any>) => void
+type Config = Record<string, any>
 
 /**
  * Configuration options for the Zyna UI Tailwind plugin.
  */
-export interface ZynaUIOptions {
+interface ZynaUIOptions {
   /**
    * Prefix string prepended to every ZynaUI component class name.
    *
@@ -39,7 +43,7 @@ export interface ZynaUIOptions {
  * Brand tokens — the primary brand color pair.
  * Override `--zyna` by setting `colors.zyna.DEFAULT` in your Tailwind config.
  */
-export type ZynaBrandToken =
+type ZynaBrandToken =
   | '--zyna'
   | '--zyna-dark'
 
@@ -47,7 +51,7 @@ export type ZynaBrandToken =
  * Shape tokens — global corner radius scale.
  * Components reference these via `--btn-corner`, `--badge-offset`, etc.
  */
-export type ZynaShapeToken =
+type ZynaShapeToken =
   | '--z-corner-sm'
   | '--z-corner'
   | '--z-corner-lg'
@@ -58,7 +62,7 @@ export type ZynaShapeToken =
  * Genres override all of these to express their unique pacing character.
  * Override on `:root` or a scoped selector to adjust timing globally.
  */
-export type ZynaMotionToken =
+type ZynaMotionToken =
   | '--z-duration-fast'
   | '--z-duration-base'
   | '--z-duration-slow'
@@ -74,14 +78,14 @@ export type ZynaMotionToken =
  * Typography token — monospace font stack used by all ZynaUI components.
  * Override to set your project's mono font across buttons, badges, cards, and alerts.
  */
-export type ZynaTypographyToken =
+type ZynaTypographyToken =
   | '--z-font-mono'
 
 /**
  * Color tokens — semantic text, status, border, and overlay colors.
  * All components consume these; genres override them to establish their palette.
  */
-export type ZynaColorToken =
+type ZynaColorToken =
   | '--z-color-text'
   | '--z-color-text-muted'
   | '--z-color-text-dim'
@@ -99,7 +103,7 @@ export type ZynaColorToken =
  * Surface tokens — page background, inset fills, card gradients, and shadows.
  * Components fall back to these when no element-level token is set.
  */
-export type ZynaSurfaceToken =
+type ZynaSurfaceToken =
   | '--z-surface-page'
   | '--z-surface-inset'
   | '--z-surface-inset-hover'
@@ -122,7 +126,7 @@ export type ZynaSurfaceToken =
  * }
  * ```
  */
-export type ZynaButtonToken =
+type ZynaButtonToken =
   | '--btn-bg'
   | '--btn-color'
   | '--btn-filter'
@@ -150,7 +154,7 @@ export type ZynaButtonToken =
  * }
  * ```
  */
-export type ZynaBadgeToken =
+type ZynaBadgeToken =
   | '--badge-bg'
   | '--badge-color'
   | '--badge-glow'
@@ -175,7 +179,7 @@ export type ZynaBadgeToken =
  * }
  * ```
  */
-export type ZynaCardToken =
+type ZynaCardToken =
   | '--card-gradient'
   | '--card-border-color'
   | '--card-shadow'
@@ -208,7 +212,7 @@ export type ZynaCardToken =
  * }
  * ```
  */
-export type ZynaAlertToken =
+type ZynaAlertToken =
   | '--alert-bar-color'
   | '--alert-bg'
   | '--alert-color'
@@ -225,7 +229,7 @@ export type ZynaAlertToken =
  *
  * @since v0.2.0
  */
-export type ZynaPublicToken =
+type ZynaPublicToken =
   | ZynaBrandToken
   | ZynaShapeToken
   | ZynaMotionToken
@@ -272,5 +276,25 @@ export type ZynaPublicToken =
  * ```
  */
 declare function zynaPlugin(options?: ZynaUIOptions): { handler: PluginCreator; config?: Partial<Config> }
+
+// `export =` (the correct shape for the CJS main) cannot coexist with named
+// exports, so the public types are re-exported through the merged namespace:
+// `import type { ZynaUIOptions } from 'zynaui'` keeps working.
+declare namespace zynaPlugin {
+  export {
+    ZynaUIOptions,
+    ZynaBrandToken,
+    ZynaShapeToken,
+    ZynaMotionToken,
+    ZynaTypographyToken,
+    ZynaColorToken,
+    ZynaSurfaceToken,
+    ZynaButtonToken,
+    ZynaBadgeToken,
+    ZynaCardToken,
+    ZynaAlertToken,
+    ZynaPublicToken,
+  }
+}
 
 export = zynaPlugin
