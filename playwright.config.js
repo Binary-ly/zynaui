@@ -10,11 +10,12 @@ export default defineConfig({
 
   expect: {
     toHaveScreenshot: {
-      // Not 0: edge antialiasing drifts a few pixels between macOS releases
-      // (dev machine vs macos-latest runner), which failed single snapshots
-      // by 3px. 25px at a DPR-2 viewport still flags any real visual change —
-      // a color or geometry regression touches hundreds of pixels.
-      maxDiffPixels: 25,
+      // Not 0: antialiasing on glow gradients and glyph edges drifts up to
+      // ~30px between macOS releases (dev machine vs macos-latest runner) —
+      // verified cosmetic by inspecting CI diffs. 64px at a DPR-2 viewport
+      // still flags any real visual change: a color or geometry regression
+      // touches hundreds of pixels.
+      maxDiffPixels: 64,
       threshold: 0,
       animations: 'disabled',
     },
