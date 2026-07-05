@@ -14,6 +14,22 @@ jobs:
       - run: npm run test:plugin
       - run: npm run test:charts
 
+  # The two surfaces that have shipped broken (types, package exports) get
+  # their own gate: compile the shipped .d.ts files and smoke-test every
+  # documented export through a real build.
+  package-integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run test:types
+      - run: npm run build
+      - run: npm run test:package
+
   visual-tests:
     # macOS runner matches baseline generation environment.
     # Chromium renders via Skia (cross-platform) but system font fallbacks
@@ -30,7 +46,9 @@ jobs:
       - run: npx playwright install chromium
       # build:css also copies dist/zyna-charts.iife.js (from full vite build)
       # which doesn't exist in CI. Build only what visual tests need.
-      - run: npx tailwindcss -i ./docs/input.css -o ./dist/zynaui.css
+      # Must match build:css's dist input (src/standalone.css, preflight-free) —
+      # snapshots are baselined against the shipped stylesheet, not the docs one.
+      - run: npx tailwindcss -i ./src/standalone.css -o ./dist/zynaui.css
       - run: npm run test:visual
 
       # Always upload the HTML report so reviewers can download it and inspect

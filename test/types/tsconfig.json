@@ -1,0 +1,21 @@
+{
+  // Compiles the SHIPPED declaration files exactly as a consumer would see
+  // them — this is the gate that would have caught the merge-conflict markers
+  // and the export= mixing that shipped in 0.2.3-beta.
+  "compilerOptions": {
+    "noEmit": true,
+    "strict": true,
+    "target": "es2020",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "lib": ["es2020", "dom"],
+    "types": [],
+    "jsx": "preserve"
+  },
+  "files": [
+    "../../types/index.d.ts",
+    "../../types/charts.d.ts",
+    "../../types/react.d.ts",
+    "../../types/genres.d.ts"
+  ]
+}
