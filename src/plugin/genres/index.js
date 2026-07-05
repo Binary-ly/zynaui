@@ -48,6 +48,15 @@ function mergeRules(target, source) {
   return target
 }
 
+// Docs-site chrome tokens. The docs genre switcher applies these at runtime
+// via setProperty(); they must NOT be compiled into the published plugin CSS —
+// generic names like --bg and --text set on the consumer's <html> would hijack
+// the identically named variables many downstream codebases already define.
+const DOCS_ONLY_TOKENS = new Set([
+  '--bg', '--bg2', '--bg3', '--text', '--text2', '--text3',
+  '--border', '--border2', '--topbar-bg',
+])
+
 export function genresPlugin() {
   const rules = {}
   for (const genre of GENRES) {
@@ -62,8 +71,11 @@ export function genresPlugin() {
     if (genre.tokens) {
       const selector = `html[data-genre="${genre.name.toLowerCase()}"]`
       if (rules[selector]) {
+        const publicTokens = Object.fromEntries(
+          Object.entries(genre.tokens).filter(([k]) => !DOCS_ONLY_TOKENS.has(k))
+        )
         // tokens go first so structural styles always take precedence on any overlap
-        rules[selector] = { ...genre.tokens, ...rules[selector] }
+        rules[selector] = { ...publicTokens, ...rules[selector] }
       }
     }
   }
