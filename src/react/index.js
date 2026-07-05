@@ -16,10 +16,26 @@ let _loaded = false
 
 function _inject() {
   if (_loaded || typeof window === 'undefined') return
+  // Already registered — the app imported 'zynaui/charts' itself (or another
+  // wrapper instance won the race); don't execute the inline copy again.
+  if (customElements.get('zyna-waffle')) { _loaded = true; return }
   _loaded = true
   const s = document.createElement('script')
   s.textContent = _iife
   document.head.appendChild(s)
+  s.remove() // inline script executes synchronously on append; the node is spent
+  if (!customElements.get('zyna-waffle')) {
+    // A Content-Security-Policy without 'unsafe-inline' blocks textContent
+    // scripts *silently* — charts would render blank forever with no signal.
+    // Reset so a later mount can retry (e.g. after the app registers charts).
+    _loaded = false
+    console.error(
+      "[zynaui/react] Chart registration failed — your Content-Security-Policy " +
+      "likely blocks inline scripts. Fix: `import 'zynaui/charts'` once in a " +
+      "client entry module (bundler-emitted scripts satisfy CSP), or allow " +
+      "this inline script with a nonce/hash."
+    )
+  }
 }
 
 function useZyna() {
