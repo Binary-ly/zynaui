@@ -71,11 +71,12 @@ describe('plugin prefix option', () => {
 
   // ── Semantic / at-rule selectors are NOT prefixed ───────────────────────────
 
-  test('prefix "z-" → [role="button"] selector is preserved unchanged', async () => {
-    // [role="button"] is a semantic ARIA attribute selector — it must not be
-    // prefixed because it targets any element already carrying the correct role.
+  test('prefix "z-" → no bare ARIA role selectors are emitted', async () => {
+    // The prefix escape hatch only rewrites class selectors, so any bare
+    // attribute selector would be un-prefixable — none may exist.
     const css = await getCSSWithPrefix()
-    expect(css).toMatch(/\[role="button"\]/)
+    expect(css).not.toMatch(/\[role="button"\]/)
+    expect(css).not.toMatch(/\[role="alert"\]/)
   })
 
   test('prefix "z-" → @property --btn-bg at-rule is preserved unchanged', async () => {

@@ -7,9 +7,11 @@ describe('.alert component', () => {
     expect(css).toContain('.alert')
   })
 
-  test('also targets [role="alert"] for accessibility', async () => {
+  test('does not style bare [role="alert"] elements', async () => {
+    // role="alert" is a semantic, not a styling hook — pair .alert with the
+    // role in markup instead. See alert.js base comment.
     const css = await generateCSS('<div class="alert">')
-    expect(css).toMatch(/\[role="alert"\]/)
+    expect(css).not.toMatch(/\[role="alert"\]/)
   })
 
   test('exposes --alert-bar-color CSS variable', async () => {

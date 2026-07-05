@@ -16,13 +16,13 @@ export default function motion() {
       ':where(.badge-pulse)::before': { animation: 'none' },
       ':where(.card)':                { animation: 'none' },
       ':where(.card-header)::before': { animation: 'none' },
-      ':where(.btn), :where([role="button"])': {
+      ':where(.btn)': {
         transition: 'none',
       },
-      ':where(.btn):hover, :where([role="button"]):hover': {
+      ':where(.btn):hover': {
         transition: 'none',
       },
-      ':where(.btn)::after, :where([role="button"])::after': {
+      ':where(.btn)::after': {
         transition: 'none',
       },
     },

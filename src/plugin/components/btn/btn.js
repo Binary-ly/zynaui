@@ -195,9 +195,16 @@ export default function(theme) {
       '100%': { transform: 'translateX(200%)' },
     },
 
-    // ── Base — also applied to [role="button"] for accessible markup ──────────
+    // ── Base ───────────────────────────────────────────────────────────────────
+    // Styling is opt-in via the .btn class only. A bare [role="button"] selector
+    // was removed here: ARIA roles are semantics, not styling hooks, and at
+    // (0,1,0) specificity it restyled third-party widgets (Radix/Headless UI
+    // triggers, switches) — and the `prefix` escape hatch can't rewrite
+    // attribute selectors, so affected users had no way out.
+    // NOTE: .btn and its variants intentionally skip the :where() wrapper the
+    // other components use — the unwrapped base means size/shape variants must
+    // match its specificity to override padding/font-size declarations.
     '.btn': base,
-    '[role="button"]': base,
 
     // ── Primary: gold solid fill ──────────────────────────────────────────────
     '.btn-primary': {

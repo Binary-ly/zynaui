@@ -35,8 +35,8 @@
  *   --z-alert-bar-h          Bar element height (Ops = 100%, Cyberpunk = bar-width)
  *   --z-alert-bar-radius     Bar border-radius (Ops = rounded start, Cyberpunk = 0)
  *
- * Accessibility: the base rule also targets [role="alert"] so elements with
- * correct ARIA markup receive the same visual styles without needing the class.
+ * Accessibility: pair the .alert class with role="alert" in your markup so
+ * screen readers announce it; the class alone carries no ARIA semantics.
  * Body text colours are set to ≥0.65 opacity to clear WCAG 2.1 AA (≥4.5:1)
  * against the default dark card background.
  *
@@ -104,9 +104,11 @@ export default function(theme) {
     '@property --alert-bg':        { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(255,255,255,0.02)' },
     '@property --alert-color':     { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(240,235,224,0.65)' },
 
-    // ── Base — also targets [role="alert"] for accessible markup ──────────────
+    // ── Base ───────────────────────────────────────────────────────────────────
+    // Opt-in via the .alert class only. The former bare :where([role="alert"])
+    // rule styled every toast library's live-region elements with a mystery
+    // left bar and padding; role="alert" is a semantic, not a styling hook.
     ':where(.alert)': base,
-    ':where([role="alert"])': base,
 
     ':where(.alert-icon)': {
       flexShrink: '0',

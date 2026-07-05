@@ -61,24 +61,14 @@ describe('button accessibility styles', () => {
     expect(css).toContain('--btn-focus-color')
   })
 
-  // ── [role="button"] parity ────────────────────────────────────────────────────
+  // ── ARIA roles are semantics, not styling hooks ──────────────────────────────
 
-  test('[role="button"] selector receives .btn base styles', async () => {
-    // Non-<button> elements carrying role="button" should look identical to .btn.
+  test('no bare [role="button"] selector is emitted', async () => {
+    // Styling is opt-in via the .btn class. A bare [role="button"] selector
+    // restyles third-party widgets (menu triggers, switches) at (0,1,0)
+    // specificity, and the prefix option cannot rewrite attribute selectors.
     const css = await getCSS()
-    expect(css).toMatch(/\[role="button"\]/)
-  })
-
-  test('[role="button"] is in the prefers-reduced-motion block', async () => {
-    // Reduced-motion also disables transitions on [role="button"] elements.
-    // motion.js generates: @media (prefers-reduced-motion: reduce) { ...[role="button"]... }
-    // We verify [role="button"] appears AFTER "prefers-reduced-motion" in the CSS string,
-    // which proves it is inside the @media block (all content within the block follows the rule name).
-    const css = await getCSS()
-    const mediaIdx = css.indexOf('prefers-reduced-motion')
-    expect(mediaIdx).toBeGreaterThan(-1)
-    const roleIdx = css.indexOf('[role="button"]', mediaIdx)
-    expect(roleIdx).toBeGreaterThan(mediaIdx)
+    expect(css).not.toMatch(/\[role="button"\]/)
   })
 })
 
@@ -95,10 +85,11 @@ describe('badge accessibility styles', () => {
 
 describe('alert accessibility styles', () => {
 
-  test('[role="alert"] selector is present', async () => {
-    // Alert component applies [role="alert"] to ensure screen readers announce it
+  test('no bare [role="alert"] selector is emitted', async () => {
+    // role="alert" is a live-region semantic used by every toast library —
+    // styling it directly gave third-party toasts a mystery bar and padding.
     const css = await getCSS()
-    expect(css).toMatch(/\[role="alert"\]/)
+    expect(css).not.toMatch(/\[role="alert"\]/)
   })
 })
 
