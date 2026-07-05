@@ -22,6 +22,13 @@ export class ZynaChart extends HTMLElement {
     this._rafId  = null
     this._timerId = null
 
+    // Custom elements default to display:inline, where clientWidth is 0 and
+    // ResizeObserver reports an empty content box — the chart never sizes.
+    // The Tailwind plugin ships a display:block rule, but standalone/CDN usage
+    // has no plugin CSS, so self-default here. Only the exact UA default
+    // ('inline') is overridden, so any author CSS still wins.
+    if (getComputedStyle(this).display === 'inline') this.style.display = 'block'
+
     this._genreHandler = () => this._render()
     window.addEventListener('zyna-genre', this._genreHandler)
 

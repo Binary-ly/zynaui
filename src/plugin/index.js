@@ -39,7 +39,7 @@ export default plugin.withOptions(
       // rAF fallback to skip render — charts never draw. display:block gives them
       // block layout so clientWidth reflects the parent container width.
       addBase({
-        'zyna-waffle, zyna-timeline, zyna-nightingale, zyna-lollipop, zyna-orbital': {
+        'zyna-waffle, zyna-timeline, zyna-nightingale, zyna-lollipop, zyna-orbital, zyna-candlestick, zyna-gauge, zyna-line': {
           display: 'block',
         },
       })
