@@ -408,7 +408,7 @@ OHLC candlestick chart for time-series price data. Bullish candles (close ≥ op
 **Attributes:**
 - `data` (required): JSON array of `{ date, open, high, low, close }` in chronological order
 - `color`: bullish candle colour (defaults to genre brand)
-- `bear-color` (default: `"#B03A2E"`): bearish candle colour
+- `bear-color` (default: computed `--zp-danger`, `#FF3366` under the Ops genre): bearish candle colour
 - `show-axis` (default: `"true"`): set `"false"` to hide axis ticks and labels
 - `label-format`: D3 number format for y-axis labels (e.g. `"$,.0f"`)
 - `ticks` (default: `"5"`): approximate y-axis tick count
@@ -482,10 +482,20 @@ Multi-series area-line chart. Each series gets its own line and filled region; f
 
 ## Theming (Genres)
 
-Zyna UI ships with two built-in themes called "genres":
+Zyna UI ships with nine built-in themes called "genres":
 
-- **Ops** (default): gold military HUD aesthetic (`--zyna: #C9A84C`)
-- **Cyberpunk**: acid green terminal aesthetic (`--zyna: #39FF14`)
+- **Ops** (default): gold military HUD aesthetic (`--zyna: #C9A84C`) — dark
+- **Cyberpunk**: acid green terminal aesthetic (`--zyna: #39FF14`) — dark
+- **Corporate**: warm off-white boardroom palette — light
+- **Phosphor**: amber CRT terminal — dark
+- **Military**: olive field-ops — dark
+- **Blueprint**: drafting-paper blues — light
+- **Washi**: kozo-paper neutrals — light
+- **Laboratory**: clinical cyan — light
+- **Atelier**: cream gallery — light
+
+Light genres set `--z-chart-theme: light`, which chart Web Components read
+when no explicit `theme` attribute is present.
 
 ### Activate a genre via CSS (no JavaScript)
 
