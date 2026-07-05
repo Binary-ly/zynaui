@@ -57,6 +57,13 @@ export default function(theme) {
       '45%':  { opacity: '0.55', transform: 'scale(1.35)' },
       '100%': { opacity: '1',    transform: 'scale(1)' },
     },
+    // Reduced-motion pulse — opacity only, no scale movement. The pulse dot is
+    // a live-status indicator: reduced motion means "no movement", not "no
+    // information", so motion.js swaps to this instead of animation: none.
+    '@keyframes zyna-pulse-fade': {
+      '0%, 100%': { opacity: '1' },
+      '50%':      { opacity: '0.45' },
+    },
     // Legacy pulse (kept for compatibility)
     '@keyframes zyna-pulse': {
       '0%, 100%': { opacity: '1',    transform: 'scale(1)' },

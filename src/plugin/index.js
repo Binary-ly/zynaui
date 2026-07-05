@@ -17,6 +17,7 @@ import tokens from './tokens.js'
 import components from './components/index.js'
 import { genresPlugin } from './genres/index.js'
 import motion from './utils/motion.js'
+import forcedColors from './utils/forced-colors.js'
 import { applyPrefix } from './utils/prefix.js'
 
 export default plugin.withOptions(
@@ -32,6 +33,7 @@ export default plugin.withOptions(
       addBase({ ':root': tokens(theme) })
       addBase(applyPrefix(components(theme), prefix))
       addBase(applyPrefix(motion(), prefix))
+      addBase(applyPrefix(forcedColors(), prefix))
       addBase(applyPrefix(genresPlugin(), prefix))
       // Added 2026-03-17 during framework integration testing: custom elements are
       // display:inline by default. That gives clientWidth=0, which causes the

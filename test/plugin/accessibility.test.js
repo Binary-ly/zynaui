@@ -118,8 +118,31 @@ describe('prefers-reduced-motion', () => {
     expect(css).toMatch(/:where\(.btn\)/)
   })
 
-  test('reduced-motion disables .badge-pulse::before animations', async () => {
+  test('reduced-motion degrades .badge-pulse to an opacity-only fade, not none', async () => {
+    // The pulse dot is a live-status indicator — reduced motion removes the
+    // scale movement but must not remove the information.
     const css = await getCSS()
     expect(css).toMatch(/:where\(.badge-pulse\)::before/)
+    expect(css).toContain('zyna-pulse-fade')
+  })
+})
+
+describe('forced-colors (Windows High Contrast)', () => {
+
+  test('@media forced-colors block is emitted', async () => {
+    const css = await getCSS()
+    expect(css).toContain('forced-colors: active')
+  })
+
+  test('forced-colors gives .btn a ButtonBorder border', async () => {
+    // Buttons are border: none + background + clip-path — all stripped in
+    // forced-colors mode, leaving no visible boundary without this rule.
+    const css = await getCSS()
+    expect(css).toMatch(/forced-colors[\s\S]*ButtonBorder/)
+  })
+
+  test('forced-colors gives badge, card, and alert CanvasText borders', async () => {
+    const css = await getCSS()
+    expect(css).toMatch(/forced-colors[\s\S]*CanvasText/)
   })
 })
