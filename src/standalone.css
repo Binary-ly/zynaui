@@ -1,0 +1,13 @@
+/*
+ * Standalone component stylesheet — the build input for dist/zynaui.css
+ * (the CDN / no-build-step consumption path).
+ *
+ * Deliberately excludes Tailwind's preflight and utilities: a drop-in
+ * stylesheet must not apply a global reset to the host page, and utility
+ * classes belong to the consumer's own Tailwind build. Tailwind users get
+ * the same component CSS via `@plugin "zynaui"` instead.
+ *
+ * No tailwindcss import means no preflight and no utilities layer — content
+ * scanning has nothing to emit, so only the plugin's addBase CSS is produced.
+ */
+@plugin "./plugin/index.js";

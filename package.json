@@ -134,7 +134,7 @@
     "build": "node scripts/gen-version.js && vite build && vite build --config vite.iife.config.js && vite build --config vite.react.config.js && vite build --config vite.genres-docs.config.js && npm run build:css",
     "build:lib": "vite build",
     "build:iife": "vite build --config vite.iife.config.js",
-    "build:css": "tailwindcss -i ./docs/input.css -o ./docs/zynaui.css && tailwindcss -i ./docs/input.css -o ./dist/zynaui.css && cp dist/zyna-charts.iife.js docs/dist/zyna-charts.iife.js",
+    "build:css": "tailwindcss -i ./docs/input.css -o ./docs/zynaui.css && tailwindcss -i ./src/standalone.css -o ./dist/zynaui.css && cp dist/zyna-charts.iife.js docs/dist/zyna-charts.iife.js",
     "dev": "vite build --watch",
     "dev:charts": "node scripts/dev-charts.js",
     "preview": "vite preview --open docs/index.html",
