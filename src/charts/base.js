@@ -63,7 +63,8 @@ export class ZynaChart extends HTMLElement {
     // returns the real layout dimension rather than 0 (pre-layout).
     // If ResizeObserver already fired and set _lastW (visible elements), skip
     // to avoid a redundant second render in the same frame.
-    requestAnimationFrame(() => {
+    this._initRafId = requestAnimationFrame(() => {
+      this._initRafId = null
       if (this._lastW === 0) {
         this._lastW = this.clientWidth
         this._render()
@@ -73,14 +74,30 @@ export class ZynaChart extends HTMLElement {
 
   disconnectedCallback() {
     this._ro?.disconnect()
-    if (this._rafId)   cancelAnimationFrame(this._rafId)
-    if (this._timerId) clearTimeout(this._timerId)
+    if (this._rafId)     cancelAnimationFrame(this._rafId)
+    if (this._initRafId) cancelAnimationFrame(this._initRafId)
+    if (this._timerId)   clearTimeout(this._timerId)
     window.removeEventListener('zyna-genre', this._genreHandler)
   }
 
-  attributeChangedCallback() {
-    // Attribute changes bypass the resize debounce and render immediately.
-    if (this.isConnected) this._render()
+  attributeChangedCallback(name, oldValue, newValue) {
+    // Writing the same value again (e.g. a React re-render re-serialising
+    // identical data) must not trigger a full re-render.
+    if (oldValue === newValue) return
+    if (!this.isConnected) return
+    // Before the initial render (_lastW unset), attribute values are picked up
+    // by that render — during element upgrade this callback fires once per
+    // observed attribute, and scheduling here would multiply renders.
+    if (!this._lastW) return
+    // Coalesce several same-turn attribute writes into a single render.
+    // Microtask (not rAF) keeps updates effectively immediate — attribute
+    // changes still bypass the resize debounce.
+    if (this._attrQueued) return
+    this._attrQueued = true
+    queueMicrotask(() => {
+      this._attrQueued = false
+      if (this.isConnected) this._render()
+    })
   }
 
   /**

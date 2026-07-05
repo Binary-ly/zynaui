@@ -1,4 +1,4 @@
-import { expect, fixture, fixtureCleanup } from '@open-wc/testing'
+import { expect, fixture, fixtureCleanup, nextFrame } from '@open-wc/testing'
 import '../../src/charts/orbital.js'
 
 const sampleData = JSON.stringify([
@@ -143,6 +143,8 @@ describe('zyna-orbital', () => {
     // Developer renders two orbital charts — their SVG gradients must have different IDs
     const el1 = await fixture(`<zyna-orbital data='${sampleData}'></zyna-orbital>`)
     const el2 = await fixture(`<zyna-orbital data='${sampleData}'></zyna-orbital>`)
+    // First render is coalesced into a rAF (see base.js) — wait one more frame
+    await nextFrame()
     const id1 = el1.querySelector('defs radialGradient')?.getAttribute('id')
     const id2 = el2.querySelector('defs radialGradient')?.getAttribute('id')
     expect(id1).to.be.a('string').and.not.empty
@@ -156,6 +158,8 @@ describe('zyna-orbital', () => {
     // color changes on one chart would bleed into the other.
     const el1 = await fixture(`<zyna-orbital data='${sampleData}'></zyna-orbital>`)
     const el2 = await fixture(`<zyna-orbital data='${sampleData}'></zyna-orbital>`)
+    // First render is coalesced into a rAF (see base.js) — wait one more frame
+    await nextFrame()
     const id1   = el1.querySelector('defs radialGradient').getAttribute('id')
     const id2   = el2.querySelector('defs radialGradient').getAttribute('id')
     const fill1 = el1.querySelector('circle.orb-bg').getAttribute('fill')
@@ -179,6 +183,8 @@ describe('zyna-orbital', () => {
     // A wider ringTW means a thicker track AND a thicker arc path.
     const narrow = await fixture(`<zyna-orbital data='${sampleData}' ring-thickness="0.05"></zyna-orbital>`)
     const wide   = await fixture(`<zyna-orbital data='${sampleData}' ring-thickness="0.25"></zyna-orbital>`)
+    // First render is coalesced into a rAF (see base.js) — wait one more frame
+    await nextFrame()
     // 1. orb-track stroke-width reflects ringTW directly
     const narrowSW = parseFloat(narrow.querySelector('circle.orb-track').getAttribute('stroke-width'))
     const wideSW   = parseFloat(wide.querySelector('circle.orb-track').getAttribute('stroke-width'))
