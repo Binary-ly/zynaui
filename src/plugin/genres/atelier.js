@@ -174,6 +174,7 @@ export const tokens = {
 
   // ── Docs chrome — warm ecru palette ───────────────────────────────────────
   '--bg':        '#F5EFDF',
+  '--z-chart-theme': 'light',
   '--bg2':       '#EDE3C8',   // warm parchment sidebar — deeper, clearly warm
   '--bg3':       '#E3D5B0',
   '--border':    'rgba(44,28,4,0.10)',

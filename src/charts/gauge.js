@@ -46,7 +46,7 @@ export class ZynaGauge extends ZynaChart {
     const startLabel = this._attr('start-label', '')
     const endLabel   = this._attr('end-label', '')
     const zones      = this._json('zones', null)
-    const dark       = this._attr('theme', 'dark') !== 'light'
+    const dark       = this._theme() !== 'light'
 
     // Validate required inputs before doing any DOM or style work.
     // The generic _warnEmpty tells users to add a `data` attribute, which the

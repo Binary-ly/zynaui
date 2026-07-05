@@ -27,7 +27,7 @@ export class ZynaCandlestick extends ZynaChart {
     let data         = this._json('data', [])
     const bull       = this._attr('color',      this._success())
     const bear       = this._attr('bear-color', this._danger())
-    const dark       = this._attr('theme', 'dark') !== 'light'
+    const dark       = this._theme() !== 'light'
     const heightAttr = parseInt(this._attr('height', '0'))
     const showAxis   = this._attr('show-axis', 'true') !== 'false'
     const fmt        = this._attr('label-format', '')

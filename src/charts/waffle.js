@@ -27,7 +27,7 @@ export class ZynaWaffle extends ZynaChart {
     const cols    = colsRaw > 0 ? colsRaw : 10
     const gapRaw  = parseInt(this._attr('gap', '3'))
     const gap     = gapRaw >= 0 ? gapRaw : 3
-    const dark       = this._attr('theme', 'dark') !== 'light'
+    const dark       = this._theme() !== 'light'
     const heightAttr = parseInt(this._attr('height', '0'))
 
     if (!data.length) { this._warnEmpty('zyna-waffle'); return }

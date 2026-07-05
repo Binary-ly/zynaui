@@ -35,7 +35,7 @@ export class ZynaLine extends ZynaChart {
     if (!raw.length) { this._warnEmpty('zyna-line'); return }
 
     const anns       = this._json('annotations', [])
-    const dark       = this._attr('theme', 'dark') !== 'light'
+    const dark       = this._theme() !== 'light'
     const textC      = dark ? '#F0EBE0' : '#1A1A20'
     const gridC      = dark ? '#1E1E24' : '#E5E0D8'
     const bgC        = dark ? '#16161C' : '#FFFFFF'

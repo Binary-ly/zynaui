@@ -202,6 +202,7 @@ export const tokens = {
   // distinguishable from Corporate's warm grey (#EDEAE3) and Blueprint's
   // grey-blue (#E1E9F5). The teal chrome reads as "instrument panel" not "document."
   '--bg':        '#EDFAFC',
+  '--z-chart-theme': 'light',
   '--bg2':       '#CBE9F3',   // clearly teal sidebar — no ambiguity with Blueprint
   '--bg3':       '#B5DCEC',
   '--border':    'rgba(12,30,36,0.10)',

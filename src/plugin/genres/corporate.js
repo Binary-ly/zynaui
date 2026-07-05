@@ -70,6 +70,7 @@ export const tokens = {
   // the hardcoded dark values in docs.css :root and allow all var(--bg/--text/--border)
   // references across the docs site to resolve to the light palette.
   '--bg':        '#F5F4F0',
+  '--z-chart-theme': 'light',
   '--bg2':       '#EDEAE3',   // sidebar
   '--bg3':       '#E5E1D9',   // hover states, buttons
   '--border':    'rgba(28,27,22,0.13)',

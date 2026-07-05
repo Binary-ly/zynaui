@@ -32,6 +32,16 @@ export class ZynaChart extends HTMLElement {
     this._genreHandler = () => this._render()
     window.addEventListener('zyna-genre', this._genreHandler)
 
+    // Re-render when the app switches genre or theme by mutating <html>
+    // (data-genre attribute or a theme class). The zyna-genre window event
+    // above remains supported, but consumers shouldn't need a proprietary
+    // event just to recolor charts after `document.documentElement.dataset.genre = …`.
+    this._mo = new MutationObserver(() => this._scheduleRender())
+    this._mo.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-genre', 'class'],
+    })
+
     this._ro = new ResizeObserver(entries => {
       const w = entries[0]?.contentRect.width ?? this.clientWidth
       // Tier 1: ignore sub-3px jitter
@@ -74,10 +84,24 @@ export class ZynaChart extends HTMLElement {
 
   disconnectedCallback() {
     this._ro?.disconnect()
+    this._mo?.disconnect()
     if (this._rafId)     cancelAnimationFrame(this._rafId)
     if (this._initRafId) cancelAnimationFrame(this._initRafId)
     if (this._timerId)   clearTimeout(this._timerId)
     window.removeEventListener('zyna-genre', this._genreHandler)
+  }
+
+  /**
+   * Coalesces several same-turn render triggers (multiple attribute writes,
+   * html-level genre mutations) into a single microtask render.
+   */
+  _scheduleRender() {
+    if (this._attrQueued) return
+    this._attrQueued = true
+    queueMicrotask(() => {
+      this._attrQueued = false
+      if (this.isConnected) this._render()
+    })
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -92,12 +116,21 @@ export class ZynaChart extends HTMLElement {
     // Coalesce several same-turn attribute writes into a single render.
     // Microtask (not rAF) keeps updates effectively immediate — attribute
     // changes still bypass the resize debounce.
-    if (this._attrQueued) return
-    this._attrQueued = true
-    queueMicrotask(() => {
-      this._attrQueued = false
-      if (this.isConnected) this._render()
-    })
+    this._scheduleRender()
+  }
+
+  /**
+   * Resolves the chart's colour theme. An explicit `theme` attribute always
+   * wins; otherwise genres steer it via the `--z-chart-theme` token (the five
+   * light genres set it to 'light' so charts don't default to dark text on a
+   * cream page); final fallback is 'dark'.
+   * @returns {'dark'|'light'|string}
+   */
+  _theme() {
+    const attr = this.getAttribute('theme')
+    if (attr) return attr
+    const t = getComputedStyle(this).getPropertyValue('--z-chart-theme').trim()
+    return t || 'dark'
   }
 
   /**
@@ -197,10 +230,13 @@ export class ZynaChart extends HTMLElement {
     svg.attr('aria-hidden', 'true')
   }
 
-  _brand()     { return getComputedStyle(document.documentElement).getPropertyValue('--zyna').trim()      || '#C9A84C' }
-  _brandDark() { return getComputedStyle(document.documentElement).getPropertyValue('--zyna-dark').trim() || '#7A6230' }
-  _success()   { return getComputedStyle(document.documentElement).getPropertyValue('--zp-success').trim() || '#00FFB2' }
-  _danger()    { return getComputedStyle(document.documentElement).getPropertyValue('--zp-danger').trim()  || '#FF3366' }
+  // Read from the element, not documentElement, so container-scoped token
+  // overrides (e.g. a wrapper setting --zyna) reach the charts inside it.
+  _cssVar(name)  { return getComputedStyle(this).getPropertyValue(name).trim() }
+  _brand()     { return this._cssVar('--zyna')       || '#C9A84C' }
+  _brandDark() { return this._cssVar('--zyna-dark')  || '#7A6230' }
+  _success()   { return this._cssVar('--zp-success') || '#00FFB2' }
+  _danger()    { return this._cssVar('--zp-danger')  || '#FF3366' }
 
   _render() {}
 }

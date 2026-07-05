@@ -37,8 +37,10 @@ export class ZynaLollipop extends ZynaChart {
     const heightAttr = parseInt(this._attr('height', '0'))
     const tickCountRaw = parseInt(this._attr('ticks', '5'))
     const tickCount    = tickCountRaw > 0 ? tickCountRaw : 5
-    const dark       = this._attr('theme', 'dark') !== 'light'
+    const dark       = this._theme() !== 'light'
     const textC      = dark ? '#F0EBE0' : '#1A1A20'
+    const gridC      = dark ? '#1E1E24' : '#E5E1D4'
+    const tickTextC  = dark ? '#5A5050' : '#8A8478'
 
     if (!data.length) { this._warnEmpty('zyna-lollipop'); return }
 
@@ -83,11 +85,11 @@ export class ZynaLollipop extends ZynaChart {
         g.select('.ll-tick-line')
           .attr('x1', tx).attr('x2', tx)
           .attr('y1', m.top).attr('y2', H - m.bottom + 4)
-          .attr('stroke', '#1E1E24').attr('stroke-width', 0.8)
+          .attr('stroke', gridC).attr('stroke-width', 0.8)
         g.select('.ll-tick-label')
           .attr('x', tx).attr('y', H - m.bottom + 16)
           .attr('text-anchor', 'middle').attr('font-family', 'monospace')
-          .attr('font-size', `${fSm}px`).attr('fill', '#5A5050').text(tick)
+          .attr('font-size', `${fSm}px`).attr('fill', tickTextC).text(tick)
       })
 
     // Per-row groups — keyed by label so D3 reuses existing elements on resize.

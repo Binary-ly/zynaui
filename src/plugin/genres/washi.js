@@ -137,6 +137,7 @@ export const tokens = {
 
   // ── Docs chrome — warm washi palette ──────────────────────────────────────
   '--bg':        '#F7F0E6',
+  '--z-chart-theme': 'light',
   '--bg2':       '#EDE4D5',   // sidebar
   '--bg3':       '#E4D7C3',   // hover / active
   '--border':    'rgba(42,26,14,0.11)',

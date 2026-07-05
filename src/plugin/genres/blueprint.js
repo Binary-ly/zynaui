@@ -108,6 +108,7 @@ export const tokens = {
 
   // ── Docs chrome — drafting vellum palette ─────────────────────────────────
   '--bg':        '#EDF2FA',
+  '--z-chart-theme': 'light',
   '--bg2':       '#E1E9F5',   // sidebar
   '--bg3':       '#D4DFEF',   // hover / active states
   '--border':    'rgba(27,58,107,0.13)',

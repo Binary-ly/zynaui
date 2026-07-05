@@ -26,7 +26,7 @@ export class ZynaOrbital extends ZynaChart {
   _render() {
     const data       = this._json('data', [])
     const accent     = this._attr('color', this._brand())
-    const dark       = this._attr('theme', 'dark') !== 'light'
+    const dark       = this._theme() !== 'light'
     const fmt        = this._attr('label-format', '')
     const fmtVal     = v => this._fmt(v, fmt)
     const showVals   = this._attr('show-values', 'true') !== 'false'
@@ -169,7 +169,7 @@ export class ZynaOrbital extends ZynaChart {
           .attr('display', showVals ? null : 'none')
           .attr('x', tx).attr('y', fy - 2)
           .attr('text-anchor', anchor).attr('font-family', 'monospace').attr('font-size', `${fSm}px`)
-          .attr('fill', '#FFFFFF').attr('opacity', 0.70)
+          .attr('fill', dark ? '#FFFFFF' : '#1A1A20').attr('opacity', 0.70)
           .text(fmt ? fmtVal(s.value) : `${(s.value * 100).toFixed(1)}%`)
       })
   }

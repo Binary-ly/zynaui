@@ -24,7 +24,7 @@ export class ZynaNightingale extends ZynaChart {
   _render() {
     const data       = this._json('data', [])
     const accent     = this._attr('color', this._brand())
-    const dark       = this._attr('theme', 'dark') !== 'light'
+    const dark       = this._theme() !== 'light'
     const fmt        = this._attr('label-format', '')
     const fmtVal     = v => this._fmt(v, fmt)
     const showVals   = this._attr('show-values', 'true') !== 'false'

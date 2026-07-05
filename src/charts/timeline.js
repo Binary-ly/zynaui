@@ -31,6 +31,9 @@ export class ZynaTimeline extends ZynaChart {
     const fmtVal     = v => this._fmt(v, fmt)
     const showVals   = this._attr('show-values', 'true') !== 'false'
     const heightAttr = parseInt(this._attr('height', '0'))
+    const dark       = this._theme() !== 'light'
+    // Baseline/rail were hardcoded #1E1E24 — near-invisible on light themes.
+    const railC      = dark ? '#1E1E24' : '#D8D3C6'
 
     if (!data.length) { this._warnEmpty('zyna-timeline'); return }
 
@@ -67,12 +70,12 @@ export class ZynaTimeline extends ZynaChart {
     let baseline = svg.select('.tl-baseline')
     if (baseline.empty()) baseline = svg.append('line').attr('class', 'tl-baseline')
     baseline.attr('x1', padL).attr('x2', W - padR)
-      .attr('y1', baseY).attr('y2', baseY).attr('stroke', '#1E1E24').attr('stroke-width', 1.5)
+      .attr('y1', baseY).attr('y2', baseY).attr('stroke', railC).attr('stroke-width', 1.5)
 
     let rail = svg.select('.tl-rail')
     if (rail.empty()) rail = svg.append('line').attr('class', 'tl-rail')
     rail.attr('x1', padL).attr('x2', W - padR)
-      .attr('y1', railY + 16).attr('y2', railY + 16).attr('stroke', '#1E1E24').attr('stroke-width', 1)
+      .attr('y1', railY + 16).attr('y2', railY + 16).attr('stroke', railC).attr('stroke-width', 1)
 
     // Per-point groups — keyed by label so D3 reuses existing elements on resize.
     const groups = svg.selectAll('g.tl-pt').data(data, d => d.label)
