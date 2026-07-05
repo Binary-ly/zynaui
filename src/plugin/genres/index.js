@@ -33,10 +33,25 @@ export { defineGenre, registerGenre } from './define.js'
 // Named export (not default) so the public zynaui/genres bundle has only named
 // exports — avoids a Rollup "mixed named and default exports" warning in CJS.
 // The plugin imports this as { genresPlugin } rather than a default import.
+// Merges style rules without clobbering: when two genres declare the same key
+// (e.g. every genre wraps its animation kill-switch in the identical
+// '@media (prefers-reduced-motion: reduce)' key), the nested rules are merged
+// instead of the last genre silently replacing all previous ones. Clones on
+// write so the imported genre modules are never mutated.
+function mergeRules(target, source) {
+  const isObj = v => v && typeof v === 'object' && !Array.isArray(v)
+  for (const [key, value] of Object.entries(source)) {
+    target[key] = (isObj(target[key]) && isObj(value))
+      ? mergeRules({ ...target[key] }, value)
+      : value
+  }
+  return target
+}
+
 export function genresPlugin() {
   const rules = {}
   for (const genre of GENRES) {
-    if (genre.styles) Object.assign(rules, genre.styles)
+    if (genre.styles) mergeRules(rules, genre.styles)
 
     // Compile genre.tokens into the html[data-genre] CSS rule so that
     // data-genre="cyberpunk" (or any future genre) activates the complete
