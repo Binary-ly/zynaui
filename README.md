@@ -14,7 +14,7 @@
 | Package | Description |
 |---------|-------------|
 | **Tailwind plugin** | Semantic classes: `.btn`, `.card`, `.badge`, `.alert` |
-| **Chart Web Components** | `<zyna-waffle>`, `<zyna-timeline>`, `<zyna-nightingale>`, `<zyna-lollipop>`, `<zyna-orbital>`, `<zyna-candlestick>`, `<zyna-gauge>`, `<zyna-line>` |
+| **Chart Web Components** | 16 charts: `<zyna-waffle>`, `<zyna-timeline>`, `<zyna-nightingale>`, `<zyna-lollipop>`, `<zyna-orbital>`, `<zyna-candlestick>`, `<zyna-gauge>`, `<zyna-line>`, `<zyna-stratum>`, `<zyna-delta>`, `<zyna-resonance>`, `<zyna-tension>`, `<zyna-pulse>`, `<zyna-rupture>`, `<zyna-density>`, `<zyna-cascade>` |
 
 Framework-agnostic. Works in React, Vue, Svelte, Blade, or plain HTML.
 
@@ -233,7 +233,9 @@ npm install zynaui
 import {
   ZynaWaffle, ZynaTimeline, ZynaNightingale,
   ZynaLollipop, ZynaOrbital, ZynaCandlestick,
-  ZynaGauge, ZynaLine,
+  ZynaGauge, ZynaLine, ZynaStratum, ZynaDelta,
+  ZynaResonance, ZynaTension, ZynaPulse, ZynaRupture,
+  ZynaDensity, ZynaCascade,
 } from 'zynaui/react'
 
 export default function Charts() {
@@ -266,6 +268,14 @@ import 'zynaui/charts/orbital'
 import 'zynaui/charts/candlestick'
 import 'zynaui/charts/gauge'
 import 'zynaui/charts/line'
+import 'zynaui/charts/stratum'
+import 'zynaui/charts/delta'
+import 'zynaui/charts/resonance'
+import 'zynaui/charts/tension'
+import 'zynaui/charts/pulse'
+import 'zynaui/charts/rupture'
+import 'zynaui/charts/density'
+import 'zynaui/charts/cascade'
 ```
 
 ### Via CDN / Vanilla HTML (no bundler)
@@ -273,11 +283,11 @@ import 'zynaui/charts/line'
 Link the pre-compiled CSS and load the IIFE bundle. No build step needed:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/zynaui@0.2/dist/zynaui.css" />
-<script src="https://cdn.jsdelivr.net/npm/zynaui@0.2/dist/zyna-charts.iife.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/zynaui@0.3/dist/zynaui.css" />
+<script src="https://cdn.jsdelivr.net/npm/zynaui@0.3/dist/zyna-charts.iife.js"></script>
 ```
 
-The stylesheet contains only ZynaUI's tokens, components, and genres — no Tailwind preflight reset — so it is safe to drop into an existing page. Bundler users can equivalently `import 'zynaui/style.css'`. (URLs are pinned to the 0.2 line; unpinned `/npm/zynaui/` floats to whatever `latest` is.)
+The stylesheet contains only ZynaUI's tokens, components, and genres — no Tailwind preflight reset — so it is safe to drop into an existing page. Bundler users can equivalently `import 'zynaui/style.css'`. (URLs are pinned to the 0.3 line; unpinned `/npm/zynaui/` floats to whatever `latest` is.)
 
 Or if installed via npm:
 
@@ -504,6 +514,232 @@ Set `x: ''` on intermediate data points to suppress crowded x-axis labels.
   annotations='[{ "series": 0, "x": "Apr", "label": "Peak", "direction": "up" }]'
   tension="0.4"
 ></zyna-line>
+```
+
+---
+
+### `<zyna-stratum>`
+
+Geological core-sample grid. Each entity is a row; the internal segment heights encode its per-period values, so cross-entity patterns emerge from the stacked strata profile.
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `data` | JSON array | `[]` | `[{ label, values: number[], color? }]` |
+| `x-labels` | JSON array | — | One label per period; `''` suppresses that label |
+| `scale` | `row`/`global` | `row` | Height normalisation: per-entity or shared |
+| `color` | hex | `#C9A84C` | Fallback row color |
+| `theme` | `dark`/`light` | `dark` | Color theme |
+| `label-format` | string | — | D3 number format for the a11y summary |
+| `height` | number | auto | Explicit height in px |
+
+```html
+<zyna-stratum
+  x-labels='["Q1","Q2","Q3","Q4"]'
+  data='[
+    { "label": "North", "values": [12, 19, 15, 22] },
+    { "label": "South", "values": [8, 11, 20, 17] },
+    { "label": "East",  "values": [15, 9, 13, 25] }
+  ]'
+></zyna-stratum>
+```
+
+---
+
+### `<zyna-delta>`
+
+Paired concentric arcs per category: the outer arc is the current value, the inner arc the baseline, and the annular gap is coloured by gain or loss.
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `data` | JSON array | `[]` | `[{ label, value, baseline, color? }]` |
+| `max` | number | data max | Shared scale ceiling (angle = value / max) |
+| `arc-degrees` | number | `270` | Total arc sweep in degrees |
+| `color` | hex | `#C9A84C` | Accent color |
+| `theme` | `dark`/`light` | `dark` | Color theme |
+| `label-format` | string | — | D3 number format for the centre delta |
+| `height` | number | auto | Explicit height in px |
+
+```html
+<zyna-delta
+  data='[
+    { "label": "Revenue", "value": 82, "baseline": 65 },
+    { "label": "Cost",    "value": 40, "baseline": 52 },
+    { "label": "Churn",   "value": 12, "baseline": 9 }
+  ]'
+></zyna-delta>
+```
+
+---
+
+### `<zyna-resonance>`
+
+Radial deviation-from-mean diagram. Spokes radiate from a centre; length encodes distance from the mean and fill encodes direction (solid above, hollow below), so deviation is the first-class visual.
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `data` | JSON array | `[]` | `[{ label, value }]` |
+| `mean` | number | computed mean | Explicit centre value |
+| `unit` | `percent`/`absolute` | `percent` | Deviation label units |
+| `color` | hex | `#C9A84C` | Accent color |
+| `theme` | `dark`/`light` | `dark` | Color theme |
+| `label-format` | string | — | D3 number format for absolute labels |
+| `height` | number | auto | Explicit height in px |
+
+```html
+<zyna-resonance
+  data='[
+    { "label": "Jan", "value": 118 }, { "label": "Feb", "value": 92 },
+    { "label": "Mar", "value": 104 }, { "label": "Apr", "value": 87 },
+    { "label": "May", "value": 131 }, { "label": "Jun", "value": 96 }
+  ]'
+></zyna-resonance>
+```
+
+---
+
+### `<zyna-tension>`
+
+Ranked before/after comparison. Two ranked columns are joined by curved connectors angled and coloured by the direction and magnitude of each item's rank change.
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `data` | JSON array | `[]` | `[{ label, before, after }]` |
+| `rank-by` | `rank`/`value` | `rank` | `before`/`after` are ranks, or raw values to rank |
+| `highlight` | string | — | Label to spotlight; every other connector dims |
+| `color` | hex | `#C9A84C` | Accent color |
+| `theme` | `dark`/`light` | `dark` | Color theme |
+| `height` | number | auto | Explicit height in px |
+
+```html
+<zyna-tension
+  highlight="Solar"
+  data='[
+    { "label": "Solar",   "before": 3, "after": 1 },
+    { "label": "Wind",    "before": 1, "after": 2 },
+    { "label": "Gas",     "before": 2, "after": 4 },
+    { "label": "Coal",    "before": 4, "after": 5 },
+    { "label": "Nuclear", "before": 5, "after": 3 }
+  ]'
+></zyna-tension>
+```
+
+---
+
+### `<zyna-pulse>`
+
+Stacked ECG / seismograph tracks on a shared timeline — one row per entity, each with its own zero baseline — reading like a score of simultaneous signals.
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `data` | JSON array | `[]` | `[{ label, values: number[], color? }]` |
+| `x-labels` | JSON array | — | One label per point; `''` suppresses that label |
+| `amplitude` | number | auto | px of vertical swing per track |
+| `marker` | JSON array | — | `[{ x, label? }]` vertical event rules spanning all tracks |
+| `color` | hex | `#C9A84C` | Fallback track color |
+| `theme` | `dark`/`light` | `dark` | Color theme |
+| `height` | number | auto | Explicit height in px |
+
+```html
+<zyna-pulse
+  x-labels='["00:00","06:00","12:00","18:00","24:00"]'
+  marker='[{ "x": "12:00", "label": "Peak load" }]'
+  data='[
+    { "label": "CPU", "values": [12, 30, 62, 45, 20] },
+    { "label": "MEM", "values": [40, 42, 55, 58, 44] },
+    { "label": "NET", "values": [5, 25, 48, 30, 10] }
+  ]'
+></zyna-pulse>
+```
+
+---
+
+### `<zyna-rupture>`
+
+Threshold-breach area chart. The fill fractures where the series crosses a threshold — character, colour, and glow all shift past the breach point.
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `data` | JSON array | `[]` | `[{ x, y }]` (single series) |
+| `threshold` | number | — | The breach level (required) |
+| `threshold-label` | string | — | Caption drawn on the threshold line |
+| `direction` | `above`/`below` | `above` | Breach when rising above or dipping below |
+| `color` | hex | `#C9A84C` | Calm (pre-breach) accent color |
+| `theme` | `dark`/`light` | `dark` | Color theme |
+| `label-format` | string | — | D3 number format for the threshold label |
+| `height` | number | auto | Explicit height in px |
+
+```html
+<zyna-rupture
+  threshold="80"
+  threshold-label="SLA limit"
+  data='[
+    { "x": "Mon", "y": 62 }, { "x": "Tue", "y": 71 },
+    { "x": "Wed", "y": 88 }, { "x": "Thu", "y": 95 },
+    { "x": "Fri", "y": 79 }
+  ]'
+></zyna-rupture>
+```
+
+---
+
+### `<zyna-density>`
+
+Per-period KDE violin silhouettes on a shared value axis. Each period is a smooth density bulb with a median spine, revealing how the full distribution shifts over time.
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `data` | JSON array | `[]` | `[{ label, values: number[] }]` (raw samples) |
+| `bandwidth` | number | auto | KDE smoothing (Silverman's rule when omitted) |
+| `y-min` | number | data extent | y-axis lower bound |
+| `y-max` | number | data extent | y-axis upper bound |
+| `y-label` | string | — | Rotated axis title on the left |
+| `label-format` | string | — | D3 number format for y-axis ticks |
+| `theme` | `dark`/`light` | `dark` | Color theme |
+| `height` | number | auto | Explicit height in px |
+
+```html
+<zyna-density
+  y-label="Response time (ms)"
+  data='[
+    { "label": "Jan", "values": [120, 135, 128, 142, 119, 150, 133] },
+    { "label": "Feb", "values": [118, 140, 155, 122, 138, 160, 129] },
+    { "label": "Mar", "values": [110, 125, 118, 132, 145, 128, 122] }
+  ]'
+></zyna-density>
+```
+
+---
+
+### `<zyna-cascade>`
+
+Hierarchical split waterfall: a total fractures downward through levels as proportional blocks joined by tapering alluvial ribbons. Set `variant="sankey"` for the molten-sankey look — gradient flows with a soft bloom.
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `data` | JSON | `—` | Nested `{ label, value?, color?, children? }` (or a bare array of top-level splits). Parent values are summed from leaves when omitted |
+| `level-labels` | JSON array | — | Name for each tier, shown down the left edge |
+| `min-share` | number | `0.03` | Splits below this fraction of their parent collapse into "Other" |
+| `variant` | `waterfall`/`sankey` | `waterfall` | `sankey` = molten gradient flows with a soft bloom |
+| `color` | hex | `#C9A84C` | Accent for the first branch |
+| `theme` | `dark`/`light` | `dark` | Color theme |
+| `label-format` | string | — | D3 number format for block value labels |
+| `height` | number | auto | Explicit height in px |
+
+```html
+<zyna-cascade
+  variant="sankey"
+  level-labels='["Total","Region","Programme"]'
+  data='{
+    "label": "Appeal",
+    "children": [
+      { "label": "East Africa", "children": [
+        { "label": "Food", "value": 38 }, { "label": "WASH", "value": 22 }, { "label": "Health", "value": 15 } ] },
+      { "label": "MENA", "children": [
+        { "label": "Shelter", "value": 30 }, { "label": "Protection", "value": 18 } ] },
+      { "label": "Sahel", "value": 24 }
+    ]
+  }'
+></zyna-cascade>
 ```
 
 ---
