@@ -86,10 +86,10 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://zyna.dev/charts/">
   <meta property="og:title" content="Charts — ZynaUI">
-  <meta property="og:description" content="ZynaUI data visualization components: waffle, timeline, nightingale/rose, lollipop, orbital, candlestick, and gauge charts.">
+  <meta property="og:description" content="ZynaUI data visualization components: waffle, timeline, nightingale, lollipop, orbital, candlestick, gauge, line, tension, delta ring, stratum, resonance, pulse, rupture, flow density, and cascade charts.">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Charts — ZynaUI">
-  <meta name="twitter:description" content="ZynaUI data visualization components: waffle, timeline, nightingale/rose, lollipop, orbital, candlestick, and gauge charts.">
+  <meta name="twitter:description" content="ZynaUI data visualization components: waffle, timeline, nightingale, lollipop, orbital, candlestick, gauge, line, tension, delta ring, stratum, resonance, pulse, rupture, flow density, and cascade charts.">
   <link rel="canonical" href="https://zyna.dev/charts/">
 </head>
 <body>
@@ -251,6 +251,121 @@
               <span class="arrow">→</span>
             </div>
             <div class="chart-desc">Multi-series area-line chart with stacked fills and annotation markers. Add as many series as needed.</div>
+          </div>
+        </a>
+
+        <!-- Tension -->
+        <a href="/charts/tension/" class="chart-card">
+          <div class="chart-preview">
+            <zyna-tension
+              data='[{"label":"EU","before":1,"after":2},{"label":"USA","before":2,"after":1},{"label":"UK","before":3,"after":5},{"label":"JP","before":4,"after":3},{"label":"Gulf","before":5,"after":4}]'
+              highlight="UK" height="280">
+            </zyna-tension>
+          </div>
+          <div class="chart-info">
+            <div class="chart-name">Tension <span class="arrow">→</span></div>
+            <div class="chart-desc">Ranked before/after comparison. Curved connectors coloured and weighted by rank change — the crossings are the story.</div>
+          </div>
+        </a>
+
+        <!-- Delta Ring -->
+        <a href="/charts/delta/" class="chart-card">
+          <div class="chart-preview">
+            <zyna-delta
+              data='[{"label":"North","value":128,"baseline":100},{"label":"South","value":86,"baseline":110},{"label":"East","value":152,"baseline":140,"color":"#4BBFA8"}]'
+              height="240">
+            </zyna-delta>
+          </div>
+          <div class="chart-info">
+            <div class="chart-name">Delta Ring <span class="arrow">→</span></div>
+            <div class="chart-desc">Paired concentric arcs per category — outer is current, inner is baseline; the hatched band is the gain or loss.</div>
+          </div>
+        </a>
+
+        <!-- Stratum -->
+        <a href="/charts/stratum/" class="chart-card">
+          <div class="chart-preview">
+            <zyna-stratum
+              data='[{"label":"WEST","values":[12,18,24,31,28,22,19,15]},{"label":"SOUTH","values":[8,9,11,14,20,27,33,29]},{"label":"EAST","values":[22,19,16,13,11,9,8,10],"color":"#4BBFA8"}]'
+              x-labels='["J","F","M","A","M","J","J","A"]' height="240">
+            </zyna-stratum>
+          </div>
+          <div class="chart-info">
+            <div class="chart-name">Stratum <span class="arrow">→</span></div>
+            <div class="chart-desc">Geological core-sample grid — per-period segment heights encode values, so patterns survive monochrome genres.</div>
+          </div>
+        </a>
+
+        <!-- Resonance -->
+        <a href="/charts/resonance/" class="chart-card">
+          <div class="chart-preview">
+            <zyna-resonance
+              data='[{"label":"North","value":112},{"label":"East","value":98},{"label":"South","value":134},{"label":"West","value":76},{"label":"Central","value":103},{"label":"Coast","value":121},{"label":"Delta","value":88}]'
+              height="300">
+            </zyna-resonance>
+          </div>
+          <div class="chart-info">
+            <div class="chart-name">Resonance <span class="arrow">→</span></div>
+            <div class="chart-desc">Radial deviation from the mean — spoke length is distance from the mean, direction shows above or below.</div>
+          </div>
+        </a>
+
+        <!-- Pulse Sequence -->
+        <a href="/charts/pulse/" class="chart-card">
+          <div class="chart-preview">
+            <zyna-pulse
+              data='[{"label":"CPU","values":[1,3,2,8,3,2,1,2,9,2,1]},{"label":"MEM","values":[2,2,3,3,4,4,5,5,6,6,5]},{"label":"NET","values":[0,-2,4,-1,3,-3,2,7,-2,1,0],"color":"#00D4FF"}]'
+              x-labels='["0","","","15","","","30","","","45",""]' marker='[{"x":"30","label":"deploy"}]' height="260">
+            </zyna-pulse>
+          </div>
+          <div class="chart-info">
+            <div class="chart-name">Pulse Sequence <span class="arrow">→</span></div>
+            <div class="chart-desc">Stacked ECG tracks on a shared timeline, so simultaneous events line up vertically across entities.</div>
+          </div>
+        </a>
+
+        <!-- Rupture -->
+        <a href="/charts/rupture/" class="chart-card">
+          <div class="chart-preview">
+            <zyna-rupture
+              threshold="200" threshold-label="SLA"
+              data='[{"x":"9:00","y":120},{"x":"9:30","y":140},{"x":"10:00","y":165},{"x":"10:30","y":180},{"x":"11:00","y":210},{"x":"11:30","y":260},{"x":"12:00","y":320},{"x":"12:30","y":300},{"x":"13:00","y":240}]'
+              height="260">
+            </zyna-rupture>
+          </div>
+          <div class="chart-info">
+            <div class="chart-name">Rupture <span class="arrow">→</span></div>
+            <div class="chart-desc">Threshold-breach area chart — calm below the line, a jagged seam at the crossing, danger fill and glow past it.</div>
+          </div>
+        </a>
+
+        <!-- Flow Density -->
+        <a href="/charts/density/" class="chart-card">
+          <div class="chart-preview">
+            <zyna-density
+              data='[{"label":"Jan","values":[108,114,118,121,123,125,127,129,131,133,135,137,139,142,146,152]},{"label":"Feb","values":[122,130,135,138,141,144,146,149,151,154,156,159,162,165,170,178]},{"label":"Mar","values":[143,154,160,164,168,172,175,178,182,185,188,192,196,200,206,217]},{"label":"Apr","values":[162,176,184,190,195,200,204,208,212,216,220,225,230,236,244,258]}]'
+              height="260">
+            </zyna-density>
+          </div>
+          <div class="chart-info">
+            <div class="chart-name">Flow Density <span class="arrow">→</span></div>
+            <div class="chart-desc">Distribution over time — each period is a KDE violin, with a median spine tracing the drift.</div>
+          </div>
+        </a>
+
+        <!-- Cascade -->
+        <a href="/charts/cascade/" class="chart-card">
+          <div class="chart-preview">
+            <zyna-cascade
+              variant="sankey"
+              level-labels='["Total","Region","Programme"]'
+              data='{"label":"Appeal","children":[{"label":"East Africa","children":[{"label":"Food","value":38},{"label":"WASH","value":22},{"label":"Health","value":15}]},{"label":"MENA","children":[{"label":"Shelter","value":30},{"label":"Protection","value":18}]},{"label":"Sahel","value":24}]}'
+              height="300">
+            </zyna-cascade>
+          </div>
+          <div class="chart-info">
+            <div class="chart-name">Cascade <span class="arrow">→</span></div>
+            <div class="chart-desc">Hierarchical split waterfall — a total fractures through levels via tapering alluvial ribbons, with an optional molten-sankey variant.</div>
           </div>
         </a>
 

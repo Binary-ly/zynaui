@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{var _zg=localStorage.getItem('zyna-genre');if(_zg&&_zg!=='Ops'){document.documentElement.dataset.genre=_zg.toLowerCase();var _zt=JSON.parse(localStorage.getItem('zyna-genre-tokens')||'{}');for(var _zk in _zt)document.documentElement.style.setProperty(_zk,_zt[_zk])}}catch(e){}</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="../../favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+  <link rel="manifest" href="../../site.webmanifest">
+  <title>Rupture — Zyna UI Charts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=DM+Mono:wght@400;500&family=Share+Tech+Mono&family=VT323&display=swap" media="print" onload="this.media='all'">
+  <script src="/dist/zyna-charts.iife.js" defer></script>
+  <link rel="stylesheet" href="../../zynaui.css">
+  <link rel="stylesheet" href="../../docs.css">
+  <style>
+    .theme-sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;user-select:none;font-size:.72rem;color:var(--text3);font-weight:600;letter-spacing:.04em;padding:0 4px}
+    .theme-sw input{position:absolute;opacity:0;width:0;height:0}
+    .theme-track{position:relative;display:block;width:32px;height:18px;background:var(--bg3);border:1px solid var(--border);border-radius:9px;transition:background .2s;flex-shrink:0}
+    .theme-track::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:var(--text3);transition:transform .2s}
+    .theme-sw input:checked~.theme-track{background:color-mix(in oklch,var(--zyna) 15%,var(--bg3))}
+    .theme-sw input:checked~.theme-track::after{transform:translateX(14px);background:var(--zyna)}
+    .rupture-wrap{width:100%;max-width:720px;margin:0 auto}
+  </style>
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zyna.dev/charts/rupture/">
+  <meta property="og:title" content="Rupture Chart — ZynaUI">
+  <meta property="og:description" content="ZynaUI threshold-breach area chart — calm brand fill below the line, a jagged seam at the crossing, then danger fill and glow past the breach.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Rupture Chart — ZynaUI">
+  <meta name="twitter:description" content="ZynaUI threshold-breach area chart — calm brand fill below the line, a jagged seam at the crossing, then danger fill and glow past the breach.">
+  <link rel="canonical" href="https://zyna.dev/charts/rupture/">
+</head>
+<body>
+  <header id="topbar"></header>
+  <div id="docs-layout">
+    <aside id="sidebar"></aside>
+    <main id="content">
+
+      <div class="page-header">
+        <nav aria-label="Breadcrumb" class="breadcrumb">
+          <ol>
+            <li><a href="/charts/">Charts</a></li>
+            <li><span class="breadcrumb-sep" aria-hidden="true">›</span><span aria-current="page">Rupture</span></li>
+          </ol>
+        </nav>
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap">
+          <h1 class="page-title" style="margin-bottom:0">Rupture</h1>
+          <code style="font-family:var(--mono);font-size:0.78rem;padding:0.2rem 0.6rem;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--brand)">&lt;zyna-rupture&gt;</code>
+        </div>
+        <p class="page-desc">Threshold-breach area chart. Below the threshold the fill is calm and brand-coloured; at the exact crossing a jagged seam splits the fill, and past it the fill and stroke shift to danger with a hot glow. The chart performs the alarm rather than annotating it.</p>
+      </div>
+
+      <!-- Demo -->
+      <div class="doc-section">
+        <h2 class="section-title">Demo</h2>
+        <div class="tabs-bar" role="tablist" aria-label="Rupture demo" style="display:flex;align-items:center">
+          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="rp-p" id="tab-rp-p" tabindex="0" onclick="tab(this,'rp-p')">Preview</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="rp-c" id="tab-rp-c" tabindex="-1" onclick="tab(this,'rp-c')">Code</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="rp-a" id="tab-rp-a" tabindex="-1" onclick="tab(this,'rp-a')">Attributes</button>
+          <label class="theme-sw" style="margin-left:auto">
+            <input type="checkbox" role="switch" id="theme-chk" onchange="setTheme(this.checked)">
+            <span class="theme-track"></span>
+            <span>Light</span>
+          </label>
+        </div>
+        <div>
+          <div id="rp-p" class="tab-panel active" role="tabpanel" aria-labelledby="tab-rp-p" tabindex="0">
+            <div class="preview-box col" data-chart-bg style="min-height:300px;padding:1.5rem">
+              <p style="font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:1rem">Response latency vs SLA</p>
+              <div class="rupture-wrap">
+                <zyna-rupture
+                  threshold="200" threshold-label="SLA 200ms"
+                  data='[{"x":"9:00","y":120},{"x":"9:30","y":140},{"x":"10:00","y":165},{"x":"10:30","y":180},{"x":"11:00","y":210},{"x":"11:30","y":260},{"x":"12:00","y":320},{"x":"12:30","y":300},{"x":"13:00","y":240}]'
+                  style="display:block;width:100%"></zyna-rupture>
+              </div>
+            </div>
+          </div>
+          <div id="rp-c" class="tab-panel" role="tabpanel" aria-labelledby="tab-rp-c" tabindex="0">
+            <div class="code-box">
+              <div class="code-toolbar">
+                <span class="code-lang">HTML</span>
+                <button class="copy-btn" aria-label="Copy rupture example" onclick="cp(this,'rp-code')">
+                  <svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                  Copy
+                </button>
+              </div>
+              <pre id="rp-code"><span class="tag">&lt;zyna-rupture</span>
+  <span class="atr">threshold</span>=<span class="val">"200"</span>
+  <span class="atr">threshold-label</span>=<span class="val">"SLA 200ms"</span>
+  <span class="atr">data</span>=<span class="val">'[
+    {"x":"9:00","y":120}, {"x":"10:00","y":165}, {"x":"11:00","y":210},
+    {"x":"12:00","y":320}, {"x":"13:00","y":240}
+  ]'</span>
+<span class="tag">&gt;&lt;/zyna-rupture&gt;</span></pre>
+            </div>
+          </div>
+          <div id="rp-a" class="tab-panel" role="tabpanel" aria-labelledby="tab-rp-a" tabindex="0">
+            <div style="border:1px solid var(--border);border-top:none;border-bottom-left-radius:var(--radius);border-bottom-right-radius:var(--radius);overflow:hidden">
+              <table class="api-table" aria-label="Rupture attributes" style="border:none;border-radius:0">
+                <thead>
+                  <tr>
+                    <th>Attribute</th>
+                    <th>Type</th>
+                    <th>Default</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td class="t-var">data</td><td class="t-type">JSON</td><td class="t-def">—</td><td>Array of <code>{x, y}</code> (single series). <code>x</code> is the axis label, <code>y</code> is tested against the threshold.</td></tr>
+                  <tr><td class="t-var">threshold</td><td class="t-type">number</td><td class="t-def"><b>required</b></td><td>The breach level. The fill fractures exactly where the series crosses it.</td></tr>
+                  <tr><td class="t-var">threshold-label</td><td class="t-type">string</td><td class="t-def">value</td><td>Caption drawn on the threshold line.</td></tr>
+                  <tr><td class="t-var">direction</td><td class="t-type">above | below</td><td class="t-def">above</td><td>Breach when exceeding (<code>above</code>) or when dipping under (<code>below</code>, e.g. funding levels).</td></tr>
+                  <tr><td class="t-var">color</td><td class="t-type">string</td><td class="t-def">var(--zyna)</td><td>Accent for the calm segment. The breach segment always uses the danger token.</td></tr>
+                  <tr><td class="t-var">theme</td><td class="t-type">dark | light</td><td class="t-def">dark</td><td>Controls text and reference-line colour scheme.</td></tr>
+                  <tr><td class="t-var">height</td><td class="t-type">number</td><td class="t-def">auto</td><td>Explicit height in px. Auto-derived from width when omitted.</td></tr>
+                  <tr><td class="t-var">label-format</td><td class="t-type">string</td><td class="t-def">—</td><td>D3-style number format for the threshold label value (e.g. <code style="font-family:var(--mono);font-size:0.75rem">$,.0f</code>).</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tips -->
+      <div class="doc-section">
+        <h2 class="section-title">Usage Tips</h2>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;font-size:0.875rem;color:var(--text2);line-height:1.75">
+          <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:0.4rem">
+            <li>Use <code>direction="below"</code> for floors — funding, capacity, reserves — where dipping under is the alarm.</li>
+            <li>The seam marks the interpolated crossing point, not the nearest data point, so it lands exactly on the threshold.</li>
+            <li>One series per chart. For multiple series against a shared limit, stack several rupture charts.</li>
+            <li>The breach colour is the danger token, so it re-tunes automatically with the active genre.</li>
+          </ul>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script type="module" src="../../_nav.js"></script>
+  <script>
+    function setTheme(isLight) {
+      document.querySelectorAll('zyna-rupture').forEach(el => {
+        if (isLight) el.setAttribute('theme', 'light')
+        else el.removeAttribute('theme')
+      })
+      document.querySelectorAll('[data-chart-bg]').forEach(b => {
+        b.style.background = isLight ? '#F8F6F2' : ''
+        b.style.backgroundImage = isLight ? 'none' : ''
+      })
+    }
+    function tab(btn, panelId) {
+      const bar = btn.parentElement
+      bar.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('active')
+        b.setAttribute('aria-selected', 'false')
+        b.setAttribute('tabindex', '-1')
+      })
+      btn.classList.add('active')
+      btn.setAttribute('aria-selected', 'true')
+      btn.setAttribute('tabindex', '0')
+      btn.focus()
+      const container = bar.nextElementSibling
+      container.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'))
+      document.getElementById(panelId).classList.add('active')
+    }
+    document.addEventListener('keydown', function(e) {
+      const btn = e.target.closest('[role="tab"]')
+      if (!btn) return
+      const bar = btn.closest('[role="tablist"]')
+      if (!bar) return
+      const tabs = [...bar.querySelectorAll('[role="tab"]')]
+      const idx = tabs.indexOf(btn)
+      let next
+      if (e.key === 'ArrowRight') next = tabs[(idx + 1) % tabs.length]
+      else if (e.key === 'ArrowLeft') next = tabs[(idx - 1 + tabs.length) % tabs.length]
+      else if (e.key === 'Home') next = tabs[0]
+      else if (e.key === 'End') next = tabs[tabs.length - 1]
+      if (next) { e.preventDefault(); next.click() }
+    })
+    function cp(btn, id) {
+      const txt = document.getElementById(id).innerText
+      navigator.clipboard.writeText(txt).then(() => {
+        btn.classList.add('ok')
+        btn.innerHTML = '<svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!'
+        setTimeout(() => {
+          btn.classList.remove('ok')
+          btn.innerHTML = '<svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy'
+        }, 2000)
+      })
+    }
+  </script>
+  <footer></footer>
+</body>
+</html>

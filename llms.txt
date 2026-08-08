@@ -622,6 +622,14 @@ import type { ZynaUIOptions } from 'zynaui'
 - Candlestick chart: https://zyna.dev/charts/candlestick/
 - Gauge chart: https://zyna.dev/charts/gauge/
 - Line chart: https://zyna.dev/charts/line/
+- Tension chart: https://zyna.dev/charts/tension/
+- Delta Ring chart: https://zyna.dev/charts/delta/
+- Stratum chart: https://zyna.dev/charts/stratum/
+- Resonance chart: https://zyna.dev/charts/resonance/
+- Pulse Sequence chart: https://zyna.dev/charts/pulse/
+- Rupture chart: https://zyna.dev/charts/rupture/
+- Flow Density chart: https://zyna.dev/charts/density/
+- Cascade chart: https://zyna.dev/charts/cascade/
 - Genre builder: https://zyna.dev/genres/
 - npm: https://www.npmjs.com/package/zynaui
 - GitHub: https://github.com/binary-ly/zynaui

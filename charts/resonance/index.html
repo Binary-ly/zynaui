@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{var _zg=localStorage.getItem('zyna-genre');if(_zg&&_zg!=='Ops'){document.documentElement.dataset.genre=_zg.toLowerCase();var _zt=JSON.parse(localStorage.getItem('zyna-genre-tokens')||'{}');for(var _zk in _zt)document.documentElement.style.setProperty(_zk,_zt[_zk])}}catch(e){}</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="../../favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+  <link rel="manifest" href="../../site.webmanifest">
+  <title>Resonance — Zyna UI Charts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=DM+Mono:wght@400;500&family=Share+Tech+Mono&family=VT323&display=swap" media="print" onload="this.media='all'">
+  <script src="/dist/zyna-charts.iife.js" defer></script>
+  <link rel="stylesheet" href="../../zynaui.css">
+  <link rel="stylesheet" href="../../docs.css">
+  <style>
+    .theme-sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;user-select:none;font-size:.72rem;color:var(--text3);font-weight:600;letter-spacing:.04em;padding:0 4px}
+    .theme-sw input{position:absolute;opacity:0;width:0;height:0}
+    .theme-track{position:relative;display:block;width:32px;height:18px;background:var(--bg3);border:1px solid var(--border);border-radius:9px;transition:background .2s;flex-shrink:0}
+    .theme-track::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:var(--text3);transition:transform .2s}
+    .theme-sw input:checked~.theme-track{background:color-mix(in oklch,var(--zyna) 15%,var(--bg3))}
+    .theme-sw input:checked~.theme-track::after{transform:translateX(14px);background:var(--zyna)}
+    .resonance-wrap{width:100%;max-width:560px;margin:0 auto}
+  </style>
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zyna.dev/charts/resonance/">
+  <meta property="og:title" content="Resonance Chart — ZynaUI">
+  <meta property="og:description" content="ZynaUI radial deviation-from-mean diagram — spoke length encodes distance from the mean, direction encodes above or below, with a ±1σ reference ring.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Resonance Chart — ZynaUI">
+  <meta name="twitter:description" content="ZynaUI radial deviation-from-mean diagram — spoke length encodes distance from the mean, direction encodes above or below, with a ±1σ reference ring.">
+  <link rel="canonical" href="https://zyna.dev/charts/resonance/">
+</head>
+<body>
+  <header id="topbar"></header>
+  <div id="docs-layout">
+    <aside id="sidebar"></aside>
+    <main id="content">
+
+      <div class="page-header">
+        <nav aria-label="Breadcrumb" class="breadcrumb">
+          <ol>
+            <li><a href="/charts/">Charts</a></li>
+            <li><span class="breadcrumb-sep" aria-hidden="true">›</span><span aria-current="page">Resonance</span></li>
+          </ol>
+        </nav>
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap">
+          <h1 class="page-title" style="margin-bottom:0">Resonance</h1>
+          <code style="font-family:var(--mono);font-size:0.78rem;padding:0.2rem 0.6rem;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--brand)">&lt;zyna-resonance&gt;</code>
+        </div>
+        <p class="page-desc">Radial deviation from the mean. The centre ring <em>is</em> the mean; each item is a spoke whose length encodes its distance from it — solid and filled above, dashed and hollow below. A faint dashed ring marks ±1σ, so at a glance you see what is signal and what is noise. Perfect conformity collapses to the centre.</p>
+      </div>
+
+      <!-- Demo -->
+      <div class="doc-section">
+        <h2 class="section-title">Demo</h2>
+        <div class="tabs-bar" role="tablist" aria-label="Resonance demo" style="display:flex;align-items:center">
+          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="r-p" id="tab-r-p" tabindex="0" onclick="tab(this,'r-p')">Preview</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="r-c" id="tab-r-c" tabindex="-1" onclick="tab(this,'r-c')">Code</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="r-a" id="tab-r-a" tabindex="-1" onclick="tab(this,'r-a')">Attributes</button>
+          <label class="theme-sw" style="margin-left:auto">
+            <input type="checkbox" role="switch" id="theme-chk" onchange="setTheme(this.checked)">
+            <span class="theme-track"></span>
+            <span>Light</span>
+          </label>
+        </div>
+        <div>
+          <div id="r-p" class="tab-panel active" role="tabpanel" aria-labelledby="tab-r-p" tabindex="0">
+            <div class="preview-box col" data-chart-bg style="min-height:380px;padding:1.5rem">
+              <p style="font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:1rem">Regional price index vs national mean</p>
+              <div class="resonance-wrap">
+                <zyna-resonance
+                  data='[{"label":"North","value":112},{"label":"East","value":98},{"label":"South","value":134},{"label":"West","value":76},{"label":"Central","value":103},{"label":"Coast","value":121},{"label":"Delta","value":88},{"label":"Ridge","value":95}]'
+                  style="display:block;width:100%"></zyna-resonance>
+              </div>
+            </div>
+          </div>
+          <div id="r-c" class="tab-panel" role="tabpanel" aria-labelledby="tab-r-c" tabindex="0">
+            <div class="code-box">
+              <div class="code-toolbar">
+                <span class="code-lang">HTML</span>
+                <button class="copy-btn" aria-label="Copy resonance example" onclick="cp(this,'r-code')">
+                  <svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                  Copy
+                </button>
+              </div>
+              <pre id="r-code"><span class="tag">&lt;zyna-resonance</span>
+  <span class="atr">unit</span>=<span class="val">"percent"</span>
+  <span class="atr">data</span>=<span class="val">'[
+    {"label":"North","value":112}, {"label":"East","value":98},
+    {"label":"South","value":134}, {"label":"West","value":76},
+    {"label":"Central","value":103},{"label":"Coast","value":121}
+  ]'</span>
+<span class="tag">&gt;&lt;/zyna-resonance&gt;</span></pre>
+            </div>
+          </div>
+          <div id="r-a" class="tab-panel" role="tabpanel" aria-labelledby="tab-r-a" tabindex="0">
+            <div style="border:1px solid var(--border);border-top:none;border-bottom-left-radius:var(--radius);border-bottom-right-radius:var(--radius);overflow:hidden">
+              <table class="api-table" aria-label="Resonance attributes" style="border:none;border-radius:0">
+                <thead>
+                  <tr>
+                    <th>Attribute</th>
+                    <th>Type</th>
+                    <th>Default</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td class="t-var">data</td><td class="t-type">JSON</td><td class="t-def">—</td><td>Array of <code>{label, value}</code>. Each item becomes one spoke.</td></tr>
+                  <tr><td class="t-var">mean</td><td class="t-type">number</td><td class="t-def">computed</td><td>Explicit centre value. Defaults to the mean of the data.</td></tr>
+                  <tr><td class="t-var">unit</td><td class="t-type">percent | absolute</td><td class="t-def">percent</td><td>Deviation label units on the extreme spokes: percent of the mean, or the raw difference.</td></tr>
+                  <tr><td class="t-var">color</td><td class="t-type">string</td><td class="t-def">var(--zyna)</td><td>Accent for above-mean spokes. Below-mean spokes use the danger token.</td></tr>
+                  <tr><td class="t-var">theme</td><td class="t-type">dark | light</td><td class="t-def">dark</td><td>Controls text and ring colour scheme.</td></tr>
+                  <tr><td class="t-var">height</td><td class="t-type">number</td><td class="t-def">auto</td><td>Explicit height in px. Auto-derived from width when omitted.</td></tr>
+                  <tr><td class="t-var">label-format</td><td class="t-type">string</td><td class="t-def">—</td><td>D3-style number format for absolute deviation labels (e.g. <code style="font-family:var(--mono);font-size:0.75rem">,.0f</code>).</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tips -->
+      <div class="doc-section">
+        <h2 class="section-title">Usage Tips</h2>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;font-size:0.875rem;color:var(--text2);line-height:1.75">
+          <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:0.4rem">
+            <li>Set an explicit <code>mean</code> to compare against a target or benchmark rather than the dataset average.</li>
+            <li>Use <code>unit="percent"</code> for relative spread and <code>unit="absolute"</code> when the raw units matter.</li>
+            <li>The ±1σ ring is the reference: spokes inside it are ordinary variation, spokes well past it are the outliers to explain.</li>
+            <li>Best for 6–14 items. With fewer, a <a href="/charts/lollipop/" style="color:var(--brand)">lollipop</a> reads more directly.</li>
+            <li>Because direction is encoded by fill and dash — not just colour — the above/below split survives monochrome genres.</li>
+          </ul>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script type="module" src="../../_nav.js"></script>
+  <script>
+    function setTheme(isLight) {
+      document.querySelectorAll('zyna-resonance').forEach(el => {
+        if (isLight) el.setAttribute('theme', 'light')
+        else el.removeAttribute('theme')
+      })
+      document.querySelectorAll('[data-chart-bg]').forEach(b => {
+        b.style.background = isLight ? '#F8F6F2' : ''
+        b.style.backgroundImage = isLight ? 'none' : ''
+      })
+    }
+    function tab(btn, panelId) {
+      const bar = btn.parentElement
+      bar.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('active')
+        b.setAttribute('aria-selected', 'false')
+        b.setAttribute('tabindex', '-1')
+      })
+      btn.classList.add('active')
+      btn.setAttribute('aria-selected', 'true')
+      btn.setAttribute('tabindex', '0')
+      btn.focus()
+      const container = bar.nextElementSibling
+      container.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'))
+      document.getElementById(panelId).classList.add('active')
+    }
+    document.addEventListener('keydown', function(e) {
+      const btn = e.target.closest('[role="tab"]')
+      if (!btn) return
+      const bar = btn.closest('[role="tablist"]')
+      if (!bar) return
+      const tabs = [...bar.querySelectorAll('[role="tab"]')]
+      const idx = tabs.indexOf(btn)
+      let next
+      if (e.key === 'ArrowRight') next = tabs[(idx + 1) % tabs.length]
+      else if (e.key === 'ArrowLeft') next = tabs[(idx - 1 + tabs.length) % tabs.length]
+      else if (e.key === 'Home') next = tabs[0]
+      else if (e.key === 'End') next = tabs[tabs.length - 1]
+      if (next) { e.preventDefault(); next.click() }
+    })
+    function cp(btn, id) {
+      const txt = document.getElementById(id).innerText
+      navigator.clipboard.writeText(txt).then(() => {
+        btn.classList.add('ok')
+        btn.innerHTML = '<svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!'
+        setTimeout(() => {
+          btn.classList.remove('ok')
+          btn.innerHTML = '<svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy'
+        }, 2000)
+      })
+    }
+  </script>
+  <footer></footer>
+</body>
+</html>
