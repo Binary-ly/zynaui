@@ -1,6 +1,6 @@
 {
   "name": "zynaui",
-  "version": "0.2.4-beta",
+  "version": "0.3.0-beta",
   "description": "Tailwind CSS component library + D3 chart Web Components by Binary Tech Ltd",
   "author": "Binary Tech Ltd <hello@binary.ly>",
   "license": "MIT",
@@ -109,6 +109,62 @@
       "node": "./dist/zyna-charts-stub.cjs",
       "import": "./dist/charts/line.js",
       "require": "./dist/zyna-charts-stub.cjs"
+    },
+    "./charts/stratum": {
+      "types": "./types/charts.d.ts",
+      "browser": "./dist/charts/stratum.js",
+      "node": "./dist/zyna-charts-stub.cjs",
+      "import": "./dist/charts/stratum.js",
+      "require": "./dist/zyna-charts-stub.cjs"
+    },
+    "./charts/delta": {
+      "types": "./types/charts.d.ts",
+      "browser": "./dist/charts/delta.js",
+      "node": "./dist/zyna-charts-stub.cjs",
+      "import": "./dist/charts/delta.js",
+      "require": "./dist/zyna-charts-stub.cjs"
+    },
+    "./charts/resonance": {
+      "types": "./types/charts.d.ts",
+      "browser": "./dist/charts/resonance.js",
+      "node": "./dist/zyna-charts-stub.cjs",
+      "import": "./dist/charts/resonance.js",
+      "require": "./dist/zyna-charts-stub.cjs"
+    },
+    "./charts/tension": {
+      "types": "./types/charts.d.ts",
+      "browser": "./dist/charts/tension.js",
+      "node": "./dist/zyna-charts-stub.cjs",
+      "import": "./dist/charts/tension.js",
+      "require": "./dist/zyna-charts-stub.cjs"
+    },
+    "./charts/pulse": {
+      "types": "./types/charts.d.ts",
+      "browser": "./dist/charts/pulse.js",
+      "node": "./dist/zyna-charts-stub.cjs",
+      "import": "./dist/charts/pulse.js",
+      "require": "./dist/zyna-charts-stub.cjs"
+    },
+    "./charts/rupture": {
+      "types": "./types/charts.d.ts",
+      "browser": "./dist/charts/rupture.js",
+      "node": "./dist/zyna-charts-stub.cjs",
+      "import": "./dist/charts/rupture.js",
+      "require": "./dist/zyna-charts-stub.cjs"
+    },
+    "./charts/density": {
+      "types": "./types/charts.d.ts",
+      "browser": "./dist/charts/density.js",
+      "node": "./dist/zyna-charts-stub.cjs",
+      "import": "./dist/charts/density.js",
+      "require": "./dist/zyna-charts-stub.cjs"
+    },
+    "./charts/cascade": {
+      "types": "./types/charts.d.ts",
+      "browser": "./dist/charts/cascade.js",
+      "node": "./dist/zyna-charts-stub.cjs",
+      "import": "./dist/charts/cascade.js",
+      "require": "./dist/zyna-charts-stub.cjs"
     }
   },
   "files": [
@@ -128,7 +184,15 @@
     "./dist/charts/orbital.js",
     "./dist/charts/candlestick.js",
     "./dist/charts/gauge.js",
-    "./dist/charts/line.js"
+    "./dist/charts/line.js",
+    "./dist/charts/stratum.js",
+    "./dist/charts/delta.js",
+    "./dist/charts/resonance.js",
+    "./dist/charts/tension.js",
+    "./dist/charts/pulse.js",
+    "./dist/charts/rupture.js",
+    "./dist/charts/density.js",
+    "./dist/charts/cascade.js"
   ],
   "scripts": {
     "build": "node scripts/gen-version.js && vite build && vite build --config vite.iife.config.js && vite build --config vite.react.config.js && vite build --config vite.genres-docs.config.js && npm run build:css",

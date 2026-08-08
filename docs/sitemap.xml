@@ -14,5 +14,16 @@
   <url><loc>https://zyna.dev/charts/nightingale/</loc><priority>0.7</priority></url>
   <url><loc>https://zyna.dev/charts/lollipop/</loc><priority>0.7</priority></url>
   <url><loc>https://zyna.dev/charts/orbital/</loc><priority>0.7</priority></url>
+  <url><loc>https://zyna.dev/charts/candlestick/</loc><priority>0.7</priority></url>
+  <url><loc>https://zyna.dev/charts/gauge/</loc><priority>0.7</priority></url>
+  <url><loc>https://zyna.dev/charts/line/</loc><priority>0.7</priority></url>
+  <url><loc>https://zyna.dev/charts/tension/</loc><priority>0.7</priority></url>
+  <url><loc>https://zyna.dev/charts/delta/</loc><priority>0.7</priority></url>
+  <url><loc>https://zyna.dev/charts/stratum/</loc><priority>0.7</priority></url>
+  <url><loc>https://zyna.dev/charts/resonance/</loc><priority>0.7</priority></url>
+  <url><loc>https://zyna.dev/charts/pulse/</loc><priority>0.7</priority></url>
+  <url><loc>https://zyna.dev/charts/rupture/</loc><priority>0.7</priority></url>
+  <url><loc>https://zyna.dev/charts/density/</loc><priority>0.7</priority></url>
+  <url><loc>https://zyna.dev/charts/cascade/</loc><priority>0.7</priority></url>
   <url><loc>https://zyna.dev/genres/</loc><priority>0.8</priority></url>
 </urlset>

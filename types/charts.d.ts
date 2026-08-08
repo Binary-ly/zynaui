@@ -1,9 +1,10 @@
 /**
  * Zyna UI — Chart Web Component type definitions
  *
- * Covers all 8 chart elements: <zyna-waffle>, <zyna-timeline>,
- * <zyna-nightingale>, <zyna-lollipop>, <zyna-orbital>,
- * <zyna-candlestick>, <zyna-gauge>, <zyna-line>.
+ * Covers all 16 chart elements: <zyna-waffle>, <zyna-timeline>,
+ * <zyna-nightingale>, <zyna-lollipop>, <zyna-orbital>, <zyna-candlestick>,
+ * <zyna-gauge>, <zyna-line>, <zyna-tension>, <zyna-delta>, <zyna-stratum>,
+ * <zyna-resonance>, <zyna-pulse>, <zyna-rupture>, <zyna-density>, <zyna-cascade>.
  *
  * Augments the global HTMLElementTagNameMap for TypeScript DOM lib usage
  * and declares React JSX intrinsic elements for React 18+ / Preact / Solid.
@@ -82,6 +83,83 @@ export interface ZynaLineAnnotation {
   label?: string
   /** Renders a ▲ (up) or ▼ (down) triangle above the dot */
   direction?: 'up' | 'down'
+}
+
+export interface ZynaStratumItem {
+  /** Entity name shown on the left */
+  label: string
+  /** One value per time period; each cell's height encodes its value */
+  values: number[]
+  /** CSS colour string for this row. Falls back to the `color` attribute */
+  color?: string
+}
+
+export interface ZynaDeltaItem {
+  /** Category name shown under the ring */
+  label: string
+  /** Current-period value (outer arc) */
+  value: number
+  /** Baseline value to compare against (inner arc) */
+  baseline: number
+  /** CSS colour string for the current arc. Falls back to the `color` attribute */
+  color?: string
+}
+
+export interface ZynaResonanceItem {
+  /** Item name shown at the spoke tip */
+  label: string
+  /** Value compared against the mean */
+  value: number
+}
+
+export interface ZynaTensionItem {
+  /** Item name shown at both ends */
+  label: string
+  /** Rank or value in the "before" column */
+  before: number
+  /** Rank or value in the "after" column */
+  after: number
+}
+
+export interface ZynaPulseItem {
+  /** Track name shown on the left */
+  label: string
+  /** One value per point; oscillates above/below the track baseline */
+  values: number[]
+  /** CSS colour string for this track. Falls back to the palette */
+  color?: string
+}
+
+export interface ZynaPulseMarker {
+  /** Matches an x-label or a 0-based point index */
+  x: string | number
+  /** Text drawn at the top of the vertical rule */
+  label?: string
+}
+
+export interface ZynaRupturePoint {
+  /** X-axis label for this point */
+  x: string | number
+  /** Y value tested against the threshold */
+  y: number
+}
+
+export interface ZynaDensityItem {
+  /** Period name shown on the x-axis */
+  label: string
+  /** Raw samples; a KDE silhouette is estimated from them */
+  values: number[]
+}
+
+export interface ZynaCascadeNode {
+  /** Node name */
+  label?: string
+  /** Value. Optional for parents — summed from children when omitted */
+  value?: number
+  /** CSS colour string for this branch. Inherited by descendants */
+  color?: string
+  /** Child splits (nesting capped at depth 4) */
+  children?: ZynaCascadeNode[]
 }
 
 // ── Attribute interfaces ──────────────────────────────────────────────────────
@@ -204,6 +282,116 @@ export interface ZynaLineAttributes {
   slot?: string
 }
 
+export interface ZynaStratumAttributes extends ZynaChartBase {
+  /** JSON-serialised array of {@link ZynaStratumItem} */
+  data?: string
+  /** JSON-serialised array of period labels. '' suppresses that label */
+  'x-labels'?: string
+  /** Height normalisation: per-entity ('row', default) or shared ('global') */
+  scale?: 'row' | 'global'
+  /** Explicit height in px. Auto-derived from row count when omitted */
+  height?: string | number
+  /** D3-style number format applied to values in the a11y summary */
+  'label-format'?: string
+}
+
+export interface ZynaDeltaAttributes extends ZynaChartBase {
+  /** JSON-serialised array of {@link ZynaDeltaItem} */
+  data?: string
+  /** Shared scale ceiling (angle = value / max). Default: data max */
+  max?: string | number
+  /** Total arc sweep in degrees. Default: 270 */
+  'arc-degrees'?: string | number
+  /** Explicit height in px. Auto-derived from width when omitted */
+  height?: string | number
+  /** D3-style number format for the centre delta when a baseline is 0 */
+  'label-format'?: string
+}
+
+export interface ZynaResonanceAttributes extends ZynaChartBase {
+  /** JSON-serialised array of {@link ZynaResonanceItem} */
+  data?: string
+  /** Explicit centre value. Default: the computed mean */
+  mean?: string | number
+  /** Deviation label units: 'percent' (default) or 'absolute' */
+  unit?: 'percent' | 'absolute'
+  /** Explicit height in px. Auto-derived from width when omitted */
+  height?: string | number
+  /** D3-style number format for absolute deviation labels */
+  'label-format'?: string
+}
+
+export interface ZynaTensionAttributes extends ZynaChartBase {
+  /** JSON-serialised array of {@link ZynaTensionItem} */
+  data?: string
+  /** 'rank' (default; before/after are ranks) or 'value' (compute ranks) */
+  'rank-by'?: 'rank' | 'value'
+  /** Label to spotlight; every other connector dims */
+  highlight?: string
+  /** Explicit height in px. Auto-derived from item count when omitted */
+  height?: string | number
+}
+
+export interface ZynaPulseAttributes extends ZynaChartBase {
+  /** JSON-serialised array of {@link ZynaPulseItem} */
+  data?: string
+  /** JSON-serialised array of point labels. '' suppresses that label */
+  'x-labels'?: string
+  /** px of vertical swing per track. Default: auto */
+  amplitude?: string | number
+  /** JSON-serialised array of {@link ZynaPulseMarker} vertical event rules */
+  marker?: string
+  /** Explicit height in px. Auto-derived from track count when omitted */
+  height?: string | number
+}
+
+export interface ZynaRuptureAttributes extends ZynaChartBase {
+  /** JSON-serialised array of {@link ZynaRupturePoint} (single series) */
+  data?: string
+  /** The breach level (required) */
+  threshold?: string | number
+  /** Caption drawn on the threshold line */
+  'threshold-label'?: string
+  /** 'above' (default) or 'below' (breach when dipping under) */
+  direction?: 'above' | 'below'
+  /** Explicit height in px. Auto-derived from width when omitted */
+  height?: string | number
+  /** D3-style number format for the threshold label value */
+  'label-format'?: string
+}
+
+export interface ZynaDensityAttributes extends ZynaChartBase {
+  /** JSON-serialised array of {@link ZynaDensityItem} */
+  data?: string
+  /** KDE smoothing bandwidth. Default: auto (Silverman's rule) */
+  bandwidth?: string | number
+  /** y-axis lower bound. Default: data extent */
+  'y-min'?: string | number
+  /** y-axis upper bound. Default: data extent */
+  'y-max'?: string | number
+  /** Axis title drawn rotated on the left (e.g. 'Response time (ms)') */
+  'y-label'?: string
+  /** D3-style number format for the y-axis tick labels */
+  'label-format'?: string
+  /** Explicit height in px. Auto-derived from width when omitted */
+  height?: string | number
+}
+
+export interface ZynaCascadeAttributes extends ZynaChartBase {
+  /** JSON-serialised {@link ZynaCascadeNode} root (or an array of top-level splits) */
+  data?: string
+  /** JSON-serialised array naming each tier */
+  'level-labels'?: string
+  /** Collapse splits below this fraction of their parent into "Other". Default: 0.03 */
+  'min-share'?: string | number
+  /** Explicit height in px. Auto-derived from width when omitted */
+  height?: string | number
+  /** D3-style number format for block value labels */
+  'label-format'?: string
+  /** Visual variant. 'sankey' renders molten gradient flows with a soft bloom; the standard split waterfall is the default. */
+  variant?: 'waterfall' | 'sankey'
+}
+
 // ── Global HTMLElementTagNameMap augmentation (DOM / vanilla TS) ──────────────
 
 declare global {
@@ -216,6 +404,14 @@ declare global {
     'zyna-candlestick': HTMLElement
     'zyna-gauge':       HTMLElement
     'zyna-line':        HTMLElement
+    'zyna-stratum':     HTMLElement
+    'zyna-delta':       HTMLElement
+    'zyna-resonance':   HTMLElement
+    'zyna-tension':     HTMLElement
+    'zyna-pulse':       HTMLElement
+    'zyna-rupture':     HTMLElement
+    'zyna-density':     HTMLElement
+    'zyna-cascade':     HTMLElement
   }
 }
 
@@ -239,6 +435,14 @@ declare global {
       'zyna-candlestick': ZynaCandlestickAttributes & { ref?: ZynaElementRef }
       'zyna-gauge':       ZynaGaugeAttributes       & { ref?: ZynaElementRef }
       'zyna-line':        ZynaLineAttributes        & { ref?: ZynaElementRef }
+      'zyna-stratum':     ZynaStratumAttributes     & { ref?: ZynaElementRef }
+      'zyna-delta':       ZynaDeltaAttributes       & { ref?: ZynaElementRef }
+      'zyna-resonance':   ZynaResonanceAttributes   & { ref?: ZynaElementRef }
+      'zyna-tension':     ZynaTensionAttributes     & { ref?: ZynaElementRef }
+      'zyna-pulse':       ZynaPulseAttributes       & { ref?: ZynaElementRef }
+      'zyna-rupture':     ZynaRuptureAttributes     & { ref?: ZynaElementRef }
+      'zyna-density':     ZynaDensityAttributes     & { ref?: ZynaElementRef }
+      'zyna-cascade':     ZynaCascadeAttributes     & { ref?: ZynaElementRef }
     }
   }
 }

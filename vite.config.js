@@ -28,6 +28,8 @@ const emitChartsStub = {
         ...[
           'ZynaChart', 'ZynaWaffle', 'ZynaTimeline', 'ZynaNightingale',
           'ZynaLollipop', 'ZynaOrbital', 'ZynaCandlestick', 'ZynaGauge', 'ZynaLine',
+          'ZynaStratum', 'ZynaDelta', 'ZynaResonance', 'ZynaTension',
+          'ZynaPulse', 'ZynaRupture', 'ZynaDensity', 'ZynaCascade',
         ].map(n => `module.exports.${n} = ZynaChartStub;`),
       ].join('\n'),
     })
@@ -53,6 +55,14 @@ export default defineConfig({
         'charts/candlestick':   resolve(__dirname, 'src/charts/candlestick.js'),
         'charts/gauge':         resolve(__dirname, 'src/charts/gauge.js'),
         'charts/line':          resolve(__dirname, 'src/charts/line.js'),
+        'charts/stratum':       resolve(__dirname, 'src/charts/stratum.js'),
+        'charts/delta':         resolve(__dirname, 'src/charts/delta.js'),
+        'charts/resonance':     resolve(__dirname, 'src/charts/resonance.js'),
+        'charts/tension':       resolve(__dirname, 'src/charts/tension.js'),
+        'charts/pulse':         resolve(__dirname, 'src/charts/pulse.js'),
+        'charts/rupture':       resolve(__dirname, 'src/charts/rupture.js'),
+        'charts/density':       resolve(__dirname, 'src/charts/density.js'),
+        'charts/cascade':       resolve(__dirname, 'src/charts/cascade.js'),
       },
       formats: ['es', 'cjs'],
       fileName: (format, entryName) => {

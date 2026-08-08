@@ -29,7 +29,7 @@ const NAV = [
   },
   {
     label: 'Charts',
-    count: 8,
+    count: 16,
     items: [
       { label: 'All Charts',  href: '/charts/'                        },
       { label: 'Waffle',      href: '/charts/waffle/',      meta: 'grid'  },
@@ -39,7 +39,15 @@ const NAV = [
       { label: 'Orbital',     href: '/charts/orbital/',     meta: 'orbit' },
       { label: 'Candlestick', href: '/charts/candlestick/', meta: 'ohlc'  },
       { label: 'Gauge',       href: '/charts/gauge/',       meta: 'arc'   },
-      { label: 'Line',        href: '/charts/line/',        meta: 'line'  }
+      { label: 'Line',        href: '/charts/line/',        meta: 'line'  },
+      { label: 'Tension',     href: '/charts/tension/',     meta: 'rank'   },
+      { label: 'Delta Ring',  href: '/charts/delta/',       meta: 'arc'    },
+      { label: 'Stratum',     href: '/charts/stratum/',     meta: 'grid'   },
+      { label: 'Resonance',   href: '/charts/resonance/',   meta: 'radial' },
+      { label: 'Pulse Seq.',  href: '/charts/pulse/',       meta: 'ecg'    },
+      { label: 'Rupture',     href: '/charts/rupture/',     meta: 'area'   },
+      { label: 'Flow Density',href: '/charts/density/',     meta: 'violin' },
+      { label: 'Cascade',     href: '/charts/cascade/',     meta: 'flow'   }
     ]
   }
 ]
@@ -60,6 +68,8 @@ function getPosition(path) {
     waffle: 'waffle', timeline: 'timeline', nightingale: 'nightingale',
     lollipop: 'lollipop', orbital: 'orbital',
     candlestick: 'candlestick', gauge: 'gauge', line: 'line',
+    stratum: 'stratum', delta: 'delta', resonance: 'resonance', tension: 'tension',
+    pulse: 'pulse', rupture: 'rupture', density: 'density', cascade: 'cascade',
     changelog: 'changelog', roadmap: 'roadmap', genres: 'genres'
   }
   return path.replace(/^\/|\/$/g, '').split('/').map(s => slugMap[s] || s)

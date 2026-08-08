@@ -572,11 +572,11 @@ const INDEX = [
     type: 'guide',
     url: '/charts/',
     section: 'charts',
-    desc: 'ZynaUI D3.js Web Component charts — waffle, timeline, nightingale, lollipop, orbital.',
+    desc: 'ZynaUI D3.js Web Component charts — waffle, timeline, nightingale, lollipop, orbital, candlestick, gauge, line, tension, delta, stratum, resonance, pulse, rupture, density, cascade.',
     classes: [],
     tokens: [],
-    keywords: ['charts', 'data', 'visualization', 'd3', 'all', 'index', 'graph', 'web component', 'zyna-waffle', 'zyna-timeline', 'zyna-nightingale', 'zyna-lollipop', 'zyna-orbital'],
-    sections: [{ heading: 'Charts', content: 'D3.js web component data visualization waffle timeline nightingale lollipop orbital' }]
+    keywords: ['charts', 'data', 'visualization', 'd3', 'all', 'index', 'graph', 'web component', 'zyna-waffle', 'zyna-timeline', 'zyna-nightingale', 'zyna-lollipop', 'zyna-orbital', 'zyna-candlestick', 'zyna-gauge', 'zyna-line', 'zyna-tension', 'zyna-delta', 'zyna-stratum', 'zyna-resonance', 'zyna-pulse', 'zyna-rupture', 'zyna-density', 'zyna-cascade'],
+    sections: [{ heading: 'Charts', content: 'D3.js web component data visualization waffle timeline nightingale lollipop orbital candlestick gauge line tension delta ring stratum resonance pulse rupture flow density cascade' }]
   },
   {
     id: 'waffle',
@@ -651,6 +651,171 @@ const INDEX = [
     sections: [
       { heading: 'Usage', content: 'zyna-orbital hierarchical multi-level concentric ring chart donut' },
       { heading: 'Attributes', content: 'data color theme ring-thickness height show-values label-format' }
+    ]
+  },
+  {
+    id: 'candlestick',
+    title: 'Candlestick Chart',
+    type: 'chart',
+    url: '/charts/candlestick/',
+    section: 'charts',
+    desc: 'OHLC candlestick chart for time-series price data. Web component: zyna-candlestick.',
+    classes: [],
+    tokens: [],
+    keywords: ['candlestick', 'zyna-candlestick', 'ohlc', 'open', 'high', 'low', 'close', 'price', 'finance', 'stock', 'trading', 'wick', 'body', 'bullish', 'bearish', 'bear-color', 'show-axis', 'ticks', 'label-format'],
+    sections: [
+      { heading: 'Usage', content: 'zyna-candlestick ohlc price time series finance stock trading wick body' },
+      { heading: 'Attributes', content: 'data color bear-color theme height show-axis label-format ticks' }
+    ]
+  },
+  {
+    id: 'gauge',
+    title: 'Gauge Chart',
+    type: 'chart',
+    url: '/charts/gauge/',
+    section: 'charts',
+    desc: 'Segmented half-gauge for a single scalar reading against colour zones. Web component: zyna-gauge.',
+    classes: [],
+    tokens: [],
+    keywords: ['gauge', 'zyna-gauge', 'meter', 'dial', 'kpi', 'single value', 'zones', 'arc', 'half gauge', 'reading', 'min', 'max', 'arc-degrees', 'thickness', 'dim-opacity', 'label-format'],
+    sections: [
+      { heading: 'Usage', content: 'zyna-gauge meter dial kpi single scalar reading colour zones half gauge' },
+      { heading: 'Attributes', content: 'value min max zones start-label end-label theme label label-format thickness arc-degrees dim-opacity height' }
+    ]
+  },
+  {
+    id: 'line',
+    title: 'Line Chart',
+    type: 'chart',
+    url: '/charts/line/',
+    section: 'charts',
+    desc: 'Multi-series area-line chart with stacked fills and annotations. Web component: zyna-line.',
+    classes: [],
+    tokens: [],
+    keywords: ['line', 'zyna-line', 'area', 'multi-series', 'trend', 'time series', 'stacked', 'annotations', 'tension', 'smoothing', 'legend', 'y-min', 'y-max', 'ticks'],
+    sections: [
+      { heading: 'Usage', content: 'zyna-line multi-series area trend time series stacked fills annotations legend' },
+      { heading: 'Attributes', content: 'data annotations tension theme height y-min y-max ticks' }
+    ]
+  },
+  {
+    id: 'tension',
+    title: 'Tension Chart',
+    type: 'chart',
+    url: '/charts/tension/',
+    section: 'charts',
+    desc: 'Ranked before/after comparison with curved connectors coloured by rank change. Web component: zyna-tension.',
+    classes: [],
+    tokens: [],
+    keywords: ['tension', 'zyna-tension', 'rank', 'ranking', 'before', 'after', 'slope', 'bump', 'comparison', 'change', 'riser', 'faller', 'rank-by', 'highlight'],
+    sections: [
+      { heading: 'Usage', content: 'zyna-tension ranked before after comparison rank change slope bump crossing' },
+      { heading: 'Attributes', content: 'data rank-by highlight color theme height' }
+    ]
+  },
+  {
+    id: 'delta',
+    title: 'Delta Ring Chart',
+    type: 'chart',
+    url: '/charts/delta/',
+    section: 'charts',
+    desc: 'Paired concentric arcs comparing current vs baseline with a hatched gain/loss band. Web component: zyna-delta.',
+    classes: [],
+    tokens: [],
+    keywords: ['delta', 'zyna-delta', 'ring', 'arc', 'current', 'baseline', 'change', 'gain', 'loss', 'variance', 'period over period', 'hatch', 'max', 'arc-degrees'],
+    sections: [
+      { heading: 'Usage', content: 'zyna-delta paired concentric arcs current baseline gain loss variance period comparison' },
+      { heading: 'Attributes', content: 'data max arc-degrees color theme height label-format' }
+    ]
+  },
+  {
+    id: 'stratum',
+    title: 'Stratum Chart',
+    type: 'chart',
+    url: '/charts/stratum/',
+    section: 'charts',
+    desc: 'Geological core-sample grid where per-period segment heights encode values. Web component: zyna-stratum.',
+    classes: [],
+    tokens: [],
+    keywords: ['stratum', 'zyna-stratum', 'grid', 'heatmap', 'core sample', 'geological', 'height', 'matrix', 'entity', 'period', 'x-labels', 'scale', 'row', 'global'],
+    sections: [
+      { heading: 'Usage', content: 'zyna-stratum geological core sample grid heatmap height matrix entity period' },
+      { heading: 'Attributes', content: 'data x-labels scale color theme height label-format' }
+    ]
+  },
+  {
+    id: 'resonance',
+    title: 'Resonance Chart',
+    type: 'chart',
+    url: '/charts/resonance/',
+    section: 'charts',
+    desc: 'Radial deviation-from-mean diagram; spoke length encodes distance from the mean. Web component: zyna-resonance.',
+    classes: [],
+    tokens: [],
+    keywords: ['resonance', 'zyna-resonance', 'deviation', 'mean', 'radial', 'spoke', 'variance', 'sigma', 'outlier', 'above', 'below', 'unit', 'percent'],
+    sections: [
+      { heading: 'Usage', content: 'zyna-resonance radial deviation from mean spoke variance sigma outlier above below' },
+      { heading: 'Attributes', content: 'data mean unit color theme height label-format' }
+    ]
+  },
+  {
+    id: 'pulse',
+    title: 'Pulse Sequence Chart',
+    type: 'chart',
+    url: '/charts/pulse/',
+    section: 'charts',
+    desc: 'Stacked ECG / seismograph tracks on a shared timeline. Web component: zyna-pulse.',
+    classes: [],
+    tokens: [],
+    keywords: ['pulse', 'zyna-pulse', 'ecg', 'seismograph', 'signal', 'track', 'timeline', 'sparkline', 'stacked', 'events', 'marker', 'amplitude', 'x-labels'],
+    sections: [
+      { heading: 'Usage', content: 'zyna-pulse stacked ecg seismograph signal tracks timeline events simultaneous' },
+      { heading: 'Attributes', content: 'data x-labels amplitude marker color theme height' }
+    ]
+  },
+  {
+    id: 'rupture',
+    title: 'Rupture Chart',
+    type: 'chart',
+    url: '/charts/rupture/',
+    section: 'charts',
+    desc: 'Threshold-breach area chart that fractures at the crossing. Web component: zyna-rupture.',
+    classes: [],
+    tokens: [],
+    keywords: ['rupture', 'zyna-rupture', 'threshold', 'breach', 'area', 'alarm', 'sla', 'limit', 'floor', 'ceiling', 'crossing', 'fracture', 'direction', 'threshold-label'],
+    sections: [
+      { heading: 'Usage', content: 'zyna-rupture threshold breach area alarm sla limit floor crossing fracture' },
+      { heading: 'Attributes', content: 'data threshold threshold-label direction color theme height label-format' }
+    ]
+  },
+  {
+    id: 'density',
+    title: 'Flow Density Chart',
+    type: 'chart',
+    url: '/charts/density/',
+    section: 'charts',
+    desc: 'Distribution over time as per-period KDE violin silhouettes with a median spine. Web component: zyna-density.',
+    classes: [],
+    tokens: [],
+    keywords: ['density', 'zyna-density', 'flow', 'distribution', 'violin', 'kde', 'histogram', 'spread', 'median', 'shape', 'bandwidth', 'y-min', 'y-max'],
+    sections: [
+      { heading: 'Usage', content: 'zyna-density flow distribution violin kde histogram spread median shape over time' },
+      { heading: 'Attributes', content: 'data bandwidth y-min y-max color theme height' }
+    ]
+  },
+  {
+    id: 'cascade',
+    title: 'Cascade Chart',
+    type: 'chart',
+    url: '/charts/cascade/',
+    section: 'charts',
+    desc: 'Hierarchical split waterfall connecting levels with tapering alluvial ribbons. Web component: zyna-cascade.',
+    classes: [],
+    tokens: [],
+    keywords: ['cascade', 'zyna-cascade', 'waterfall', 'hierarchy', 'sankey', 'molten sankey', 'variant', 'alluvial', 'ribbon', 'breakdown', 'split', 'tree', 'flow', 'level-labels', 'min-share'],
+    sections: [
+      { heading: 'Usage', content: 'zyna-cascade hierarchical split waterfall sankey molten alluvial ribbon breakdown tree flow' },
+      { heading: 'Attributes', content: 'data level-labels min-share color theme height label-format variant' }
     ]
   },
   {

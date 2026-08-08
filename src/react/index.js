@@ -138,3 +138,104 @@ export function ZynaLine({ data, annotations, height, tension, theme, ...rest })
     ...rest,
   })
 }
+
+export function ZynaStratum({ data, xLabels, scale, height, color, theme, ...rest }) {
+  useZyna()
+  return createElement('zyna-stratum', {
+    data: JSON.stringify(data),
+    ...(xLabels != null && { 'x-labels': JSON.stringify(xLabels) }),
+    ...(scale   != null && { scale }),
+    ...(height  != null && { height: String(height) }),
+    ...(color   != null && { color }),
+    ...(theme   != null && { theme }),
+    ...rest,
+  })
+}
+
+export function ZynaDelta({ data, max, height, color, theme, ...rest }) {
+  useZyna()
+  return createElement('zyna-delta', {
+    data: JSON.stringify(data),
+    ...(max    != null && { max: String(max) }),
+    ...(height != null && { height: String(height) }),
+    ...(color  != null && { color }),
+    ...(theme  != null && { theme }),
+    ...rest,
+  })
+}
+
+export function ZynaResonance({ data, mean, unit, height, color, theme, ...rest }) {
+  useZyna()
+  return createElement('zyna-resonance', {
+    data: JSON.stringify(data),
+    ...(mean   != null && { mean: String(mean) }),
+    ...(unit   != null && { unit }),
+    ...(height != null && { height: String(height) }),
+    ...(color  != null && { color }),
+    ...(theme  != null && { theme }),
+    ...rest,
+  })
+}
+
+export function ZynaTension({ data, highlight, height, color, theme, ...rest }) {
+  useZyna()
+  return createElement('zyna-tension', {
+    data: JSON.stringify(data),
+    ...(highlight != null && { highlight }),
+    ...(height    != null && { height: String(height) }),
+    ...(color     != null && { color }),
+    ...(theme     != null && { theme }),
+    ...rest,
+  })
+}
+
+export function ZynaPulse({ data, xLabels, amplitude, marker, height, color, theme, ...rest }) {
+  useZyna()
+  return createElement('zyna-pulse', {
+    data: JSON.stringify(data),
+    ...(xLabels   != null && { 'x-labels': JSON.stringify(xLabels) }),
+    ...(amplitude != null && { amplitude: String(amplitude) }),
+    ...(marker    != null && { marker: JSON.stringify(marker) }),
+    ...(height    != null && { height: String(height) }),
+    ...(color     != null && { color }),
+    ...(theme     != null && { theme }),
+    ...rest,
+  })
+}
+
+export function ZynaRupture({ data, threshold, direction, height, color, theme, ...rest }) {
+  useZyna()
+  return createElement('zyna-rupture', {
+    data: JSON.stringify(data),
+    ...(threshold != null && { threshold: String(threshold) }),
+    ...(direction != null && { direction }),
+    ...(height    != null && { height: String(height) }),
+    ...(color     != null && { color }),
+    ...(theme     != null && { theme }),
+    ...rest,
+  })
+}
+
+export function ZynaDensity({ data, bandwidth, height, color, theme, ...rest }) {
+  useZyna()
+  return createElement('zyna-density', {
+    data: JSON.stringify(data),
+    ...(bandwidth != null && { bandwidth: String(bandwidth) }),
+    ...(height    != null && { height: String(height) }),
+    ...(color     != null && { color }),
+    ...(theme     != null && { theme }),
+    ...rest,
+  })
+}
+
+export function ZynaCascade({ data, levelLabels, height, color, theme, ...rest }) {
+  useZyna()
+  return createElement('zyna-cascade', {
+    data: JSON.stringify(data),
+    ...(levelLabels != null && { 'level-labels': JSON.stringify(levelLabels) }),
+    ...(height      != null && { height: String(height) }),
+    ...(color       != null && { color }),
+    ...(theme       != null && { theme }),
+    ...rest,
+  })
+}

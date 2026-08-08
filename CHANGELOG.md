@@ -4,6 +4,36 @@ All notable changes to ZynaUI are documented here.
 
 ---
 
+## [0.3.0-beta] (2026-08-08) — chart expansion
+
+Eight new D3-powered chart Web Components, built on the existing `ZynaChart` base (three-tier resize debounce, genre `MutationObserver`, element-scoped token resolution, `_applyA11y` text alternatives). Each ships with its lib entry, a `./charts/<name>` subpath export (with the Node/SSR stub), a typed React wrapper, hand-written `.d.ts`, a web-test-runner suite, and a docs page. The chart family grows from 8 to 16.
+
+### Added — charts
+
+- **`<zyna-tension>`** — ranked before/after comparison; curved connectors coloured and weighted by rank change, a `highlight` spotlight, and `rank-by="value"` to rank raw values.
+- **`<zyna-delta>`** — paired concentric arcs (current vs baseline) with a 45° hatched gain/loss band and the signed % change in the ring centre; `max`, `arc-degrees`.
+- **`<zyna-stratum>`** — geological core-sample grid; per-period segment heights encode values so the read survives monochrome genres; `x-labels`, `scale="row|global"`.
+- **`<zyna-resonance>`** — radial deviation from the mean; spoke length = |deviation|, solid/filled above vs dashed/hollow below, dashed ±1σ ring; `mean`, `unit="percent|absolute"`.
+- **`<zyna-pulse>`** — stacked ECG/seismograph tracks on a shared timeline; per-track baselines, `amplitude`, and vertical event `marker`s spanning all tracks; `x-labels`.
+- **`<zyna-rupture>`** — threshold-breach area chart that fractures at the interpolated crossing (jagged seam, danger fill + glow past the breach); `threshold`, `threshold-label`, `direction="above|below"`.
+- **`<zyna-density>`** — per-period KDE violin silhouettes (Epanechnikov kernel, Silverman bandwidth) with a median spine; `bandwidth`, `y-min`/`y-max`.
+- **`<zyna-cascade>`** — hierarchical split waterfall; proportional blocks joined by tapering alluvial ribbons; `level-labels`, `min-share`, depth capped at 4. A `variant="sankey"` ("molten sankey") re-skins the same layout with vertical source→flow gradient ribbons and a soft coloured bloom on each node bar, per branch colour and theme-aware. (Static like the rest of the family; hover-to-highlight-ancestry is deferred to the future interactivity pass.)
+
+All eight expose `role="img"` plus a data-derived `aria-label`, re-skin on `data-genre`/theme changes, self-default their host `display` for CDN/standalone use, and are covered by the shared new-chart test pattern (12–17 tests each — 103 new tests, cascade carrying extra coverage for its molten-sankey variant). Wired through `src/charts/index.js`, the IIFE bundle, `vite.config.js` entries, the `package.json` export map + `sideEffects` + SSR stub, the plugin `display:block` host rule, `types/charts.d.ts` + `types/react.d.ts`, and the docs (per-chart pages, gallery cards, nav, search index, sitemap, llms.txt).
+
+### Fixed — visual QA pass
+
+Rendered every new chart at normal, edge, narrow-width, and light-theme extremes (headless screenshots) and fixed what surfaced:
+
+- **cascade** — block value labels now fit their block (truncating `label… value` → `value` → nothing) instead of overflowing narrow blocks; label colour is chosen by block luminance so it stays legible on light or dark blocks in either theme.
+- **cascade** — accessibility & performance hardening for both variants: the molten-sankey bloom is grouped one filter per branch colour rather than one per bar; the dark-theme palette violet was darkened (`#7A6ABF` → `#6E5EA8`) so its on-block label clears WCAG AA; and the chart degrades gracefully under Windows High-Contrast (a Canvas/CanvasText wireframe), `prefers-reduced-transparency` / `prefers-contrast: more`, and print (opaque solid ribbons, bloom dropped). Sankey ribbons also use sRGB filter interpolation and a stronger light-theme tail so the alluvial join stays visible.
+- **density** — the silhouette is drawn as a smooth Catmull-Rom curve spanning the full shared domain: each period is a bulb at its data that tapers to thin vertical whisker lines running to the top and bottom of the plot (a shared-axis violin), not a jagged floating polygon. Violins are width-normalised per period (a broad, low-density period no longer renders as a sliver), and the default KDE bandwidth is nudged up (≈1.25× Silverman) so shapes stay smooth at small sample sizes while keeping bimodal modes separate. A labelled y-axis (value ticks + horizontal gridlines, plus an optional `y-label` title and `label-format`) makes the shared value scale readable — previously the vertical scale was implicit.
+- **resonance** — item labels sit on a single outer ring instead of piling onto the centre when spokes are short; absolute-unit labels are rounded (no raw floats).
+- **tension** — long labels truncate to the gutter instead of clipping past the container.
+- **rupture** / **pulse** — the first and last x-axis labels anchor inward so they no longer clip at the plot edges.
+
+---
+
 ## [0.2.4-beta] (2026-07-05)
 
 Repair release — fixes every blocker found in a full library audit. If you are on 0.2.3-beta, upgrade: that version shipped broken TypeScript definitions and a broken React path.

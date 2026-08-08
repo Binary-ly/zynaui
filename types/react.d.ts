@@ -17,6 +17,15 @@ import type {
   ZynaGaugeZone,
   ZynaLineSeries,
   ZynaLineAnnotation,
+  ZynaStratumItem,
+  ZynaDeltaItem,
+  ZynaResonanceItem,
+  ZynaTensionItem,
+  ZynaPulseItem,
+  ZynaPulseMarker,
+  ZynaRupturePoint,
+  ZynaDensityItem,
+  ZynaCascadeNode,
 } from './charts'
 
 import type { HTMLAttributes } from 'react'
@@ -118,6 +127,109 @@ export interface ZynaLineProps extends Base {
   ticks?: number
 }
 
+export interface ZynaStratumProps extends Base {
+  data: ZynaStratumItem[]
+  /** Period labels along the x-axis. '' suppresses that label */
+  xLabels?: string[]
+  /** Height normalisation: per-entity ('row', default) or shared ('global') */
+  scale?: 'row' | 'global'
+  /** Chart height in pixels */
+  height?: number
+  /** D3-style number format for values in the a11y summary */
+  'label-format'?: string
+}
+
+export interface ZynaDeltaProps extends Base {
+  data: ZynaDeltaItem[]
+  /** Shared scale ceiling (angle = value / max). Default: data max */
+  max?: number
+  /** Total arc sweep in degrees. Default: 270 */
+  'arc-degrees'?: number
+  /** Chart height in pixels */
+  height?: number
+  /** D3-style number format for the centre delta when a baseline is 0 */
+  'label-format'?: string
+}
+
+export interface ZynaResonanceProps extends Base {
+  data: ZynaResonanceItem[]
+  /** Explicit centre value. Default: computed mean */
+  mean?: number
+  /** Deviation label units: 'percent' (default) or 'absolute' */
+  unit?: 'percent' | 'absolute'
+  /** Chart height in pixels */
+  height?: number
+  /** D3-style number format for absolute deviation labels */
+  'label-format'?: string
+}
+
+export interface ZynaTensionProps extends Base {
+  data: ZynaTensionItem[]
+  /** 'rank' (default; before/after are ranks) or 'value' (compute ranks) */
+  'rank-by'?: 'rank' | 'value'
+  /** Label to spotlight; every other connector dims */
+  highlight?: string
+  /** Chart height in pixels */
+  height?: number
+}
+
+export interface ZynaPulseProps extends Base {
+  data: ZynaPulseItem[]
+  /** Point labels along the x-axis. '' suppresses that label */
+  xLabels?: string[]
+  /** px of vertical swing per track. Default: auto */
+  amplitude?: number
+  /** Vertical event rules spanning all tracks */
+  marker?: ZynaPulseMarker[]
+  /** Chart height in pixels */
+  height?: number
+}
+
+export interface ZynaRuptureProps extends Base {
+  data: ZynaRupturePoint[]
+  /** The breach level (required) */
+  threshold: number
+  /** Caption drawn on the threshold line */
+  'threshold-label'?: string
+  /** 'above' (default) or 'below' (breach when dipping under) */
+  direction?: 'above' | 'below'
+  /** Chart height in pixels */
+  height?: number
+  /** D3-style number format for the threshold label value */
+  'label-format'?: string
+}
+
+export interface ZynaDensityProps extends Base {
+  data: ZynaDensityItem[]
+  /** KDE smoothing bandwidth. Default: auto (Silverman's rule) */
+  bandwidth?: number
+  /** y-axis lower bound */
+  'y-min'?: number
+  /** y-axis upper bound */
+  'y-max'?: number
+  /** Axis title drawn rotated on the left (e.g. 'Response time (ms)') */
+  'y-label'?: string
+  /** D3-style number format for the y-axis tick labels */
+  'label-format'?: string
+  /** Chart height in pixels */
+  height?: number
+}
+
+export interface ZynaCascadeProps extends Base {
+  /** Root node (or an array of top-level splits) */
+  data: ZynaCascadeNode | ZynaCascadeNode[]
+  /** Names for each tier */
+  levelLabels?: string[]
+  /** Collapse splits below this fraction of their parent into "Other". Default: 0.03 */
+  'min-share'?: number
+  /** Chart height in pixels */
+  height?: number
+  /** D3-style number format for block value labels */
+  'label-format'?: string
+  /** Visual variant. 'sankey' renders molten gradient flows with a soft bloom; the standard split waterfall is the default. */
+  variant?: 'waterfall' | 'sankey'
+}
+
 export declare function ZynaWaffle(props: ZynaWaffleProps):          React.ReactElement | null
 export declare function ZynaTimeline(props: ZynaTimelineProps):      React.ReactElement | null
 export declare function ZynaNightingale(props: ZynaNightingaleProps): React.ReactElement | null
@@ -126,3 +238,11 @@ export declare function ZynaOrbital(props: ZynaOrbitalProps):        React.React
 export declare function ZynaCandlestick(props: ZynaCandlestickProps): React.ReactElement | null
 export declare function ZynaGauge(props: ZynaGaugeProps):             React.ReactElement | null
 export declare function ZynaLine(props: ZynaLineProps):               React.ReactElement | null
+export declare function ZynaStratum(props: ZynaStratumProps):         React.ReactElement | null
+export declare function ZynaDelta(props: ZynaDeltaProps):             React.ReactElement | null
+export declare function ZynaResonance(props: ZynaResonanceProps):     React.ReactElement | null
+export declare function ZynaTension(props: ZynaTensionProps):         React.ReactElement | null
+export declare function ZynaPulse(props: ZynaPulseProps):             React.ReactElement | null
+export declare function ZynaRupture(props: ZynaRuptureProps):         React.ReactElement | null
+export declare function ZynaDensity(props: ZynaDensityProps):         React.ReactElement | null
+export declare function ZynaCascade(props: ZynaCascadeProps):         React.ReactElement | null
