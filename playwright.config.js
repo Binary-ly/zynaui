@@ -4,7 +4,14 @@ export default defineConfig({
   testDir: './test/visual',
   snapshotDir: './test/visual/snapshots',
   snapshotPathTemplate: '{snapshotDir}/{testFileDir}/{arg}-{projectName}{ext}',
-  retries: 0,
+  // CI only: a macOS runner VM occasionally rasterises the 1px badge rims at
+  // fractional box edges with different anti-aliasing coverage — same tree,
+  // same runner image, only the rim pixels differ. Sampled on 12 VMs: about
+  // 1 in 70 Phosphor screenshots before the font-settle wait in page-setup.js,
+  // 1 in 1440 after it. A real regression fails every attempt, so two retries
+  // keep the 64px budget honest without hiding genuine diffs. Locally the
+  // render is deterministic and nothing is retried.
+  retries: process.env.CI ? 2 : 0,
   workers: 4,
   globalSetup: './test/visual/helpers/global-setup.js',
 
