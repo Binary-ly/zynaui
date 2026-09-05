@@ -1,13 +1,41 @@
 import { ZynaChart } from './base.js'
 import { select } from 'd3-selection'
 
+// Resolve any CSS colour to [r, g, b] (0–255). Hex is parsed directly; every
+// other syntax (rgb(), hsl(), oklch(), named colours — anything a genre or a
+// consumer might put in --zyna) goes through a canvas context, which normalises
+// it. Returns null when the colour cannot be resolved.
+let _colorCtx = null
+function toRGB(color) {
+  const s = String(color || '').trim()
+  const m = /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.exec(s)
+  if (m) {
+    let h = m[1]; if (h.length === 3) h = h.split('').map(c => c + c).join('')
+    return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)]
+  }
+  try {
+    if (!_colorCtx) _colorCtx = document.createElement('canvas').getContext('2d')
+    if (!_colorCtx) return null
+    const SENTINEL = '#010203'
+    _colorCtx.fillStyle = SENTINEL
+    _colorCtx.fillStyle = s
+    const v = String(_colorCtx.fillStyle)
+    if (v === SENTINEL && s.toLowerCase() !== SENTINEL) return null   // unparseable — left the sentinel in place
+    let r
+    if ((r = /^#([0-9a-f]{6})$/i.exec(v))) return toRGB('#' + r[1])
+    if ((r = /^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/.exec(v))) return [+r[1], +r[2], +r[3]]
+    if ((r = /^color\(srgb\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)/.exec(v))) return [r[1], r[2], r[3]].map(x => Math.round(+x * 255))
+  } catch {}
+  return null
+}
+
 // Pick a readable label colour for a coloured block, by fill luminance — so
-// labels stay legible on light or dark blocks in either theme.
-function textOn(fill) {
-  const m = /^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.exec(String(fill || '').trim())
-  if (!m) return '#0B0B0F'
-  let h = m[1]; if (h.length === 3) h = h.split('').map(c => c + c).join('')
-  const r = parseInt(h.slice(0, 2), 16), g = parseInt(h.slice(2, 4), 16), b = parseInt(h.slice(4, 6), 16)
+// labels stay legible on light or dark blocks in either theme. Falls back to
+// the theme's text colour when the fill cannot be resolved.
+function textOn(fill, fallback) {
+  const rgb = toRGB(fill)
+  if (!rgb) return fallback
+  const [r, g, b] = rgb
   return (0.299 * r + 0.587 * g + 0.114 * b) / 255 > 0.55 ? '#0B0B0F' : '#F5F1E6'
 }
 
@@ -18,6 +46,9 @@ function textOn(fill) {
 //  · reduced-transparency / increased-contrast / print → drop the bloom and paint
 //    ribbons as their solid branch colour (`currentColor`, set per ribbon) at full
 //    opacity instead of the translucent gradient.
+// A <style> inside an inline SVG is document-global, so every selector is scoped
+// to this instance's SVG (svg[data-zc="<uid>"]) rather than matching any
+// `.cs-block` in the host page.
 const A11Y_CSS =
   '@media (forced-colors:active){' +
     '.cs-blocks{filter:none}' +
@@ -31,6 +62,7 @@ const A11Y_CSS =
   '@media print{' +
     '.cs-blocks{filter:none}.cs-block{opacity:1}.cs-ribbon{fill:currentColor;opacity:0.9}' +
   '}'
+const scopedA11yCSS = uid => A11Y_CSS.replace(/\.cs-/g, `svg[data-zc="${uid}"] .cs-`)
 
 /**
  * <zyna-cascade>
@@ -161,13 +193,14 @@ export class ZynaCascade extends ZynaChart {
     walk(tree)
 
     // Persist the SVG — rebuild the tree geometry each render (shape varies).
+    const uid = this._uid
     let svg = select(this).select('svg')
-    if (svg.empty()) svg = select(this).append('svg').style('display', 'block')
+    if (svg.empty()) svg = select(this).append('svg').style('display', 'block').attr('data-zc', uid)
     svg.attr('viewBox', `0 0 ${W} ${H}`).attr('width', W).attr('height', H)
     svg.selectAll('.cs-ribbon, .cs-block, .cs-blocks, .cs-blabel, .cs-rowlabel, .cs-defs').remove()
 
     // Preference/forced-colors fallbacks — injected once; survives geometry rebuilds.
-    if (svg.select('.cs-a11y-style').empty()) svg.append('style').attr('class', 'cs-a11y-style').text(A11Y_CSS)
+    if (svg.select('.cs-a11y-style').empty()) svg.append('style').attr('class', 'cs-a11y-style').text(scopedA11yCSS(uid))
 
     // A11y: largest leaf.
     const leaves = nodes.filter(n => !(n.draw && n.draw.length))
@@ -181,7 +214,6 @@ export class ZynaCascade extends ZynaChart {
     // Molten-sankey defs: a vertical gradient (bright at the source edge, fading
     // as the flow pours downward) and a soft coloured bloom — one pair per
     // distinct branch colour. Rebuilt each render since colours vary by genre.
-    const uid = this._uid
     const fillOf = n => (n.depth === 0 ? accent : n.bcolor)
     const gradId = {}, glowId = {}
     if (sankey) {
@@ -258,7 +290,7 @@ export class ZynaCascade extends ZynaChart {
         svg.append('text').attr('class', 'cs-blabel')
           .attr('x', cx).attr('y', y + h / 2 + fSm * 0.35).attr('text-anchor', 'middle')
           .attr('font-family', 'monospace').attr('font-size', `${fSm}px`)
-          .attr('fill', textOn(isRoot ? accent : n.bcolor))
+          .attr('fill', textOn(isRoot ? accent : n.bcolor, textC))
           .attr('pointer-events', 'none')
           .text(txt)
       }

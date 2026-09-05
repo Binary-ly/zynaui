@@ -84,13 +84,16 @@ export class ZynaGauge extends ZynaChart {
 
     // Reserve horizontal margin for the start/end labels so they don't clip
     // at the edges of the viewBox. Approximate glyph width ≈ 0.6·fontSize.
+    // The reservation is capped at a quarter of the width and the radius is
+    // floored: long labels in a narrow container previously drove outerR
+    // negative, and every arc segment degenerated to an empty "M0,0Z" path.
     const fEnd0      = Math.max(10, W * 0.028)
     const labelChars = Math.max(startLabel.length, endLabel.length)
-    const labelPad   = labelChars > 0 ? labelChars * fEnd0 * 0.6 + 6 : 0
+    const labelPad   = labelChars > 0 ? Math.min(labelChars * fEnd0 * 0.6 + 6, W * 0.25) : 0
 
     const cx     = W / 2
     const cy     = isHalf ? H * 0.82 : H * 0.55
-    const outerR = Math.min(cx * 0.92 - labelPad, isHalf ? H * 0.78 : H * 0.44)
+    const outerR = Math.max(12, Math.min(cx * 0.92 - labelPad, isHalf ? H * 0.78 : H * 0.44))
     const thickness = thkAttr > 0 ? thkAttr : Math.max(8, outerR * 0.15)
     const innerR    = Math.max(0, outerR - thickness)
 

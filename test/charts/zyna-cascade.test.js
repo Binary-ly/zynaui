@@ -149,12 +149,33 @@ describe('zyna-cascade', () => {
     expect(el.querySelector('path.cs-ribbon').getAttribute('fill')).to.not.match(/^url\(/)
   })
 
-  it('injects preference/forced-colors fallback styles exactly once', async () => {
+  // Real bug: the luminance helper only parsed hex, so an rgb()/oklch()/named
+  // --zyna override put dark text on every block, dark blocks included.
+  it('keeps block labels legible on a dark non-hex accent colour', async () => {
+    const el = await fixture(`<zyna-cascade color="rgb(20, 20, 20)" data='${DATA}'></zyna-cascade>`)
+    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))
+    expect(el.querySelector('rect.cs-block').getAttribute('fill')).to.equal('rgb(20, 20, 20)')
+    expect(el.querySelector('text.cs-blabel').getAttribute('fill')).to.equal('#F5F1E6')
+  })
+
+  it('keeps block labels legible on a light named accent colour', async () => {
+    const el = await fixture(`<zyna-cascade color="white" data='${DATA}'></zyna-cascade>`)
+    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))
+    expect(el.querySelector('text.cs-blabel').getAttribute('fill')).to.equal('#0B0B0F')
+  })
+
+  it('injects preference/forced-colors fallback styles exactly once, scoped to its own SVG', async () => {
     const el = await fixture(`<zyna-cascade variant="sankey" data='${DATA}'></zyna-cascade>`)
     const styles = el.querySelectorAll('svg style.cs-a11y-style')
     expect(styles.length).to.equal(1)
     expect(styles[0].textContent).to.contain('forced-colors')
     expect(styles[0].textContent).to.contain('prefers-reduced-transparency')
+    // A <style> inside an inline SVG is document-global — every selector must
+    // be scoped to this instance so it can't restyle a host page's `.cs-block`.
+    const scope = el.querySelector('svg').getAttribute('data-zc')
+    expect(scope).to.be.a('string').and.not.empty
+    expect(styles[0].textContent).to.not.match(/(^|[{},])\.cs-/)
+    expect(styles[0].textContent).to.contain(`svg[data-zc="${scope}"] .cs-block`)
     el.setAttribute('variant', 'waterfall')
     await new Promise(r => setTimeout(r, 50))
     expect(el.querySelectorAll('svg style.cs-a11y-style').length).to.equal(1)
