@@ -141,6 +141,7 @@ export const styles = {
     // institution-blue header band, fading rule at the top edge.
     '--z-card-clip':                  'none',
     '--z-card-filter':                'none',
+    '--z-card-bevel-filter':          'drop-shadow(0 6px 20px rgba(0,0,0,0.08))',
     '--z-card-texture':               'none',
     '--z-card-gradient':              'var(--z-surface-card)',
     '--z-card-border-color':          'rgba(28,27,22,0.09)',

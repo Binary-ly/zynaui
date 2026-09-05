@@ -94,6 +94,7 @@ export const styles = {
     '--z-card-gradient':              'linear-gradient(145deg, rgba(2,18,4,0.98) 0%, rgba(0,8,1,0.99) 100%)',
     '--z-card-border-color':          'color-mix(in oklch, var(--zyna) 60%, transparent)',
     '--z-card-shadow':                '0 0 0 1px color-mix(in oklch, var(--zyna) 25%, transparent), 0 8px 32px rgba(0,0,0,0.6)',
+    '--z-card-bevel-filter':          'drop-shadow(0 8px 32px rgba(0,0,0,0.6))',
     '--z-card-bar-height':            '3px',
     '--z-card-bar-bg':                'var(--zyna)',
     '--z-card-bar-shadow':            '0 0 14px var(--zyna), 0 0 32px color-mix(in oklch, var(--zyna) 50%, transparent)',

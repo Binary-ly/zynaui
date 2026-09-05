@@ -233,6 +233,7 @@ export const styles = {
     // at every level from squad to corps.
     '--z-card-clip':                  'none',
     '--z-card-filter':                'none',
+    '--z-card-bevel-filter':          'drop-shadow(0 2px 8px rgba(0,0,0,0.60))',
     '--z-card-texture':               'repeating-linear-gradient(45deg, rgba(139,158,75,0.022) 0px, rgba(139,158,75,0.022) 1px, transparent 1px, transparent 10px)',
     '--z-card-gradient':              'var(--z-surface-card)',
     '--z-card-border-color':          'rgba(139,158,75,0.13)',

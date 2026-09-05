@@ -341,6 +341,7 @@ export const styles = {
     // ── Card — laid paper texture + centered gold fade bar ────────────────────
     '--z-card-clip':    'none',
     '--z-card-filter':  'none',
+    '--z-card-bevel-filter': 'drop-shadow(0 4px 14px rgba(44,28,4,0.09))',
     // Fine horizontal laid lines at 4 px pitch + vertical chain lines at 40 px.
     // Two crossing gradients — the ONLY dual-axis card texture in ZynaUI:
     //   0deg  = horizontal stack of thin lines (4px period): laid lines

@@ -242,13 +242,14 @@ Use `--badge-offset`, `--badge-bg`, `--badge-color` (public) to override individ
 --z-badge-inner-clip
 ```
 
-### Card genre structural (25) — `--z-card-*`
+### Card genre structural (26) — `--z-card-*`
 
 Control card surface, texture, bar appearance, and header dot for each genre.
 Use `--card-gradient`, `--card-bar-gradient`, `--card-header-color` etc. (public) to override individual cards.
 
 ```
---z-card-clip          --z-card-filter          --z-card-texture
+--z-card-clip          --z-card-filter          --z-card-bevel-filter
+--z-card-texture
 --z-card-gradient      --z-card-border-color    --z-card-shadow
 --z-card-bracket-color --z-card-bracket-size    --z-card-bracket-stroke
 --z-card-bar-height    --z-card-bar-bg          --z-card-bar-shadow
