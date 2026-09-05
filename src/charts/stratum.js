@@ -35,7 +35,7 @@ export class ZynaStratum extends ZynaChart {
     const fmt        = this._attr('label-format', '')
     const heightAttr = parseInt(this._attr('height', '0'))
     const textC      = dark ? '#F0EBE0' : '#1A1A20'
-    const labelC     = dark ? '#5A5050' : '#8A8478'
+    const labelC     = this._muted()
     const bgC        = dark ? '#0C0C0F' : '#FFFFFF'
 
     if (!data.length) { this._warnEmpty('zyna-stratum'); return }

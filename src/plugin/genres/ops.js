@@ -67,6 +67,8 @@ export const styles = {
     // freeze the chamfer at 10px for every size class.
     '--z-btn-clip':         `polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)))`,
     '--z-btn-corner':       'var(--z-corner)',
+    '--z-btn-corner-sm':    'var(--z-corner-sm)',
+    '--z-btn-corner-lg':    'var(--z-corner-lg)',
     '--z-btn-inner-clip':   shapes.diagonal('var(--btn-corner)').inner,
     '--z-btn-active-scale': '0.96',
     '--z-btn-scan-stop':    '70%',

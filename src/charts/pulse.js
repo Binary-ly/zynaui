@@ -37,7 +37,7 @@ export class ZynaPulse extends ZynaChart {
     const ampAttr    = parseFloat(this._attr('amplitude', '0'))
     const heightAttr = parseInt(this._attr('height', '0'))
     const textC      = dark ? '#F0EBE0' : '#1A1A20'
-    const labelC     = dark ? '#5A5050' : '#8A8478'
+    const labelC     = this._muted()
     const gridC      = dark ? '#1E1E24' : '#E5E1D4'
     const danger     = this._danger()
     const palette    = [accent, '#00D4FF', this._success(), '#BF5FFF', '#E07B54', danger]
