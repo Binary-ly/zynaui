@@ -52,8 +52,29 @@ export class ZynaOrbital extends ZynaChart {
     this._applyA11y(svg, `Orbital chart: ${data.map(d => `${d.label} ${Math.round(ratioOf(d) * 100)}%`).join(', ')}`)
 
     const cx      = W / 2, cy = H / 2
-    const outerR  = Math.min(cx, cy) * 0.80
-    const ringTW  = rtAttr > 0 ? outerR * rtAttr : outerR * 0.115
+    // Font sizes scale with container width
+    const fSm = Math.max(10, W * 0.018)
+    const fMd = Math.max(12, W * 0.022)
+    // The labels sit outside the outermost ring and the SVG keeps overflow
+    // visible, so a rose sized to the box alone pushes them into whatever is
+    // beside the chart. Size the rose so the longest label (and the leader
+    // foot in front of it) fits on either side; floor it at 30%.
+    const rt      = rtAttr > 0 ? rtAttr : 0.115
+    const reach   = 1 + rt / 2 + 0.08 + (data.length - 1) * 0.016 + 0.04
+    const longest = Math.max(1, ...data.map(d => String(d.label ?? '').length))
+    const estW    = Math.max(longest * fMd * 0.55, 5 * fSm * 0.6) + 5
+    const fitR    = (cx - 4 - estW) / reach
+    const outerR  = Math.max(Math.min(cx, cy) * 0.3, Math.min(Math.min(cx, cy) * 0.80, fitR))
+    const ringTW  = outerR * rt
+    const fit = (sel, maxW) => {
+      const node = sel.node()
+      let t = String(sel.text())
+      if (!node.getComputedTextLength) return
+      while (t.length > 1 && node.getComputedTextLength() > maxW) {
+        t = t.slice(0, -1)
+        sel.text(t.trimEnd() + '…')
+      }
+    }
     // Adapt spacing so all rings stay above a positive radius regardless of data length.
     // For ≤5 items the default 0.21 factor is unchanged; for more items it scales down.
     const spacing = data.length > 1
@@ -112,10 +133,6 @@ export class ZynaOrbital extends ZynaChart {
           .attr('stroke', accent).attr('stroke-width', 0.7).attr('opacity', 0.18)
       })
 
-    // Font sizes scale with container width
-    const fSm = Math.max(10, W * 0.018)
-    const fMd = Math.max(12, W * 0.022)
-
     // Per-ring groups — keyed by index.
     // End-point dots use CSS filter: blur() rather than SVG feGaussianBlur —
     // blur() runs on the GPU compositor and does not re-execute the filter graph.
@@ -165,10 +182,11 @@ export class ZynaOrbital extends ZynaChart {
         const anchor = cosA < -0.15 ? 'end' : cosA > 0.15 ? 'start' : 'middle'
         const tx     = fx + (footDir > 0 ? 5 : -5)
 
-        g.select('.orb-label')
+        const label = g.select('.orb-label')
           .attr('display', showVals ? null : 'none')
           .attr('x', tx).attr('y', fy - fMd - 4)
           .attr('text-anchor', anchor).attr('font-size', `${fMd}px`).attr('fill', color).text(s.label)
+        if (showVals) fit(label, anchor === 'end' ? tx - 2 : anchor === 'start' ? W - tx - 2 : 2 * Math.min(tx, W - tx) - 2)
 
         g.select('.orb-pct')
           .attr('display', showVals ? null : 'none')

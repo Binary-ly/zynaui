@@ -206,4 +206,34 @@ describe('zyna-orbital', () => {
     const wideD   = wide.querySelector('path.orb-arc').getAttribute('d')
     expect(narrowD).to.not.equal(wideD)
   })
+
+  it('keeps every label inside its own box in a narrow container', async () => {
+    // The SVG keeps overflow visible, so at 320px the right-hand labels used to
+    // start 300px in and run into whatever sat beside the chart.
+    const data = JSON.stringify([
+      { label: 'Completed', value: 0.246 },
+      { label: 'Active',    value: 0.316 },
+      { label: 'Closing',   value: 0.419 },
+      { label: 'Planning',  value: 0.017 },
+    ])
+    const el = await fixture(`<zyna-orbital data='${data}' style="display:block;width:320px"></zyna-orbital>`)
+    await nextFrame()
+    const svg = el.querySelector('svg')
+    const W = svg.viewBox.baseVal.width, H = svg.viewBox.baseVal.height
+    for (const t of el.querySelectorAll('text.orb-label, text.orb-pct')) {
+      const b = t.getBBox()
+      expect(b.x, `${t.textContent} left`).to.be.at.least(0)
+      expect(b.x + b.width, `${t.textContent} right`).to.be.at.most(W)
+      expect(b.y, `${t.textContent} top`).to.be.at.least(0)
+      expect(b.y + b.height, `${t.textContent} bottom`).to.be.at.most(H)
+    }
+  })
+
+  it('keeps the full 80% radius when the labels have room', async () => {
+    const el = await fixture(`<zyna-orbital data='${sampleData}' style="display:block;width:800px"></zyna-orbital>`)
+    await nextFrame()
+    // H = min(800 * 0.9, 500) = 500 → cy = 250 → outerR = 250 * 0.8
+    expect(parseFloat(el.querySelector('circle.orb-bg').getAttribute('r'))).to.equal(200)
+    expect([...el.querySelectorAll('text.orb-label')].map(t => t.textContent)).to.deep.equal(['EU Funding', 'UN System', 'USAID'])
+  })
 })
