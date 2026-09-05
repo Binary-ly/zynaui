@@ -939,7 +939,7 @@
     --badge-glow: none;
     --badge-scan-color: color-mix(in oklch, white 18%, transparent);
     --badge-offset: var(--zp-corner-badge);
-    --badge-interior: transparent;
+    --badge-interior: var(--z-badge-interior, transparent);
     --badge-inner-clip: var(--z-badge-inner-clip);
     display: inline-flex;
     align-items: center;
@@ -954,7 +954,7 @@
     position: relative;
     clip-path: var(--z-badge-clip, polygon(var(--badge-offset) 0%, 100% 0%, calc(100% - var(--badge-offset)) 100%, 0% 100%));
     border-radius: var(--z-badge-radius);
-    background: var(--badge-bg);
+    background: var(--z-badge-rim, var(--badge-bg));
     color: var(--badge-color);
     filter: var(--badge-glow);
     box-shadow: var(--z-badge-inset-shadow);
@@ -1072,16 +1072,16 @@
   }
   :where(.badge-pulse) {
     --badge-dot-size: 5px;
-    &::before {
-      content: "";
+    &::after {
       position: relative;
-      inset: auto;
-      clip-path: none;
-      z-index: auto;
-      background: currentColor;
+      top: auto;
+      bottom: auto;
+      left: auto;
+      order: -1;
       width: var(--badge-dot-size);
       height: var(--badge-dot-size);
       border-radius: 50%;
+      background: currentColor;
       flex-shrink: 0;
       animation: zyna-pulse-ring var(--z-duration-pulse) var(--z-ease-enter) infinite;
     }
@@ -1100,21 +1100,21 @@
   }
   :where(.badge-slant) {
     clip-path: polygon(var(--badge-offset) 0%, 100% 0%, calc(100% - var(--badge-offset)) 100%, 0% 100%);
-    --badge-inner-clip: polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), 2px calc(100% - 2px));
+    --badge-inner-clip: polygon(calc(var(--badge-offset) + var(--z-badge-inset, 2px)) var(--z-badge-inset, 2px), calc(100% - var(--z-badge-inset, 2px)) var(--z-badge-inset, 2px), calc(100% - calc(var(--badge-offset) + var(--z-badge-inset, 2px))) calc(100% - var(--z-badge-inset, 2px)), var(--z-badge-inset, 2px) calc(100% - var(--z-badge-inset, 2px)));
   }
   :where(.badge-rect) {
     clip-path: inset(0 round 3px);
     border-radius: 3px;
-    --badge-inner-clip: inset(2px round 3px);
+    --badge-inner-clip: inset(var(--z-badge-inset, 2px) round 3px);
   }
   :where(.badge-pill) {
     clip-path: inset(0 round 9999px);
     border-radius: 9999px;
-    --badge-inner-clip: inset(2px round 9999px);
+    --badge-inner-clip: inset(var(--z-badge-inset, 2px) round 9999px);
   }
   :where(.badge-bevel) {
     clip-path: polygon(var(--badge-offset) 0%, calc(100% - var(--badge-offset)) 0%, 100% var(--badge-offset), 100% calc(100% - var(--badge-offset)), calc(100% - var(--badge-offset)) 100%, var(--badge-offset) 100%, 0% calc(100% - var(--badge-offset)), 0% var(--badge-offset));
-    --badge-inner-clip: polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) 2px, calc(100% - 2px) calc(var(--badge-offset) + 2px), calc(100% - 2px) calc(100% - calc(var(--badge-offset) + 2px)), calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), calc(var(--badge-offset) + 2px) calc(100% - 2px), 2px calc(100% - calc(var(--badge-offset) + 2px)), 2px calc(var(--badge-offset) + 2px));
+    --badge-inner-clip: polygon(calc(var(--badge-offset) + var(--z-badge-inset, 2px)) var(--z-badge-inset, 2px), calc(100% - calc(var(--badge-offset) + var(--z-badge-inset, 2px))) var(--z-badge-inset, 2px), calc(100% - var(--z-badge-inset, 2px)) calc(var(--badge-offset) + var(--z-badge-inset, 2px)), calc(100% - var(--z-badge-inset, 2px)) calc(100% - calc(var(--badge-offset) + var(--z-badge-inset, 2px))), calc(100% - calc(var(--badge-offset) + var(--z-badge-inset, 2px))) calc(100% - var(--z-badge-inset, 2px)), calc(var(--badge-offset) + var(--z-badge-inset, 2px)) calc(100% - var(--z-badge-inset, 2px)), var(--z-badge-inset, 2px) calc(100% - calc(var(--badge-offset) + var(--z-badge-inset, 2px))), var(--z-badge-inset, 2px) calc(var(--badge-offset) + var(--z-badge-inset, 2px)));
   }
   @property --alert-bar-color {
     syntax: "<color>";
@@ -1297,7 +1297,7 @@
     :where(.badge)::after {
       animation: none;
     }
-    :where(.badge-pulse)::before {
+    :where(.badge-pulse)::after {
       animation: zyna-pulse-fade calc(var(--z-duration-pulse) * 2) ease-in-out infinite;
     }
     :where(.card) {
@@ -1432,7 +1432,6 @@
     --z-ease-enter: cubic-bezier(0, 0.85, 0.1, 1);
     --z-ease-exit: cubic-bezier(0.9, 0, 1, 0.15);
     --z-ease-spring: cubic-bezier(0.5, 1.8, 0.5, 1);
-    --zp-corner-badge: 14px;
     --z-btn-corner: 18px;
     --z-btn-active-scale: 0.94;
     --z-btn-scan-stop: 55%;
@@ -1440,6 +1439,8 @@
     --z-badge-letter-spacing: 0.16em;
     --z-badge-inset-shadow: inset 0 0 0 1px currentColor;
     --z-badge-scan-duration: 2.5s;
+    --z-badge-rim: currentColor;
+    --z-badge-inset: 1px;
     --z-alert-radius: 0;
     --z-alert-bar-width: 5px;
     --z-alert-prefix: "> ";
@@ -1526,7 +1527,8 @@
   }
   :where(html[data-genre="cyberpunk"]) :where(.badge) {
     --z-badge-clip: inset(0);
-    --z-badge-inner-clip: inset(2px);
+    --z-badge-inner-clip: inset(1px);
+    --z-badge-interior: linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page);
   }
   :where(html[data-genre="cyberpunk"]) :where(.alert) {
     --z-alert-border: 1px solid var(--alert-bar-color);
@@ -1650,6 +1652,8 @@
     --z-badge-letter-spacing: 0.07em;
     --z-badge-inset-shadow: inset 0 0 0 1px currentColor;
     --z-badge-scan-duration: 9s;
+    --z-badge-rim: currentColor;
+    --z-badge-inset: 1px;
     --z-alert-radius: 0 3px 3px 0;
     --z-alert-bar-width: 2.5px;
     --z-alert-prefix: "§ ";
@@ -1699,7 +1703,8 @@
   }
   :where(html[data-genre="corporate"]) :where(.badge) {
     --z-badge-clip: inset(0 round 3px);
-    --z-badge-inner-clip: inset(2px round 1px);
+    --z-badge-inner-clip: inset(1px round 2px);
+    --z-badge-interior: linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page);
   }
   :where(html[data-genre="corporate"]) :where(.alert) {
     --z-alert-border: 1px solid rgba(28,27,22,0.07);
@@ -1729,18 +1734,6 @@
   :where(html[data-genre="corporate"]) :where(.badge-secondary) {
     --badge-bg: transparent;
     --badge-glow: none;
-  }
-  :where(html[data-genre="corporate"]) :where(.badge-slant) {
-    --z-badge-inset-shadow: none;
-    --badge-bg: currentColor;
-    --badge-interior: var(--z-surface-page);
-    --badge-inner-clip: polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), 1px calc(100% - 1px));
-  }
-  :where(html[data-genre="corporate"]) :where(.badge-bevel) {
-    --z-badge-inset-shadow: none;
-    --badge-bg: currentColor;
-    --badge-interior: var(--z-surface-page);
-    --badge-inner-clip: polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) 1px, calc(100% - 1px) calc(var(--badge-offset) + 1px), calc(100% - 1px) calc(100% - calc(var(--badge-offset) + 1px)), calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), calc(var(--badge-offset) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--badge-offset) + 1px)), 1px calc(var(--badge-offset) + 1px));
   }
   :where(html[data-genre="corporate"]) body::before {
     content: "";
@@ -1799,6 +1792,8 @@
     --z-badge-letter-spacing: 0.10em;
     --z-badge-inset-shadow: inset 0 0 0 1px currentColor;
     --z-badge-scan-duration: 9s;
+    --z-badge-rim: currentColor;
+    --z-badge-inset: 1px;
     --z-alert-radius: 3px 0 0 3px;
     --z-alert-bar-width: 3px;
     --z-alert-prefix: ">> ";
@@ -1863,7 +1858,8 @@
   }
   :where(html[data-genre="phosphor"]) :where(.badge) {
     --z-badge-clip: inset(0);
-    --z-badge-inner-clip: inset(2px);
+    --z-badge-inner-clip: inset(1px);
+    --z-badge-interior: linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page);
   }
   :where(html[data-genre="phosphor"]) :where(.alert) {
     --z-alert-border: 1px solid rgba(255,159,10,0.10);
@@ -1936,7 +1932,7 @@
   :where(html[data-genre="phosphor"]) :where(.badge)::after {
     animation: zyna-badge-scan var(--z-badge-scan-duration) linear infinite;
   }
-  :where(html[data-genre="phosphor"]) :where(.badge-pulse)::before {
+  :where(html[data-genre="phosphor"]) :where(.badge-pulse)::after {
     animation: zyna-pulse-ring var(--z-duration-pulse) ease-in-out infinite;
   }
   :where(html[data-genre="phosphor"]) body::before {
@@ -1967,7 +1963,7 @@
     :where(html[data-genre="phosphor"]) :where(.badge)::after {
       animation: none;
     }
-    :where(html[data-genre="phosphor"]) :where(.badge-pulse)::before {
+    :where(html[data-genre="phosphor"]) :where(.badge-pulse)::after {
       animation: zyna-pulse-fade calc(var(--z-duration-pulse) * 2) ease-in-out infinite;
     }
     :where(html[data-genre="military"]) body::after {
@@ -2034,6 +2030,8 @@
     --z-badge-letter-spacing: 0.11em;
     --z-badge-inset-shadow: inset 0 0 0 1px currentColor;
     --z-badge-scan-duration: 6s;
+    --z-badge-rim: currentColor;
+    --z-badge-inset: 1px;
     --z-alert-radius: 3px 3px 0 0;
     --z-alert-bar-width: 3px;
     --z-alert-prefix: "◈ ";
@@ -2087,6 +2085,7 @@
   :where(html[data-genre="military"]) :where(.badge) {
     --z-badge-clip: polygon(0 0, 100% 0, 100% 100%, 8px 100%, 0 calc(100% - 8px));
     --z-badge-inner-clip: polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 9px calc(100% - 1px), 1px calc(100% - 9px));
+    --z-badge-interior: linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page);
   }
   :where(html[data-genre="military"]) :where(.alert) {
     --z-alert-border: none;
@@ -2205,6 +2204,8 @@
     --z-badge-letter-spacing: 0.09em;
     --z-badge-inset-shadow: inset 0 0 0 1px currentColor;
     --z-badge-scan-duration: 8s;
+    --z-badge-rim: currentColor;
+    --z-badge-inset: 1px;
     --z-alert-radius: 3px;
     --z-alert-bar-width: 2px;
     --z-alert-prefix: "⊗ ";
@@ -2261,6 +2262,7 @@
   :where(html[data-genre="blueprint"]) :where(.badge) {
     --z-badge-clip: polygon(0 0, calc(50% - 5px) 0, 50% 5px, calc(50% + 5px) 0, 100% 0, 100% 100%, 0 100%);
     --z-badge-inner-clip: polygon(1px 1px, calc(50% - 4px) 1px, 50% 4px, calc(50% + 4px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px));
+    --z-badge-interior: linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page);
   }
   :where(html[data-genre="blueprint"]) :where(.alert) {
     --z-alert-border: 1px solid rgba(27,58,107,0.08);
@@ -2308,18 +2310,6 @@
       --badge-bg: color-mix(in oklch, var(--zyna) 5%, transparent);
     }
     --badge-glow: none;
-  }
-  :where(html[data-genre="blueprint"]) :where(.badge-slant) {
-    --z-badge-inset-shadow: none;
-    --badge-bg: currentColor;
-    --badge-interior: var(--z-surface-page);
-    --badge-inner-clip: polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), 1px calc(100% - 1px));
-  }
-  :where(html[data-genre="blueprint"]) :where(.badge-bevel) {
-    --z-badge-inset-shadow: none;
-    --badge-bg: currentColor;
-    --badge-interior: var(--z-surface-page);
-    --badge-inner-clip: polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) 1px, calc(100% - 1px) calc(var(--badge-offset) + 1px), calc(100% - 1px) calc(100% - calc(var(--badge-offset) + 1px)), calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), calc(var(--badge-offset) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--badge-offset) + 1px)), 1px calc(var(--badge-offset) + 1px));
   }
   :where(html[data-genre="blueprint"]) body::before {
     content: "";
@@ -2391,6 +2381,8 @@
     --z-badge-letter-spacing: 0.09em;
     --z-badge-inset-shadow: inset 0 0 0 1px currentColor;
     --z-badge-scan-duration: 7s;
+    --z-badge-rim: currentColor;
+    --z-badge-inset: 1px;
     --z-alert-radius: 0 3px 3px 0;
     --z-alert-bar-width: 3px;
     --z-alert-prefix: "「 ";
@@ -2444,6 +2436,7 @@
   :where(html[data-genre="washi"]) :where(.badge) {
     --z-badge-clip: polygon(0 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%);
     --z-badge-inner-clip: polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 8px), calc(100% - 8px) calc(100% - 1px), 1px calc(100% - 1px));
+    --z-badge-interior: linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page);
   }
   :where(html[data-genre="washi"]) :where(.alert) {
     --z-alert-border: 1px solid rgba(42,26,14,0.07);
@@ -2494,18 +2487,6 @@
       --badge-bg: color-mix(in oklch, var(--zyna) 5%, transparent);
     }
     --badge-glow: none;
-  }
-  :where(html[data-genre="washi"]) :where(.badge-slant) {
-    --z-badge-inset-shadow: none;
-    --badge-bg: currentColor;
-    --badge-interior: var(--z-surface-page);
-    --badge-inner-clip: polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), 1px calc(100% - 1px));
-  }
-  :where(html[data-genre="washi"]) :where(.badge-bevel) {
-    --z-badge-inset-shadow: none;
-    --badge-bg: currentColor;
-    --badge-interior: var(--z-surface-page);
-    --badge-inner-clip: polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) 1px, calc(100% - 1px) calc(var(--badge-offset) + 1px), calc(100% - 1px) calc(100% - calc(var(--badge-offset) + 1px)), calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), calc(var(--badge-offset) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--badge-offset) + 1px)), 1px calc(var(--badge-offset) + 1px));
   }
   :where(html[data-genre="washi"]) body::before {
     content: "";
@@ -2595,6 +2576,8 @@
     --z-badge-letter-spacing: 0.07em;
     --z-badge-inset-shadow: inset 0 0 0 1px currentColor;
     --z-badge-scan-duration: 5s;
+    --z-badge-rim: currentColor;
+    --z-badge-inset: 1px;
     --z-alert-radius: 0 0 3px 3px;
     --z-alert-bar-width: 3px;
     --z-alert-prefix: "∴ ";
@@ -2648,6 +2631,7 @@
   :where(html[data-genre="laboratory"]) :where(.badge) {
     --z-badge-clip: polygon(0 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 0 100%);
     --z-badge-inner-clip: polygon(1px 1px, calc(100% - 9px) 1px, calc(100% - 2px) 50%, calc(100% - 9px) calc(100% - 1px), 1px calc(100% - 1px));
+    --z-badge-interior: linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page);
   }
   :where(html[data-genre="laboratory"]) :where(.alert) {
     --z-alert-border: 1px solid rgba(12,30,36,0.07);
@@ -2695,18 +2679,6 @@
       --badge-bg: color-mix(in oklch, var(--zyna) 5%, transparent);
     }
     --badge-glow: none;
-  }
-  :where(html[data-genre="laboratory"]) :where(.badge-slant) {
-    --z-badge-inset-shadow: none;
-    --badge-bg: currentColor;
-    --badge-interior: var(--z-surface-page);
-    --badge-inner-clip: polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), 1px calc(100% - 1px));
-  }
-  :where(html[data-genre="laboratory"]) :where(.badge-bevel) {
-    --z-badge-inset-shadow: none;
-    --badge-bg: currentColor;
-    --badge-interior: var(--z-surface-page);
-    --badge-inner-clip: polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) 1px, calc(100% - 1px) calc(var(--badge-offset) + 1px), calc(100% - 1px) calc(100% - calc(var(--badge-offset) + 1px)), calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), calc(var(--badge-offset) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--badge-offset) + 1px)), 1px calc(var(--badge-offset) + 1px));
   }
   :where(html[data-genre="laboratory"]) body::before {
     content: "";
@@ -2788,6 +2760,8 @@
     --z-badge-letter-spacing: 0.07em;
     --z-badge-inset-shadow: inset 0 0 0 1px currentColor;
     --z-badge-scan-duration: 5s;
+    --z-badge-rim: currentColor;
+    --z-badge-inset: 1px;
     --z-alert-radius: 3px 0 0 3px;
     --z-alert-bar-width: 3px;
     --z-alert-prefix: "» ";
@@ -2838,6 +2812,7 @@
   :where(html[data-genre="atelier"]) :where(.badge) {
     --z-badge-clip: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 calc(50% + 5px), 10px 50%, 0 calc(50% - 5px));
     --z-badge-inner-clip: polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px), 1px calc(50% + 6px), 11px 50%, 1px calc(50% - 6px));
+    --z-badge-interior: linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page);
   }
   :where(html[data-genre="atelier"]) :where(.alert) {
     --z-alert-border: 1px solid rgba(44,28,4,0.07);
@@ -2885,18 +2860,6 @@
       --badge-bg: color-mix(in oklch, var(--zyna) 6%, transparent);
     }
     --badge-glow: none;
-  }
-  :where(html[data-genre="atelier"]) :where(.badge-slant) {
-    --z-badge-inset-shadow: none;
-    --badge-bg: currentColor;
-    --badge-interior: var(--z-surface-page);
-    --badge-inner-clip: polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), 1px calc(100% - 1px));
-  }
-  :where(html[data-genre="atelier"]) :where(.badge-bevel) {
-    --z-badge-inset-shadow: none;
-    --badge-bg: currentColor;
-    --badge-interior: var(--z-surface-page);
-    --badge-inner-clip: polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) 1px, calc(100% - 1px) calc(var(--badge-offset) + 1px), calc(100% - 1px) calc(100% - calc(var(--badge-offset) + 1px)), calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), calc(var(--badge-offset) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--badge-offset) + 1px)), 1px calc(var(--badge-offset) + 1px));
   }
   :where(html[data-genre="atelier"]) body::before {
     content: "";
