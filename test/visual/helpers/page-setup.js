@@ -35,6 +35,15 @@ export async function setupPage(page, genre, bodyHTML) {
   await page.addStyleTag({ path: CSS_PATH })
   await page.addStyleTag({ content: FREEZE_CSS })
   await injectFonts(page)
-  await page.waitForFunction(() => document.fonts.ready)
+  // `document.fonts.ready` alone can resolve before the injected faces have
+  // even started loading (nothing is pending until style recalc first needs
+  // them), which let the screenshot loop race the font swap. Start every
+  // injected face loading (a face that fails just falls back, as before),
+  // wait for the set to settle, then give layout and paint two frames.
+  await page.evaluate(async () => {
+    await Promise.allSettled([...document.fonts].map(f => f.load()))
+    await document.fonts.ready
+    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))
+  })
   return page.locator('#vr')
 }
