@@ -160,14 +160,14 @@ describe('prefers-reduced-motion', () => {
     const css = await getCSS()
     const rm = reducedMotionCSS(css)
     expect(rm).toMatch(/:where\(html\[data-genre="phosphor"\]\) :where\(\.badge\)::after\s*\{[^}]*animation:\s*none/)
-    expect(rm).toMatch(/:where\(html\[data-genre="phosphor"\]\) :where\(\.badge-pulse\)::before\s*\{[^}]*zyna-pulse-fade/)
+    expect(rm).toMatch(/:where\(html\[data-genre="phosphor"\]\) :where\(\.badge-pulse\)::after\s*\{[^}]*zyna-pulse-fade/)
   })
 
   test('reduced-motion degrades .badge-pulse to an opacity-only fade, not none', async () => {
     // The pulse dot is a live-status indicator — reduced motion removes the
     // scale movement but must not remove the information.
     const css = await getCSS()
-    expect(css).toMatch(/:where\(.badge-pulse\)::before/)
+    expect(css).toMatch(/:where\(.badge-pulse\)::after/)
     expect(css).toContain('zyna-pulse-fade')
   })
 })
