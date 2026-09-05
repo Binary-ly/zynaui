@@ -82,6 +82,15 @@ describe('zyna-waffle', () => {
     expect(svg).to.be.null
   })
 
+  it('paints no background of its own in the light theme', async () => {
+    // The SVG used to set background: #FFFFFF whenever the theme was light,
+    // which put a white square behind the grid on every light genre's page.
+    const el = await fixture(`<zyna-waffle theme="light" data='${twoSegment}'></zyna-waffle>`)
+    const svg = el.querySelector('svg')
+    expect(svg.style.background).to.equal('')
+    expect(getComputedStyle(svg).backgroundColor).to.equal('rgba(0, 0, 0, 0)')
+  })
+
   // ── Edge cases ────────────────────────────────────────────────────────────────
 
   it('renders a single data item: one segment fills all 100 cells', async () => {

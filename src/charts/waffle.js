@@ -27,7 +27,6 @@ export class ZynaWaffle extends ZynaChart {
     const cols    = colsRaw > 0 ? colsRaw : 10
     const gapRaw  = parseInt(this._attr('gap', '3'))
     const gap     = gapRaw >= 0 ? gapRaw : 3
-    const dark       = this._theme() !== 'light'
     const heightAttr = parseInt(this._attr('height', '0'))
 
     if (!data.length) { this._warnEmpty('zyna-waffle'); return }
@@ -48,15 +47,14 @@ export class ZynaWaffle extends ZynaChart {
     // Border-radius scales with cell size so it looks right at any width.
     const rx = Math.max(1, Math.floor(cs * 0.08))
 
-    const bgC = dark ? 'transparent' : '#FFFFFF'
-
-    // Persist the SVG — only update viewBox/dimensions on resize.
+    // Persist the SVG — only update viewBox/dimensions on resize. The SVG has
+    // no background of its own: the cells sit on whatever surface the page
+    // gives them, in every theme and genre.
     let svg = select(this).select('svg')
     if (svg.empty()) {
       svg = select(this).append('svg').style('display', 'block')
     }
     svg.attr('viewBox', `0 0 ${W} ${H}`).attr('width', W).attr('height', H)
-      .style('background', bgC)
     this._applyA11y(svg, `Waffle chart: ${data.map(d => `${d.label} ${d.value}`).join(', ')}`)
 
     const cellData = []
