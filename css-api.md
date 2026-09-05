@@ -221,15 +221,21 @@ Raw values that feed semantic tokens. Never referenced directly by user code.
 --zp-text
 ```
 
-### Button genre structural (5) — `--z-btn-*`
+### Button genre structural (7) — `--z-btn-*`
 
 Control the default button shape, clip geometry, and active scale for each genre.
 Use `--btn-corner` and `--btn-inner-clip` (public) to override shape on individual elements.
 
 ```
 --z-btn-clip        --z-btn-corner      --z-btn-inner-clip
+--z-btn-corner-sm   --z-btn-corner-lg
 --z-btn-active-scale  --z-btn-scan-stop
 ```
+
+`--z-btn-corner-sm` / `--z-btn-corner-lg` are the cut depths `.btn-sm` (and
+`.btn-icon`) and `.btn-lg` use. Ops maps them to `--z-corner-sm` / `--z-corner-lg`;
+Phosphor (10 / 14 / 18px) and Washi (8 / 11 / 14px) set their own so the sizes
+stay ordered around their deeper default cut.
 
 ### Badge genre structural (7) — `--z-badge-*`
 
