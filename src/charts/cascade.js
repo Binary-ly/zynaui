@@ -101,7 +101,7 @@ export class ZynaCascade extends ZynaChart {
     const minShare   = Math.max(0, Math.min(0.5, Number.isFinite(msRaw) ? msRaw : 0.03))
     const heightAttr = parseInt(this._attr('height', '0'))
     const textC      = dark ? '#F0EBE0' : '#1A1A20'
-    const labelC     = dark ? '#5A5050' : '#8A8478'
+    const labelC     = this._muted()
     const inkC       = dark ? '#09080F' : '#F7F3E8'
     const fmtVal     = v => this._fmt(v, fmt)
     const MAXD       = 4
