@@ -162,6 +162,7 @@ type ZynaBadgeToken =
   | '--badge-dot-size'
   | '--badge-interior'
   | '--badge-offset'
+  | '--badge-scale'
   | '--badge-inner-clip'
 
 /**

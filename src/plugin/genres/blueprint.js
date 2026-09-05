@@ -195,13 +195,14 @@ export const styles = {
     // The notch is 5 px deep and ±5 px from the horizontal centerline.
     // At font-size 12–14 px the badge top padding clears it comfortably.
     // No other design system uses a top-center notch on a badge element.
-    '--z-badge-clip':           'polygon(0 0, calc(50% - 5px) 0, 50% 5px, calc(50% + 5px) 0, 100% 0, 100% 100%, 0 100%)',
+    '--z-badge-cut':            '5px',
+    '--z-badge-clip':           'polygon(0 0, calc(50% - var(--z-badge-cut) * var(--badge-scale)) 0, 50% calc(var(--z-badge-cut) * var(--badge-scale)), calc(50% + var(--z-badge-cut) * var(--badge-scale)) 0, 100% 0, 100% 100%, 0 100%)',
     '--z-badge-radius':         '0',
     '--z-badge-padding':        '0.38rem 0.80rem 0.22rem 0.80rem',  // extra top to clear the 5 px notch
     '--z-badge-letter-spacing': '0.09em',
     '--z-badge-inset-shadow':   'inset 0 0 0 1px currentColor',
     '--z-badge-scan-duration':  '8s',
-    '--z-badge-inner-clip':     'polygon(1px 1px, calc(50% - 4px) 1px, 50% 4px, calc(50% + 4px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px))',
+    '--z-badge-inner-clip':     'polygon(1px 1px, calc(50% - (var(--z-badge-cut) * var(--badge-scale) - 1px)) 1px, 50% calc(var(--z-badge-cut) * var(--badge-scale) - 1px), calc(50% + (var(--z-badge-cut) * var(--badge-scale) - 1px)) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px))',
     // Rim model: element = currentColor border, ::before = tint, so the border follows the notch.
     '--z-badge-rim':            'currentColor',
     '--z-badge-inset':          '1px',
