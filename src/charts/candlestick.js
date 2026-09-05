@@ -34,7 +34,7 @@ export class ZynaCandlestick extends ZynaChart {
     const tickRaw    = parseInt(this._attr('ticks', '5'))
     const tickCount  = tickRaw > 0 ? tickRaw : 5
     const gridC      = dark ? '#1E1E24' : '#E5E1D4'
-    const labelC     = dark ? '#5A5050' : '#8A8478'
+    const labelC     = this._muted()
 
     if (!data.length) { this._warnEmpty('zyna-candlestick'); return }
 
