@@ -122,4 +122,24 @@ describe('zyna-nightingale', () => {
     expect(labels).to.include('Alpha')
     expect(labels).not.to.include('Emergency')
   })
+
+  it('lifts the leader over a centre-anchored label below the chart and nowhere else', async () => {
+    // Six equal sectors put one label straight above the chart (index 1) and
+    // one straight below it (index 4). Every leader used to start under the
+    // value text, so the bottom label's leader climbed through its own text.
+    // Side labels (index 3 is lower-right) keep the elbow under the value.
+    const six = JSON.stringify([1, 2, 3, 4, 5, 6].map(i => ({ label: `Sector ${i}`, value: 100 })))
+    const el = await fixture(`<zyna-nightingale data='${six}' style="display:block;width:600px"></zyna-nightingale>`)
+    const sectors = [...el.querySelectorAll('g.ng-sector')]
+    const startY  = g => parseFloat(g.querySelector('polyline.ng-leader').getAttribute('points').split(' ')[0].split(',')[1])
+    const labelY  = g => parseFloat(g.querySelector('text.ng-label').getAttribute('y'))
+    const valueY  = g => parseFloat(g.querySelector('text.ng-value').getAttribute('y'))
+    expect(startY(sectors[1])).to.be.greaterThan(valueY(sectors[1]))
+    expect(startY(sectors[3])).to.be.greaterThan(valueY(sectors[3]))
+    expect(startY(sectors[4])).to.be.lessThan(labelY(sectors[4]) - 10)
+    for (const g of sectors) {
+      const y = startY(g)
+      expect(y < labelY(g) - 8 || y > valueY(g) + 4, `leader for ${g.querySelector('text.ng-label').textContent} starts inside its label block`).to.be.true
+    }
+  })
 })
