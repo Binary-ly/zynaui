@@ -59,7 +59,7 @@ Only one option is available:
 Link the compiled CSS directly:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/zynaui@0.3/dist/zynaui.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/zynaui@0.3.1-beta/dist/zynaui.css" />
 ```
 
 Every component rule in the stylesheet lives in `@layer base`. Unlayered rules in the host page win over layered ones regardless of specificity, so a reset like `button { background: none }` strips `.btn` styling — put resets in a layer or keep element selectors away from ZynaUI components.
@@ -282,7 +282,7 @@ Or load via CDN (IIFE, no bundler required):
 
 ```html
 <!-- D3 is bundled inline — no extra dependencies required -->
-<script src="https://cdn.jsdelivr.net/npm/zynaui@0.3/dist/zyna-charts.iife.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/zynaui@0.3.1-beta/dist/zyna-charts.iife.js"></script>
 ```
 
 All charts accept data as a JSON string attribute, are responsive (resize with their container via ResizeObserver), and support dark/light themes.

@@ -4,6 +4,14 @@ All notable changes to ZynaUI are documented here.
 
 ---
 
+## [Unreleased]
+
+### Docs
+
+- **The documented CDN URLs returned 404.** README, the landing page, and `llms.txt` pinned jsDelivr to `zynaui@0.3`, but a semver range never matches a prerelease, so `@0.3` resolved to nothing while every published version carries a `-beta` suffix. The snippets now pin the exact version (`zynaui@0.3.1-beta`) and say why.
+
+---
+
 ## [0.3.1-beta] (2026-09-06) — audit repair pass
 
 Repair pass from a full line-by-line audit of the plugin, charts, React wrapper, types, tests, and docs. Every fix below was reproduced before it was changed and is now covered by a test.

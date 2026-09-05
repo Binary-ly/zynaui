@@ -289,11 +289,11 @@ import 'zynaui/charts/cascade'
 Link the pre-compiled CSS and load the IIFE bundle. No build step needed:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/zynaui@0.3/dist/zynaui.css" />
-<script src="https://cdn.jsdelivr.net/npm/zynaui@0.3/dist/zyna-charts.iife.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/zynaui@0.3.1-beta/dist/zynaui.css" />
+<script src="https://cdn.jsdelivr.net/npm/zynaui@0.3.1-beta/dist/zyna-charts.iife.js"></script>
 ```
 
-The stylesheet contains only ZynaUI's tokens, components, and genres — no Tailwind preflight reset — so it is safe to drop into an existing page. Bundler users can equivalently `import 'zynaui/style.css'`. (URLs are pinned to the 0.3 line; unpinned `/npm/zynaui/` floats to whatever `latest` is.)
+The stylesheet contains only ZynaUI's tokens, components, and genres — no Tailwind preflight reset — so it is safe to drop into an existing page. Bundler users can equivalently `import 'zynaui/style.css'`. (URLs are pinned to an exact version: while releases carry a `-beta` suffix a range like `@0.3` does not resolve on jsDelivr, because prereleases never satisfy a semver range. Unpinned `/npm/zynaui/` floats to whatever `latest` is.)
 
 > **Cascade layers:** every component rule in the stylesheet lives in `@layer base`. Unlayered rules in your own CSS win over layered ones regardless of specificity, so a reset such as `button { background: none; border: 0 }` will strip `.btn` styling. Put your reset in a layer (`@layer reset { … }`) or scope element selectors away from ZynaUI components.
 
