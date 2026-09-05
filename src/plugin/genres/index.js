@@ -87,6 +87,7 @@ export const ELEMENT_SCOPED_TOKENS = Object.freeze({
   '--z-btn-inner-clip':   '.btn',
   '--z-badge-clip':       '.badge',
   '--z-badge-inner-clip': '.badge',
+  '--z-badge-interior':   '.badge',
   '--z-alert-border':     '.alert',
   '--z-alert-bar-glow':   '.alert',
   '--z-alert-texture':    '.alert',
