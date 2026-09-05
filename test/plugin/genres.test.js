@@ -228,6 +228,17 @@ describe('genresPlugin() output', () => {
     expect(result['html']['--z-btn-corner-lg']).toBe('var(--z-corner-lg)')
   })
 
+  test('notched badge genres scale their cut by --badge-scale so size classes scale the notch', () => {
+    const result = genresPlugin()
+    for (const [g, depth] of [['military', '8px'], ['blueprint', '5px'], ['washi', '7px'], ['laboratory', '8px'], ['atelier', '10px']]) {
+      expect(result[`html[data-genre="${g}"]`]['--z-badge-cut'], g).toBe(depth)
+      const el = result[`:where(html[data-genre="${g}"]) :where(.badge)`]
+      expect(el['--z-badge-clip'], g).toContain('var(--z-badge-cut) * var(--badge-scale)')
+      expect(el['--z-badge-clip'], g).not.toMatch(/\dpx/)
+      expect(el['--z-badge-inner-clip'], g).toContain('var(--z-badge-cut) * var(--badge-scale)')
+    }
+  })
+
   test('element-scoped tokens compile to genre-scoped element rules in the CSS', async () => {
     const css = await generateCSS()
     expect(css).toMatch(/:where\(\.btn\)\s*\{[^}]*--z-btn-clip:/)

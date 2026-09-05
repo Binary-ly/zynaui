@@ -227,13 +227,14 @@ export const styles = {
     // Clip polygon (clockwise): top-left → top-right → BR-chamfer-start → BR-corner → bottom-left
     // The chamfer is 7 px — visible but refined, not aggressive.
     // No other design system uses a bottom-right badge chamfer.
-    '--z-badge-clip':           'polygon(0 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%)',
+    '--z-badge-cut':            '7px',
+    '--z-badge-clip':           'polygon(0 0, 100% 0, 100% calc(100% - var(--z-badge-cut) * var(--badge-scale)), calc(100% - var(--z-badge-cut) * var(--badge-scale)) 100%, 0 100%)',
     '--z-badge-radius':         '0',
     '--z-badge-padding':        '0.20rem 0.78rem',
     '--z-badge-letter-spacing': '0.09em',
     '--z-badge-inset-shadow':   'inset 0 0 0 1px currentColor',
     '--z-badge-scan-duration':  '7s',   // hanko seal rhythm — slow deliberate pass
-    '--z-badge-inner-clip':     'polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 8px), calc(100% - 8px) calc(100% - 1px), 1px calc(100% - 1px))',
+    '--z-badge-inner-clip':     'polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - (var(--z-badge-cut) * var(--badge-scale) + 1px)), calc(100% - (var(--z-badge-cut) * var(--badge-scale) + 1px)) calc(100% - 1px), 1px calc(100% - 1px))',
     // Rim model: element = currentColor border, ::before = tint, so the border follows the chamfer.
     '--z-badge-rim':            'currentColor',
     '--z-badge-inset':          '1px',
