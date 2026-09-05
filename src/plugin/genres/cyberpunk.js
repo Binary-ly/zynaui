@@ -50,9 +50,6 @@ export const styles = {
   // Specificity [0,1,1] beats ops defaults on html [0,0,1].
   // Genre activation is pure CSS: set data-genre="cyberpunk" on the html element.
   'html[data-genre="cyberpunk"]': {
-    // ── Badge shape primitive ────────────────────────────────────────────────
-    '--zp-corner-badge': '14px',
-
     // ── Button structural ────────────────────────────────────────────────────
     '--z-btn-clip':         'inset(0)',
     '--z-btn-inner-clip':   'inset(1.5px)',
