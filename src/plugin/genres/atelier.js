@@ -305,6 +305,10 @@ export const styles = {
     // Notch tip moves from x=10px to x=11px (1px inner offset on diagonal).
     // Notch endpoints: ±5px at x=0 becomes ±6px at x=1px (diagonal compensation).
     '--z-badge-inner-clip':     'polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px), 1px calc(50% + 6px), 11px 50%, 1px calc(50% - 6px))',
+    // Rim model: element = currentColor border, ::before = tint, so the border follows the notch.
+    '--z-badge-rim':            'currentColor',
+    '--z-badge-inset':          '1px',
+    '--z-badge-interior':       'linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page)',
 
     // ── Alert — RIGHT PARTIAL-HEIGHT + » (right guillemet) prefix ─────────────
     // Bar: inset 15% 0 15% auto = top:15%, right:0, bottom:15%, left:auto
@@ -407,23 +411,6 @@ export const styles = {
   ':where(html[data-genre="atelier"]) :where(.badge-secondary)': {
     '--badge-bg':   'color-mix(in oklch, var(--zyna) 6%, transparent)',
     '--badge-glow': 'none',
-  },
-
-  // ── Polygon badge shape fixes on ecru vellum surface ─────────────────────
-  // clip-path polygon shapes cannot use inset box-shadow for a border on light
-  // backgrounds. Use the inner-clip border model: --badge-bg = currentColor,
-  // --badge-interior = page surface, --badge-inner-clip = inset polygon.
-  ':where(html[data-genre="atelier"]) :where(.badge-slant)': {
-    '--z-badge-inset-shadow': 'none',
-    '--badge-bg':         'currentColor',
-    '--badge-interior':   'var(--z-surface-page)',
-    '--badge-inner-clip': 'polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), 1px calc(100% - 1px))',
-  },
-  ':where(html[data-genre="atelier"]) :where(.badge-bevel)': {
-    '--z-badge-inset-shadow': 'none',
-    '--badge-bg':         'currentColor',
-    '--badge-interior':   'var(--z-surface-page)',
-    '--badge-inner-clip': 'polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) 1px, calc(100% - 1px) calc(var(--badge-offset) + 1px), calc(100% - 1px) calc(100% - calc(var(--badge-offset) + 1px)), calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), calc(var(--badge-offset) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--badge-offset) + 1px)), 1px calc(var(--badge-offset) + 1px))',
   },
 
   // ── Laid paper texture — page background ──────────────────────────────────

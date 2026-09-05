@@ -202,6 +202,10 @@ export const styles = {
     '--z-badge-inset-shadow':   'inset 0 0 0 1px currentColor',
     '--z-badge-scan-duration':  '8s',
     '--z-badge-inner-clip':     'polygon(1px 1px, calc(50% - 4px) 1px, 50% 4px, calc(50% + 4px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px))',
+    // Rim model: element = currentColor border, ::before = tint, so the border follows the notch.
+    '--z-badge-rim':            'currentColor',
+    '--z-badge-inset':          '1px',
+    '--z-badge-interior':       'linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page)',
 
     // ── Alert — partial-height LEFT WITNESS LINE ───────────────────────────────
     // In ISO 128 dimension practice, witness lines (extension lines) project
@@ -314,24 +318,6 @@ export const styles = {
   ':where(html[data-genre="blueprint"]) :where(.badge-secondary)': {
     '--badge-bg':   'color-mix(in oklch, var(--zyna) 5%, transparent)',
     '--badge-glow': 'none',
-  },
-
-  // ── Polygon badge shape fixes (slant, bevel) on light surface ─────────────
-  // Polygon shapes can't use box-shadow: inset for a border — the rectangular
-  // shadow cuts abruptly at diagonal corners. Use the inner-clip border model:
-  //   outer = border color (currentColor), ::before fill = page background.
-  // Same technique as Corporate — required for all light-mode genres.
-  ':where(html[data-genre="blueprint"]) :where(.badge-slant)': {
-    '--z-badge-inset-shadow': 'none',
-    '--badge-bg':         'currentColor',
-    '--badge-interior':   'var(--z-surface-page)',
-    '--badge-inner-clip': 'polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), 1px calc(100% - 1px))',
-  },
-  ':where(html[data-genre="blueprint"]) :where(.badge-bevel)': {
-    '--z-badge-inset-shadow': 'none',
-    '--badge-bg':         'currentColor',
-    '--badge-interior':   'var(--z-surface-page)',
-    '--badge-inner-clip': 'polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) 1px, calc(100% - 1px) calc(var(--badge-offset) + 1px), calc(100% - 1px) calc(100% - calc(var(--badge-offset) + 1px)), calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), calc(var(--badge-offset) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--badge-offset) + 1px)), 1px calc(var(--badge-offset) + 1px))',
   },
 
   // ── Precision metric grid — page texture ──────────────────────────────────
