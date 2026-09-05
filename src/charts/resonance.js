@@ -36,7 +36,7 @@ export class ZynaResonance extends ZynaChart {
     const meanAttr   = parseFloat(this._attr('mean', ''))
     const heightAttr = parseInt(this._attr('height', '0'))
     const textC      = dark ? '#F0EBE0' : '#1A1A20'
-    const mutedC     = dark ? '#5A5050' : '#8A8478'
+    const mutedC     = this._muted()
     const gridC      = dark ? '#2A2A30' : '#D8D3C6'
     const bgC        = dark ? '#0C0C0F' : '#FFFFFF'
     const danger     = this._danger()

@@ -665,17 +665,17 @@
     padding: 0.42rem 1rem;
     font-size: 0.63rem;
     letter-spacing: 0.12em;
-    --btn-corner: var(--z-corner-sm);
+    --btn-corner: var(--z-btn-corner-sm);
   }
   .btn-lg {
     padding: 0.9rem 2.1rem;
     font-size: 0.78rem;
-    --btn-corner: var(--z-corner-lg);
+    --btn-corner: var(--z-btn-corner-lg);
   }
   .btn-icon {
     padding: 0.65rem;
     aspect-ratio: 1;
-    --btn-corner: var(--z-corner-sm);
+    --btn-corner: var(--z-btn-corner-sm);
   }
   .btn-cut {
     clip-path: polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)));
@@ -1343,6 +1343,8 @@
     background-color: var(--z-surface-page);
     color: var(--z-color-text);
     --z-btn-corner: var(--z-corner);
+    --z-btn-corner-sm: var(--z-corner-sm);
+    --z-btn-corner-lg: var(--z-corner-lg);
     --z-btn-active-scale: 0.96;
     --z-btn-scan-stop: 70%;
     --z-alert-radius: 0 3px 3px 0;
@@ -1788,6 +1790,8 @@
     --z-ease-spring: steps(8, end);
     color-scheme: dark;
     --z-btn-corner: 14px;
+    --z-btn-corner-sm: 10px;
+    --z-btn-corner-lg: 18px;
     --z-btn-active-scale: 0.97;
     --z-btn-scan-stop: 55%;
     --z-badge-radius: 0;
@@ -2382,6 +2386,8 @@
     --z-ease-spring: cubic-bezier(0.22, 1.35, 0.36, 1);
     color-scheme: light;
     --z-btn-corner: 11px;
+    --z-btn-corner-sm: 8px;
+    --z-btn-corner-lg: 14px;
     --z-btn-active-scale: 0.97;
     --z-btn-scan-stop: 45%;
     --z-badge-cut: 7px;
