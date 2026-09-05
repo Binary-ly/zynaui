@@ -58,6 +58,31 @@ describe('zyna-pulse', () => {
     expect(el.querySelectorAll('g.pl-marker').length).to.equal(1)
   })
 
+  it('keeps a marker caption in its own band above the first track', async () => {
+    // The caption used to sit at m.top + fSm, inside the first track, where the
+    // trace's upper swing ran through it. With a caption the tracks start lower
+    // and the caption baseline is above every point of the first trace.
+    const el = await fixture(`<zyna-pulse data='${DATA}' marker='${JSON.stringify([{ x: 1, label: 'deploy' }])}' style="display:block;width:600px"></zyna-pulse>`)
+    const caption = el.querySelector('text.pl-marker-label')
+    const capY    = parseFloat(caption.getAttribute('y'))
+    const traceTop = Math.min(...el.querySelector('polyline.pl-trace').getAttribute('points').split(' ').map(p => parseFloat(p.split(',')[1])))
+    expect(capY).to.be.lessThan(traceTop)
+    expect(parseFloat(el.querySelector('line.pl-marker-line').getAttribute('y1'))).to.be.greaterThan(capY)
+
+    const plain = await fixture(`<zyna-pulse data='${DATA}' marker='${JSON.stringify([{ x: 1 }])}' style="display:block;width:600px"></zyna-pulse>`)
+    await new Promise(r => requestAnimationFrame(r))
+    const firstBase = el => parseFloat(el.querySelector('line.pl-base').getAttribute('y1'))
+    expect(firstBase(el)).to.be.greaterThan(firstBase(plain))
+  })
+
+  it('flips a caption near the right edge to the left of its rule', async () => {
+    const el = await fixture(`<zyna-pulse data='${DATA}' marker='${JSON.stringify([{ x: 6, label: 'rollback started' }])}' style="display:block;width:320px"></zyna-pulse>`)
+    const caption = el.querySelector('text.pl-marker-label')
+    const box = caption.getBBox()
+    expect(caption.getAttribute('text-anchor')).to.equal('end')
+    expect(box.x + box.width).to.be.at.most(320)
+  })
+
   it('handles an all-zero track without NaN', async () => {
     const el = await fixture(`<zyna-pulse data='${JSON.stringify([{ label: 'Z', values: [0, 0, 0, 0] }])}'></zyna-pulse>`)
     expect(el.querySelector('polyline.pl-trace').getAttribute('points')).to.not.contain('NaN')
