@@ -888,14 +888,15 @@ const v = {
     //
     // Clip polygon (clockwise): top-left → top-right → bottom-right → notch-end → notch-point
     // The notch is 8px — sufficient to read as a punch hole without consuming badge space.
-    "--z-badge-clip": "polygon(0 0, 100% 0, 100% 100%, 8px 100%, 0 calc(100% - 8px))",
+    "--z-badge-cut": "8px",
+    "--z-badge-clip": "polygon(0 0, 100% 0, 100% 100%, calc(var(--z-badge-cut) * var(--badge-scale)) 100%, 0 calc(100% - var(--z-badge-cut) * var(--badge-scale)))",
     "--z-badge-radius": "0",
     "--z-badge-padding": "0.20rem 0.75rem",
     "--z-badge-letter-spacing": "0.11em",
     "--z-badge-inset-shadow": "inset 0 0 0 1px currentColor",
     "--z-badge-scan-duration": "6s",
     // tactical awareness cadence
-    "--z-badge-inner-clip": "polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 9px calc(100% - 1px), 1px calc(100% - 9px))",
+    "--z-badge-inner-clip": "polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), calc(var(--z-badge-cut) * var(--badge-scale) + 1px) calc(100% - 1px), 1px calc(100% - (var(--z-badge-cut) * var(--badge-scale) + 1px)))",
     // Rim model: element = currentColor border, ::before = tint, so the border follows the notch.
     "--z-badge-rim": "currentColor",
     "--z-badge-inset": "1px",
@@ -1196,14 +1197,15 @@ const v = {
     // The notch is 5 px deep and ±5 px from the horizontal centerline.
     // At font-size 12–14 px the badge top padding clears it comfortably.
     // No other design system uses a top-center notch on a badge element.
-    "--z-badge-clip": "polygon(0 0, calc(50% - 5px) 0, 50% 5px, calc(50% + 5px) 0, 100% 0, 100% 100%, 0 100%)",
+    "--z-badge-cut": "5px",
+    "--z-badge-clip": "polygon(0 0, calc(50% - var(--z-badge-cut) * var(--badge-scale)) 0, 50% calc(var(--z-badge-cut) * var(--badge-scale)), calc(50% + var(--z-badge-cut) * var(--badge-scale)) 0, 100% 0, 100% 100%, 0 100%)",
     "--z-badge-radius": "0",
     "--z-badge-padding": "0.38rem 0.80rem 0.22rem 0.80rem",
     // extra top to clear the 5 px notch
     "--z-badge-letter-spacing": "0.09em",
     "--z-badge-inset-shadow": "inset 0 0 0 1px currentColor",
     "--z-badge-scan-duration": "8s",
-    "--z-badge-inner-clip": "polygon(1px 1px, calc(50% - 4px) 1px, 50% 4px, calc(50% + 4px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px))",
+    "--z-badge-inner-clip": "polygon(1px 1px, calc(50% - (var(--z-badge-cut) * var(--badge-scale) - 1px)) 1px, 50% calc(var(--z-badge-cut) * var(--badge-scale) - 1px), calc(50% + (var(--z-badge-cut) * var(--badge-scale) - 1px)) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px))",
     // Rim model: element = currentColor border, ::before = tint, so the border follows the notch.
     "--z-badge-rim": "currentColor",
     "--z-badge-inset": "1px",
@@ -1536,14 +1538,15 @@ const v = {
     // Clip polygon (clockwise): top-left → top-right → BR-chamfer-start → BR-corner → bottom-left
     // The chamfer is 7 px — visible but refined, not aggressive.
     // No other design system uses a bottom-right badge chamfer.
-    "--z-badge-clip": "polygon(0 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%)",
+    "--z-badge-cut": "7px",
+    "--z-badge-clip": "polygon(0 0, 100% 0, 100% calc(100% - var(--z-badge-cut) * var(--badge-scale)), calc(100% - var(--z-badge-cut) * var(--badge-scale)) 100%, 0 100%)",
     "--z-badge-radius": "0",
     "--z-badge-padding": "0.20rem 0.78rem",
     "--z-badge-letter-spacing": "0.09em",
     "--z-badge-inset-shadow": "inset 0 0 0 1px currentColor",
     "--z-badge-scan-duration": "7s",
     // hanko seal rhythm — slow deliberate pass
-    "--z-badge-inner-clip": "polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 8px), calc(100% - 8px) calc(100% - 1px), 1px calc(100% - 1px))",
+    "--z-badge-inner-clip": "polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - (var(--z-badge-cut) * var(--badge-scale) + 1px)), calc(100% - (var(--z-badge-cut) * var(--badge-scale) + 1px)) calc(100% - 1px), 1px calc(100% - 1px))",
     // Rim model: element = currentColor border, ::before = tint, so the border follows the chamfer.
     "--z-badge-rim": "currentColor",
     "--z-badge-inset": "1px",
@@ -1925,7 +1928,8 @@ const v = {
     //   (100%, 50%) → (calc(100% - 8px), 100%) — tip to bottom-right diagonal
     //   (calc(100% - 8px), 100%) → (0, 100%) — bottom edge
     //   (0, 100%) → (0, 0) — left edge
-    "--z-badge-clip": "polygon(0 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 0 100%)",
+    "--z-badge-cut": "8px",
+    "--z-badge-clip": "polygon(0 0, calc(100% - var(--z-badge-cut) * var(--badge-scale)) 0, 100% 50%, calc(100% - var(--z-badge-cut) * var(--badge-scale)) 100%, 0 100%)",
     "--z-badge-radius": "0",
     "--z-badge-padding": "0.18rem 1.0rem 0.18rem 0.72rem",
     // extra right padding for arrow shoulder
@@ -1935,7 +1939,7 @@ const v = {
     // Inner clip for badge in inner-clip border model (arrow shape, ~1px inset):
     // Top shoulder: 8+1=9px from right. Tip: ~2px from right edge (1px inset on diagonal).
     // Bottom shoulder: same as top. Left and bottom: 1px inset.
-    "--z-badge-inner-clip": "polygon(1px 1px, calc(100% - 9px) 1px, calc(100% - 2px) 50%, calc(100% - 9px) calc(100% - 1px), 1px calc(100% - 1px))",
+    "--z-badge-inner-clip": "polygon(1px 1px, calc(100% - (var(--z-badge-cut) * var(--badge-scale) + 1px)) 1px, calc(100% - 2px) 50%, calc(100% - (var(--z-badge-cut) * var(--badge-scale) + 1px)) calc(100% - 1px), 1px calc(100% - 1px))",
     // Rim model: element = currentColor border, ::before = tint, so the border follows the arrow.
     "--z-badge-rim": "currentColor",
     "--z-badge-inset": "1px",
@@ -2277,7 +2281,8 @@ const v = {
     //   (0, calc(50% + 5px)) → (10px, 50%) — lower notch diagonal to tip
     //   (10px, 50%) → (0, calc(50% - 5px)) — tip back to upper notch start
     //   (0, calc(50% - 5px)) → (0, 0) — left edge above notch back to top
-    "--z-badge-clip": "polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 calc(50% + 5px), 10px 50%, 0 calc(50% - 5px))",
+    "--z-badge-cut": "10px",
+    "--z-badge-clip": "polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 calc(50% + var(--z-badge-cut) * var(--badge-scale) / 2), calc(var(--z-badge-cut) * var(--badge-scale)) 50%, 0 calc(50% - var(--z-badge-cut) * var(--badge-scale) / 2))",
     "--z-badge-radius": "0",
     "--z-badge-padding": "0.18rem 0.72rem 0.18rem 1.0rem",
     // extra left padding for notch depth
@@ -2287,7 +2292,7 @@ const v = {
     // Inner clip for left V-notch badge (1px inset on all edges):
     // Notch tip moves from x=10px to x=11px (1px inner offset on diagonal).
     // Notch endpoints: ±5px at x=0 becomes ±6px at x=1px (diagonal compensation).
-    "--z-badge-inner-clip": "polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px), 1px calc(50% + 6px), 11px 50%, 1px calc(50% - 6px))",
+    "--z-badge-inner-clip": "polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px), 1px calc(50% + (var(--z-badge-cut) * var(--badge-scale) / 2 + 1px)), calc(var(--z-badge-cut) * var(--badge-scale) + 1px) 50%, 1px calc(50% - (var(--z-badge-cut) * var(--badge-scale) / 2 + 1px)))",
     // Rim model: element = currentColor border, ::before = tint, so the border follows the notch.
     "--z-badge-rim": "currentColor",
     "--z-badge-inset": "1px",
@@ -2439,9 +2444,9 @@ const v = {
   "@media (prefers-reduced-motion: reduce)": {
     ':where(html[data-genre="atelier"]) body::after': { animation: "none" }
   }
-}, pa = { name: ca, tokens: ia, swatches: da, styles: la };
+}, sa = { name: ca, tokens: ia, swatches: da, styles: la };
 function z(a) {
-  const n = s(a);
+  const n = p(a);
   if (!/^[a-z][a-z0-9_-]*$/.test(n))
     throw new Error(
       `[zynaui] Invalid genre name "${a}" — it is slugified (lowercased, whitespace → "-") into a data-genre attribute value, which must match /^[a-z][a-z0-9_-]*$/ (letters, digits, hyphens, underscores — no quotes or symbols).`
@@ -2457,7 +2462,7 @@ function x(a, n, o) {
   return d;
 }
 function za({ name: a, palette: n = {}, tokens: o = {}, styles: e = {}, extends: c }) {
-  const d = z(a), r = c ?? l, t = r === l ? { ...r.styles } : x(r.styles ?? {}, s(r.name), d);
+  const d = z(a), r = c ?? l, t = r === l ? { ...r.styles } : x(r.styles ?? {}, p(r.name), d);
   return {
     name: a,
     swatches: { ...r.swatches, ...n },
@@ -2466,10 +2471,10 @@ function za({ name: a, palette: n = {}, tokens: o = {}, styles: e = {}, extends:
   };
 }
 function xa(a) {
-  z(a.name), p.find((n) => n.name === a.name) || p.push(a);
+  z(a.name), s.find((n) => n.name === a.name) || s.push(a);
 }
-const p = [l, B, O, M, K, H, aa, oa, pa];
-function s(a) {
+const s = [l, B, O, M, K, H, aa, oa, sa];
+function p(a) {
   return String(a).trim().toLowerCase().replace(/\s+/g, "-");
 }
 function h(a, n) {
@@ -2478,7 +2483,7 @@ function h(a, n) {
     a[e] = o(a[e]) && o(c) ? h({ ...a[e] }, c) : c;
   return a;
 }
-const sa = /* @__PURE__ */ new Set([
+const pa = /* @__PURE__ */ new Set([
   "--bg",
   "--bg2",
   "--bg3",
@@ -2511,18 +2516,18 @@ function ba(a, n) {
   }
   return { kept: o, scoped: e };
 }
-function ha(a = p) {
+function ha(a = s) {
   const n = {};
   for (const o of a) {
-    const e = s(o.name), c = e === "ops", d = c ? "html" : `html[data-genre="${e}"]`;
+    const e = p(o.name), c = e === "ops", d = c ? "html" : `html[data-genre="${e}"]`;
     if (o.styles) {
       const r = {};
       for (const [t, i] of Object.entries(o.styles)) {
         const g = /^html(\[data-genre="[^"]+"\])?$/.exec(t);
         if (g && i && typeof i == "object") {
-          const { kept: w, scoped: m } = ba(i, g[1] ? t : null);
+          const { kept: w, scoped: u } = ba(i, g[1] ? t : null);
           r[t] = w;
-          for (const [b, u] of Object.entries(m)) r[b] = { ...r[b] || {}, ...u };
+          for (const [b, m] of Object.entries(u)) r[b] = { ...r[b] || {}, ...m };
         } else
           r[t] = i;
       }
@@ -2530,7 +2535,7 @@ function ha(a = p) {
     }
     if (o.tokens && !c) {
       const r = Object.fromEntries(
-        Object.entries(o.tokens).filter(([t]) => !sa.has(t))
+        Object.entries(o.tokens).filter(([t]) => !pa.has(t))
       );
       n[d] = { ...r, ...n[d] || {} };
     }
@@ -2539,9 +2544,9 @@ function ha(a = p) {
 }
 export {
   ga as ELEMENT_SCOPED_TOKENS,
-  p as GENRES,
+  s as GENRES,
   za as defineGenre,
-  s as genreSlug,
+  p as genreSlug,
   ha as genresPlugin,
   xa as registerGenre
 };
