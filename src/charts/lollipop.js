@@ -13,7 +13,8 @@ import { scaleLinear } from 'd3-scale'
  *   color        — accent color for the highlighted item. Default: var(--zyna)
  *   theme        — 'dark' (default) or 'light'
  *   highlight    — label of the item to accent. Default: first item (index 0)
- *   muted-color  — color for non-highlighted stems, dots and labels. Default: var(--zyna-dark) / #8A8478
+ *   muted-color  — color for non-highlighted stems, dots and labels. Default: var(--zyna-dark) for
+ *                  stems and dots, #8A8478 (dark) / #6B6560 (light) for labels
  *   height       — explicit height in px. Auto-derived from data length when omitted.
  *   show-values  — set to "false" to hide value labels at the end of each stem. Default: true
  *   label-format — D3-style number format string (e.g. '$,.0f', '.1%', ',.2f'). Default: raw value
@@ -29,7 +30,7 @@ export class ZynaLollipop extends ZynaChart {
     const accent     = this._attr('color', this._brand())
     const mutedAttr  = this._attr('muted-color', '')
     const muted      = mutedAttr || this._brandDark()
-    const mutedT     = mutedAttr || '#8A8478'
+    const mutedT     = mutedAttr || this._muted()
     const hlLabel    = this._attr('highlight', '') || data[0]?.label || ''
     const fmt        = this._attr('label-format', '')
     const fmtVal     = v => this._fmt(v, fmt)
@@ -40,7 +41,7 @@ export class ZynaLollipop extends ZynaChart {
     const dark       = this._theme() !== 'light'
     const textC      = dark ? '#F0EBE0' : '#1A1A20'
     const gridC      = dark ? '#1E1E24' : '#E5E1D4'
-    const tickTextC  = dark ? '#5A5050' : '#8A8478'
+    const tickTextC  = this._muted()
 
     if (!data.length) { this._warnEmpty('zyna-lollipop'); return }
 

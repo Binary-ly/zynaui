@@ -36,7 +36,7 @@ describe('zyna-tension', () => {
   it('colours risers, fallers and held ranks distinctly', async () => {
     const el    = await fixture(`<zyna-tension data='${DATA}'></zyna-tension>`)
     const links = [...el.querySelectorAll('path.tn-link')]
-    expect(links[0].getAttribute('stroke')).to.equal('#5A5050') // Alpha held (muted)
+    expect(links[0].getAttribute('stroke')).to.equal('#8A8478') // Alpha held (muted)
     expect(links[1].getAttribute('stroke')).to.equal('#FF3366') // Bravo fell (danger)
     expect(links[2].getAttribute('stroke')).to.equal('#00FFB2') // Charlie rose (success)
   })

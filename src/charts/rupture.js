@@ -38,7 +38,7 @@ export class ZynaRupture extends ZynaChart {
     const fmt        = this._attr('label-format', '')
     const heightAttr = parseInt(this._attr('height', '0'))
     const textC      = dark ? '#F0EBE0' : '#1A1A20'
-    const labelC     = dark ? '#8A8478' : '#8A8478'
+    const labelC     = this._muted()
     const gridC      = dark ? '#1E1E24' : '#E5E1D4'
     const danger     = this._danger()
     const uid        = this._uid

@@ -35,7 +35,7 @@ export class ZynaDelta extends ZynaChart {
     const arcDegAttr = parseFloat(this._attr('arc-degrees', '270'))
     const heightAttr = parseInt(this._attr('height', '0'))
     const textC      = dark ? '#F0EBE0' : '#1A1A20'
-    const labelC     = dark ? '#5A5050' : '#8A8478'
+    const labelC     = this._muted()
     const gridC      = dark ? '#1E1E24' : '#E5E1D4'
     const success    = this._success()
     const danger     = this._danger()
