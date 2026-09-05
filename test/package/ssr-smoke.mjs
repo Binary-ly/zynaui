@@ -10,10 +10,14 @@
 const CHART_EXPORTS = [
   'ZynaWaffle', 'ZynaTimeline', 'ZynaNightingale', 'ZynaLollipop',
   'ZynaOrbital', 'ZynaCandlestick', 'ZynaGauge', 'ZynaLine',
+  'ZynaStratum', 'ZynaDelta', 'ZynaResonance', 'ZynaTension',
+  'ZynaPulse', 'ZynaRupture', 'ZynaDensity', 'ZynaCascade',
 ]
 const SUBPATHS = [
   'waffle', 'timeline', 'nightingale', 'lollipop',
   'orbital', 'candlestick', 'gauge', 'line',
+  'stratum', 'delta', 'resonance', 'tension',
+  'pulse', 'rupture', 'density', 'cascade',
 ]
 
 let failed = false
@@ -42,9 +46,15 @@ for (const name of CHART_EXPORTS) {
 
 // Genres entry.
 const genres = await import('zynaui/genres')
-for (const name of ['defineGenre', 'registerGenre', 'genresPlugin', 'GENRES']) {
+for (const name of ['defineGenre', 'registerGenre', 'genresPlugin', 'genreSlug', 'GENRES']) {
   if (!(name in genres)) fail(`zynaui/genres is missing export ${name}`)
 }
+// The genre registry must be ONE instance across the plugin and genres entries,
+// otherwise registerGenre() in a Tailwind wrapper never reaches the plugin.
+const registryProbe = genres.defineGenre({ name: 'SmokeProbe', tokens: { '--zyna': '#010101' } })
+genres.registerGenre(registryProbe)
+if (!('html[data-genre="smokeprobe"]' in genres.genresPlugin())) fail('registerGenre() did not reach genresPlugin()')
+if (!('html[data-genre="smokeprobe"]' in genres.genresPlugin([registryProbe]))) fail('genresPlugin([genre]) did not compile the given genre')
 
 // Root plugin entry (CJS main via import interop).
 const plugin = await import('zynaui')

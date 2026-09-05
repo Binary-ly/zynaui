@@ -26,14 +26,33 @@ import type {
   ZynaRupturePoint,
   ZynaDensityItem,
   ZynaCascadeNode,
+  ZynaWaffleAttributes,
+  ZynaTimelineAttributes,
+  ZynaNightingaleAttributes,
+  ZynaLollipopAttributes,
+  ZynaOrbitalAttributes,
+  ZynaCandlestickAttributes,
+  ZynaGaugeAttributes,
+  ZynaLineAttributes,
+  ZynaStratumAttributes,
+  ZynaDeltaAttributes,
+  ZynaResonanceAttributes,
+  ZynaTensionAttributes,
+  ZynaPulseAttributes,
+  ZynaRuptureAttributes,
+  ZynaDensityAttributes,
+  ZynaCascadeAttributes,
 } from './charts'
 
-import type { HTMLAttributes } from 'react'
+import type { HTMLAttributes, Ref } from 'react'
 
 type Base = Omit<HTMLAttributes<HTMLElement>, 'color'> & {
   color?: string
   theme?: 'dark' | 'light'
 }
+
+/** Boolean-ish chart flags. The wrappers stringify booleans before they reach the element. */
+type Flag = boolean | 'true' | 'false'
 
 export interface ZynaWaffleProps extends Base {
   data: ZynaWaffleItem[]
@@ -41,30 +60,58 @@ export interface ZynaWaffleProps extends Base {
   cols?: number
   /** Gap between cells in pixels. Default: 3 */
   gap?: number
+  /** Chart height in pixels */
+  height?: number
 }
 
 export interface ZynaTimelineProps extends Base {
   data: ZynaTimelineItem[]
   /** Label of the item to emphasise. Defaults to highest-value item */
   highlight?: string
+  /** Colour for non-highlighted items. Default: #8A8478 */
+  'muted-color'?: string
+  /** Hide the value label under each bubble. Default: shown */
+  'show-values'?: Flag
+  /** D3-style number format for value labels (e.g. '$,.0f', '.1%') */
+  'label-format'?: string
   /** Chart height in pixels */
   height?: number
 }
 
 export interface ZynaNightingaleProps extends Base {
   data: ZynaNightingaleItem[]
+  /** Hide the numeric value on each leader line. Default: shown */
+  'show-values'?: Flag
+  /** D3-style number format for value labels */
+  'label-format'?: string
   /** Chart height in pixels */
   height?: number
 }
 
 export interface ZynaLollipopProps extends Base {
   data: ZynaLollipopItem[]
+  /** Label of the item to accent. Default: the first item */
+  highlight?: string
+  /** Colour for non-highlighted stems, dots, and labels. Default: `--zyna-dark` */
+  'muted-color'?: string
+  /** Hide the value at the end of each stem. Default: shown */
+  'show-values'?: Flag
+  /** D3-style number format for value labels */
+  'label-format'?: string
+  /** Number of x-axis tick marks. Default: 5 */
+  ticks?: number
   /** Chart height in pixels */
   height?: number
 }
 
 export interface ZynaOrbitalProps extends Base {
   data: ZynaOrbitalItem[]
+  /** Hide the label and percentage text. Default: shown */
+  'show-values'?: Flag
+  /** D3-style number format applied to the raw 0–1 value. Default: percentage */
+  'label-format'?: string
+  /** Ring width as a fraction of the outer radius. Default: 0.115 */
+  'ring-thickness'?: number
   /** Chart height in pixels */
   height?: number
 }
@@ -76,8 +123,8 @@ export interface ZynaCandlestickProps extends Base {
   'bear-color'?: string
   /** Chart height in pixels */
   height?: number
-  /** Set to "false" to hide axis ticks and labels. Default: true */
-  'show-axis'?: 'true' | 'false' | boolean
+  /** Hide axis ticks and labels. Default: shown. Booleans are stringified for the element */
+  'show-axis'?: Flag
   /** D3-style number format for y-axis tick labels (e.g. '$,.0f') */
   'label-format'?: string
   /** Approximate y-axis tick count. Default: 5 */
@@ -246,3 +293,31 @@ export declare function ZynaPulse(props: ZynaPulseProps):             React.Reac
 export declare function ZynaRupture(props: ZynaRuptureProps):         React.ReactElement | null
 export declare function ZynaDensity(props: ZynaDensityProps):         React.ReactElement | null
 export declare function ZynaCascade(props: ZynaCascadeProps):         React.ReactElement | null
+
+// ── React 19 JSX intrinsic elements ──────────────────────────────────────────
+// React 19 resolves intrinsic elements from `React.JSX`, not the global JSX
+// namespace that types/charts.d.ts augments for React ≤18 / Preact / Solid.
+// Importing anything from `zynaui/react` pulls this augmentation in, so bare
+// <zyna-*> tags type-check under React 19 too.
+declare module 'react' {
+  namespace JSX {
+    interface IntrinsicElements {
+      'zyna-waffle':      ZynaWaffleAttributes      & { ref?: Ref<HTMLElement> }
+      'zyna-timeline':    ZynaTimelineAttributes    & { ref?: Ref<HTMLElement> }
+      'zyna-nightingale': ZynaNightingaleAttributes & { ref?: Ref<HTMLElement> }
+      'zyna-lollipop':    ZynaLollipopAttributes    & { ref?: Ref<HTMLElement> }
+      'zyna-orbital':     ZynaOrbitalAttributes     & { ref?: Ref<HTMLElement> }
+      'zyna-candlestick': ZynaCandlestickAttributes & { ref?: Ref<HTMLElement> }
+      'zyna-gauge':       ZynaGaugeAttributes       & { ref?: Ref<HTMLElement> }
+      'zyna-line':        ZynaLineAttributes        & { ref?: Ref<HTMLElement> }
+      'zyna-stratum':     ZynaStratumAttributes     & { ref?: Ref<HTMLElement> }
+      'zyna-delta':       ZynaDeltaAttributes       & { ref?: Ref<HTMLElement> }
+      'zyna-resonance':   ZynaResonanceAttributes   & { ref?: Ref<HTMLElement> }
+      'zyna-tension':     ZynaTensionAttributes     & { ref?: Ref<HTMLElement> }
+      'zyna-pulse':       ZynaPulseAttributes       & { ref?: Ref<HTMLElement> }
+      'zyna-rupture':     ZynaRuptureAttributes     & { ref?: Ref<HTMLElement> }
+      'zyna-density':     ZynaDensityAttributes     & { ref?: Ref<HTMLElement> }
+      'zyna-cascade':     ZynaCascadeAttributes     & { ref?: Ref<HTMLElement> }
+    }
+  }
+}

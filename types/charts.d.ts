@@ -182,6 +182,8 @@ export interface ZynaWaffleAttributes extends ZynaChartBase {
   cols?: string | number
   /** Gap between cells in pixels. Default: 3 */
   gap?: string | number
+  /** Explicit height in px. Auto-derived from the row count when omitted */
+  height?: string | number
 }
 
 export interface ZynaTimelineAttributes extends ZynaChartBase {
@@ -189,21 +191,55 @@ export interface ZynaTimelineAttributes extends ZynaChartBase {
   data?: string
   /** Label of the item to emphasise. Defaults to the highest-value item */
   highlight?: string
+  /** Colour for non-highlighted items. Default: #8A8478 */
+  'muted-color'?: string
+  /** Set to "false" to hide the value label under each bubble. Default: true */
+  'show-values'?: 'true' | 'false'
+  /** D3-style number format for value labels (e.g. '$,.0f', '.1%') */
+  'label-format'?: string
+  /** Explicit height in px. Auto-derived from width when omitted */
+  height?: string | number
 }
 
 export interface ZynaNightingaleAttributes extends ZynaChartBase {
   /** JSON-serialised array of {@link ZynaNightingaleItem} */
   data?: string
+  /** Set to "false" to hide the numeric value on each leader line. Default: true */
+  'show-values'?: 'true' | 'false'
+  /** D3-style number format for value labels */
+  'label-format'?: string
+  /** Explicit height in px. Auto-derived from width when omitted */
+  height?: string | number
 }
 
 export interface ZynaLollipopAttributes extends ZynaChartBase {
   /** JSON-serialised array of {@link ZynaLollipopItem}. Sort descending for best layout */
   data?: string
+  /** Label of the item to accent. Default: the first item */
+  highlight?: string
+  /** Colour for non-highlighted stems, dots, and labels. Default: `--zyna-dark` */
+  'muted-color'?: string
+  /** Set to "false" to hide the value at the end of each stem. Default: true */
+  'show-values'?: 'true' | 'false'
+  /** D3-style number format for value labels */
+  'label-format'?: string
+  /** Number of x-axis tick marks. Default: 5 */
+  ticks?: string | number
+  /** Explicit height in px. Auto-derived from the row count when omitted */
+  height?: string | number
 }
 
 export interface ZynaOrbitalAttributes extends ZynaChartBase {
-  /** JSON-serialised array of {@link ZynaOrbitalItem}. Each `value` must be 0–1 */
+  /** JSON-serialised array of {@link ZynaOrbitalItem}. Each `value` is clamped into 0–1 */
   data?: string
+  /** Set to "false" to hide the label and percentage text. Default: true */
+  'show-values'?: 'true' | 'false'
+  /** D3-style number format applied to the raw 0–1 value. Default: percentage */
+  'label-format'?: string
+  /** Ring width as a fraction of the outer radius. Default: 0.115 */
+  'ring-thickness'?: string | number
+  /** Explicit height in px. Auto-derived from width when omitted */
+  height?: string | number
 }
 
 export interface ZynaCandlestickAttributes extends ZynaChartBase {
@@ -213,8 +249,13 @@ export interface ZynaCandlestickAttributes extends ZynaChartBase {
   'bear-color'?: string
   /** Explicit height in px. Auto-derived from width when omitted */
   height?: string | number
-  /** Set to "false" to hide axis ticks and labels. Default: true */
-  'show-axis'?: 'true' | 'false' | boolean
+  /**
+   * Set to "false" to hide axis ticks and labels. Default: true.
+   * A string, not a boolean: React 19 removes a custom-element attribute whose
+   * value is boolean `false`, so `show-axis={false}` would silently show the
+   * axis. (The `zynaui/react` wrappers accept booleans and stringify them.)
+   */
+  'show-axis'?: 'true' | 'false'
   /** D3-style number format for y-axis tick labels (e.g. '$,.0f', ',.2f') */
   'label-format'?: string
   /** Approximate number of y-axis tick marks. Default: 5 */
@@ -417,7 +458,10 @@ declare global {
 
 // ── JSX intrinsic elements (React ≤18 global JSX, Preact, Solid) ─────────────
 // Augments the *global* JSX namespace so <zyna-*> tags type-check in TSX.
-// React 19 consumers get typed components from `zynaui/react` instead.
+// React 19 reads `React.JSX` instead of the global namespace; that augmentation
+// lives in types/react.d.ts (it must import 'react', which this file cannot
+// require), so React 19 users get bare <zyna-*> tags typed by importing
+// anything from `zynaui/react`.
 
 type ZynaElementRef =
   | ((instance: HTMLElement | null) => void)
