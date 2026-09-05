@@ -19,6 +19,30 @@ async function getCSS() {
   return _css
 }
 
+/**
+ * Concatenated bodies of every `@media (prefers-reduced-motion: reduce)` block
+ * (brace-matched), so assertions target only reduced-motion rules — not the
+ * genre rules that follow the media block in source order.
+ */
+function reducedMotionCSS(css) {
+  const marker = '@media (prefers-reduced-motion: reduce)'
+  let out = ''
+  let from = 0
+  for (;;) {
+    const at = css.indexOf(marker, from)
+    if (at === -1) break
+    const open = css.indexOf('{', at)
+    let depth = 0, i = open
+    for (; i < css.length; i++) {
+      if (css[i] === '{') depth++
+      else if (css[i] === '}' && --depth === 0) break
+    }
+    out += css.slice(open + 1, i) + '\n'
+    from = i
+  }
+  return out
+}
+
 describe('button accessibility styles', () => {
 
   // ── Disabled states ──────────────────────────────────────────────────────────
@@ -112,10 +136,31 @@ describe('prefers-reduced-motion', () => {
     expect(css).toMatch(/:where\(.card-header\)::before/)
   })
 
-  test('reduced-motion disables .btn transitions', async () => {
+  test('reduced-motion disables .btn transitions at matching specificity', async () => {
+    // The .btn base is unwrapped at (0,1,0) and declares its own `transition`,
+    // so a :where(.btn) override at (0,0,0) could never win inside the same
+    // layer (real bug: transitions kept running for reduced-motion users).
+    // The override must use the bare class and cover every compound the base
+    // sets a transition on: .btn, .btn:hover, .btn::after, .btn:hover::after.
     const css = await getCSS()
-    // :where(.btn) inside media block gets transition: none
-    expect(css).toMatch(/:where\(.btn\)/)
+    const block = reducedMotionCSS(css)
+    expect(block.length).toBeGreaterThan(0)
+    for (const sel of ['.btn', '.btn:hover', '.btn::after', '.btn:hover::after']) {
+      const re = new RegExp('(^|\\n)\\s*' + sel.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*\\{[^}]*transition:\\s*none')
+      expect(block, `expected "${sel} { transition: none }" in the reduced-motion block`).toMatch(re)
+    }
+    expect(block).not.toMatch(/(^|\n)\s*:where\(\.btn\)/)
+  })
+
+  test('Phosphor re-asserts the reduced-motion badge overrides it would otherwise defeat', async () => {
+    // phosphor.js overrides the badge scan/pulse easing at (0,0,1) *after*
+    // motion.js in source order — without a matching rule inside its own
+    // reduced-motion block, Phosphor re-enabled both animations for
+    // reduced-motion users.
+    const css = await getCSS()
+    const rm = reducedMotionCSS(css)
+    expect(rm).toMatch(/:where\(html\[data-genre="phosphor"\]\) :where\(\.badge\)::after\s*\{[^}]*animation:\s*none/)
+    expect(rm).toMatch(/:where\(html\[data-genre="phosphor"\]\) :where\(\.badge-pulse\)::before\s*\{[^}]*zyna-pulse-fade/)
   })
 
   test('reduced-motion degrades .badge-pulse to an opacity-only fade, not none', async () => {

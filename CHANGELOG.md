@@ -4,6 +4,52 @@ All notable changes to ZynaUI are documented here.
 
 ---
 
+## [Unreleased]
+
+Repair pass from a full line-by-line audit of the plugin, charts, React wrapper, types, tests, and docs. Every fix below was reproduced before it was changed and is now covered by a test.
+
+### Fixed — plugin CSS
+
+- **Genre structural tokens that reference element-level tokens were frozen at `<html>`'s values.** A custom property substitutes its `var()` references where it is *declared*, so `--z-btn-clip` on `html` resolved `var(--btn-corner)` against html's `@property` initial value (10px) and every button inherited a 10px chamfer regardless of `.btn-sm` / `.btn-lg` / `.btn-icon` or the genre's own `--z-btn-corner` (Phosphor's 14px chevron, Washi's 11px cut never applied). The same freeze turned Cyberpunk's and Phosphor's per-variant alert borders and bar glows white, and killed Washi's ink-bleed alert texture. `genresPlugin()` now emits these tokens (`--z-btn-clip`, `--z-btn-inner-clip`, `--z-badge-clip`, `--z-badge-inner-clip`, `--z-alert-border`, `--z-alert-bar-glow`, `--z-alert-texture`) on the component element via `:where(html[data-genre="…"]) :where(.btn)`-style rules, so they resolve per element. Visual baselines updated accordingly.
+- **Reduced-motion never disabled button transitions.** The override used `:where(.btn)` at zero specificity against a base `.btn` rule that declares `transition`, so it lost the cascade in every genre. It now uses the bare class (matching the forced-colors rule) and also covers `.btn:hover::after`.
+- **Phosphor re-enabled badge animations for reduced-motion users.** Its badge easing overrides sat later in source order at the same specificity as the reduced-motion rules; the genre's reduced-motion block now re-asserts `animation: none` for the scan and the opacity-only pulse fade.
+- **The `prefix` option corrupted decimal keyframe steps.** `applyPrefix` rewrote `85.001%` in Laboratory's sawtooth sweep to `85.z-001%`, an invalid selector the browser dropped. Keyframe bodies are no longer rewritten.
+- **Laboratory and Atelier buttons ignored size classes** (their clips hardcoded 10px) and their `.alert-round` had no indicator ring (`--z-alert-bar-width: 0`). Both now read `var(--btn-corner)` and carry a real 3px bar width.
+
+### Fixed — genre API
+
+- **Tokens-only custom genres compiled to nothing.** `genresPlugin()` only merged a genre's tokens into a rule that a `styles` block had already created; `defineGenre({ name, tokens })` now compiles to a complete `html[data-genre="…"]` rule.
+- **Multi-word genre names threw.** The docs genre builder exports `name: 'My Genre'` targeting `html[data-genre="my-genre"]`, but `defineGenre` rejected any name with a space. Names are now slugified consistently everywhere (`genreSlug()` is exported); the compiler, validator, selector remapping, and the docs switcher all use the same rule.
+- `genresPlugin(genres?)` accepts an explicit list so a wrapper plugin can emit only its own genres instead of re-emitting all nine built-ins.
+
+### Fixed — charts
+
+- **`<zyna-candlestick>` and `<zyna-density>` collapsed rows with duplicate labels.** Their band/point scales were built from label strings, which d3 de-duplicates, so two candles on the same date or two periods called "Q1" drew on top of each other. Both scales are now index-based.
+- **`<zyna-cascade>` block labels went dark on non-hex accents.** The luminance helper only parsed hex; `rgb()`, `hsl()`, `oklch()`, and named colours now resolve through a canvas context, with the theme text colour as the fallback. Its injected preference/forced-colors `<style>` is also scoped to the instance's own SVG instead of matching any `.cs-block` in the host page.
+- **`<zyna-gauge>` drew nothing when long end labels met a narrow container** — the label reservation drove the radius negative and every segment degenerated to `M0,0Z`. The reservation is capped and the radius floored.
+- **`<zyna-orbital>` values outside 0–1** wrapped into a full ring labelled "150%" or drew the arc backwards; they are now clamped, including in the accessibility summary.
+- **Every chart re-rendered on every `<html>` class change** (scroll locks, focus-visible polyfills, route transitions). A class mutation now re-renders only when a token the chart reads actually changed; `data-genre` changes always re-render.
+
+### Fixed — React wrapper and types
+
+- **React 19 dropped `show-axis={false}`** (and any boolean pass-through prop): React 19 removes a custom-element attribute whose value is `false`, so the candlestick axis stayed visible. Wrapper pass-through props are normalised so booleans reach the element as `"true"` / `"false"`.
+- `types/charts.d.ts` now declares the attributes the original five charts always accepted (`height`, `show-values`, `label-format`, `muted-color`, `ticks`, `ring-thickness`, `highlight`), `show-axis` is typed as a string on the raw element, and `zynaui/react` augments `React.JSX.IntrinsicElements` so bare `<zyna-*>` tags type-check under React 19.
+
+### Fixed — tests and tooling
+
+- The Playwright config's `deviceScaleFactor: 2` and 1200×900 viewport were silently overridden by the `Desktop Chrome` device preset spread in the project block, and the tolerance comment reasoned about a scale-2 image that never existed — `toHaveScreenshot` captures at CSS scale regardless of the context's scale factor. The config now states `scale: 'css'` explicitly, keeps the CI-proven 64px budget, and documents that every baseline is captured at the preset's 1280×720 (the genre page textures are phase-locked to the viewport size, so the dead settings are removed rather than resurrected). Blueprint, Washi, Laboratory, and Atelier — previously absent from the visual matrix — are now covered, and every genre asserts that size classes change the chamfer and that `.alert-round` keeps its ring.
+- The package smoke test now checks all sixteen charts' exports, subpaths, and React wrappers, and that `registerGenre()` reaches `genresPlugin()`.
+- `test-results/.last-run.json` is no longer tracked.
+
+### Docs
+
+- README, `llms.txt`, and the landing page corrected: candlestick `color` defaults to the success token (not the brand colour); the bundler path lists the four D3 peers that npm does not install for you; `text-zyna` is a static hex and does not follow genre switches; the original five charts' full attribute tables; the cascade-layer caveat for the CDN stylesheet; all sixteen charts in the React example and the stats/footer; CDN URLs pinned to the 0.3 line; the stale claim that `[role="button"]` / `[role="alert"]` are styled without a class (removed in 0.2.4) is gone; the custom-genre guide now shows the wrapper-plugin route with `genresPlugin([genre])`.
+- The landing page's noise overlay no longer sits on `body::before`, where it replaced the genre page textures (Cyberpunk scanlines, Corporate grid) on that page.
+- Genre builder: the left-bar preset still applied the invalid ten-value `border-radius` fixed in 0.1.8; the preview now applies element-scoped tokens through an unlayered rule on the preview tree (so size classes preview correctly and the live genre no longer shadows the builder's shape); the CSS export declares element-scoped tokens on the component selector; the Tailwind v3 snippet no longer mixes `import` with `require`; the unsupported "scope a genre to a `<div>`" snippet is gone.
+- The 0.2.1 entry below described an interactive crosshair and snap-to-candle tooltip on `<zyna-candlestick>`; that feature never shipped in a published build and the entry has been corrected.
+
+---
+
 ## [0.3.0-beta] (2026-08-08) — chart expansion
 
 Eight new D3-powered chart Web Components, built on the existing `ZynaChart` base (three-tier resize debounce, genre `MutationObserver`, element-scoped token resolution, `_applyA11y` text alternatives). Each ships with its lib entry, a `./charts/<name>` subpath export (with the Node/SSR stub), a typed React wrapper, hand-written `.d.ts`, a web-test-runner suite, and a docs page. The chart family grows from 8 to 16.
@@ -104,7 +150,7 @@ New chart: **multi-series area-line chart** with stacked filled regions, smooth 
 
 Chart count goes from 5 to 7. Both new elements use only the existing peer deps (`d3-selection`, `d3-array`, `d3-scale`, `d3-shape`) — no new runtime dependencies. Both share the same resize/debounce lifecycle and `theme` / `label-format` conventions as the other five charts.
 
-- **`<zyna-candlestick>`** — OHLC candlestick chart. Data is `[{ date, open, high, low, close }]` in chronological order. Bullish candles (close ≥ open) use the `color` attribute (defaults to the active genre's brand color via `--zyna`); bearish candles use `bear-color` (default `#FF5252`). `scaleBand` on x, `scaleLinear` on y with 5% vertical padding. Y-axis gridlines and x-axis labels every Nth candle so long series stay legible. Interactive crosshair with a snap-to-nearest-candle tooltip showing date and price. `show-axis="false"` hides all axis ticks and labels.
+- **`<zyna-candlestick>`** — OHLC candlestick chart. Data is `[{ date, open, high, low, close }]` in chronological order. Bullish candles (close ≥ open) use the `color` attribute (defaults to the active genre's success token `--zp-success`); bearish candles use `bear-color` (defaults to `--zp-danger`). `scaleBand` on x, `scaleLinear` on y with 5% vertical padding. Y-axis gridlines and x-axis labels every Nth candle so long series stay legible. `show-axis="false"` hides all axis ticks and labels. *(Correction: this entry originally also promised an interactive crosshair with a snap-to-candle tooltip; that feature was never in a published build.)*
 - **`<zyna-gauge>`** — segmented half-gauge. Colour bands are a `zones` JSON array of `{ from, to, color, label }`; `value`, `min`, and `max` are separate scalar attributes. Configurable arc sweep via `arc-degrees` (default `180`). A dot marker sits on the arc at the value's position; zones past the marker render at `dim-opacity` (default `0.35`) so the "up-to-here" reading is clear without a needle. The active zone's `label` auto-renders as the caption; pass the `label` attribute to override with a static string. `start-label` and `end-label` sit just outside the arc ends. Out-of-range values clamp to `[min, max]`.
 
 ---

@@ -59,8 +59,10 @@ Only one option is available:
 Link the compiled CSS directly:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/zynaui/dist/zynaui.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/zynaui@0.3/dist/zynaui.css" />
 ```
+
+Every component rule in the stylesheet lives in `@layer base`. Unlayered rules in the host page win over layered ones regardless of specificity, so a reset like `button { background: none }` strips `.btn` styling — put resets in a layer or keep element selectors away from ZynaUI components.
 
 ---
 
@@ -97,7 +99,7 @@ All components are pure CSS — no JavaScript required. Apply classes directly t
 <button class="btn btn-primary" disabled>Disabled</button>
 <button class="btn btn-primary" aria-disabled="true">Aria disabled</button>
 
-<!-- Non-button elements (also styled by .btn and [role="button"]) -->
+<!-- Non-button elements: styling is opt-in via the .btn class; add the ARIA role yourself -->
 <a role="button" class="btn btn-primary" href="#">Link styled as button</a>
 ```
 
@@ -244,9 +246,9 @@ All components are pure CSS — no JavaScript required. Apply classes directly t
 </div>
 ```
 
-Note: `[role="alert"]` elements receive the same styles as `.alert` — no class required for correctly marked-up ARIA alerts.
+Note: `role="alert"` is a semantic, not a styling hook — the `.alert` class is required, and you should pair it with the role so screen readers announce the message.
 
-The accent bar position (left vs top) is controlled by the active genre's structural tokens, not by user classes.
+The accent bar position (left, right, top, or bottom) is controlled by the active genre's structural tokens, not by user classes.
 
 **All alert classes:** `alert`, `alert-success`, `alert-danger`, `alert-warning`, `alert-info`, `alert-neutral`, `alert-dark`, `alert-sm`, `alert-lg`, `alert-square`, `alert-round`, `alert-title`, `alert-icon`
 
@@ -265,17 +267,22 @@ The accent bar position (left vs top) is controlled by the active genre's struct
 
 ## D3 Chart Web Components
 
-Import the charts bundle separately — it is not included in the default CSS-only build.
+Import the charts bundle separately — it is not included in the default CSS-only build. The bundler build imports four D3 modules as optional peer dependencies, so install them too:
+
+```bash
+npm install zynaui d3-array d3-scale d3-selection d3-shape
+```
 
 ```js
-import 'zynaui/charts'
+import 'zynaui/charts'          // all 16 charts
+import 'zynaui/charts/waffle'   // or one at a time
 ```
 
 Or load via CDN (IIFE, no bundler required):
 
 ```html
 <!-- D3 is bundled inline — no extra dependencies required -->
-<script src="https://cdn.jsdelivr.net/npm/zynaui/dist/zyna-charts.iife.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/zynaui@0.3/dist/zyna-charts.iife.js"></script>
 ```
 
 All charts accept data as a JSON string attribute, are responsive (resize with their container via ResizeObserver), and support dark/light themes.
@@ -340,9 +347,11 @@ Nightingale/rose chart — polar bar chart where radius encodes value.
 
 **Attributes:**
 - `data` (required): JSON array of `{ label: string, value: number, color?: string }`
-- `height`: explicit height in px
-- `theme`: `"dark"` (default) or `"light"`
+- `show-values`: `"false"` to hide the numeric value on each leader line (default: `"true"`)
 - `label-format`: D3 format string
+- `height`: explicit height in px
+- `color`: fallback sector colour
+- `theme`: `"dark"` (default) or `"light"`
 
 ---
 
@@ -383,7 +392,10 @@ Concentric ring chart — each ring encodes a proportion (0–1).
 ```
 
 **Attributes:**
-- `data` (required): JSON array of `{ label: string, value: number }` where `value` is between 0 and 1
+- `data` (required): JSON array of `{ label: string, value: number, color?: string }` where `value` is between 0 and 1 (clamped)
+- `show-values`: `"false"` to hide the label and percentage text (default: `"true"`)
+- `label-format`: D3 format string applied to the raw 0–1 value (default: percentage)
+- `ring-thickness`: ring width as a fraction of the outer radius (default: `"0.115"`)
 - `height`: explicit height in px
 - `color`: accent colour
 - `theme`: `"dark"` (default) or `"light"`
@@ -392,7 +404,7 @@ Concentric ring chart — each ring encodes a proportion (0–1).
 
 ### `<zyna-candlestick>`
 
-OHLC candlestick chart for time-series price data. Bullish candles (close ≥ open) use the genre brand colour; bearish candles use `bear-color`.
+OHLC candlestick chart for time-series price data. Bullish candles (close ≥ open) use the genre's success colour; bearish candles use `bear-color`.
 
 ```html
 <zyna-candlestick
@@ -407,7 +419,7 @@ OHLC candlestick chart for time-series price data. Bullish candles (close ≥ op
 
 **Attributes:**
 - `data` (required): JSON array of `{ date, open, high, low, close }` in chronological order
-- `color`: bullish candle colour (defaults to genre brand)
+- `color` (default: computed `--zp-success`, `#00FFB2` under the Ops genre): bullish candle colour
 - `bear-color` (default: computed `--zp-danger`, `#FF3366` under the Ops genre): bearish candle colour
 - `show-axis` (default: `"true"`): set `"false"` to hide axis ticks and labels
 - `label-format`: D3 number format for y-axis labels (e.g. `"$,.0f"`)
@@ -480,6 +492,128 @@ Multi-series area-line chart. Each series gets its own line and filled region; f
 
 ---
 
+### `<zyna-stratum>`
+
+Geological core-sample grid: one row per entity, one segment per period whose height encodes the value.
+
+**Attributes:**
+- `data` (required): JSON array of `{ label: string, values: number[], color?: string }`
+- `x-labels`: JSON array with one label per period; `""` suppresses that label
+- `scale` (default: `"row"`): `"row"` normalises per entity, `"global"` shares one scale
+- `label-format`: D3 format string used in the accessibility summary
+- `height`: explicit height in px
+- `color`: fallback row colour
+- `theme`: `"dark"` (default) or `"light"`
+
+---
+
+### `<zyna-delta>`
+
+Paired concentric arcs per category: outer arc = current value, inner arc = baseline, hatched gap coloured by gain or loss, signed % change in the centre.
+
+**Attributes:**
+- `data` (required): JSON array of `{ label: string, value: number, baseline: number, color?: string }`
+- `max`: shared scale ceiling (default: data max)
+- `arc-degrees` (default: `"270"`): total arc sweep
+- `label-format`: D3 format string for the centre delta when a baseline is 0
+- `height`: explicit height in px
+- `color`: accent colour
+- `theme`: `"dark"` (default) or `"light"`
+
+---
+
+### `<zyna-resonance>`
+
+Radial deviation-from-mean diagram: spoke length = |deviation|, solid above the mean, dashed/hollow below, dashed ±1σ ring.
+
+**Attributes:**
+- `data` (required): JSON array of `{ label: string, value: number }`
+- `mean`: explicit centre value (default: computed mean)
+- `unit` (default: `"percent"`): `"percent"` or `"absolute"` deviation labels
+- `label-format`: D3 format string for absolute labels
+- `height`: explicit height in px
+- `color`: accent colour for above-mean spokes
+- `theme`: `"dark"` (default) or `"light"`
+
+---
+
+### `<zyna-tension>`
+
+Ranked before/after comparison: two ranked columns joined by curved connectors coloured and weighted by rank change.
+
+**Attributes:**
+- `data` (required): JSON array of `{ label: string, before: number, after: number }`
+- `rank-by` (default: `"rank"`): `"rank"` (before/after are ranks, 1 = top) or `"value"` (raw values to rank)
+- `highlight`: label to spotlight; every other connector dims
+- `height`: explicit height in px
+- `color`: accent colour for the highlight glow
+- `theme`: `"dark"` (default) or `"light"`
+
+---
+
+### `<zyna-pulse>`
+
+Stacked ECG/seismograph tracks on a shared timeline, one row per entity with its own baseline.
+
+**Attributes:**
+- `data` (required): JSON array of `{ label: string, values: number[], color?: string }`
+- `x-labels`: JSON array with one label per point; `""` suppresses that label
+- `amplitude`: px of vertical swing per track (default: auto)
+- `marker`: JSON array of `{ x, label? }` vertical event rules; `x` matches an x-label or a 0-based index
+- `height`: explicit height in px
+- `color`: fallback track colour
+- `theme`: `"dark"` (default) or `"light"`
+
+---
+
+### `<zyna-rupture>`
+
+Threshold-breach area chart: the fill fractures at the crossing point and shifts to the danger colour past it.
+
+**Attributes:**
+- `data` (required): JSON array of `{ x, y }` (single series)
+- `threshold` (required): the breach level
+- `threshold-label`: caption drawn on the threshold line
+- `direction` (default: `"above"`): `"above"` or `"below"`
+- `label-format`: D3 format string for the threshold label
+- `height`: explicit height in px
+- `color`: calm (pre-breach) accent colour
+- `theme`: `"dark"` (default) or `"light"`
+
+---
+
+### `<zyna-density>`
+
+Per-period KDE violin silhouettes on a shared value axis with a median spine.
+
+**Attributes:**
+- `data` (required): JSON array of `{ label: string, values: number[] }` (raw samples)
+- `bandwidth`: KDE smoothing (default: Silverman's rule)
+- `y-min`, `y-max`: y-axis bounds (default: data extent)
+- `y-label`: rotated axis title on the left
+- `label-format`: D3 format string for y-axis ticks
+- `height`: explicit height in px
+- `color`: accent colour
+- `theme`: `"dark"` (default) or `"light"`
+
+---
+
+### `<zyna-cascade>`
+
+Hierarchical split waterfall: a total fractures downward through levels as proportional blocks joined by tapering ribbons. `variant="sankey"` renders molten gradient flows with a bloom.
+
+**Attributes:**
+- `data` (required): nested `{ label, value?, color?, children? }` or a bare array of top-level splits; parent values are summed from leaves when omitted; depth capped at 4
+- `level-labels`: JSON array naming each tier
+- `min-share` (default: `"0.03"`): splits below this fraction of their parent collapse into "Other"
+- `variant` (default: `"waterfall"`): `"waterfall"` or `"sankey"`
+- `label-format`: D3 format string for block value labels
+- `height`: explicit height in px
+- `color`: accent for the first branch
+- `theme`: `"dark"` (default) or `"light"`
+
+---
+
 ## Theming (Genres)
 
 Zyna UI ships with nine built-in themes called "genres":
@@ -514,19 +648,19 @@ document.documentElement.dataset.genre = 'cyberpunk'
 ### Define a custom genre
 
 ```js
-import { defineGenre, registerGenre } from 'zynaui/genres'
+// src/genres/aurora.genre.js
+import { defineGenre } from 'zynaui/genres'
 
-const aurora = defineGenre({
-  name: 'Aurora',
+export default defineGenre({
+  name: 'Aurora',                 // activates via <html data-genre="aurora"> ('My Genre' → "my-genre")
   // palette: preview swatches for genre-switcher UIs
   palette: { brand: '#BF5FFF' },
-  // tokens: CSS custom properties set on <html> at runtime via JS
+  // tokens: colours, motion, font — compiled into html[data-genre="aurora"]
   tokens: {
     '--zyna':      '#BF5FFF',
     '--zyna-dark': '#7A3DA0',
   },
-  // styles: structural overrides scoped to html[data-genre="aurora"]
-  // Use this for changing clip-path shapes, badge geometry, bar positions, etc.
+  // styles (optional): structural overrides — clip-path shapes, badge geometry, bar positions
   styles: {
     'html[data-genre="aurora"]': {
       '--z-btn-clip':   'inset(0)',           // rectangular buttons
@@ -534,14 +668,35 @@ const aurora = defineGenre({
     },
   },
 })
+```
 
-registerGenre(aurora)
+Genre CSS is compiled at Tailwind build time. Emit your genres from a wrapper plugin:
 
-// Activate:
+```js
+// src/genres/zynaui-genres.plugin.js
+import plugin from 'tailwindcss/plugin'
+import { genresPlugin } from 'zynaui/genres'
+import aurora from './aurora.genre.js'
+
+export default plugin(({ addBase }) => {
+  addBase(genresPlugin([aurora]))   // only the listed genres are emitted
+})
+```
+
+```css
+@import "tailwindcss";
+@plugin "zynaui";
+@plugin "./src/genres/zynaui-genres.plugin.js";
+```
+
+Tailwind v3: `registerGenre(aurora)` in `tailwind.config.js` before the plugin runs (the config and the plugin share one registry).
+
+```js
+// Activate at runtime:
 document.documentElement.dataset.genre = 'aurora'
 ```
 
-`defineGenre` accepts an optional `extends` property to base your genre on an existing one (defaults to Ops).
+`defineGenre` accepts an optional `extends` property to base your genre on an existing one (defaults to Ops). `registerGenre(genre)` adds it to the `GENRES` registry for runtime switchers; it does not add CSS on its own. `genreSlug(name)` returns the `data-genre` value for a name.
 
 ---
 
@@ -550,7 +705,10 @@ document.documentElement.dataset.genre = 'aurora'
 The `zynaui/react` export provides typed React wrapper components for the **chart Web Components only**. These handle SSR safety (no `HTMLElement` reference at import time) and accept native JS values instead of JSON strings.
 
 ```tsx
-import { ZynaWaffle, ZynaTimeline, ZynaNightingale, ZynaLollipop, ZynaOrbital, ZynaCandlestick, ZynaGauge, ZynaLine } from 'zynaui/react'
+import {
+  ZynaWaffle, ZynaTimeline, ZynaNightingale, ZynaLollipop, ZynaOrbital, ZynaCandlestick, ZynaGauge, ZynaLine,
+  ZynaStratum, ZynaDelta, ZynaResonance, ZynaTension, ZynaPulse, ZynaRupture, ZynaDensity, ZynaCascade,
+} from 'zynaui/react'
 
 // The 'use client' directive is included in the package.
 // Works with Next.js App Router without extra setup.
@@ -569,6 +727,8 @@ export default function Dashboard() {
 }
 ```
 
+Boolean props such as `show-axis={false}` are stringified by the wrappers (React 19 would otherwise drop a `false` attribute on a custom element). Importing anything from `zynaui/react` also types bare `<zyna-*>` tags for React 19's `React.JSX`.
+
 UI components (Button, Badge, Card, Alert) are pure CSS — use their class names directly in JSX. No React wrappers are needed or provided for them.
 
 ---
@@ -583,7 +743,7 @@ The plugin extends the Tailwind theme with semantic color and radius tokens:
 <p class="text-zyna-danger">Error</p>
 <p class="text-zyna-warning">Warning</p>
 <p class="text-zyna-info">Info</p>
-<p class="text-zyna">Brand gold</p>
+<p class="text-zyna">Brand gold (static hex — does not follow genre switches; use text-[var(--zyna)] for the live brand colour)</p>
 <p class="text-zyna-muted">Muted text</p>
 
 <!-- Corner radius tokens -->

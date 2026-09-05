@@ -2,7 +2,7 @@
  * Genre runtime — applies genre token maps to :root at page load.
  * Genre definitions (tokens, swatches, styles) live in src/plugin/genres/.
  */
-import { GENRES } from './dist/genres.js'
+import { GENRES, genreSlug } from './dist/genres.js'
 
 export { GENRES }
 
@@ -33,7 +33,9 @@ export function applyGenre(name, animate = true) {
     if (name === 'Ops') {
       delete root.dataset.genre
     } else {
-      root.dataset.genre = name.toLowerCase()
+      // Same slug rule the plugin compiles selectors with (genreSlug), so a
+      // multi-word custom genre activates the rule it was compiled under.
+      root.dataset.genre = genreSlug(name)
     }
 
     try {

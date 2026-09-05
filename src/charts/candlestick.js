@@ -68,7 +68,10 @@ export class ZynaCandlestick extends ZynaChart {
     const yMin = lo - span * 0.05
     const yMax = hi + span * 0.05
 
-    const xScale = scaleBand().domain(data.map(d => d.date)).range([0, innerW]).paddingInner(0.3)
+    // Band by row index, not by date string: a band scale de-duplicates its
+    // domain, so two rows sharing a date label (intraday bars, a repeated
+    // period name) would collapse onto one x position and overdraw each other.
+    const xScale = scaleBand().domain(data.map((_, i) => i)).range([0, innerW]).paddingInner(0.3)
     const yScale = scaleLinear().domain([yMin, yMax]).range([innerH, 0])
 
     // Wick x uses band centre; body x uses band left edge
@@ -115,7 +118,7 @@ export class ZynaCandlestick extends ZynaChart {
       // X-axis labels — every Nth candle so long series don't crowd.
       const maxLabels = Math.max(2, Math.floor(innerW / 80))
       const labelStep = Math.max(1, Math.ceil(data.length / maxLabels))
-      svg.selectAll('text.cs-xlabel').data(data, d => d.date)
+      svg.selectAll('text.cs-xlabel').data(data, (d, i) => i)
         .join(
           enter => enter.append('text').attr('class', 'cs-xlabel'),
           update => update,
@@ -123,7 +126,7 @@ export class ZynaCandlestick extends ZynaChart {
         )
         .each((d, i, nodes) => {
           const visible = i % labelStep === 0
-          const tx      = m.left + xScale(d.date) + bw / 2
+          const tx      = m.left + xScale(i) + bw / 2
           select(nodes[i])
             .attr('display', visible ? null : 'none')
             .attr('x', tx).attr('y', H - m.bottom + 16)
@@ -137,8 +140,8 @@ export class ZynaCandlestick extends ZynaChart {
       svg.selectAll('text.cs-xlabel').remove()
     }
 
-    // Per-candle groups keyed by date so D3 reuses existing elements on resize.
-    svg.selectAll('g.cs-candle').data(data, d => d.date)
+    // Per-candle groups keyed by row index so D3 reuses existing elements on resize.
+    svg.selectAll('g.cs-candle').data(data, (d, i) => i)
       .join(
         enter => {
           const g = enter.append('g').attr('class', 'cs-candle')
@@ -153,7 +156,7 @@ export class ZynaCandlestick extends ZynaChart {
         const g      = select(nodes[i])
         const isBull = pt.close >= pt.open
         const c      = isBull ? bull : bear
-        const cx     = m.left + xScale(pt.date) + bw / 2
+        const cx     = m.left + xScale(i) + bw / 2
         const yHi    = m.top + yScale(pt.high)
         const yLo    = m.top + yScale(pt.low)
         const yTop   = m.top + yScale(Math.max(pt.open, pt.close))
@@ -166,7 +169,7 @@ export class ZynaCandlestick extends ZynaChart {
           .attr('stroke', c).attr('stroke-width', 1)
 
         g.select('.cs-body')
-          .attr('x', m.left + xScale(pt.date))
+          .attr('x', m.left + xScale(i))
           .attr('y', yTop)
           .attr('width', Math.max(1, bw))
           .attr('height', bodyH)

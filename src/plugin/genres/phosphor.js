@@ -280,8 +280,17 @@ export const styles = {
   // Must live here (inside the genre file, last in addBase source order) so it
   // wins over the animation declaration above. motion.js runs before genresPlugin()
   // and loses to genre rules via source order at equal specificity.
+  //
+  // The badge easing overrides above have the same effect on motion.js's
+  // reduced-motion badge rules: identical (0,0,1) specificity, later source
+  // order, so they silently re-enabled the scan sweep and the scaling pulse
+  // for reduced-motion users. Re-assert the reduced-motion behaviour here.
   '@media (prefers-reduced-motion: reduce)': {
     ':where(html[data-genre="phosphor"]) body::after': { animation: 'none' },
+    ':where(html[data-genre="phosphor"]) :where(.badge)::after': { animation: 'none' },
+    ':where(html[data-genre="phosphor"]) :where(.badge-pulse)::before': {
+      animation: 'zyna-pulse-fade calc(var(--z-duration-pulse) * 2) ease-in-out infinite',
+    },
   },
 }
 

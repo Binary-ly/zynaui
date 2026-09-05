@@ -10,6 +10,15 @@
  *
  * Extracted here because it spans multiple components (badge, card, btn)
  * and belongs in utils rather than any single component file.
+ *
+ * Specificity note: badge, card, and alert rules are wrapped in :where() so
+ * these zero-specificity overrides win on source order alone. The .btn base
+ * is deliberately unwrapped (see btn.js), so it declares `transition` at
+ * (0,1,0) and a :where(.btn) override at (0,0,0) can never beat it inside
+ * the same cascade layer. The button rules below therefore use the bare
+ * class (matching forced-colors.js) so they tie on specificity and win on
+ * source order. `.btn:hover::after` is included because the base declares
+ * its own scan-sweep transition on that compound selector at (0,2,1).
  */
 export default function motion() {
   return {
@@ -20,13 +29,16 @@ export default function motion() {
       },
       ':where(.card)':                { animation: 'none' },
       ':where(.card-header)::before': { animation: 'none' },
-      ':where(.btn)': {
+      '.btn': {
         transition: 'none',
       },
-      ':where(.btn):hover': {
+      '.btn:hover': {
         transition: 'none',
       },
-      ':where(.btn)::after': {
+      '.btn::after': {
+        transition: 'none',
+      },
+      '.btn:hover::after': {
         transition: 'none',
       },
     },

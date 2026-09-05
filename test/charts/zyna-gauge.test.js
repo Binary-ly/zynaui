@@ -153,4 +153,19 @@ describe('zyna-gauge', () => {
     const el = await fixture(`<zyna-gauge value="50" arc-degrees="210" zones='${ZONES}'></zyna-gauge>`)
     expect(el.querySelectorAll('path.gauge-segment').length).to.equal(5)
   })
+
+  it('long end labels in a narrow container still draw real arc segments', async () => {
+    // Real bug: the label reservation could exceed half the width, outerR went
+    // negative, and every segment degenerated to an empty "M0,0Z" path.
+    const wrap = await fixture(`<div style="width:200px"><zyna-gauge value="50"
+      start-label="Extremely long start label" end-label="Extremely long end label"
+      zones='${ZONES}'></zyna-gauge></div>`)
+    const segs = [...wrap.querySelectorAll('path.gauge-segment')].map(p => p.getAttribute('d'))
+    expect(segs.length).to.equal(5)
+    segs.forEach(d => {
+      expect(d).to.not.match(/NaN/)
+      expect(d).to.not.equal('M0,0Z')
+      expect(d.length).to.be.greaterThan(20)
+    })
+  })
 })

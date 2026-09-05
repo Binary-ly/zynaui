@@ -42,23 +42,30 @@
  * ── Build-time vs runtime ───────────────────────────────────────────────────
  * genresPlugin() compiles genre CSS when Tailwind runs. registerGenre() in
  * app code executed *after* the build cannot add CSS — for the data-genre
- * rules to exist, registration must happen in a module evaluated by your
- * Tailwind config (e.g. a small plugin file imported from tailwind.config.js
- * or the CSS @plugin entry) before the zynaui plugin executes.
+ * rules to exist, the genre must be compiled by a module your Tailwind build
+ * evaluates. The self-contained way is a tiny wrapper plugin that emits just
+ * your genre: `addBase(genresPlugin([aurora]))` — no registry sharing needed.
+ * (registerGenre() before the zynaui plugin runs also works when both modules
+ * load through the same loader, but the explicit list is the reliable path.)
+ *
+ * A `styles` block is optional: a tokens-only genre compiles to a complete
+ * html[data-genre="…"] rule carrying its tokens.
  */
 import ops from './ops.js'
-import { GENRES } from './index.js'
+import { GENRES, genreSlug } from './index.js'
 
-// Genre names become `html[data-genre="<slug>"]` selectors and the plugin
-// derives the slug with name.toLowerCase() — anything with whitespace or
-// quotes silently produces a selector that can never match.
+// Genre names become `html[data-genre="<slug>"]` selectors via genreSlug()
+// (trim, lowercase, whitespace → hyphen — the same rule the docs genre builder
+// uses, so a builder export named "My Genre" activates as "my-genre"). Anything
+// the slug rule cannot make selector-safe (quotes, brackets, symbols) would
+// silently produce a selector that can never match, so reject it up front.
 function assertValidName(name) {
-  const slug = String(name).toLowerCase()
+  const slug = genreSlug(name)
   if (!/^[a-z][a-z0-9_-]*$/.test(slug)) {
     throw new Error(
-      `[zynaui] Invalid genre name "${name}" — the lowercased name is used as a ` +
-      `data-genre attribute value, so it must match /^[a-z][a-z0-9_-]*$/i ` +
-      `(letters, digits, hyphens, underscores — no spaces or quotes).`
+      `[zynaui] Invalid genre name "${name}" — it is slugified (lowercased, ` +
+      `whitespace → "-") into a data-genre attribute value, which must match ` +
+      `/^[a-z][a-z0-9_-]*$/ (letters, digits, hyphens, underscores — no quotes or symbols).`
     )
   }
   return slug
@@ -90,7 +97,7 @@ export function defineGenre({ name, palette = {}, tokens = {}, styles = {}, exte
   // bases get their data-genre-scoped selectors remapped to this genre.
   const inheritedStyles = baseGenre === ops
     ? { ...baseGenre.styles }
-    : remapSelectors(baseGenre.styles ?? {}, String(baseGenre.name).toLowerCase(), slug)
+    : remapSelectors(baseGenre.styles ?? {}, genreSlug(baseGenre.name), slug)
   return {
     name,
     swatches: { ...baseGenre.swatches, ...palette },

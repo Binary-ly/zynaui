@@ -36,7 +36,18 @@ export class ZynaChart extends HTMLElement {
     // (data-genre attribute or a theme class). The zyna-genre window event
     // above remains supported, but consumers shouldn't need a proprietary
     // event just to recolor charts after `document.documentElement.dataset.genre = …`.
-    this._mo = new MutationObserver(() => this._scheduleRender())
+    //
+    // A data-genre change always re-renders. A `class` change only re-renders
+    // when a token the chart actually reads changed — apps toggle unrelated
+    // classes on <html> constantly (scroll locks, focus-visible polyfills,
+    // route transitions) and every chart on the page was re-rendering each time.
+    this._mo = new MutationObserver(records => {
+      const genreChanged = records.some(r => r.attributeName === 'data-genre')
+      const sig = this._tokenSig()
+      if (!genreChanged && sig === this.__sig) return
+      this.__sig = sig
+      this._scheduleRender()
+    })
     this._mo.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['data-genre', 'class'],
@@ -75,11 +86,24 @@ export class ZynaChart extends HTMLElement {
     // to avoid a redundant second render in the same frame.
     this._initRafId = requestAnimationFrame(() => {
       this._initRafId = null
+      this.__sig = this._tokenSig()
       if (this._lastW === 0) {
         this._lastW = this.clientWidth
         this._render()
       }
     })
+  }
+
+  /**
+   * Snapshot of every genre token a chart reads (brand pair, status colours,
+   * chart theme). Used to skip re-renders on <html> class changes that don't
+   * touch any of them.
+   * @returns {string}
+   */
+  _tokenSig() {
+    const cs = getComputedStyle(this)
+    return ['--zyna', '--zyna-dark', '--zp-success', '--zp-danger', '--z-chart-theme']
+      .map(n => cs.getPropertyValue(n)).join('|')
   }
 
   disconnectedCallback() {

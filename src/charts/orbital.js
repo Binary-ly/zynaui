@@ -45,7 +45,11 @@ export class ZynaOrbital extends ZynaChart {
         .style('display', 'block').style('overflow', 'visible')
     }
     svg.attr('viewBox', `0 0 ${W} ${H}`).attr('width', W).attr('height', H)
-    this._applyA11y(svg, `Orbital chart: ${data.map(d => `${d.label} ${Math.round(d.value * 100)}%`).join(', ')}`)
+    // `value` is a proportion of the full circle. Clamp into [0, 1]: a value
+    // above 1 would otherwise wrap into a full ring (and label "150%"), and a
+    // negative one drew the arc backwards. Non-numeric counts as 0.
+    const ratioOf = d => Math.max(0, Math.min(1, Number.isFinite(+d.value) ? +d.value : 0))
+    this._applyA11y(svg, `Orbital chart: ${data.map(d => `${d.label} ${Math.round(ratioOf(d) * 100)}%`).join(', ')}`)
 
     const cx      = W / 2, cy = H / 2
     const outerR  = Math.min(cx, cy) * 0.80
@@ -131,7 +135,8 @@ export class ZynaOrbital extends ZynaChart {
         const g     = select(this)
         const r     = radii[i]
         const color = s.color || accent
-        const endD3 = 2 * Math.PI * s.value
+        const ratio = ratioOf(s)
+        const endD3 = 2 * Math.PI * ratio
         const endT  = endD3 - Math.PI / 2
 
         const arcPath = arcGenerator()
@@ -170,7 +175,7 @@ export class ZynaOrbital extends ZynaChart {
           .attr('x', tx).attr('y', fy - 2)
           .attr('text-anchor', anchor).attr('font-family', 'monospace').attr('font-size', `${fSm}px`)
           .attr('fill', dark ? '#FFFFFF' : '#1A1A20').attr('opacity', 0.70)
-          .text(fmt ? fmtVal(s.value) : `${(s.value * 100).toFixed(1)}%`)
+          .text(fmt ? fmtVal(ratio) : `${(ratio * 100).toFixed(1)}%`)
       })
   }
 }

@@ -245,6 +245,12 @@
   .shrink {
     flex-shrink: 1;
   }
+  .scale-2 {
+    --tw-scale-x: 2%;
+    --tw-scale-y: 2%;
+    --tw-scale-z: 2%;
+    scale: var(--tw-scale-x) var(--tw-scale-y);
+  }
   .transform {
     transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
   }
@@ -287,11 +293,17 @@
   .text-\[var\(--z-color-success\)\] {
     color: var(--z-color-success);
   }
+  .text-\[var\(--zyna\)\] {
+    color: var(--zyna);
+  }
   .text-zyna {
     color: #C9A84C;
   }
   .text-zyna-danger {
     color: var(--z-color-danger);
+  }
+  .text-zyna-dark {
+    color: #7A6230;
   }
   .text-zyna-info {
     color: var(--z-color-info);
@@ -1294,13 +1306,16 @@
     :where(.card-header)::before {
       animation: none;
     }
-    :where(.btn) {
+    .btn {
       transition: none;
     }
-    :where(.btn):hover {
+    .btn:hover {
       transition: none;
     }
-    :where(.btn)::after {
+    .btn::after {
+      transition: none;
+    }
+    .btn:hover::after {
       transition: none;
     }
   }
@@ -1327,19 +1342,14 @@
     color-scheme: dark;
     background-color: var(--z-surface-page);
     color: var(--z-color-text);
-    --z-btn-clip: polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)));
     --z-btn-corner: var(--z-corner);
-    --z-btn-inner-clip: polygon(1px 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--btn-corner) + 1px)));
     --z-btn-active-scale: 0.96;
     --z-btn-scan-stop: 70%;
     --z-alert-radius: 0 3px 3px 0;
     --z-alert-bar-width: 3px;
     --z-alert-prefix: "// ";
     --z-alert-bg-opacity: 5.5%;
-    --z-alert-border: none;
     --z-alert-prefix-opacity: 0.38;
-    --z-alert-bar-glow: none;
-    --z-alert-texture: none;
     --z-alert-padding-top: 0.875rem;
     --z-alert-padding-left: calc(1.25rem + var(--z-alert-bar-width));
     --z-alert-bar-inset: 0 auto 0 0;
@@ -1391,10 +1401,21 @@
     --z-badge-letter-spacing: 0.13em;
     --z-badge-inset-shadow: none;
     --z-badge-scan-duration: 5s;
-    --z-badge-inner-clip: polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), 2px calc(100% - 2px));
     --z-topbar-border: var(--z-color-border);
     --z-topbar-glow: none;
     --z-sidebar-active-shadow: none;
+  }
+  :where(.btn) {
+    --z-btn-clip: polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)));
+    --z-btn-inner-clip: polygon(1px 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--btn-corner) + 1px)));
+  }
+  :where(.alert) {
+    --z-alert-border: none;
+    --z-alert-bar-glow: none;
+    --z-alert-texture: none;
+  }
+  :where(.badge) {
+    --z-badge-inner-clip: polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), 2px calc(100% - 2px));
   }
   html[data-genre="cyberpunk"] {
     --zyna: #39FF14;
@@ -1412,31 +1433,18 @@
     --z-ease-exit: cubic-bezier(0.9, 0, 1, 0.15);
     --z-ease-spring: cubic-bezier(0.5, 1.8, 0.5, 1);
     --zp-corner-badge: 14px;
-    --z-btn-clip: inset(0);
-    --z-btn-inner-clip: inset(1.5px);
     --z-btn-corner: 18px;
     --z-btn-active-scale: 0.94;
     --z-btn-scan-stop: 55%;
-    --z-badge-clip: inset(0);
     --z-badge-padding: 0.24rem 0.8rem;
     --z-badge-letter-spacing: 0.16em;
     --z-badge-inset-shadow: inset 0 0 0 1px currentColor;
     --z-badge-scan-duration: 2.5s;
-    --z-badge-inner-clip: inset(2px);
     --z-alert-radius: 0;
     --z-alert-bar-width: 5px;
     --z-alert-prefix: "> ";
     --z-alert-bg-opacity: 14%;
-    --z-alert-border: 1px solid var(--alert-bar-color);
-    @supports (color: color-mix(in lab, red, red)) {
-      --z-alert-border: 1px solid color-mix(in oklch, var(--alert-bar-color) 35%, transparent);
-    }
     --z-alert-prefix-opacity: 0.55;
-    --z-alert-bar-glow: 0 0 14px var(--alert-bar-color), 0 0 30px var(--alert-bar-color);
-    @supports (color: color-mix(in lab, red, red)) {
-      --z-alert-bar-glow: 0 0 14px var(--alert-bar-color), 0 0 30px color-mix(in oklch, var(--alert-bar-color) 40%, transparent);
-    }
-    --z-alert-texture: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.018) 3px, rgba(255,255,255,0.018) 4px);
     --z-alert-padding-top: calc(0.875rem + var(--z-alert-bar-width));
     --z-alert-padding-left: 1.25rem;
     --z-alert-bar-inset: 0 0 auto 0;
@@ -1511,6 +1519,25 @@
     @supports (color: color-mix(in lab, red, red)) {
       --z-sidebar-active-shadow: inset 3px 0 0 var(--zyna), inset 6px 0 0 color-mix(in oklch, var(--zyna) 30%, transparent);
     }
+  }
+  :where(html[data-genre="cyberpunk"]) :where(.btn) {
+    --z-btn-clip: inset(0);
+    --z-btn-inner-clip: inset(1.5px);
+  }
+  :where(html[data-genre="cyberpunk"]) :where(.badge) {
+    --z-badge-clip: inset(0);
+    --z-badge-inner-clip: inset(2px);
+  }
+  :where(html[data-genre="cyberpunk"]) :where(.alert) {
+    --z-alert-border: 1px solid var(--alert-bar-color);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-alert-border: 1px solid color-mix(in oklch, var(--alert-bar-color) 35%, transparent);
+    }
+    --z-alert-bar-glow: 0 0 14px var(--alert-bar-color), 0 0 30px var(--alert-bar-color);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-alert-bar-glow: 0 0 14px var(--alert-bar-color), 0 0 30px color-mix(in oklch, var(--alert-bar-color) 40%, transparent);
+    }
+    --z-alert-texture: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.018) 3px, rgba(255,255,255,0.018) 4px);
   }
   :where(html[data-genre="cyberpunk"]) :where(.badge-primary) {
     --badge-bg: var(--zyna);
@@ -1615,26 +1642,19 @@
     --z-ease-exit: cubic-bezier(0.55, 0.055, 0.675, 0.19);
     --z-ease-spring: cubic-bezier(0.34, 1.06, 0.64, 1);
     color-scheme: light;
-    --z-btn-clip: polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, 0 100%);
-    --z-btn-inner-clip: polygon(1px 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px));
     --z-btn-corner: 10px;
     --z-btn-active-scale: 0.97;
     --z-btn-scan-stop: 38%;
-    --z-badge-clip: inset(0 round 3px);
     --z-badge-radius: 3px;
     --z-badge-padding: 0.19rem 0.75rem;
     --z-badge-letter-spacing: 0.07em;
     --z-badge-inset-shadow: inset 0 0 0 1px currentColor;
     --z-badge-scan-duration: 9s;
-    --z-badge-inner-clip: inset(2px round 1px);
     --z-alert-radius: 0 3px 3px 0;
     --z-alert-bar-width: 2.5px;
     --z-alert-prefix: "§ ";
     --z-alert-bg-opacity: 5%;
-    --z-alert-border: 1px solid rgba(28,27,22,0.07);
     --z-alert-prefix-opacity: 0.38;
-    --z-alert-bar-glow: none;
-    --z-alert-texture: none;
     --z-alert-padding-top: 0.875rem;
     --z-alert-padding-left: calc(1.25rem + var(--z-alert-bar-width));
     --z-alert-bar-inset: 0 auto 0 0;
@@ -1672,6 +1692,19 @@
     --z-topbar-border: rgba(28,27,22,0.09);
     --z-topbar-glow: none;
     --z-sidebar-active-shadow: inset 3px 0 0 var(--zyna);
+  }
+  :where(html[data-genre="corporate"]) :where(.btn) {
+    --z-btn-clip: polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, 0 100%);
+    --z-btn-inner-clip: polygon(1px 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px));
+  }
+  :where(html[data-genre="corporate"]) :where(.badge) {
+    --z-badge-clip: inset(0 round 3px);
+    --z-badge-inner-clip: inset(2px round 1px);
+  }
+  :where(html[data-genre="corporate"]) :where(.alert) {
+    --z-alert-border: 1px solid rgba(28,27,22,0.07);
+    --z-alert-bar-glow: none;
+    --z-alert-texture: none;
   }
   :where(html[data-genre="corporate"]) :where(.badge-primary) {
     --badge-bg: transparent;
@@ -1758,29 +1791,19 @@
     --z-ease-exit: steps(4, start);
     --z-ease-spring: steps(8, end);
     color-scheme: dark;
-    --z-btn-clip: polygon(var(--btn-corner) 0, 100% 0, 100% 100%, var(--btn-corner) 100%, 0 50%);
-    --z-btn-inner-clip: polygon(calc(var(--btn-corner) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px 50%);
     --z-btn-corner: 14px;
     --z-btn-active-scale: 0.97;
     --z-btn-scan-stop: 55%;
-    --z-badge-clip: inset(0);
     --z-badge-radius: 0;
     --z-badge-padding: 0.20rem 0.70rem;
     --z-badge-letter-spacing: 0.10em;
     --z-badge-inset-shadow: inset 0 0 0 1px currentColor;
     --z-badge-scan-duration: 9s;
-    --z-badge-inner-clip: inset(2px);
     --z-alert-radius: 3px 0 0 3px;
     --z-alert-bar-width: 3px;
     --z-alert-prefix: ">> ";
     --z-alert-bg-opacity: 8%;
-    --z-alert-border: 1px solid rgba(255,159,10,0.10);
     --z-alert-prefix-opacity: 0.55;
-    --z-alert-bar-glow: 0 0 10px var(--alert-bar-color), 0 0 20px var(--alert-bar-color);
-    @supports (color: color-mix(in lab, red, red)) {
-      --z-alert-bar-glow: 0 0 10px var(--alert-bar-color), 0 0 20px color-mix(in oklch, var(--alert-bar-color) 40%, transparent);
-    }
-    --z-alert-texture: none;
     --z-alert-padding-top: 0.875rem;
     --z-alert-padding-left: 1.25rem;
     --z-alert-bar-inset: 0 0 0 auto;
@@ -1833,6 +1856,22 @@
     @supports (color: color-mix(in lab, red, red)) {
       --z-sidebar-active-shadow: inset 3px 0 0 var(--zyna), inset 6px 0 0 color-mix(in oklch, var(--zyna) 25%, transparent);
     }
+  }
+  :where(html[data-genre="phosphor"]) :where(.btn) {
+    --z-btn-clip: polygon(var(--btn-corner) 0, 100% 0, 100% 100%, var(--btn-corner) 100%, 0 50%);
+    --z-btn-inner-clip: polygon(calc(var(--btn-corner) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px 50%);
+  }
+  :where(html[data-genre="phosphor"]) :where(.badge) {
+    --z-badge-clip: inset(0);
+    --z-badge-inner-clip: inset(2px);
+  }
+  :where(html[data-genre="phosphor"]) :where(.alert) {
+    --z-alert-border: 1px solid rgba(255,159,10,0.10);
+    --z-alert-bar-glow: 0 0 10px var(--alert-bar-color), 0 0 20px var(--alert-bar-color);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-alert-bar-glow: 0 0 10px var(--alert-bar-color), 0 0 20px color-mix(in oklch, var(--alert-bar-color) 40%, transparent);
+    }
+    --z-alert-texture: none;
   }
   :where(html[data-genre="phosphor"]) :where(.badge-primary) {
     --badge-bg: var(--zyna);
@@ -1925,6 +1964,12 @@
     :where(html[data-genre="phosphor"]) body::after {
       animation: none;
     }
+    :where(html[data-genre="phosphor"]) :where(.badge)::after {
+      animation: none;
+    }
+    :where(html[data-genre="phosphor"]) :where(.badge-pulse)::before {
+      animation: zyna-pulse-fade calc(var(--z-duration-pulse) * 2) ease-in-out infinite;
+    }
     :where(html[data-genre="military"]) body::after {
       animation: none;
     }
@@ -1981,26 +2026,19 @@
     --z-ease-exit: cubic-bezier(0.4, 0, 1, 1);
     --z-ease-spring: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     color-scheme: dark;
-    --z-btn-clip: polygon(var(--btn-corner) 0, 100% 0, 100% calc(100% - var(--btn-corner)), calc(100% - var(--btn-corner)) 100%, 0 100%, 0 var(--btn-corner));
-    --z-btn-inner-clip: polygon(calc(var(--btn-corner) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - calc(var(--btn-corner) + 1px)), calc(100% - calc(var(--btn-corner) + 1px)) calc(100% - 1px), 1px calc(100% - 1px), 1px calc(var(--btn-corner) + 1px));
     --z-btn-corner: 10px;
     --z-btn-active-scale: 0.97;
     --z-btn-scan-stop: 60%;
-    --z-badge-clip: polygon(0 0, 100% 0, 100% 100%, 8px 100%, 0 calc(100% - 8px));
     --z-badge-radius: 0;
     --z-badge-padding: 0.20rem 0.75rem;
     --z-badge-letter-spacing: 0.11em;
     --z-badge-inset-shadow: inset 0 0 0 1px currentColor;
     --z-badge-scan-duration: 6s;
-    --z-badge-inner-clip: polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 9px calc(100% - 1px), 1px calc(100% - 9px));
     --z-alert-radius: 3px 3px 0 0;
     --z-alert-bar-width: 3px;
     --z-alert-prefix: "◈ ";
     --z-alert-bg-opacity: 6%;
-    --z-alert-border: none;
     --z-alert-prefix-opacity: 0.45;
-    --z-alert-bar-glow: none;
-    --z-alert-texture: none;
     --z-alert-padding-top: 0.875rem;
     --z-alert-padding-left: 1.25rem;
     --z-alert-bar-inset: auto 0 0 0;
@@ -2041,6 +2079,19 @@
     @supports (color: color-mix(in lab, red, red)) {
       --z-sidebar-active-shadow: inset 3px 0 0 var(--zyna), inset 5px 0 0 color-mix(in oklch, var(--zyna) 22%, transparent);
     }
+  }
+  :where(html[data-genre="military"]) :where(.btn) {
+    --z-btn-clip: polygon(var(--btn-corner) 0, 100% 0, 100% calc(100% - var(--btn-corner)), calc(100% - var(--btn-corner)) 100%, 0 100%, 0 var(--btn-corner));
+    --z-btn-inner-clip: polygon(calc(var(--btn-corner) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - calc(var(--btn-corner) + 1px)), calc(100% - calc(var(--btn-corner) + 1px)) calc(100% - 1px), 1px calc(100% - 1px), 1px calc(var(--btn-corner) + 1px));
+  }
+  :where(html[data-genre="military"]) :where(.badge) {
+    --z-badge-clip: polygon(0 0, 100% 0, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+    --z-badge-inner-clip: polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 9px calc(100% - 1px), 1px calc(100% - 9px));
+  }
+  :where(html[data-genre="military"]) :where(.alert) {
+    --z-alert-border: none;
+    --z-alert-bar-glow: none;
+    --z-alert-texture: none;
   }
   :where(html[data-genre="military"]) :where(.badge-primary) {
     --badge-bg: var(--zyna);
@@ -2146,26 +2197,19 @@
     --z-ease-exit: linear;
     --z-ease-spring: cubic-bezier(0.34, 1.02, 0.64, 1);
     color-scheme: light;
-    --z-btn-clip: polygon(0 0, calc(100% - var(--btn-corner)) 0, calc(100% - var(--btn-corner)) var(--btn-corner), 100% var(--btn-corner), 100% 100%, 0 100%);
-    --z-btn-inner-clip: polygon(1px 1px, calc(100% - var(--btn-corner) - 1px) 1px, calc(100% - var(--btn-corner) - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px));
     --z-btn-corner: 10px;
     --z-btn-active-scale: 0.97;
     --z-btn-scan-stop: 40%;
-    --z-badge-clip: polygon(0 0, calc(50% - 5px) 0, 50% 5px, calc(50% + 5px) 0, 100% 0, 100% 100%, 0 100%);
     --z-badge-radius: 0;
     --z-badge-padding: 0.38rem 0.80rem 0.22rem 0.80rem;
     --z-badge-letter-spacing: 0.09em;
     --z-badge-inset-shadow: inset 0 0 0 1px currentColor;
     --z-badge-scan-duration: 8s;
-    --z-badge-inner-clip: polygon(1px 1px, calc(50% - 4px) 1px, 50% 4px, calc(50% + 4px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px));
     --z-alert-radius: 3px;
     --z-alert-bar-width: 2px;
     --z-alert-prefix: "⊗ ";
     --z-alert-bg-opacity: 5%;
-    --z-alert-border: 1px solid rgba(27,58,107,0.08);
     --z-alert-prefix-opacity: 0.40;
-    --z-alert-bar-glow: none;
-    --z-alert-texture: none;
     --z-alert-padding-top: 0.875rem;
     --z-alert-padding-left: calc(1.25rem + var(--z-alert-bar-width));
     --z-alert-bar-inset: 15% auto 15% 0;
@@ -2209,6 +2253,19 @@
     @supports (color: color-mix(in lab, red, red)) {
       --z-sidebar-active-shadow: inset 2px 0 0 var(--zyna), inset 4px 0 0 var(--bg), inset 6px 0 0 color-mix(in oklch, var(--zyna) 40%, transparent);
     }
+  }
+  :where(html[data-genre="blueprint"]) :where(.btn) {
+    --z-btn-clip: polygon(0 0, calc(100% - var(--btn-corner)) 0, calc(100% - var(--btn-corner)) var(--btn-corner), 100% var(--btn-corner), 100% 100%, 0 100%);
+    --z-btn-inner-clip: polygon(1px 1px, calc(100% - var(--btn-corner) - 1px) 1px, calc(100% - var(--btn-corner) - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px));
+  }
+  :where(html[data-genre="blueprint"]) :where(.badge) {
+    --z-badge-clip: polygon(0 0, calc(50% - 5px) 0, 50% 5px, calc(50% + 5px) 0, 100% 0, 100% 100%, 0 100%);
+    --z-badge-inner-clip: polygon(1px 1px, calc(50% - 4px) 1px, 50% 4px, calc(50% + 4px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px));
+  }
+  :where(html[data-genre="blueprint"]) :where(.alert) {
+    --z-alert-border: 1px solid rgba(27,58,107,0.08);
+    --z-alert-bar-glow: none;
+    --z-alert-texture: none;
   }
   :where(html[data-genre="blueprint"]) :where(.badge-primary) {
     --badge-bg: var(--zyna);
@@ -2326,29 +2383,19 @@
     --z-ease-exit: cubic-bezier(0.70, 0, 0.94, 0.42);
     --z-ease-spring: cubic-bezier(0.22, 1.35, 0.36, 1);
     color-scheme: light;
-    --z-btn-clip: polygon(var(--btn-corner) 0, 100% 0, 100% 100%, 0 100%, 0 var(--btn-corner));
-    --z-btn-inner-clip: polygon(calc(var(--btn-corner) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px), 1px calc(var(--btn-corner) + 1px));
     --z-btn-corner: 11px;
     --z-btn-active-scale: 0.97;
     --z-btn-scan-stop: 45%;
-    --z-badge-clip: polygon(0 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%);
     --z-badge-radius: 0;
     --z-badge-padding: 0.20rem 0.78rem;
     --z-badge-letter-spacing: 0.09em;
     --z-badge-inset-shadow: inset 0 0 0 1px currentColor;
     --z-badge-scan-duration: 7s;
-    --z-badge-inner-clip: polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 8px), calc(100% - 8px) calc(100% - 1px), 1px calc(100% - 1px));
     --z-alert-radius: 0 3px 3px 0;
     --z-alert-bar-width: 3px;
     --z-alert-prefix: "「 ";
     --z-alert-bg-opacity: 5%;
-    --z-alert-border: 1px solid rgba(42,26,14,0.07);
     --z-alert-prefix-opacity: 0.42;
-    --z-alert-bar-glow: none;
-    --z-alert-texture: linear-gradient(to right, var(--alert-bar-color) 0px, transparent 16px);
-    @supports (color: color-mix(in lab, red, red)) {
-      --z-alert-texture: linear-gradient(to right, color-mix(in oklch, var(--alert-bar-color) 10%, transparent) 0px, transparent 16px);
-    }
     --z-alert-padding-top: 0.875rem;
     --z-alert-padding-left: calc(1.25rem + var(--z-alert-bar-width));
     --z-alert-bar-inset: 0 auto 0 0;
@@ -2389,6 +2436,22 @@
     --z-topbar-border: rgba(42,26,14,0.08);
     --z-topbar-glow: none;
     --z-sidebar-active-shadow: inset 4px 0 0 var(--zyna);
+  }
+  :where(html[data-genre="washi"]) :where(.btn) {
+    --z-btn-clip: polygon(var(--btn-corner) 0, 100% 0, 100% 100%, 0 100%, 0 var(--btn-corner));
+    --z-btn-inner-clip: polygon(calc(var(--btn-corner) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px), 1px calc(var(--btn-corner) + 1px));
+  }
+  :where(html[data-genre="washi"]) :where(.badge) {
+    --z-badge-clip: polygon(0 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%);
+    --z-badge-inner-clip: polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 8px), calc(100% - 8px) calc(100% - 1px), 1px calc(100% - 1px));
+  }
+  :where(html[data-genre="washi"]) :where(.alert) {
+    --z-alert-border: 1px solid rgba(42,26,14,0.07);
+    --z-alert-bar-glow: none;
+    --z-alert-texture: linear-gradient(to right, var(--alert-bar-color) 0px, transparent 16px);
+    @supports (color: color-mix(in lab, red, red)) {
+      --z-alert-texture: linear-gradient(to right, color-mix(in oklch, var(--alert-bar-color) 10%, transparent) 0px, transparent 16px);
+    }
   }
   :where(html[data-genre="washi"]) :where(.badge-primary) {
     --badge-bg: var(--zyna);
@@ -2524,31 +2587,24 @@
     --z-ease-exit: cubic-bezier(0.40, 0, 1.00, 1);
     --z-ease-spring: cubic-bezier(0.18, 1.85, 0.38, 1);
     color-scheme: light;
-    --z-btn-clip: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px));
-    --z-btn-inner-clip: polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 11px), calc(100% - 11px) calc(100% - 1px), 11px calc(100% - 1px), 1px calc(100% - 11px));
     --z-btn-corner: 10px;
     --z-btn-active-scale: 0.97;
     --z-btn-scan-stop: 40%;
-    --z-badge-clip: polygon(0 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 0 100%);
     --z-badge-radius: 0;
     --z-badge-padding: 0.18rem 1.0rem 0.18rem 0.72rem;
     --z-badge-letter-spacing: 0.07em;
     --z-badge-inset-shadow: inset 0 0 0 1px currentColor;
     --z-badge-scan-duration: 5s;
-    --z-badge-inner-clip: polygon(1px 1px, calc(100% - 9px) 1px, calc(100% - 2px) 50%, calc(100% - 9px) calc(100% - 1px), 1px calc(100% - 1px));
     --z-alert-radius: 0 0 3px 3px;
-    --z-alert-bar-width: 0;
+    --z-alert-bar-width: 3px;
     --z-alert-prefix: "∴ ";
     --z-alert-bg-opacity: 5%;
-    --z-alert-border: 1px solid rgba(12,30,36,0.07);
     --z-alert-prefix-opacity: 0.36;
-    --z-alert-bar-glow: none;
-    --z-alert-texture: none;
-    --z-alert-padding-top: calc(0.875rem + 3px);
+    --z-alert-padding-top: calc(0.875rem + var(--z-alert-bar-width));
     --z-alert-padding-left: 1.25rem;
     --z-alert-bar-inset: 0 0 auto 0;
     --z-alert-bar-w: auto;
-    --z-alert-bar-h: 3px;
+    --z-alert-bar-h: var(--z-alert-bar-width);
     --z-alert-bar-radius: 0;
     --z-card-clip: none;
     --z-card-filter: none;
@@ -2584,6 +2640,19 @@
     --z-topbar-border: rgba(12,30,36,0.08);
     --z-topbar-glow: none;
     --z-sidebar-active-shadow: inset 3px 0 0 var(--zyna);
+  }
+  :where(html[data-genre="laboratory"]) :where(.btn) {
+    --z-btn-clip: polygon(0 0, 100% 0, 100% calc(100% - var(--btn-corner)), calc(100% - var(--btn-corner)) 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)));
+    --z-btn-inner-clip: polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - calc(var(--btn-corner) + 1px)), calc(100% - calc(var(--btn-corner) + 1px)) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--btn-corner) + 1px)));
+  }
+  :where(html[data-genre="laboratory"]) :where(.badge) {
+    --z-badge-clip: polygon(0 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 0 100%);
+    --z-badge-inner-clip: polygon(1px 1px, calc(100% - 9px) 1px, calc(100% - 2px) 50%, calc(100% - 9px) calc(100% - 1px), 1px calc(100% - 1px));
+  }
+  :where(html[data-genre="laboratory"]) :where(.alert) {
+    --z-alert-border: 1px solid rgba(12,30,36,0.07);
+    --z-alert-bar-glow: none;
+    --z-alert-texture: none;
   }
   :where(html[data-genre="laboratory"]) :where(.badge-primary) {
     --badge-bg: var(--zyna);
@@ -2711,30 +2780,23 @@
     --z-ease-exit: cubic-bezier(0.55, 0.00, 1.00, 0.45);
     --z-ease-spring: cubic-bezier(0.34, 1.26, 0.64, 1);
     color-scheme: light;
-    --z-btn-clip: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
-    --z-btn-inner-clip: polygon(1px 1px, calc(100% - 11px) 1px, calc(100% - 1px) 11px, calc(100% - 1px) calc(100% - 11px), calc(100% - 11px) calc(100% - 1px), 1px calc(100% - 1px));
     --z-btn-corner: 10px;
     --z-btn-active-scale: 0.97;
     --z-btn-scan-stop: 35%;
-    --z-badge-clip: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 calc(50% + 5px), 10px 50%, 0 calc(50% - 5px));
     --z-badge-radius: 0;
     --z-badge-padding: 0.18rem 0.72rem 0.18rem 1.0rem;
     --z-badge-letter-spacing: 0.07em;
     --z-badge-inset-shadow: inset 0 0 0 1px currentColor;
     --z-badge-scan-duration: 5s;
-    --z-badge-inner-clip: polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px), 1px calc(50% + 6px), 11px 50%, 1px calc(50% - 6px));
     --z-alert-radius: 3px 0 0 3px;
-    --z-alert-bar-width: 0;
+    --z-alert-bar-width: 3px;
     --z-alert-prefix: "» ";
     --z-alert-bg-opacity: 5%;
-    --z-alert-border: 1px solid rgba(44,28,4,0.07);
     --z-alert-prefix-opacity: 0.40;
-    --z-alert-bar-glow: none;
-    --z-alert-texture: none;
     --z-alert-padding-top: 0.875rem;
     --z-alert-padding-left: 1.25rem;
     --z-alert-bar-inset: 15% 0 15% auto;
-    --z-alert-bar-w: 3px;
+    --z-alert-bar-w: var(--z-alert-bar-width);
     --z-alert-bar-h: auto;
     --z-alert-bar-radius: 2px 0 0 2px;
     --z-card-clip: none;
@@ -2768,6 +2830,19 @@
     --z-topbar-border: rgba(44,28,4,0.08);
     --z-topbar-glow: none;
     --z-sidebar-active-shadow: inset 3px 0 0 var(--zyna);
+  }
+  :where(html[data-genre="atelier"]) :where(.btn) {
+    --z-btn-clip: polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% calc(100% - var(--btn-corner)), calc(100% - var(--btn-corner)) 100%, 0 100%);
+    --z-btn-inner-clip: polygon(1px 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - calc(var(--btn-corner) + 1px)), calc(100% - calc(var(--btn-corner) + 1px)) calc(100% - 1px), 1px calc(100% - 1px));
+  }
+  :where(html[data-genre="atelier"]) :where(.badge) {
+    --z-badge-clip: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 calc(50% + 5px), 10px 50%, 0 calc(50% - 5px));
+    --z-badge-inner-clip: polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px), 1px calc(50% + 6px), 11px 50%, 1px calc(50% - 6px));
+  }
+  :where(html[data-genre="atelier"]) :where(.alert) {
+    --z-alert-border: 1px solid rgba(44,28,4,0.07);
+    --z-alert-bar-glow: none;
+    --z-alert-texture: none;
   }
   :where(html[data-genre="atelier"]) :where(.badge-primary) {
     --badge-bg: var(--zyna);
@@ -2849,6 +2924,21 @@
   zyna-waffle, zyna-timeline, zyna-nightingale, zyna-lollipop, zyna-orbital, zyna-candlestick, zyna-gauge, zyna-line, zyna-stratum, zyna-delta, zyna-resonance, zyna-tension, zyna-pulse, zyna-rupture, zyna-density, zyna-cascade {
     display: block;
   }
+}
+@property --tw-scale-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --tw-scale-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --tw-scale-z {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
 }
 @property --tw-rotate-x {
   syntax: "*";
@@ -3041,6 +3131,9 @@
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
+      --tw-scale-x: 1;
+      --tw-scale-y: 1;
+      --tw-scale-z: 1;
       --tw-rotate-x: initial;
       --tw-rotate-y: initial;
       --tw-rotate-z: initial;

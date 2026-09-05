@@ -4,31 +4,31 @@
  * Genres are visual paradigms that change the entire aesthetic of all ZynaUI
  * components at once — colors, motion curves, typography, and clip-path geometry.
  *
- * Two genres are built in: `ops` (military HUD, default) and `cyberpunk`.
- * Use `defineGenre` to create custom genres and `registerGenre` to add them
- * to the GENRES array for use with the genre builder.
+ * Nine genres are built in: Ops (default), Cyberpunk, Corporate, Phosphor,
+ * Military, Blueprint, Washi, Laboratory, and Atelier. Use `defineGenre` to
+ * create custom genres, `genresPlugin([...])` to compile them from a Tailwind
+ * wrapper plugin, and `registerGenre` to add them to the GENRES registry for
+ * runtime switchers and the genre builder.
  *
  * @example
  * ```ts
- * import { defineGenre, registerGenre } from 'zynaui/genres'
+ * import { defineGenre } from 'zynaui/genres'
  *
- * const aurora = defineGenre({
- *   name: 'Aurora',
+ * export const aurora = defineGenre({
+ *   name: 'Aurora',                       // activates via <html data-genre="aurora">
  *   palette: { brand: '#BF5FFF' },
- *   tokens: {
+ *   tokens: {                             // a tokens-only genre is complete on its own
  *     '--zyna':            '#BF5FFF',
  *     '--z-ease-enter':    'cubic-bezier(0.34, 1.56, 0.64, 1)',
  *     '--z-duration-fast': '0.14s',
  *   },
- *   styles: {
+ *   styles: {                             // optional structural overrides
  *     'html[data-genre="aurora"]': {
  *       '--z-btn-clip':   'inset(0)',
  *       '--z-badge-clip': 'inset(0 round 4px)',
  *     },
  *   },
  * })
- *
- * registerGenre(aurora)
  * ```
  */
 
@@ -55,7 +55,10 @@ export interface Genre {
 
 /** Options for constructing a new genre via `defineGenre`. */
 export interface DefineGenreOptions {
-  /** Display name (e.g. 'Aurora'). Used as the `data-genre` attribute value in lowercase. */
+  /**
+   * Display name (e.g. 'Aurora' or 'My Genre'). Its slug — see {@link genreSlug} —
+   * is the `data-genre` attribute value ('aurora', 'my-genre').
+   */
   name: string
   /** Override specific swatch preview colors. Merged onto base genre swatches. */
   palette?: GenreSwatches
@@ -88,9 +91,9 @@ export declare function defineGenre(options: DefineGenreOptions): Genre
  *
  * **Note**: `registerGenre` mutates the in-memory GENRES array at runtime.
  * It does NOT affect the compiled CSS — genre styles are baked into `zynaui.css`
- * at Tailwind build time. To include a custom genre's structural styles in the
- * compiled output, import and register the genre in your Tailwind config before
- * the plugin runs.
+ * at Tailwind build time. To compile a custom genre, emit it from a wrapper
+ * plugin with `genresPlugin([myGenre])` (see below); `registerGenre` is for
+ * runtime switchers and the genre builder, which read GENRES.
  */
 export declare function registerGenre(genre: Genre): void
 
@@ -98,21 +101,28 @@ export declare function registerGenre(genre: Genre): void
 export declare const GENRES: Genre[]
 
 /**
- * Collect all registered genre styles into a Tailwind `addBase`-compatible object.
+ * The `data-genre` attribute value for a genre name: trimmed, lowercased,
+ * whitespace collapsed to hyphens ('My Genre' → 'my-genre'). The compiler,
+ * `defineGenre`, and runtime switchers all use this one rule.
+ */
+export declare function genreSlug(name: string): string
+
+/**
+ * Compile genres into a Tailwind `addBase`-compatible rule object.
  *
- * Use this inside a custom Tailwind plugin to compile genre CSS into the build output:
+ * With no argument, every genre in the GENRES registry is compiled (this is
+ * what the zynaui plugin itself does). Pass an explicit list from a wrapper
+ * plugin to compile only your own genres without re-emitting the built-ins:
  *
  * @example
  * ```ts
  * import plugin from 'tailwindcss/plugin'
- * import { registerGenre, genresPlugin } from 'zynaui/genres'
+ * import { genresPlugin } from 'zynaui/genres'
  * import myGenre from './my-genre.genre.js'
  *
- * registerGenre(myGenre)
- *
  * export default plugin(({ addBase }) => {
- *   addBase(genresPlugin())
+ *   addBase(genresPlugin([myGenre]))
  * })
  * ```
  */
-export declare function genresPlugin(): Record<string, Record<string, string>>
+export declare function genresPlugin(genres?: Genre[]): Record<string, Record<string, string>>

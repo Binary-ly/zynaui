@@ -4,7 +4,7 @@
 
 ## BI Platform Adapters
 
-Port all 8 Zyna charts (`waffle`, `timeline`, `nightingale`, `lollipop`, `orbital`, `candlestick`, `gauge`, `line`) to run natively inside **Power BI**, **Tableau**, and **Looker**.
+Port all 16 Zyna charts (`waffle`, `timeline`, `nightingale`, `lollipop`, `orbital`, `candlestick`, `gauge`, `line`, `stratum`, `delta`, `resonance`, `tension`, `pulse`, `rupture`, `density`, `cascade`) to run natively inside **Power BI**, **Tableau**, and **Looker**. The estimates below were written for the original five charts and need re-scoping.
 
 ### Status
 - [ ] Phase 1 — Shared core (extract render functions)
@@ -16,7 +16,7 @@ Port all 8 Zyna charts (`waffle`, `timeline`, `nightingale`, `lollipop`, `orbita
 
 ### Architecture — `ChartRenderContext`
 
-All 8 chart render functions are refactored to accept this interface instead of reading from `this._attr()` / `this._json()` / `this.clientWidth`. The Web Component wrapper keeps working — it just constructs this object and calls the render function.
+All 16 chart render functions are refactored to accept this interface instead of reading from `this._attr()` / `this._json()` / `this.clientWidth`. The Web Component wrapper keeps working — it just constructs this object and calls the render function.
 
 ```typescript
 interface ChartRenderContext {

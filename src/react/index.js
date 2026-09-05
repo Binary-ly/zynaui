@@ -6,6 +6,7 @@
 // survives Rollup tree-shaking and lands at the top of the output file.
 
 import { createElement, useEffect } from 'react'
+import { attrs } from './attrs.js'
 
 // Vite resolves ?raw at build time — the output has the IIFE as a string literal.
 // This keeps the import completely opaque to Turbopack's static analysis: no
@@ -50,7 +51,7 @@ export function ZynaWaffle({ data, cols = 10, gap = 3, color, theme, ...rest }) 
     gap: String(gap),
     ...(color != null && { color }),
     ...(theme != null && { theme }),
-    ...rest,
+    ...attrs(rest),
   })
 }
 
@@ -62,7 +63,7 @@ export function ZynaTimeline({ data, highlight, height, color, theme, ...rest })
     ...(height  != null && { height: String(height) }),
     ...(color   != null && { color }),
     ...(theme   != null && { theme }),
-    ...rest,
+    ...attrs(rest),
   })
 }
 
@@ -73,7 +74,7 @@ export function ZynaNightingale({ data, height, color, theme, ...rest }) {
     ...(height != null && { height: String(height) }),
     ...(color  != null && { color }),
     ...(theme  != null && { theme }),
-    ...rest,
+    ...attrs(rest),
   })
 }
 
@@ -84,7 +85,7 @@ export function ZynaLollipop({ data, height, color, theme, ...rest }) {
     ...(height != null && { height: String(height) }),
     ...(color  != null && { color }),
     ...(theme  != null && { theme }),
-    ...rest,
+    ...attrs(rest),
   })
 }
 
@@ -95,7 +96,7 @@ export function ZynaOrbital({ data, height, color, theme, ...rest }) {
     ...(height != null && { height: String(height) }),
     ...(color  != null && { color }),
     ...(theme  != null && { theme }),
-    ...rest,
+    ...attrs(rest),
   })
 }
 
@@ -107,7 +108,7 @@ export function ZynaCandlestick({ data, height, ticks, color, theme, ...rest }) 
     ...(ticks  != null && { ticks: String(ticks) }),
     ...(color  != null && { color }),
     ...(theme  != null && { theme }),
-    ...rest,
+    ...attrs(rest),
   })
 }
 
@@ -123,7 +124,7 @@ export function ZynaGauge({ value, min, max, zones, label, height, thickness, co
     ...(thickness != null && { thickness: String(thickness) }),
     ...(color     != null && { color }),
     ...(theme     != null && { theme }),
-    ...rest,
+    ...attrs(rest),
   })
 }
 
@@ -135,7 +136,7 @@ export function ZynaLine({ data, annotations, height, tension, theme, ...rest })
     ...(height      != null && { height: String(height) }),
     ...(tension     != null && { tension: String(tension) }),
     ...(theme       != null && { theme }),
-    ...rest,
+    ...attrs(rest),
   })
 }
 
@@ -148,7 +149,7 @@ export function ZynaStratum({ data, xLabels, scale, height, color, theme, ...res
     ...(height  != null && { height: String(height) }),
     ...(color   != null && { color }),
     ...(theme   != null && { theme }),
-    ...rest,
+    ...attrs(rest),
   })
 }
 
@@ -160,7 +161,7 @@ export function ZynaDelta({ data, max, height, color, theme, ...rest }) {
     ...(height != null && { height: String(height) }),
     ...(color  != null && { color }),
     ...(theme  != null && { theme }),
-    ...rest,
+    ...attrs(rest),
   })
 }
 
@@ -173,7 +174,7 @@ export function ZynaResonance({ data, mean, unit, height, color, theme, ...rest 
     ...(height != null && { height: String(height) }),
     ...(color  != null && { color }),
     ...(theme  != null && { theme }),
-    ...rest,
+    ...attrs(rest),
   })
 }
 
@@ -185,7 +186,7 @@ export function ZynaTension({ data, highlight, height, color, theme, ...rest }) 
     ...(height    != null && { height: String(height) }),
     ...(color     != null && { color }),
     ...(theme     != null && { theme }),
-    ...rest,
+    ...attrs(rest),
   })
 }
 
@@ -199,7 +200,7 @@ export function ZynaPulse({ data, xLabels, amplitude, marker, height, color, the
     ...(height    != null && { height: String(height) }),
     ...(color     != null && { color }),
     ...(theme     != null && { theme }),
-    ...rest,
+    ...attrs(rest),
   })
 }
 
@@ -212,7 +213,7 @@ export function ZynaRupture({ data, threshold, direction, height, color, theme, 
     ...(height    != null && { height: String(height) }),
     ...(color     != null && { color }),
     ...(theme     != null && { theme }),
-    ...rest,
+    ...attrs(rest),
   })
 }
 
@@ -224,7 +225,7 @@ export function ZynaDensity({ data, bandwidth, height, color, theme, ...rest }) 
     ...(height    != null && { height: String(height) }),
     ...(color     != null && { color }),
     ...(theme     != null && { theme }),
-    ...rest,
+    ...attrs(rest),
   })
 }
 
@@ -236,6 +237,6 @@ export function ZynaCascade({ data, levelLabels, height, color, theme, ...rest }
     ...(height      != null && { height: String(height) }),
     ...(color       != null && { color }),
     ...(theme       != null && { theme }),
-    ...rest,
+    ...attrs(rest),
   })
 }

@@ -102,6 +102,60 @@ describe('ZynaChart._uid', () => {
   })
 })
 
+describe('ZynaChart <html> mutation re-render gate', () => {
+  afterEach(() => {
+    fixtureCleanup()
+    document.documentElement.classList.remove('zyna-test-unrelated')
+    document.documentElement.removeAttribute('data-genre')
+  })
+
+  const settle = () => new Promise(r => setTimeout(r, 30))
+
+  async function spyRender(el) {
+    // Wait for the initial rAF render so the token signature is baselined.
+    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))
+    let n = 0
+    const orig = el._render.bind(el)
+    el._render = () => { n++; orig() }
+    return () => n
+  }
+
+  it('does not re-render when an unrelated class is toggled on <html>', async () => {
+    // Real bug: every chart on the page re-rendered on every <html> class
+    // change (scroll locks, focus-visible polyfills, route transitions).
+    const el = await makeChart(`<zyna-waffle data='[{"label":"a","value":10}]'></zyna-waffle>`)
+    const renders = await spyRender(el)
+    document.documentElement.classList.add('zyna-test-unrelated')
+    await settle()
+    document.documentElement.classList.remove('zyna-test-unrelated')
+    await settle()
+    expect(renders()).to.equal(0)
+  })
+
+  it('still re-renders when data-genre changes on <html>', async () => {
+    const el = await makeChart(`<zyna-waffle data='[{"label":"a","value":10}]'></zyna-waffle>`)
+    const renders = await spyRender(el)
+    document.documentElement.setAttribute('data-genre', 'cyberpunk')
+    await settle()
+    expect(renders()).to.equal(1)
+  })
+
+  it('re-renders when a class change alters a token the chart reads', async () => {
+    const style = document.createElement('style')
+    style.textContent = 'html.zyna-test-unrelated { --zyna: #123456; }'
+    document.head.appendChild(style)
+    try {
+      const el = await makeChart(`<zyna-waffle data='[{"label":"a","value":10}]'></zyna-waffle>`)
+      const renders = await spyRender(el)
+      document.documentElement.classList.add('zyna-test-unrelated')
+      await settle()
+      expect(renders()).to.equal(1)
+    } finally {
+      style.remove()
+    }
+  })
+})
+
 describe('ZynaChart._fmt()', () => {
   afterEach(() => fixtureCleanup())
 

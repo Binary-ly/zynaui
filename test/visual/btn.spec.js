@@ -3,11 +3,23 @@ import { setupPage } from './helpers/page-setup.js'
 import { GENRES } from './helpers/genre.js'
 
 const GENRE_CLIP = {
-  ops:       /polygon/,
-  cyberpunk: /inset/,
-  corporate: /polygon/,
-  phosphor:  /polygon/,
-  military:  /polygon/,
+  ops:        /polygon/,
+  cyberpunk:  /inset/,
+  corporate:  /polygon/,
+  phosphor:   /polygon/,
+  military:   /polygon/,
+  blueprint:  /polygon/,
+  washi:      /polygon/,
+  laboratory: /polygon/,
+  atelier:    /polygon/,
+}
+
+// Genre-default chamfer depth in px for the default size — --z-btn-corner.
+// The size classes must move it (sm = --z-corner-sm 7px, lg = --z-corner-lg
+// 13px); before 0.3.1 the clip was frozen at html's 10px in every genre.
+const GENRE_CORNER = {
+  ops: 10, corporate: 10, phosphor: 14, military: 10,
+  blueprint: 10, washi: 11, laboratory: 10, atelier: 10,
 }
 
 for (const genre of GENRES) {
@@ -73,6 +85,21 @@ for (const genre of GENRES) {
       const clip = await page.evaluate(() =>
         getComputedStyle(document.querySelector('.btn')).clipPath)
       expect(clip).toMatch(GENRE_CLIP[genre.id])
+    })
+
+    test('size classes change the chamfer depth of the genre shape', async ({ page }) => {
+      test.skip(genre.id === 'cyberpunk', 'Cyberpunk buttons are rectangular (inset) — no chamfer to scale')
+      await setupPage(page, genre, `
+        <button class="btn btn-primary btn-sm" type="button">Sm</button>
+        <button class="btn btn-primary" type="button">Default</button>
+        <button class="btn btn-primary btn-lg" type="button">Lg</button>`)
+      const clips = await page.evaluate(() =>
+        [...document.querySelectorAll('.btn')].map(b => getComputedStyle(b).clipPath))
+      const corner = GENRE_CORNER[genre.id]
+      expect(clips[0]).toContain('7px')
+      expect(clips[0]).not.toContain(`${corner}px`)
+      expect(clips[1]).toContain(`${corner}px`)
+      expect(clips[2]).toContain('13px')
     })
   })
 }

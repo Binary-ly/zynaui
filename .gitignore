@@ -8,7 +8,8 @@ composer.lock
 composer.json
 .vscode/
 *.php
-docs/zynaui.css
+# docs/zynaui.css is a build artifact but is committed on purpose: deploy.yml
+# subtree-pushes docs/ as-is, so the deployed site needs the compiled file.
 playwright-report/
 test-results/
 

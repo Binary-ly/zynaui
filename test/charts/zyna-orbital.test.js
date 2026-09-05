@@ -177,6 +177,18 @@ describe('zyna-orbital', () => {
     pcts.forEach(t   => expect(t.getAttribute('display')).to.equal('none'))
   })
 
+  it('clamps out-of-range values into 0–1 for the arc, label, and summary', async () => {
+    // Real bug: value 1.5 wrapped into a full ring labelled "150.0%", and a
+    // negative value drew the arc backwards and announced "-50%".
+    const data = JSON.stringify([{ label: 'over', value: 1.5 }, { label: 'under', value: -0.5 }])
+    const el = await fixture(`<zyna-orbital data='${data}'></zyna-orbital>`)
+    await nextFrame()
+    const pcts = [...el.querySelectorAll('text.orb-pct')].map(t => t.textContent)
+    expect(pcts).to.deep.equal(['100.0%', '0.0%'])
+    expect(el.getAttribute('aria-label')).to.contain('over 100%')
+    expect(el.getAttribute('aria-label')).to.contain('under 0%')
+  })
+
   it('ring-thickness attribute changes arc width', async () => {
     // ringTW = outerR * rtAttr drives BOTH the orb-track stroke-width AND the
     // arc generator's innerRadius/outerRadius: r ± ringTW/2 (orbital.js:134).

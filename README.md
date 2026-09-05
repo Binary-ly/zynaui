@@ -92,7 +92,7 @@ ZynaUI extends the Tailwind theme with semantic color and radius tokens, so you 
 <div class="rounded-zyna-lg">…</div>
 ```
 
-These resolve to CSS variables (e.g. `text-zyna-success` → `color: var(--z-color-success)`) and update automatically when the active genre changes.
+The status and text utilities resolve to CSS variables (e.g. `text-zyna-success` → `color: var(--z-color-success)`) and update automatically when the active genre changes. The brand pair (`text-zyna`, `text-zyna-dark`) is a static hex value in the Tailwind theme, so it does not follow genre switches — use `text-[var(--zyna)]` where you need the live brand colour.
 
 ---
 
@@ -253,6 +253,12 @@ The `'use client'` directive is included in the package and works with Next.js A
 
 ### Via bundler (Vue / Svelte / Astro)
 
+The charts import four D3 modules as optional peer dependencies, so install them alongside the package (npm does not install optional peers for you):
+
+```bash
+npm install zynaui d3-array d3-scale d3-selection d3-shape
+```
+
 ```js
 import 'zynaui/charts'
 ```
@@ -289,6 +295,8 @@ Link the pre-compiled CSS and load the IIFE bundle. No build step needed:
 
 The stylesheet contains only ZynaUI's tokens, components, and genres — no Tailwind preflight reset — so it is safe to drop into an existing page. Bundler users can equivalently `import 'zynaui/style.css'`. (URLs are pinned to the 0.3 line; unpinned `/npm/zynaui/` floats to whatever `latest` is.)
 
+> **Cascade layers:** every component rule in the stylesheet lives in `@layer base`. Unlayered rules in your own CSS win over layered ones regardless of specificity, so a reset such as `button { background: none; border: 0 }` will strip `.btn` styling. Put your reset in a layer (`@layer reset { … }`) or scope element selectors away from ZynaUI components.
+
 Or if installed via npm:
 
 ```html
@@ -308,6 +316,8 @@ Square-grid waffle chart. Each cell is either filled or outline-only.
 | `color` | hex | `#C9A84C` | Fallback cell color |
 | `cols` | number | `10` | Grid columns |
 | `gap` | number | `3` | Gap between cells (px) |
+| `theme` | `dark`/`light` | `dark` | Color theme |
+| `height` | number | auto | Explicit height in px |
 
 ```html
 <zyna-waffle
@@ -331,6 +341,10 @@ Proportional-circle timeline. Bubble area encodes value.
 | `color` | hex | `#C9A84C` | Accent color for highlighted item |
 | `theme` | `dark`/`light` | `dark` | Color theme |
 | `highlight` | string | highest value | Label of the item to emphasize |
+| `muted-color` | hex | `#8A8478` | Color for non-highlighted items |
+| `show-values` | `true`/`false` | `true` | Show the value label under each bubble |
+| `label-format` | string | — | D3 number format for value labels (e.g. `'$,.0f'`) |
+| `height` | number | auto | Explicit height in px |
 
 ```html
 <zyna-timeline
@@ -355,6 +369,9 @@ Nightingale (rose) chart. Sector radius encodes value.
 | `data` | JSON array | `[]` | `[{ label, value, color? }]` |
 | `color` | hex | `#C9A84C` | Fallback sector color |
 | `theme` | `dark`/`light` | `dark` | Color theme |
+| `show-values` | `true`/`false` | `true` | Show the numeric value on each leader line |
+| `label-format` | string | — | D3 number format for value labels |
+| `height` | number | auto | Explicit height in px |
 
 ```html
 <zyna-nightingale
@@ -376,8 +393,14 @@ Horizontal lollipop chart. Line and circle encode value.
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `data` | JSON array | `[]` | `[{ label, value }]` sorted descending recommended |
-| `color` | hex | `#C9A84C` | Accent color for the top item |
+| `color` | hex | `#C9A84C` | Accent color for the highlighted item |
 | `theme` | `dark`/`light` | `dark` | Color theme |
+| `highlight` | string | first item | Label of the item to accent |
+| `muted-color` | hex | `--zyna-dark` | Color for non-highlighted stems, dots, and labels |
+| `show-values` | `true`/`false` | `true` | Show the value at the end of each stem |
+| `label-format` | string | — | D3 number format for value labels |
+| `ticks` | number | `5` | Number of x-axis tick marks |
+| `height` | number | auto | Explicit height in px |
 
 ```html
 <zyna-lollipop
@@ -398,9 +421,13 @@ Concentric arc chart. Each ring is filled as a proportion of a full circle.
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `data` | JSON array | `[]` | `[{ label, value, color? }]` (`value` is `0`–`1`) |
+| `data` | JSON array | `[]` | `[{ label, value, color? }]` (`value` is `0`–`1`; out-of-range values are clamped) |
 | `color` | hex | `#C9A84C` | Fallback ring color |
 | `theme` | `dark`/`light` | `dark` | Color theme |
+| `show-values` | `true`/`false` | `true` | Show the label and percentage beside each ring |
+| `label-format` | string | percentage | D3 number format applied to the raw `0`–`1` value |
+| `ring-thickness` | number | `0.115` | Ring width as a fraction of the outer radius |
+| `height` | number | auto | Explicit height in px |
 
 ```html
 <zyna-orbital
@@ -416,12 +443,12 @@ Concentric arc chart. Each ring is filled as a proportion of a full circle.
 
 ### `<zyna-candlestick>`
 
-OHLC candlestick chart for time-series price data. Bullish candles (close ≥ open) use the genre brand color; bearish candles use `bear-color`.
+OHLC candlestick chart for time-series price data. Bullish candles (close ≥ open) use the genre's success color; bearish candles use `bear-color`.
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `data` | JSON array | `[]` | `[{ date, open, high, low, close }]` in chronological order |
-| `color` | hex | genre brand | Bullish candle color |
+| `color` | hex | computed `--zp-success` (`#00FFB2` under Ops) | Bullish candle color |
 | `bear-color` | hex | computed `--zp-danger` (`#FF3366` under Ops) | Bearish candle color |
 | `theme` | `dark`/`light` | `dark` | Color theme |
 | `show-axis` | boolean | `true` | Show/hide axis ticks and labels |
@@ -746,29 +773,49 @@ Hierarchical split waterfall: a total fractures downward through levels as propo
 
 ## Custom genres
 
-Create a custom visual theme with `defineGenre`:
+Create a custom visual theme with `defineGenre`. A tokens-only genre is complete on its own; `styles` is optional.
 
 ```js
-import { defineGenre, registerGenre } from 'zynaui/genres'
+// src/genres/aurora.genre.js
+import { defineGenre } from 'zynaui/genres'
 
-const aurora = defineGenre({
-  name: 'Aurora',
+export default defineGenre({
+  name: 'Aurora',                        // activates via <html data-genre="aurora">
   palette: { brand: '#BF5FFF' },
   tokens: {
     '--zyna':            '#BF5FFF',
     '--z-ease-enter':    'cubic-bezier(0.34, 1.56, 0.64, 1)',
     '--z-duration-fast': '0.14s',
   },
-  styles: {
+  styles: {                              // optional structural overrides
     'html[data-genre="aurora"]': {
       '--z-btn-clip':   'inset(0)',
       '--z-badge-clip': 'inset(0 round 4px)',
     },
   },
 })
-
-registerGenre(aurora)
 ```
+
+Genre CSS is compiled at Tailwind build time, so the genre has to be emitted by a module your build evaluates. The self-contained way is a tiny wrapper plugin that compiles just your genres:
+
+```js
+// src/genres/zynaui-genres.plugin.js
+import plugin from 'tailwindcss/plugin'
+import { genresPlugin } from 'zynaui/genres'
+import aurora from './aurora.genre.js'
+
+export default plugin(({ addBase }) => {
+  addBase(genresPlugin([aurora]))      // only your genres — built-ins are not re-emitted
+})
+```
+
+```css
+@import "tailwindcss";
+@plugin "zynaui";
+@plugin "./src/genres/zynaui-genres.plugin.js";
+```
+
+(Tailwind v3: `import { registerGenre } from 'zynaui/genres'` and call `registerGenre(aurora)` in `tailwind.config.js` before the plugin runs — the config file and the plugin share one genre registry.)
 
 Activate at runtime:
 
@@ -776,7 +823,7 @@ Activate at runtime:
 document.documentElement.setAttribute('data-genre', 'aurora')
 ```
 
-> **Note:** Genre structural styles (`styles`) are compiled into `zynaui.css` at Tailwind build time. Register custom genres before your build step runs so their rules are included in the output.
+Names are slugified for the attribute value (`'My Genre'` → `data-genre="my-genre"`; `genreSlug()` exposes the rule). `registerGenre(aurora)` adds the genre to the `GENRES` registry for runtime switchers and the genre builder; it does not by itself add CSS.
 
 ---
 

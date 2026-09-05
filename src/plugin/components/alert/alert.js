@@ -20,14 +20,16 @@
  *                            without overriding every individual variant.
  *                            (Ops = 5.5%, Cyberpunk = 14%)
  *   --z-alert-border         Full-perimeter border (Ops = none, Cyberpunk = 1px neon-tinted).
- *                            Supports var(--alert-bar-color) — lazy CSS evaluation resolves
- *                            the component-level variable even though the token is on html.
+ *                            May reference var(--alert-bar-color): genresPlugin() emits this
+ *                            token on the .alert element (not html) so the reference resolves
+ *                            against the variant's own bar colour.
  *   --z-alert-prefix-opacity Opacity of the .alert-title::before prefix ("// " in Ops, "> " in Cyberpunk).
  *                            (Ops = 0.38, Cyberpunk = 0.55)
  *   --z-alert-bar-glow       box-shadow on the bar ::before pseudo-element.
- *                            Supports var(--alert-bar-color) for the same reason.
+ *                            May reference var(--alert-bar-color); element-scoped like the border.
  *                            (Ops = none, Cyberpunk = neon glow)
- *   --z-alert-texture        background-image overlay (Ops = none, Cyberpunk = scan-lines)
+ *   --z-alert-texture        background-image overlay (Ops = none, Cyberpunk = scan-lines);
+ *                            element-scoped like the border.
  *   --z-alert-padding-top    Padding top (Ops = 0.875rem, Cyberpunk = top-bar-adjusted)
  *   --z-alert-padding-left   Padding left (Ops = bar-adjusted, Cyberpunk = 1.25rem)
  *   --z-alert-bar-inset      inset shorthand for bar position (Ops = left, Cyberpunk = top)

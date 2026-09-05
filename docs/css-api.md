@@ -54,7 +54,7 @@ Override any of these on `:root` or a scoped selector to adjust global timing.
 | `--z-ease-spring` | `<easing-function>` | `cubic-bezier(0.34, 1.4, 0.64, 1)` | Spring with modest overshoot. Used for badge scan and pulse ring. |
 | `--z-ease` | `<easing-function>` | `cubic-bezier(0.22, 1, 0.36, 1)` | General-purpose smooth deceleration easing. |
 | `--z-ease-snap` | `<easing-function>` | `cubic-bezier(0.25, 0.46, 0.45, 0.94)` | Quick snap easing. Reaches final value rapidly. |
-| `--z-ease-out` | `<easing-function>` | `cubic-bezier(0.16, 1, 0.3, 1)` | Strong deceleration easing. Overshoots slightly then settles. |
+| `--z-ease-out` | `<easing-function>` | `cubic-bezier(0.16, 1, 0.3, 1)` | Strong deceleration easing. Arrives fast and settles without overshoot. |
 
 ---
 
@@ -189,7 +189,7 @@ Set on `.alert-*` variant classes or your own custom class alongside `.alert`.
 | `--alert-bar-color` | `@property <color>` | `rgba(255,255,255,0.10)` | Accent bar color (left/top/right/bottom edge — position is genre-defined). |
 | `--alert-bg` | `@property <color>` | `rgba(255,255,255,0.02)` | Background tint. |
 | `--alert-color` | `@property <color>` | dim text | Body text color. WCAG AA ≥4.5:1 on dark. |
-| `--alert-shadow` | — | `none` | Box-shadow (near glow + inset depth). |
+| `--alert-shadow` | — | `0 0 0 0 transparent` (no-op) | Box-shadow (near glow + inset depth). A no-op shadow rather than `none` so `.alert-round` can compose its ring with it. |
 | `--alert-title-shadow` | — | `none` | `.alert-title` text luminescence. |
 
 ---
@@ -199,6 +199,15 @@ Set on `.alert-*` variant classes or your own custom class alongside `.alert`.
 These tokens are implementation details. They are set by the genre system on the
 `html` element and overridden by `html[data-genre="X"]` selectors. Setting them in
 your own stylesheets will produce unexpected results and may break in any minor release.
+
+Seven of them reference element-level public tokens in their values (`--z-btn-clip`
+and `--z-btn-inner-clip` use `var(--btn-corner)`; `--z-badge-clip` and
+`--z-badge-inner-clip` use `var(--badge-offset)`; `--z-alert-border`,
+`--z-alert-bar-glow`, and `--z-alert-texture` use `var(--alert-bar-color)`). A custom
+property substitutes its `var()` references where it is *declared*, so the plugin
+emits those seven on the component element (`:where(.btn)`,
+`:where(html[data-genre="X"]) :where(.btn)`, …) rather than on `html` — declaring
+them on `html` would freeze them at html's values.
 
 ### Primitive tokens (15) — `--zp-*`
 
@@ -263,7 +272,7 @@ Use `--alert-bar-color`, `--alert-bg`, `--alert-color` (public) to override indi
 --z-alert-bar-h         --z-alert-bar-radius
 ```
 
-### Docs chrome tokens (10) — internal to the ZynaUI documentation site
+### Docs chrome tokens (14) — internal to the ZynaUI documentation site
 
 These tokens are consumed by the ZynaUI docs site stylesheet (`docs.css`).
 They are not consumed by any component. Do not reference them in your project.

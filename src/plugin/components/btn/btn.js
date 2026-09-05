@@ -75,9 +75,12 @@ export default function(theme) {
     '--btn-corner':     'var(--z-btn-corner)',
     // Outlined technique defaults — transparent so solid buttons are unaffected
     '--btn-interior':   'transparent',
-    // --z-btn-inner-clip: genre structural token inherited from html. Syncs the outlined
-    // interior clip with the genre's default shape (Cyberpunk = inset(1.5px) for rectangular
-    // interior fill). Explicit shape modifiers (.btn-square, .btn-cut, etc.) override this directly.
+    // --z-btn-inner-clip: genre structural token. Because its polygon references
+    // var(--btn-corner), genresPlugin() declares it on the .btn element itself
+    // (element-scoped) so the corner resolves per button — size classes work.
+    // Syncs the outlined interior clip with the genre's default shape (Cyberpunk =
+    // inset(1.5px) for rectangular interior fill). Explicit shape modifiers
+    // (.btn-square, .btn-cut, etc.) override this directly.
     '--btn-inner-clip': 'var(--z-btn-inner-clip)',
 
     // Structure
@@ -96,7 +99,9 @@ export default function(theme) {
     cursor: 'pointer',
     userSelect: 'none',
     border: 'none',
-    // --z-btn-clip is inherited from html (ops default); genre CSS selectors on html override it
+    // --z-btn-clip is declared on the .btn element by the genre system (Ops via
+    // :where(.btn), genres via :where(html[data-genre]) :where(.btn)) so that
+    // var(--btn-corner) inside the polygon resolves against THIS button.
     clipPath: 'var(--z-btn-clip)',
     // Base transition = hover-out easing. CSS reads the transition from the state being
     // transitioned TO — :hover overrides this with var(--z-ease-enter) so hover-in uses

@@ -49,6 +49,7 @@ export class ZynaDensity extends ZynaChart {
     if (!data.length) { this._warnEmpty('zyna-density'); return }
 
     const periods = data.map((d, i) => ({
+      i,
       label:  d.label != null ? String(d.label) : `#${i + 1}`,
       values: (Array.isArray(d.values) ? d.values : []).map(v => +v).filter(Number.isFinite),
     }))
@@ -68,9 +69,11 @@ export class ZynaDensity extends ZynaChart {
     const m = { left: Math.max(46, W * 0.09) + (yLabel ? 16 : 0), right: 16, top: 16, bottom: 28 }
     const innerH = H - m.top - m.bottom
 
-    const xScale = scalePoint().domain(periods.map(p => p.label)).range([m.left + 30, W - m.right - 30]).padding(0.5)
+    // Position by period index, not label: a point scale de-duplicates its
+    // domain, so two periods with the same label would draw on top of each other.
+    const xScale = scalePoint().domain(periods.map(p => p.i)).range([m.left + 30, W - m.right - 30]).padding(0.5)
     const yScale = scaleLinear().domain([yMin, yMax]).range([H - m.bottom, m.top])
-    const step   = M > 1 ? (xScale(periods[1].label) - xScale(periods[0].label)) : (W - m.left - m.right)
+    const step   = M > 1 ? (xScale(1) - xScale(0)) : (W - m.left - m.right)
     const halfW  = Math.min(Math.abs(step) * 0.44, W * 0.13)
     const fSm    = Math.max(9, W * 0.019)
 
@@ -160,7 +163,7 @@ export class ZynaDensity extends ZynaChart {
     grad.select('stop:nth-child(3)').attr('stop-color', accent).attr('stop-opacity', 0.04)
 
     // Silhouettes — one per period with samples.
-    svg.selectAll('path.dn-violin').data(periods, d => d.label)
+    svg.selectAll('path.dn-violin').data(periods, d => d.i)
       .join(
         enter  => enter.append('path').attr('class', 'dn-violin'),
         update => update,
@@ -169,7 +172,7 @@ export class ZynaDensity extends ZynaChart {
       .each(function(p) {
         const el = select(this)
         if (!p.dens) { el.attr('display', 'none'); return }
-        const cx = xScale(p.label)
+        const cx = xScale(p.i)
         // Width-normalise each violin to its OWN peak so every period's shape is
         // readable regardless of density. Draw the FULL shared domain: the body
         // bulges at the data and tapers to thin vertical whiskers through the empty
@@ -188,25 +191,25 @@ export class ZynaDensity extends ZynaChart {
       })
 
     // Median spine + dots.
-    const medPts = withMed.map(p => [xScale(p.label), yScale(p.med)])
+    const medPts = withMed.map(p => [xScale(p.i), yScale(p.med)])
     let spine = svg.select('polyline.dn-spine')
     if (spine.empty()) spine = svg.append('polyline').attr('class', 'dn-spine')
     spine.attr('points', medPts.map(pt => `${pt[0].toFixed(1)},${pt[1].toFixed(1)}`).join(' '))
       .attr('fill', 'none').attr('stroke', accent).attr('stroke-width', 1.4).attr('opacity', 0.8)
       .attr('stroke-dasharray', '1 3').attr('stroke-linecap', 'round')
 
-    svg.selectAll('circle.dn-median').data(withMed, d => d.label)
+    svg.selectAll('circle.dn-median').data(withMed, d => d.i)
       .join(
         enter  => enter.append('circle').attr('class', 'dn-median'),
         update => update,
         exit   => exit.remove()
       )
       .each(function(p) {
-        select(this).attr('cx', xScale(p.label)).attr('cy', yScale(p.med)).attr('r', 2.6).attr('fill', accent)
+        select(this).attr('cx', xScale(p.i)).attr('cy', yScale(p.med)).attr('r', 2.6).attr('fill', accent)
       })
 
     // Period labels.
-    svg.selectAll('text.dn-xlabel').data(periods, d => d.label)
+    svg.selectAll('text.dn-xlabel').data(periods, d => d.i)
       .join(
         enter  => enter.append('text').attr('class', 'dn-xlabel'),
         update => update,
@@ -214,7 +217,7 @@ export class ZynaDensity extends ZynaChart {
       )
       .each(function(p) {
         select(this)
-          .attr('x', xScale(p.label)).attr('y', H - m.bottom + 16)
+          .attr('x', xScale(p.i)).attr('y', H - m.bottom + 16)
           .attr('text-anchor', 'middle').attr('font-family', 'monospace')
           .attr('font-size', `${fSm}px`).attr('fill', labelC)
           .text(p.label)

@@ -73,8 +73,11 @@ export const styles = {
     '--z-alert-bar-width':    '5px',
     '--z-alert-prefix':       '"> "',
     '--z-alert-bg-opacity':   '14%',
-    // Full-perimeter border in the variant's bar colour. Lazy CSS evaluation resolves
-    // var(--alert-bar-color) at the element level even though this token is on html.
+    // Full-perimeter border in the variant's bar colour. This token (and the bar
+    // glow below) references the element-level --alert-bar-color, so genresPlugin()
+    // emits it on :where(html[data-genre="cyberpunk"]) :where(.alert) — on html it
+    // would resolve against html's initial white and every variant's border and
+    // glow rendered white (see ELEMENT_SCOPED_TOKENS in genres/index.js).
     '--z-alert-border':          '1px solid color-mix(in oklch, var(--alert-bar-color) 35%, transparent)',
     '--z-alert-prefix-opacity': '0.55',
     '--z-alert-bar-glow':        '0 0 14px var(--alert-bar-color), 0 0 30px color-mix(in oklch, var(--alert-bar-color) 40%, transparent)',
