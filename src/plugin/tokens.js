@@ -56,7 +56,6 @@ export default function tokens(theme) {
     '--zp-corner-lg':     '13px',
     '--zp-corner-xl':     '16px',
     '--zp-corner-badge':  '5px',
-    '--zp-corner-badge-lg': '6px',
     '--zp-corner-card':   '16px',
 
     // ── Tier 1: Motion primitives ─────────────────────────────────────────────
