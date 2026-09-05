@@ -135,6 +135,8 @@ export const styles = {
     // Inner clip: 1 px inset on all straight edges, point moved 1 px right.
     '--z-btn-inner-clip':   'polygon(calc(var(--btn-corner) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px 50%)',
     '--z-btn-corner':       '14px',
+    '--z-btn-corner-sm':    '10px',
+    '--z-btn-corner-lg':    '18px',
     '--z-btn-active-scale': '0.97',
     '--z-btn-scan-stop':    '55%',
 

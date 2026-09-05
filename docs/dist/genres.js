@@ -78,6 +78,8 @@ const f = {
     // freeze the chamfer at 10px for every size class.
     "--z-btn-clip": "polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)))",
     "--z-btn-corner": "var(--z-corner)",
+    "--z-btn-corner-sm": "var(--z-corner-sm)",
+    "--z-btn-corner-lg": "var(--z-corner-lg)",
     "--z-btn-inner-clip": f.diagonal("var(--btn-corner)").inner,
     "--z-btn-active-scale": "0.96",
     "--z-btn-scan-stop": "70%",
@@ -607,6 +609,8 @@ const f = {
     // Inner clip: 1 px inset on all straight edges, point moved 1 px right.
     "--z-btn-inner-clip": "polygon(calc(var(--btn-corner) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px 50%)",
     "--z-btn-corner": "14px",
+    "--z-btn-corner-sm": "10px",
+    "--z-btn-corner-lg": "18px",
     "--z-btn-active-scale": "0.97",
     "--z-btn-scan-stop": "55%",
     // ── Badge — sharp rectangular terminal tag ────────────────────────────────
@@ -1542,6 +1546,8 @@ const f = {
     "--z-btn-clip": "polygon(var(--btn-corner) 0, 100% 0, 100% 100%, 0 100%, 0 var(--btn-corner))",
     "--z-btn-inner-clip": "polygon(calc(var(--btn-corner) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px), 1px calc(var(--btn-corner) + 1px))",
     "--z-btn-corner": "11px",
+    "--z-btn-corner-sm": "8px",
+    "--z-btn-corner-lg": "14px",
     "--z-btn-active-scale": "0.97",
     "--z-btn-scan-stop": "45%",
     // ── Badge — bottom-right chamfer (tanzaku calligraphy slip) ───────────────
