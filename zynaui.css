@@ -875,7 +875,7 @@
     border-radius: 0;
     --card-shadow: none;
     --card-bar-shadow: none;
-    filter: drop-shadow(0 24px 70px rgba(0,0,0,0.60)) drop-shadow(0 0 0 1px rgba(255,255,255,0.02));
+    filter: var(--z-card-bevel-filter);
   }
   @property --badge-offset {
     syntax: "<length>";
@@ -1360,6 +1360,7 @@
     --z-alert-bar-radius: 3px 0 0 3px;
     --z-card-clip: none;
     --z-card-filter: none;
+    --z-card-bevel-filter: drop-shadow(0 24px 70px rgba(0,0,0,0.60));
     --z-card-texture: linear-gradient(transparent, transparent);
     --z-card-gradient: var(--z-surface-card);
     --z-card-border-color: var(--z-color-border);
@@ -1463,6 +1464,7 @@
     @supports (color: color-mix(in lab, red, red)) {
       --z-card-shadow: 0 0 0 1px color-mix(in oklch, var(--zyna) 25%, transparent), 0 8px 32px rgba(0,0,0,0.6);
     }
+    --z-card-bevel-filter: drop-shadow(0 8px 32px rgba(0,0,0,0.6));
     --z-card-bar-height: 3px;
     --z-card-bar-bg: var(--zyna);
     --z-card-bar-shadow: 0 0 14px var(--zyna), 0 0 32px var(--zyna);
@@ -1669,6 +1671,7 @@
     --z-alert-bar-radius: 0;
     --z-card-clip: none;
     --z-card-filter: none;
+    --z-card-bevel-filter: drop-shadow(0 6px 20px rgba(0,0,0,0.08));
     --z-card-texture: none;
     --z-card-gradient: var(--z-surface-card);
     --z-card-border-color: rgba(28,27,22,0.09);
@@ -1811,6 +1814,7 @@
     --z-alert-bar-radius: 0;
     --z-card-clip: none;
     --z-card-filter: none;
+    --z-card-bevel-filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
     --z-card-texture: none;
     --z-card-gradient: var(--z-surface-card);
     --z-card-border-color: rgba(255,159,10,0.14);
@@ -2050,6 +2054,7 @@
     --z-alert-bar-radius: 0;
     --z-card-clip: none;
     --z-card-filter: none;
+    --z-card-bevel-filter: drop-shadow(0 2px 8px rgba(0,0,0,0.60));
     --z-card-texture: repeating-linear-gradient(45deg, rgba(139,158,75,0.022) 0px, rgba(139,158,75,0.022) 1px, transparent 1px, transparent 10px);
     --z-card-gradient: var(--z-surface-card);
     --z-card-border-color: rgba(139,158,75,0.13);
@@ -2225,6 +2230,7 @@
     --z-alert-bar-radius: 1px;
     --z-card-clip: none;
     --z-card-filter: none;
+    --z-card-bevel-filter: drop-shadow(0 4px 12px rgba(27,58,107,0.10));
     --z-card-texture: repeating-linear-gradient(0deg, rgba(27,58,107,0.022) 0px, rgba(27,58,107,0.022) 1px, transparent 1px, transparent 18px);
     --z-card-gradient: var(--z-surface-card);
     --z-card-border-color: rgba(27,58,107,0.09);
@@ -2405,6 +2411,7 @@
     --z-alert-bar-radius: 0;
     --z-card-clip: none;
     --z-card-filter: none;
+    --z-card-bevel-filter: drop-shadow(0 4px 14px rgba(42,26,14,0.10));
     --z-card-texture: repeating-linear-gradient(45deg, rgba(201,60,35,0.018) 0px, rgba(201,60,35,0.018) 1px, transparent 1px, transparent 12px), repeating-linear-gradient(-45deg, rgba(201,60,35,0.018) 0px, rgba(201,60,35,0.018) 1px, transparent 1px, transparent 12px);
     --z-card-gradient: var(--z-surface-card);
     --z-card-border-color: rgba(42,26,14,0.09);
@@ -2601,6 +2608,7 @@
     --z-alert-bar-radius: 0;
     --z-card-clip: none;
     --z-card-filter: none;
+    --z-card-bevel-filter: drop-shadow(0 4px 14px rgba(12,30,36,0.09));
     --z-card-texture: repeating-linear-gradient(90deg, rgba(0,144,176,0.042) 0px, rgba(0,144,176,0.042) 1px, transparent 1px, transparent 6px);
     --z-card-gradient: var(--z-surface-card);
     --z-card-border-color: rgba(12,30,36,0.08);
@@ -2786,6 +2794,7 @@
     --z-alert-bar-radius: 2px 0 0 2px;
     --z-card-clip: none;
     --z-card-filter: none;
+    --z-card-bevel-filter: drop-shadow(0 4px 14px rgba(44,28,4,0.09));
     --z-card-texture: repeating-linear-gradient(0deg, rgba(184,146,10,0.05) 0px, rgba(184,146,10,0.05) 1px, transparent 1px, transparent 4px), repeating-linear-gradient(90deg, rgba(184,146,10,0.08) 0px, rgba(184,146,10,0.08) 1px, transparent 1px, transparent 40px);
     --z-card-gradient: var(--z-surface-card);
     --z-card-border-color: rgba(44,28,4,0.08);
