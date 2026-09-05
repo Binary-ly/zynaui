@@ -52,17 +52,29 @@ export class ZynaPulse extends ZynaChart {
     const M = max(tracks, t => t.values.length) || 0
     if (!M) { this._warnEmpty('zyna-pulse'); return }
 
+    // Event markers — resolved up front because a captioned marker reserves a
+    // band above the tracks; drawn last so the rules sit on top of the traces.
+    const mk = (Array.isArray(markers) ? markers : []).map(mrk => {
+      let idx = -1
+      if (xLabels.length) idx = xLabels.findIndex(l => String(l) === String(mrk.x))
+      if (idx === -1 && (typeof mrk.x === 'number' || (typeof mrk.x === 'string' && mrk.x.trim() !== '')) && Number.isFinite(+mrk.x)) idx = +mrk.x
+      return (idx >= 0 && idx < M) ? { idx, label: mrk.label != null ? String(mrk.label) : '', key: `${idx}|${mrk.label || ''}` } : null
+    }).filter(Boolean)
+
     const n    = tracks.length
     const W    = this.clientWidth || 600
     const trkH = Math.max(28, Math.min(64, W * 0.1))
-    const H    = heightAttr > 0 ? heightAttr : Math.max(160, n * trkH + 40)
+    const fSm  = Math.max(9, W * 0.02)
+    // Captions get their own band above the first track instead of sitting
+    // inside it, where the trace's upper swing ran straight through the text.
+    const capH = mk.some(d => d.label) ? fSm + 6 : 0
+    const H    = heightAttr > 0 ? heightAttr : Math.max(160, n * trkH + 40 + capH)
 
-    const m      = { left: Math.max(52, W * 0.13), right: 14, top: 16, bottom: 26 }
+    const m      = { left: Math.max(52, W * 0.13), right: 14, top: 16 + capH, bottom: 26 }
     const innerW = W - m.left - m.right
     const innerH = H - m.top - m.bottom
     const trackH = innerH / n
     const amp    = ampAttr > 0 ? ampAttr : trackH * 0.38
-    const fSm    = Math.max(9, W * 0.02)
 
     const x = scalePoint().domain(Array.from({ length: M }, (_, j) => j)).range([0, innerW]).padding(0)
 
@@ -137,14 +149,6 @@ export class ZynaPulse extends ZynaChart {
           .text(d.label)
       })
 
-    // Event markers — vertical rules spanning every track.
-    const mk = (Array.isArray(markers) ? markers : []).map(mrk => {
-      let idx = -1
-      if (xLabels.length) idx = xLabels.findIndex(l => String(l) === String(mrk.x))
-      if (idx === -1 && (typeof mrk.x === 'number' || (typeof mrk.x === 'string' && mrk.x.trim() !== '')) && Number.isFinite(+mrk.x)) idx = +mrk.x
-      return (idx >= 0 && idx < M) ? { idx, label: mrk.label != null ? String(mrk.label) : '', key: `${idx}|${mrk.label || ''}` } : null
-    }).filter(Boolean)
-
     svg.selectAll('g.pl-marker').data(mk, d => d.key)
       .join(
         enter => {
@@ -162,11 +166,15 @@ export class ZynaPulse extends ZynaChart {
         g.select('.pl-marker-line')
           .attr('x1', mx).attr('x2', mx).attr('y1', m.top).attr('y2', m.top + innerH)
           .attr('stroke', danger).attr('stroke-width', 1).attr('stroke-dasharray', '4 3')
-        g.select('.pl-marker-label')
+        const lbl = g.select('.pl-marker-label')
           .attr('display', d.label ? null : 'none')
-          .attr('x', mx + 4).attr('y', m.top + fSm)
+          .attr('x', mx + 4).attr('y', m.top - 6).attr('text-anchor', 'start')
           .attr('font-family', 'monospace').attr('font-size', `${fSm}px`).attr('fill', danger)
           .text(d.label)
+        // A caption near the right edge flips to the left of its rule so it
+        // stays inside the viewBox.
+        const tw = lbl.node().getComputedTextLength ? lbl.node().getComputedTextLength() : 0
+        if (mx + 4 + tw > W - 2) lbl.attr('x', mx - 4).attr('text-anchor', 'end')
       })
   }
 }
