@@ -147,7 +147,7 @@ Set on `.badge-*` variant classes or your own custom class alongside `.badge`.
 | `--badge-glow` | — | `none` | Drop-shadow filter (traces the badge shape). |
 | `--badge-scan-color` | — | `rgba(255,255,255,0.18)` | Scan-sweep highlight color. |
 | `--badge-dot-size` | — | `5px` | Pulse status dot diameter. `.badge-sm` sets `4px`, `.badge-lg` sets `6px`. |
-| `--badge-interior` | — | `transparent` | Interior fill for `.badge-outline`. |
+| `--badge-interior` | — | `transparent` | Interior fill painted by `::before` inside `--badge-inner-clip`. Transparent in Ops; genres that draw a border fill it with the `--badge-bg` tint over the page surface, so the border (the element background) follows the clip shape. |
 | `--badge-offset` | `@property <length>` | `5px` | Parallelogram slant depth. Shape modifiers set this automatically. |
 | `--badge-inner-clip` | — | genre default | Inner clip-path for the outlined interior border technique. |
 
@@ -194,18 +194,19 @@ Set on `.alert-*` variant classes or your own custom class alongside `.alert`.
 
 ---
 
-## Internal tokens — 80 tokens (do not use)
+## Internal tokens — 84 tokens (do not use)
 
 These tokens are implementation details. They are set by the genre system on the
 `html` element and overridden by `html[data-genre="X"]` selectors. Setting them in
 your own stylesheets will produce unexpected results and may break in any minor release.
 
-Seven of them reference element-level public tokens in their values (`--z-btn-clip`
+Eight of them reference element-level public tokens in their values (`--z-btn-clip`
 and `--z-btn-inner-clip` use `var(--btn-corner)`; `--z-badge-clip` and
-`--z-badge-inner-clip` use `var(--badge-offset)`; `--z-alert-border`,
-`--z-alert-bar-glow`, and `--z-alert-texture` use `var(--alert-bar-color)`). A custom
+`--z-badge-inner-clip` use `var(--badge-offset)`; `--z-badge-interior` uses
+`var(--badge-bg)`; `--z-alert-border`, `--z-alert-bar-glow`, and `--z-alert-texture`
+use `var(--alert-bar-color)`). A custom
 property substitutes its `var()` references where it is *declared*, so the plugin
-emits those seven on the component element (`:where(.btn)`,
+emits those eight on the component element (`:where(.btn)`,
 `:where(html[data-genre="X"]) :where(.btn)`, …) rather than on `html` — declaring
 them on `html` would freeze them at html's values.
 
@@ -231,16 +232,23 @@ Use `--btn-corner` and `--btn-inner-clip` (public) to override shape on individu
 --z-btn-active-scale  --z-btn-scan-stop
 ```
 
-### Badge genre structural (7) — `--z-badge-*`
+### Badge genre structural (10) — `--z-badge-*`
 
-Control the default badge shape, padding, and scan timing for each genre.
+Control the default badge shape, padding, border, and scan timing for each genre.
 Use `--badge-offset`, `--badge-bg`, `--badge-color` (public) to override individual badges.
 
 ```
 --z-badge-clip       --z-badge-radius         --z-badge-padding
 --z-badge-letter-spacing  --z-badge-inset-shadow  --z-badge-scan-duration
---z-badge-inner-clip
+--z-badge-inner-clip  --z-badge-rim           --z-badge-inset
+--z-badge-interior
 ```
+
+`--z-badge-rim` is the element background in genres that draw a border (unset in
+Ops, `currentColor` in the other eight). `--z-badge-interior` is the `::before` fill
+those genres use (`--badge-bg` tint over `--z-surface-page`), and `--z-badge-inset`
+is the rim width the shape modifiers cut their inner clip with (`2px` in Ops, `1px`
+in rim genres).
 
 ### Card genre structural (26) — `--z-card-*`
 

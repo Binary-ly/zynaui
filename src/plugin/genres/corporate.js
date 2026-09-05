@@ -116,7 +116,11 @@ export const styles = {
     '--z-badge-letter-spacing': '0.07em',  // tight typographic — no spaced-out caps
     '--z-badge-inset-shadow':   'inset 0 0 0 1px currentColor',
     '--z-badge-scan-duration':  '9s',      // barely perceptible scan
-    '--z-badge-inner-clip':     'inset(2px round 1px)',
+    '--z-badge-inner-clip':     'inset(1px round 2px)',
+    // Rim model: element = currentColor border, ::before = tint, so the border follows the clip.
+    '--z-badge-rim':            'currentColor',
+    '--z-badge-inset':          '1px',
+    '--z-badge-interior':       'linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page)',
 
     // ── Alert — left rule, § legal prefix, paper border ───────────────────────
     // § (section sign) is the mark used in legal and regulatory documents.
@@ -201,28 +205,6 @@ export const styles = {
   ':where(html[data-genre="corporate"]) :where(.badge-secondary)': {
     '--badge-bg':   'transparent',
     '--badge-glow': 'none',
-  },
-
-  // Polygon shapes (slant, bevel) can't use box-shadow: inset for a border —
-  // the rectangular shadow gets clipped abruptly at the diagonal corners.
-  // Switch to the inner-clip border model: outer = border color, ::before = fill.
-  // Polygon shapes (slant, bevel) can't use box-shadow: inset — rectangular shadow
-  // cuts abruptly at diagonal corners. Use inner-clip model instead (same technique
-  // as the genre builder which uses --z-badge-inset-shadow: none for all shapes):
-  //   outer strip (1px) = border color (currentColor)
-  //   ::before fill     = color-mix(currentColor 8%, page) — identical to how pill/rect
-  //                       look when rgba(currentColor, 0.08) sits on the page background
-  ':where(html[data-genre="corporate"]) :where(.badge-slant)': {
-    '--z-badge-inset-shadow': 'none',
-    '--badge-bg':         'currentColor',
-    '--badge-interior':   'var(--z-surface-page)',
-    '--badge-inner-clip': 'polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), 1px calc(100% - 1px))',
-  },
-  ':where(html[data-genre="corporate"]) :where(.badge-bevel)': {
-    '--z-badge-inset-shadow': 'none',
-    '--badge-bg':         'currentColor',
-    '--badge-interior':   'var(--z-surface-page)',
-    '--badge-inner-clip': 'polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) 1px, calc(100% - 1px) calc(var(--badge-offset) + 1px), calc(100% - 1px) calc(100% - calc(var(--badge-offset) + 1px)), calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), calc(var(--badge-offset) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--badge-offset) + 1px)), 1px calc(var(--badge-offset) + 1px))',
   },
 
   // ── Graph-paper ledger grid — page texture ────────────────────────────────────

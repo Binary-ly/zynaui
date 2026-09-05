@@ -198,6 +198,10 @@ export const styles = {
     '--z-badge-inset-shadow':   'inset 0 0 0 1px currentColor',
     '--z-badge-scan-duration':  '6s',   // tactical awareness cadence
     '--z-badge-inner-clip':     'polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 9px calc(100% - 1px), 1px calc(100% - 9px))',
+    // Rim model: element = currentColor border, ::before = tint, so the border follows the notch.
+    '--z-badge-rim':            'currentColor',
+    '--z-badge-inset':          '1px',
+    '--z-badge-interior':       'linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page)',
 
     // ── Alert — BOTTOM bar, diamond waypoint prefix ───────────────────────────
     // The bottom bar is a direct reference to NATO ground symbology:

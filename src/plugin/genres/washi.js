@@ -232,6 +232,10 @@ export const styles = {
     '--z-badge-inset-shadow':   'inset 0 0 0 1px currentColor',
     '--z-badge-scan-duration':  '7s',   // hanko seal rhythm — slow deliberate pass
     '--z-badge-inner-clip':     'polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 8px), calc(100% - 8px) calc(100% - 1px), 1px calc(100% - 1px))',
+    // Rim model: element = currentColor border, ::before = tint, so the border follows the chamfer.
+    '--z-badge-rim':            'currentColor',
+    '--z-badge-inset':          '1px',
+    '--z-badge-interior':       'linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page)',
 
     // ── Alert — left bar with shimi (ink-bleed) texture, 「 prefix ─────────────
     // The bar is a standard left-side accent, but --z-alert-texture applies a
@@ -342,23 +346,6 @@ export const styles = {
   ':where(html[data-genre="washi"]) :where(.badge-secondary)': {
     '--badge-bg':   'color-mix(in oklch, var(--zyna) 5%, transparent)',
     '--badge-glow': 'none',
-  },
-
-  // ── Polygon badge shape fixes (slant, bevel) on warm cream surface ─────────
-  // Polygon clip-paths cannot use inset box-shadow for a border — the rectangular
-  // shadow cuts abruptly at diagonal corners. Use the inner-clip border model
-  // with --z-surface-page as the interior fill. Same technique as Corporate.
-  ':where(html[data-genre="washi"]) :where(.badge-slant)': {
-    '--z-badge-inset-shadow': 'none',
-    '--badge-bg':         'currentColor',
-    '--badge-interior':   'var(--z-surface-page)',
-    '--badge-inner-clip': 'polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), 1px calc(100% - 1px))',
-  },
-  ':where(html[data-genre="washi"]) :where(.badge-bevel)': {
-    '--z-badge-inset-shadow': 'none',
-    '--badge-bg':         'currentColor',
-    '--badge-interior':   'var(--z-surface-page)',
-    '--badge-inner-clip': 'polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) 1px, calc(100% - 1px) calc(var(--badge-offset) + 1px), calc(100% - 1px) calc(100% - calc(var(--badge-offset) + 1px)), calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), calc(var(--badge-offset) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--badge-offset) + 1px)), 1px calc(var(--badge-offset) + 1px))',
   },
 
   // ── Washi kozo fiber network — page texture ────────────────────────────────

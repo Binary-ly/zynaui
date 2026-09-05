@@ -337,6 +337,10 @@ export const styles = {
     // Top shoulder: 8+1=9px from right. Tip: ~2px from right edge (1px inset on diagonal).
     // Bottom shoulder: same as top. Left and bottom: 1px inset.
     '--z-badge-inner-clip':     'polygon(1px 1px, calc(100% - 9px) 1px, calc(100% - 2px) 50%, calc(100% - 9px) calc(100% - 1px), 1px calc(100% - 1px))',
+    // Rim model: element = currentColor border, ::before = tint, so the border follows the arrow.
+    '--z-badge-rim':            'currentColor',
+    '--z-badge-inset':          '1px',
+    '--z-badge-interior':       'linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page)',
 
     // ── Alert — TOP EDGE RULING + ∴ (therefore) prefix ─────────────────────────
     // Bar position: `inset: 0 0 auto 0` = top:0, right:0, bottom:auto, left:0.
@@ -438,23 +442,6 @@ export const styles = {
   ':where(html[data-genre="laboratory"]) :where(.badge-secondary)': {
     '--badge-bg':   'color-mix(in oklch, var(--zyna) 5%, transparent)',
     '--badge-glow': 'none',
-  },
-
-  // ── Polygon badge shape fixes on clinical white surface ───────────────────
-  // clip-path polygon shapes cannot use inset box-shadow for a border — the
-  // rectangular shadow clips abruptly at diagonal edges. Use the inner-clip
-  // border model with --z-surface-page as the interior fill.
-  ':where(html[data-genre="laboratory"]) :where(.badge-slant)': {
-    '--z-badge-inset-shadow': 'none',
-    '--badge-bg':         'currentColor',
-    '--badge-interior':   'var(--z-surface-page)',
-    '--badge-inner-clip': 'polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), 1px calc(100% - 1px))',
-  },
-  ':where(html[data-genre="laboratory"]) :where(.badge-bevel)': {
-    '--z-badge-inset-shadow': 'none',
-    '--badge-bg':         'currentColor',
-    '--badge-interior':   'var(--z-surface-page)',
-    '--badge-inner-clip': 'polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) 1px, calc(100% - 1px) calc(var(--badge-offset) + 1px), calc(100% - 1px) calc(100% - calc(var(--badge-offset) + 1px)), calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), calc(var(--badge-offset) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--badge-offset) + 1px)), 1px calc(var(--badge-offset) + 1px))',
   },
 
   // ── Dot grid — page texture (radial-gradient) ─────────────────────────────
