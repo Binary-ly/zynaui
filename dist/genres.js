@@ -1,4 +1,4 @@
-const z = {
+const f = {
   /**
    * Diagonal — cuts top-right and bottom-left corners diagonally (2-corner chamfer).
    */
@@ -33,12 +33,12 @@ const z = {
    * but ensures filter traces the element before compositing and clips pseudo-elements.
    */
   rect: { clipPath: "inset(0)", borderRadius: "0", innerClip: "inset(1.5px)" }
-}, x = "Ops", h = {
+}, v = "Ops", y = {
   brand: "#C9A84C",
   success: "#00FFB2",
   danger: "#FF3366",
   info: "#00D4FF"
-}, w = {
+}, k = {
   // ── Motion ─────────────────────────────────────────────────────────────────
   "--z-duration-fast": "0.18s",
   "--z-duration-base": "0.22s",
@@ -55,7 +55,7 @@ const z = {
   // acceleration out, "lifting"
   "--z-ease-spring": "cubic-bezier(0.34, 1.4, 0.64, 1)"
   // modest overshoot
-}, m = {
+}, F = {
   // ── Structural component defaults — scoped to html, not :root ──────────────
   // Specificity [0,0,1] so any genre override selector (html[data-genre="X"]
   // at [0,1,1]) wins without needing !important or additional specificity tricks.
@@ -71,9 +71,14 @@ const z = {
     "background-color": "var(--z-surface-page)",
     color: "var(--z-color-text)",
     // ── Button structural ───────────────────────────────────────────────────
+    // --z-btn-clip / --z-btn-inner-clip reference the element-level --btn-corner,
+    // so genresPlugin() emits them on :where(.btn) rather than html (see
+    // ELEMENT_SCOPED_TOKENS in genres/index.js) — declared here on html they
+    // would resolve --btn-corner against html's @property initial-value and
+    // freeze the chamfer at 10px for every size class.
     "--z-btn-clip": "polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)))",
     "--z-btn-corner": "var(--z-corner)",
-    "--z-btn-inner-clip": z.diagonal("var(--btn-corner)").inner,
+    "--z-btn-inner-clip": f.diagonal("var(--btn-corner)").inner,
     "--z-btn-active-scale": "0.96",
     "--z-btn-scan-stop": "70%",
     // ── Alert structural ────────────────────────────────────────────────────
@@ -147,12 +152,12 @@ const z = {
     "--z-topbar-glow": "none",
     "--z-sidebar-active-shadow": "none"
   }
-}, p = { name: x, tokens: w, swatches: h, styles: m }, u = "Cyberpunk", f = {
+}, p = { name: v, tokens: k, swatches: y, styles: F }, E = "Cyberpunk", A = {
   brand: "#39FF14",
   success: "#39FF14",
   danger: "#FF073A",
   info: "#7B61FF"
-}, v = {
+}, C = {
   // ── Color ───────────────────────────────────────────────────────────────────
   "--zyna": "#39FF14",
   "--zyna-dark": "#1A8A00",
@@ -173,7 +178,7 @@ const z = {
   // hard acceleration out, "cutting"
   "--z-ease-spring": "cubic-bezier(0.5, 1.8, 0.5, 1)"
   // aggressive overshoot, "recoil"
-}, y = {
+}, D = {
   // ── Structural overrides — scoped to html[data-genre="cyberpunk"] ──────────
   // Specificity [0,1,1] beats ops defaults on html [0,0,1].
   // Genre activation is pure CSS: set data-genre="cyberpunk" on the html element.
@@ -198,8 +203,11 @@ const z = {
     "--z-alert-bar-width": "5px",
     "--z-alert-prefix": '"> "',
     "--z-alert-bg-opacity": "14%",
-    // Full-perimeter border in the variant's bar colour. Lazy CSS evaluation resolves
-    // var(--alert-bar-color) at the element level even though this token is on html.
+    // Full-perimeter border in the variant's bar colour. This token (and the bar
+    // glow below) references the element-level --alert-bar-color, so genresPlugin()
+    // emits it on :where(html[data-genre="cyberpunk"]) :where(.alert) — on html it
+    // would resolve against html's initial white and every variant's border and
+    // glow rendered white (see ELEMENT_SCOPED_TOKENS in genres/index.js).
     "--z-alert-border": "1px solid color-mix(in oklch, var(--alert-bar-color) 35%, transparent)",
     "--z-alert-prefix-opacity": "0.55",
     "--z-alert-bar-glow": "0 0 14px var(--alert-bar-color), 0 0 30px color-mix(in oklch, var(--alert-bar-color) 40%, transparent)",
@@ -280,12 +288,12 @@ const z = {
     pointerEvents: "none",
     background: "repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--zyna) 4.5%, transparent) 2px, color-mix(in oklch, var(--zyna) 4.5%, transparent) 3px)"
   }
-}, k = { name: u, tokens: v, swatches: f, styles: y }, F = "Corporate", E = {
+}, B = { name: E, tokens: C, swatches: A, styles: D }, $ = "Corporate", I = {
   brand: "#1D3557",
   success: "#1A6B45",
   danger: "#A31621",
   info: "#2A5B8C"
-}, A = {
+}, j = {
   // ── Brand ─────────────────────────────────────────────────────────────────────
   "--zyna": "#1D3557",
   // "Navy Dispatch" — institutional, never electric
@@ -354,7 +362,7 @@ const z = {
   // measured ease-in
   "--z-ease-spring": "cubic-bezier(0.34, 1.06, 0.64, 1)"
   // restrained settle, no recoil
-}, C = {
+}, X = {
   // ── Structural overrides — scoped to html[data-genre="corporate"] ─────────────
   // Specificity [0,1,1] beats ops defaults on html [0,0,1].
   'html[data-genre="corporate"]': {
@@ -503,12 +511,12 @@ const z = {
     ].join(", "),
     backgroundSize: "24px 24px"
   }
-}, D = { name: F, tokens: A, swatches: E, styles: C }, B = "Phosphor", $ = {
+}, O = { name: $, tokens: j, swatches: I, styles: X }, S = "Phosphor", N = {
   brand: "#FF9F0A",
   success: "#6EC96C",
   danger: "#FF4E4E",
   info: "#5BBFFF"
-}, I = {
+}, T = {
   // ── Brand — classic P3 phosphor amber ─────────────────────────────────────
   "--zyna": "#FF9F0A",
   // P3 phosphor amber — the precise hue of an Amber CRT tube
@@ -576,7 +584,7 @@ const z = {
   // typewriter snap-out — 4 discrete frames
   "--z-ease-spring": "steps(8, end)"
   // stepped persistence — phosphor decay
-}, X = {
+}, Y = {
   // ── CRT phosphor sweep keyframe ────────────────────────────────────────────
   // Unique to this genre: simulates the CRT electron gun's raster scan pass.
   // The body::after element (200 px tall) descends from above the viewport
@@ -738,15 +746,24 @@ const z = {
   // Must live here (inside the genre file, last in addBase source order) so it
   // wins over the animation declaration above. motion.js runs before genresPlugin()
   // and loses to genre rules via source order at equal specificity.
+  //
+  // The badge easing overrides above have the same effect on motion.js's
+  // reduced-motion badge rules: identical (0,0,1) specificity, later source
+  // order, so they silently re-enabled the scan sweep and the scaling pulse
+  // for reduced-motion users. Re-assert the reduced-motion behaviour here.
   "@media (prefers-reduced-motion: reduce)": {
-    ':where(html[data-genre="phosphor"]) body::after': { animation: "none" }
+    ':where(html[data-genre="phosphor"]) body::after': { animation: "none" },
+    ':where(html[data-genre="phosphor"]) :where(.badge)::after': { animation: "none" },
+    ':where(html[data-genre="phosphor"]) :where(.badge-pulse)::before': {
+      animation: "zyna-pulse-fade calc(var(--z-duration-pulse) * 2) ease-in-out infinite"
+    }
   }
-}, j = { name: B, tokens: I, swatches: $, styles: X }, S = "Military", O = {
+}, M = { name: S, tokens: T, swatches: N, styles: Y }, _ = "Military", P = {
   brand: "#8B9E4B",
   success: "#5B8A3C",
   danger: "#CC3300",
   info: "#4A7FA5"
-}, N = {
+}, G = {
   // ── Brand — Ranger olive ────────────────────────────────────────────────────
   // The authentic US Army uniform olive, slightly desaturated to avoid the
   // neon-green trap. Reads as "military" immediately without being cartoonish.
@@ -836,7 +853,7 @@ const z = {
   // deliberate departure
   "--z-ease-spring": "cubic-bezier(0.25, 0.46, 0.45, 0.94)"
   // no bounce, precision settle
-}, T = {
+}, L = {
   // ── Terrain surveillance sweep keyframe ─────────────────────────────────────
   // BOTTOM-TO-TOP — opposite direction from Phosphor (top-to-bottom CRT scan).
   // Simulates a ground-based LiDAR or surface surveillance radar sweeping upward
@@ -1046,12 +1063,12 @@ const z = {
   "@media (prefers-reduced-motion: reduce)": {
     ':where(html[data-genre="military"]) body::after': { animation: "none" }
   }
-}, Y = { name: S, tokens: N, swatches: O, styles: T }, L = "Blueprint", M = {
+}, K = { name: _, tokens: G, swatches: P, styles: L }, R = "Blueprint", V = {
   brand: "#1B3A6B",
   success: "#1A6B3A",
   danger: "#C0392B",
   info: "#2456A4"
-}, G = {
+}, q = {
   // ── Brand — Prussian Blue ──────────────────────────────────────────────────
   // The ferric cyanide blue of the original cyanotype blueprint process.
   // Not navy (#000080), not cobalt (#0047AB), not royal (#4169E1) —
@@ -1132,7 +1149,7 @@ const z = {
   // Spring: a precision instrument finds its rest position with a micro-settle.
   // cubic-bezier over 1 by 0.02 = barely-perceptible overshoot then lock.
   "--z-ease-spring": "cubic-bezier(0.34, 1.02, 0.64, 1)"
-}, P = {
+}, W = {
   // ── Pen plotter sweep keyframe ─────────────────────────────────────────────
   // Simulates an HP 7475A pen plotter head traversing the drawing surface.
   // The ONLY left-to-right (horizontal) sweep animation in ZynaUI.
@@ -1386,12 +1403,12 @@ const z = {
   "@media (prefers-reduced-motion: reduce)": {
     ':where(html[data-genre="blueprint"]) body::after': { animation: "none" }
   }
-}, _ = { name: L, tokens: G, swatches: M, styles: P }, R = "Washi", K = {
+}, H = { name: R, tokens: q, swatches: V, styles: W }, J = "Washi", Q = {
   brand: "#C93C23",
   success: "#2D6B3C",
   danger: "#9B1A0A",
   info: "#3A6B8A"
-}, V = {
+}, U = {
   // ── Brand — Shu-iro (朱色) cinnabar vermilion ──────────────────────────────
   // The precise pigment colour of cinnabar (mercury sulfide / HgS) as used in
   // Japanese torii gate lacquer, hanko seal ink, and temple architectural paint.
@@ -1492,7 +1509,7 @@ const z = {
   // shū-hō: brush lifts away
   "--z-ease-spring": "cubic-bezier(0.22, 1.35, 0.36, 1)"
   // shimi: ink bleed + settle
-}, q = {
+}, Z = {
   // ── Diagonal brushstroke sweep keyframe ───────────────────────────────────
   // The sweep element is rotated -12° and translates left-to-right.
   // Because it is much taller than the viewport and tilted, its leading edge
@@ -1738,12 +1755,12 @@ const z = {
   "@media (prefers-reduced-motion: reduce)": {
     ':where(html[data-genre="washi"]) body::after': { animation: "none" }
   }
-}, W = { name: R, tokens: V, swatches: K, styles: q }, H = "Laboratory", J = {
+}, aa = { name: J, tokens: U, swatches: Q, styles: Z }, ra = "Laboratory", ea = {
   brand: "#0090B0",
   success: "#1A7A4A",
   danger: "#C42B1A",
   info: "#007A96"
-}, Q = {
+}, na = {
   // ── Brand — cobalt titanate teal (CoTiO₃) ────────────────────────────────
   // Cobalt titanate is not cobalt blue — it is a distinct teal-blue pigment
   // produced when CoO is fused with TiO₂ at high temperature. CoTiO₃ is the
@@ -1866,7 +1883,7 @@ const z = {
   // crisp instrument release
   "--z-ease-spring": "cubic-bezier(0.18, 1.85, 0.38, 1)"
   // under-damped transient + settle
-}, U = {
+}, ta = {
   // ── Oscilloscope sawtooth time-base keyframe ───────────────────────────────
   // A real oscilloscope time-base:
   //   0% – 85%     Active trace: beam traverses left-to-right at constant velocity
@@ -1908,12 +1925,15 @@ const z = {
     //   (calc(100% - 10px), 100%) → (10px, 100%) — bottom flat segment
     //   (10px, 100%) → (0, calc(100% - 10px)) — bottom-left diagonal
     //   (0, calc(100% - 10px)) → (0, 0) — left edge, chamfer start
-    "--z-btn-clip": "polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px))",
+    // Chamfer depth reads var(--btn-corner) (default: --z-btn-corner = 10px)
+    // like every other genre, so .btn-sm / .btn-lg / .btn-icon rescale the cut
+    // instead of keeping a fixed 10px notch at every size.
+    "--z-btn-clip": "polygon(0 0, 100% 0, 100% calc(100% - var(--btn-corner)), calc(100% - var(--btn-corner)) 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)))",
     // Inner clip: match outer polygon inset by 1px on all edges.
     // Top edge: 1px down. Right/left straight edges: 1px in.
-    // Bottom-right diagonal: corner point shifts +1px inward on both axes (so 10+1=11px).
+    // Bottom-right diagonal: corner point shifts +1px inward on both axes.
     // Bottom-left diagonal: same shift.
-    "--z-btn-inner-clip": "polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 11px), calc(100% - 11px) calc(100% - 1px), 11px calc(100% - 1px), 1px calc(100% - 11px))",
+    "--z-btn-inner-clip": "polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - calc(var(--btn-corner) + 1px)), calc(100% - calc(var(--btn-corner) + 1px)) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--btn-corner) + 1px)))",
     "--z-btn-corner": "10px",
     "--z-btn-active-scale": "0.97",
     "--z-btn-scan-stop": "40%",
@@ -1957,12 +1977,14 @@ const z = {
     //   Blueprint           → left partial-height (inset: 15% auto 15% 0)
     //   Laboratory          → TOP (inset: 0 0 auto 0) ← no overlap, untouched position
     //
-    // Since there is no left bar, --z-alert-bar-width: 0 and left padding is
-    // standard 1.25rem (no left-bar offset required).
+    // The bar is on top, so left padding is the standard 1.25rem (set explicitly
+    // below — it does not derive from --z-alert-bar-width here). --z-alert-bar-width
+    // is still the bar's thickness: .alert-round composes its inset ring from it,
+    // so it must be the real 3px, not 0, or round alerts lose their indicator.
     "--z-alert-radius": "0 0 3px 3px",
     // top flush with bar; bottom corners rounded
-    "--z-alert-bar-width": "0",
-    // no left bar
+    "--z-alert-bar-width": "3px",
+    // ruled line thickness (top bar / round ring)
     "--z-alert-prefix": '"∴ "',
     // therefore (U+2234) — scientific conclusion
     "--z-alert-bg-opacity": "5%",
@@ -1970,7 +1992,7 @@ const z = {
     "--z-alert-prefix-opacity": "0.36",
     "--z-alert-bar-glow": "none",
     "--z-alert-texture": "none",
-    "--z-alert-padding-top": "calc(0.875rem + 3px)",
+    "--z-alert-padding-top": "calc(0.875rem + var(--z-alert-bar-width))",
     // standard padding + bar height
     "--z-alert-padding-left": "1.25rem",
     // no bar-width offset
@@ -1978,7 +2000,7 @@ const z = {
     // TOP: top=0 right=0 bottom=auto left=0
     "--z-alert-bar-w": "auto",
     // left:0 + right:0 = full width
-    "--z-alert-bar-h": "3px",
+    "--z-alert-bar-h": "var(--z-alert-bar-width)",
     // ruled line height
     "--z-alert-bar-radius": "0",
     // ── Card — vertical spectral lines + dual-beam bar ─────────────────────────
@@ -2105,12 +2127,12 @@ const z = {
   "@media (prefers-reduced-motion: reduce)": {
     ':where(html[data-genre="laboratory"]) body::after': { animation: "none" }
   }
-}, Z = { name: H, tokens: Q, swatches: J, styles: U }, aa = "Atelier", ra = {
+}, oa = { name: ra, tokens: na, swatches: ea, styles: ta }, ca = "Atelier", da = {
   brand: "#B8920A",
   success: "#2D6A2D",
   danger: "#B03020",
   info: "#1A5C7A"
-}, ea = {
+}, la = {
   // ── Brand — 22-karat gold (Au, #B8920A) ──────────────────────────────────
   // 22K gold alloy in its characteristic warm midtone: HSL ~43°, 89% saturation,
   // 38% lightness. This is the precise hue of gold foil hot-stamp blocking as
@@ -2220,7 +2242,7 @@ const z = {
   // silk gather
   "--z-ease-spring": "cubic-bezier(0.34, 1.26, 0.64, 1)"
   // garment settle
-}, na = {
+}, pa = {
   // ── Gold shimmer keyframe ─────────────────────────────────────────────────
   // A 120 px wide warm-gold shimmer traverses the viewport left-to-right over
   // 28 seconds at ease-in-out timing. The shimmer fades in at 8% of the cycle
@@ -2265,11 +2287,14 @@ const z = {
     //   (100%, calc(100% - 10px)) → (calc(100% - 10px), 100%) — bottom-right diagonal
     //   (calc(100% - 10px), 100%) → (0, 100%) — bottom edge (full width)
     //   (0, 100%) → (0, 0) — left edge (full height, flat)
-    "--z-btn-clip": "polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%)",
+    // Chamfer depth reads var(--btn-corner) (default: --z-btn-corner = 10px)
+    // like every other genre, so .btn-sm / .btn-lg / .btn-icon rescale the cut
+    // instead of keeping a fixed 10px shoulder at every size.
+    "--z-btn-clip": "polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% calc(100% - var(--btn-corner)), calc(100% - var(--btn-corner)) 100%, 0 100%)",
     // Inner clip: outer polygon inset by 1px on all edges.
     // Left edge: 1px in from left. Top/bottom: 1px from edges.
-    // Top-right diagonal: shoulder shifts to 10+1=11px. Bottom-right: same.
-    "--z-btn-inner-clip": "polygon(1px 1px, calc(100% - 11px) 1px, calc(100% - 1px) 11px, calc(100% - 1px) calc(100% - 11px), calc(100% - 11px) calc(100% - 1px), 1px calc(100% - 1px))",
+    // Top-right diagonal: shoulder shifts inward by 1px. Bottom-right: same.
+    "--z-btn-inner-clip": "polygon(1px 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - calc(var(--btn-corner) + 1px)), calc(100% - calc(var(--btn-corner) + 1px)) calc(100% - 1px), 1px calc(100% - 1px))",
     "--z-btn-corner": "10px",
     "--z-btn-active-scale": "0.97",
     "--z-btn-scan-stop": "35%",
@@ -2318,12 +2343,14 @@ const z = {
     //   Laboratory          → top (inset: 0 0 auto 0)
     //   Atelier             → RIGHT PARTIAL-HEIGHT (inset: 15% 0 15% auto) ← no overlap
     //
-    // No left bar → standard left padding. Alert is open on all sides except
-    // the right edge where the gold crop mark appears.
+    // No left bar → standard left padding (set explicitly below, not derived
+    // from --z-alert-bar-width). --z-alert-bar-width is still the mark's
+    // thickness: .alert-round composes its inset ring from it, so it must be
+    // the real 3px, not 0, or round alerts lose their indicator entirely.
     "--z-alert-radius": "3px 0 0 3px",
     // left corners rounded, right flush with bar
-    "--z-alert-bar-width": "0",
-    // no left bar
+    "--z-alert-bar-width": "3px",
+    // gold crop mark thickness (bar / round ring)
     "--z-alert-prefix": '"» "',
     // right guillemet (U+00BB) — French editorial
     "--z-alert-bg-opacity": "5%",
@@ -2337,7 +2364,7 @@ const z = {
     // standard (no left bar)
     "--z-alert-bar-inset": "15% 0 15% auto",
     // RIGHT partial-height crop mark
-    "--z-alert-bar-w": "3px",
+    "--z-alert-bar-w": "var(--z-alert-bar-width)",
     // gold crop mark width
     "--z-alert-bar-h": "auto",
     // determined by top + bottom inset
@@ -2466,43 +2493,46 @@ const z = {
   "@media (prefers-reduced-motion: reduce)": {
     ':where(html[data-genre="atelier"]) body::after': { animation: "none" }
   }
-}, ta = { name: aa, tokens: ea, swatches: ra, styles: na };
-function i(a) {
-  const r = String(a).toLowerCase();
-  if (!/^[a-z][a-z0-9_-]*$/.test(r))
+}, ia = { name: ca, tokens: la, swatches: da, styles: pa };
+function z(a) {
+  const n = s(a);
+  if (!/^[a-z][a-z0-9_-]*$/.test(n))
     throw new Error(
-      `[zynaui] Invalid genre name "${a}" — the lowercased name is used as a data-genre attribute value, so it must match /^[a-z][a-z0-9_-]*$/i (letters, digits, hyphens, underscores — no spaces or quotes).`
+      `[zynaui] Invalid genre name "${a}" — it is slugified (lowercased, whitespace → "-") into a data-genre attribute value, which must match /^[a-z][a-z0-9_-]*$/ (letters, digits, hyphens, underscores — no quotes or symbols).`
     );
-  return r;
+  return n;
 }
-function s(a, r, n) {
-  const e = `[data-genre="${r}"]`, o = `[data-genre="${n}"]`, d = {};
-  for (const [t, c] of Object.entries(a)) {
-    const b = t.includes(e) ? t.split(e).join(o) : t;
-    d[b] = c && typeof c == "object" && !Array.isArray(c) ? s(c, r, n) : c;
+function x(a, n, o) {
+  const e = `[data-genre="${n}"]`, c = `[data-genre="${o}"]`, d = {};
+  for (const [r, t] of Object.entries(a)) {
+    const l = r.includes(e) ? r.split(e).join(c) : r;
+    d[l] = t && typeof t == "object" && !Array.isArray(t) ? x(t, n, o) : t;
   }
   return d;
 }
-function ca({ name: a, palette: r = {}, tokens: n = {}, styles: e = {}, extends: o }) {
-  const d = i(a), t = o ?? p, c = t === p ? { ...t.styles } : s(t.styles ?? {}, String(t.name).toLowerCase(), d);
+function za({ name: a, palette: n = {}, tokens: o = {}, styles: e = {}, extends: c }) {
+  const d = z(a), r = c ?? p, t = r === p ? { ...r.styles } : x(r.styles ?? {}, s(r.name), d);
   return {
     name: a,
-    swatches: { ...t.swatches, ...r },
-    tokens: { ...t.tokens, ...n },
-    styles: { ...c, ...e }
+    swatches: { ...r.swatches, ...n },
+    tokens: { ...r.tokens, ...o },
+    styles: { ...t, ...e }
   };
 }
-function da(a) {
-  i(a.name), l.find((r) => r.name === a.name) || l.push(a);
+function xa(a) {
+  z(a.name), i.find((n) => n.name === a.name) || i.push(a);
 }
-const l = [p, k, D, j, Y, _, W, Z, ta];
-function g(a, r) {
-  const n = (e) => e && typeof e == "object" && !Array.isArray(e);
-  for (const [e, o] of Object.entries(r))
-    a[e] = n(a[e]) && n(o) ? g({ ...a[e] }, o) : o;
+const i = [p, B, O, M, K, H, aa, oa, ia];
+function s(a) {
+  return String(a).trim().toLowerCase().replace(/\s+/g, "-");
+}
+function h(a, n) {
+  const o = (e) => e && typeof e == "object" && !Array.isArray(e);
+  for (const [e, c] of Object.entries(n))
+    a[e] = o(a[e]) && o(c) ? h({ ...a[e] }, c) : c;
   return a;
 }
-const oa = /* @__PURE__ */ new Set([
+const sa = /* @__PURE__ */ new Set([
   "--bg",
   "--bg2",
   "--bg3",
@@ -2512,24 +2542,59 @@ const oa = /* @__PURE__ */ new Set([
   "--border",
   "--border2",
   "--topbar-bg"
-]);
-function pa() {
-  const a = {};
-  for (const r of l)
-    if (r.styles && g(a, r.styles), r.tokens) {
-      const n = `html[data-genre="${r.name.toLowerCase()}"]`;
-      if (a[n]) {
-        const e = Object.fromEntries(
-          Object.entries(r.tokens).filter(([o]) => !oa.has(o))
-        );
-        a[n] = { ...e, ...a[n] };
-      }
+]), ga = Object.freeze({
+  "--z-btn-clip": ".btn",
+  "--z-btn-inner-clip": ".btn",
+  "--z-badge-clip": ".badge",
+  "--z-badge-inner-clip": ".badge",
+  "--z-alert-border": ".alert",
+  "--z-alert-bar-glow": ".alert",
+  "--z-alert-texture": ".alert"
+});
+function ba(a, n) {
+  const o = {}, e = {};
+  for (const [c, d] of Object.entries(a)) {
+    const r = ga[c];
+    if (!r) {
+      o[c] = d;
+      continue;
     }
-  return a;
+    const t = n ? `:where(${n}) :where(${r})` : `:where(${r})`;
+    (e[t] || (e[t] = {}))[c] = d;
+  }
+  return { kept: o, scoped: e };
+}
+function ha(a = i) {
+  const n = {};
+  for (const o of a) {
+    const e = s(o.name), c = e === "ops", d = c ? "html" : `html[data-genre="${e}"]`;
+    if (o.styles) {
+      const r = {};
+      for (const [t, l] of Object.entries(o.styles)) {
+        const g = /^html(\[data-genre="[^"]+"\])?$/.exec(t);
+        if (g && l && typeof l == "object") {
+          const { kept: w, scoped: m } = ba(l, g[1] ? t : null);
+          r[t] = w;
+          for (const [b, u] of Object.entries(m)) r[b] = { ...r[b] || {}, ...u };
+        } else
+          r[t] = l;
+      }
+      h(n, r);
+    }
+    if (o.tokens && !c) {
+      const r = Object.fromEntries(
+        Object.entries(o.tokens).filter(([t]) => !sa.has(t))
+      );
+      n[d] = { ...r, ...n[d] || {} };
+    }
+  }
+  return n;
 }
 export {
-  l as GENRES,
-  ca as defineGenre,
-  pa as genresPlugin,
-  da as registerGenre
+  ga as ELEMENT_SCOPED_TOKENS,
+  i as GENRES,
+  za as defineGenre,
+  s as genreSlug,
+  ha as genresPlugin,
+  xa as registerGenre
 };

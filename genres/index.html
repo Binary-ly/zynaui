@@ -2286,7 +2286,10 @@
         '--z-alert-bar-inset':    '0 auto 0 0',
         '--z-alert-bar-w':        'var(--z-alert-bar-width)',
         '--z-alert-bar-h':        'auto',
-        '--z-alert-bar-radius':   'var(--z-alert-radius) 0 0 var(--z-alert-radius)',
+        // Literal, not var(--z-alert-radius) 0 0 var(--z-alert-radius): that
+        // expands the 4-value --z-alert-radius into a 10-value border-radius
+        // shorthand, which is invalid and silently dropped (see ops.js).
+        '--z-alert-bar-radius':   '3px 0 0 3px',
         '--z-alert-padding-top':  '0.875rem',
         '--z-alert-padding-left': 'calc(1.25rem + var(--z-alert-bar-width))',
       },
@@ -2518,8 +2521,28 @@
     }
 
     // ── Apply preview ────────────────────────────────────────────────────────
+    // Structural tokens the plugin declares on the component ELEMENT rather than
+    // <html>, because their values reference element-level tokens (--btn-corner,
+    // --badge-offset, --alert-bar-color) — see ELEMENT_SCOPED_TOKENS in
+    // src/plugin/genres/index.js. An inline value on <html> is only inherited and
+    // would lose to those element rules, so the preview applies them through an
+    // unlayered rule on every preview element instead (which also lets
+    // var(--btn-corner) resolve per button, so the size classes preview correctly).
+    const GB_ELEMENT_SCOPED = new Set([
+      '--z-btn-clip', '--z-btn-inner-clip',
+      '--z-badge-clip', '--z-badge-inner-clip',
+      '--z-alert-border', '--z-alert-bar-glow', '--z-alert-texture',
+    ])
+
     function applyPreview() {
-      const r = document.documentElement.style
+      const rootStyle = document.documentElement.style
+      const scoped = {}
+      const r = {
+        setProperty(k, v) {
+          if (GB_ELEMENT_SCOPED.has(k)) { scoped[k] = v; rootStyle.removeProperty(k) }
+          else rootStyle.setProperty(k, v)
+        },
+      }
 
       // Batch all layout reads BEFORE any style writes to avoid forced synchronous layout
       const btnEl = document.querySelector('.gb-preview .btn')
@@ -2617,6 +2640,15 @@
         const innerPoly = `polygon(${innerPts.map(p=>`${p.x.toFixed(2)}% ${p.y.toFixed(2)}%`).join(', ')})`
         r.setProperty('--z-btn-inner-clip', innerPoly)
       }
+
+      // Flush the element-scoped tokens as one unlayered rule on the preview tree.
+      let scopedStyle = document.getElementById('gb-scoped-tokens')
+      if (!scopedStyle) {
+        scopedStyle = document.createElement('style')
+        scopedStyle.id = 'gb-scoped-tokens'
+        document.head.appendChild(scopedStyle)
+      }
+      scopedStyle.textContent = `.gb-preview, .gb-preview * { ${Object.entries(scoped).map(([k, v]) => `${k}: ${v};`).join(' ')} }`
 
       document.getElementById('gb-preview-name').textContent = state.name || 'Custom'
       document.getElementById('gb-brand-swatch-wrap').style.background = state['--zyna']
@@ -2723,11 +2755,11 @@
             { num:'01', label:'Save the file', file:`src/genres/${f}`,
               note:`Drop the downloaded file here. The path is just a convention; adapt it to match your project structure. The file itself needs no edits.` },
             { num:'02', label:'Create a plugin wrapper', file:'src/genres/zynaui-genres.plugin.js',
-              note:`Tailwind v4 replaced tailwind.config.js with CSS-first config. Plugins are now loaded via @plugin in your CSS entry file. Create this wrapper once. Add more genres to it as needed.`,
-              code:`import plugin from 'tailwindcss/plugin'\nimport { registerGenre, genresPlugin } from 'zynaui/genres'\nimport ${v} from './${f}'\n\nregisterGenre(${v})\n\nexport default plugin(({ addBase }) => {\n  addBase(genresPlugin())\n})` },
+              note:`Tailwind v4 replaced tailwind.config.js with CSS-first config. Plugins are now loaded via @plugin in your CSS entry file. Create this wrapper once and list every custom genre in it — genresPlugin([...]) compiles only the genres you pass, so the built-in genres are not emitted a second time.`,
+              code:`import plugin from 'tailwindcss/plugin'\nimport { genresPlugin } from 'zynaui/genres'\nimport ${v} from './${f}'\n\nexport default plugin(({ addBase }) => {\n  addBase(genresPlugin([${v}]))\n})` },
             { num:'03', label:'Load in your CSS entry file', file:'src/input.css',
-              note:`Load your genres plugin before zynaui so the genre is registered when zynaui initialises. Order matters here.`,
-              code:`@import "tailwindcss";\n@plugin "./src/genres/zynaui-genres.plugin.js";\n@plugin "zynaui";` },
+              note:`Load zynaui and then your genres plugin. Your wrapper only adds the html[data-genre="${slug}"] rules, so it is independent of zynaui's own output.`,
+              code:`@import "tailwindcss";\n@plugin "zynaui";\n@plugin "./src/genres/zynaui-genres.plugin.js";` },
             { num:'04', label:`Activate "${name}"`, file:'your root layout or template',
               note:`Add data-genre="${slug}" to your <html> element, wherever that lives in your project (index.html, app/layout.tsx, app.blade.php, etc.). The compiled rule html[data-genre="${slug}"] takes effect as soon as the attribute is present.`,
               code:`<html data-genre="${slug}" lang="en">\n  <!-- ... -->\n</html>`,
@@ -2739,8 +2771,8 @@
             { num:'01', label:'Save the file', file:`src/genres/${f}`,
               note:`Drop the downloaded file here. The exact path doesn't matter as long as the import in step 2 matches.` },
             { num:'02', label:'Register in tailwind.config.js', file:'tailwind.config.js',
-              note:`Import your genre and call registerGenre() before the plugin runs. That's what compiles ${name}'s structural CSS into your output stylesheet. Update the content globs to match your project structure.`,
-              code:`import { registerGenre } from 'zynaui/genres'\nimport ${v} from './src/genres/${f}'\n\nregisterGenre(${v})\n\nexport default {\n  content: [\n    // adapt these paths to your project:\n    './src/**/*.{html,js,ts,jsx,tsx,vue,svelte}',\n    './**/*.blade.php',\n  ],\n  plugins: [require('zynaui')],\n}` },
+              note:`Import your genre and call registerGenre() before the plugin runs — the config file and the zynaui plugin share one genre registry, so that is what compiles ${name}'s structural CSS into your output stylesheet. Update the content globs to match your project structure.`,
+              code:`import zynaui from 'zynaui'\nimport { registerGenre } from 'zynaui/genres'\nimport ${v} from './src/genres/${f}'\n\nregisterGenre(${v})\n\nexport default {\n  content: [\n    // adapt these paths to your project:\n    './src/**/*.{html,js,ts,jsx,tsx,vue,svelte}',\n    './**/*.blade.php',\n  ],\n  plugins: [zynaui],\n}` },
             { num:'03', label:'Rebuild', terminal:true,
               note:`Rebuild your CSS.`,
               code:`npm run build` },
@@ -2792,10 +2824,10 @@
               note:`Add two <link> tags in <head>: one for the zynaui component library and one for your genre file. No build step needed.`,
               code:`<head>\n  <!-- zynaui component library -->\n  <link rel="stylesheet" href="./zynaui.css">\n  <!-- your ${name} genre -->\n  <link rel="stylesheet" href="./${f}">\n</head>` },
             { num:'03', label:`Activate "${name}"`, file:'index.html',
-              note:`Add data-genre="${slug}" to <html>. The genre turns on immediately. No JavaScript or build step needed.`,
+              note:`Add data-genre="${slug}" to <html>. The genre turns on immediately. No JavaScript or build step needed. (Genres are page-level: the compiled selector is html[data-genre="${slug}"], so the attribute has no effect on any other element.)`,
               code:`<html data-genre="${slug}" lang="en">\n  <head>...</head>\n  <body>...</body>\n</html>`,
-              alt:{ label:`Scope genre to a specific section only`,
-                    code:`<!-- genre only applies inside this container -->\n<div data-genre="${slug}">\n  <button class="btn btn-primary">Scoped to this section</button>\n</div>` } },
+              alt:{ label:'Or switch genres at runtime with JavaScript',
+                    code:`// Switch genre at runtime — no import needed\ndocument.documentElement.setAttribute('data-genre', '${slug}')` } },
           ],
         },
         json: {
@@ -2807,11 +2839,11 @@
               note:`Create this file. It passes the JSON to defineGenre() and returns the genre object the plugin wrapper expects.`,
               code:`import { defineGenre } from 'zynaui/genres'\nimport data from './${slug}.genre.json' with { type: 'json' }\n\nexport default defineGenre(data)` },
             { num:'03', label:'Create a plugin wrapper', file:'src/genres/zynaui-genres.plugin.js',
-              note:`This file registers your genre and emits all genre CSS via addBase(). Create it once. You can add more genres to it later.`,
-              code:`import plugin from 'tailwindcss/plugin'\nimport { registerGenre, genresPlugin } from 'zynaui/genres'\nimport ${v} from './${slug}.genre.js'\n\nregisterGenre(${v})\n\nexport default plugin(({ addBase }) => {\n  addBase(genresPlugin())\n})` },
+              note:`This file emits your genre's CSS via addBase(). genresPlugin([...]) compiles only the genres you pass, so the built-in genres are not emitted a second time. Create it once; add more genres to the list later.`,
+              code:`import plugin from 'tailwindcss/plugin'\nimport { genresPlugin } from 'zynaui/genres'\nimport ${v} from './${slug}.genre.js'\n\nexport default plugin(({ addBase }) => {\n  addBase(genresPlugin([${v}]))\n})` },
             { num:'04', label:'Load in your CSS entry file', file:'your CSS entry file',
-              note:`Load your genres plugin before zynaui, then activate with data-genre on <html>.`,
-              code:`@import "tailwindcss";\n@plugin "./src/genres/zynaui-genres.plugin.js";\n@plugin "zynaui";\n\n/* then in your root layout: <html data-genre="${slug}"> */` },
+              note:`Load zynaui and then your genres plugin, then activate with data-genre on <html>.`,
+              code:`@import "tailwindcss";\n@plugin "zynaui";\n@plugin "./src/genres/zynaui-genres.plugin.js";\n\n/* then in your root layout: <html data-genre="${slug}"> */` },
           ],
           // Tailwind v3: JS wrapper → tailwind.config.js
           tailwind: [
@@ -2821,8 +2853,8 @@
               note:`Create this file. It imports the JSON and passes it to defineGenre(), which is the format tailwind.config.js expects.`,
               code:`import { defineGenre } from 'zynaui/genres'\nimport data from './${slug}.genre.json' with { type: 'json' }\n\nexport default defineGenre(data)` },
             { num:'03', label:'Register in tailwind.config.js', file:'tailwind.config.js',
-              note:`Import the wrapper and register it. Update the content globs to match your project structure.`,
-              code:`import { registerGenre } from 'zynaui/genres'\nimport ${v} from './src/genres/${slug}.genre.js'\n\nregisterGenre(${v})\n\nexport default {\n  content: [\n    // adapt to your project:\n    './src/**/*.{html,js,ts,jsx,tsx,vue,svelte}',\n    './**/*.blade.php',\n  ],\n  plugins: [require('zynaui')],\n}` },
+              note:`Import the wrapper and register it before the plugin runs — the config file and the zynaui plugin share one genre registry. Update the content globs to match your project structure.`,
+              code:`import zynaui from 'zynaui'\nimport { registerGenre } from 'zynaui/genres'\nimport ${v} from './src/genres/${slug}.genre.js'\n\nregisterGenre(${v})\n\nexport default {\n  content: [\n    // adapt to your project:\n    './src/**/*.{html,js,ts,jsx,tsx,vue,svelte}',\n    './**/*.blade.php',\n  ],\n  plugins: [zynaui],\n}` },
             { num:'04', label:'Build and activate', file:'your root layout or template',
               note:`Run the build, then add data-genre="${slug}" to <html>.`,
               code:`<html data-genre="${slug}" lang="en">\n  <!-- ... -->\n</html>`,
@@ -3072,14 +3104,29 @@
           cssLines.push(`  ${k}: ${getTokenValue(k)};`)
         }
       })
-      cssLines.push(`}`, ``, `html[data-genre="${slug}"] {`)
       // all non-global resolved tokens from diff + cssKeys full set
       const allResolved = {}
       cssKeys.forEach(k => { if (!GLOBAL_TOKEN_KEYS.has(k)) allResolved[k] = getTokenValue(k) })
       // also include any shape/virtual expansions already in stylesDiff
       Object.entries(stylesDiff).forEach(([k, v]) => { allResolved[k] = v })
-      Object.entries(allResolved).forEach(([k, v]) => cssLines.push(`  ${k}: ${v};`))
+      // Element-scoped tokens (see GB_ELEMENT_SCOPED) reference element-level
+      // tokens, so the plain-CSS export declares them on the component element —
+      // on html they would resolve against html's values and freeze.
+      const SCOPE_OF = { '--z-btn-': '.btn', '--z-badge-': '.badge', '--z-alert-': '.alert' }
+      const byScope = { '': {} }
+      Object.entries(allResolved).forEach(([k, v]) => {
+        const comp = GB_ELEMENT_SCOPED.has(k) ? Object.entries(SCOPE_OF).find(([p]) => k.startsWith(p))?.[1] : null
+        ;(byScope[comp || ''] ||= {})[k] = v
+      })
+      cssLines.push(`}`, ``, `html[data-genre="${slug}"] {`)
+      Object.entries(byScope['']).forEach(([k, v]) => cssLines.push(`  ${k}: ${v};`))
       cssLines.push(`}`)
+      Object.entries(byScope).forEach(([comp, decls]) => {
+        if (!comp) return
+        cssLines.push(``, `html[data-genre="${slug}"] ${comp} {`)
+        Object.entries(decls).forEach(([k, v]) => cssLines.push(`  ${k}: ${v};`))
+        cssLines.push(`}`)
+      })
       formats.css = cssLines.join('\n')
 
       // JSON format — full snapshot

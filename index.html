@@ -30,9 +30,12 @@
     /* Base resets (:root, html, body, a, scrollbar, pre/code) live in docs.css,
        which is already linked above. Only landing-page-specific styles live here. */
 
-    /* ── Noise texture overlay ── */
-    body::before {
-      content: '';
+    /* ── Noise texture overlay ──
+       A dedicated element, not body::before: the genre stylesheet draws its
+       page textures (Cyberpunk scanlines, Corporate grid, …) on body::before
+       from @layer base, and an unlayered body::before here silently replaced
+       them on the landing page. */
+    .page-noise {
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
       background-size: 256px 256px;
@@ -465,6 +468,7 @@
   </style>
 </head>
 <body>
+  <div class="page-noise" aria-hidden="true"></div>
 
   <!-- ── NAVBAR ── -->
   <header id="topbar"></header>
@@ -544,7 +548,7 @@
           <div class="stat-label">UI Components</div>
         </div>
         <div class="stat-item">
-          <div class="stat-num">5</div>
+          <div class="stat-num">16</div>
           <div class="stat-label">Chart Web Components</div>
         </div>
         <div class="stat-item">
@@ -1079,8 +1083,8 @@
               </div>
               <div id="idx-pkg-cdn" style="display:none;flex-direction:column;gap:0.5rem;padding:0.75rem 1rem">
                 <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem">
-                  <code style="font-size:0.78rem">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/zynaui/dist/zynaui.css"&gt;</code>
-                  <button class="copy-btn" onclick="copyText(this,'&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/zynaui/dist/zynaui.css&quot;&gt;')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+                  <code style="font-size:0.78rem">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/zynaui@0.3/dist/zynaui.css"&gt;</code>
+                  <button class="copy-btn" onclick="copyText(this,'&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/zynaui@0.3/dist/zynaui.css&quot;&gt;')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
                 </div>
                 <p style="font-size:0.75rem;color:var(--text2);margin:0.25rem 0 0">For charts, see the CDN script tag in Step 4 below.</p>
               </div>
@@ -1186,7 +1190,7 @@
                 </div>
                 <pre id="idx-chart-cdn-code"><span class="cmt">&lt;!-- No bundler — D3 is included --&gt;</span>
 <span class="tag">&lt;script</span>
-  <span class="atr">src</span>=<span class="val">"https://cdn.jsdelivr.net/npm/zynaui/dist/zyna-charts.iife.js"</span>
+  <span class="atr">src</span>=<span class="val">"https://cdn.jsdelivr.net/npm/zynaui@0.3/dist/zyna-charts.iife.js"</span>
 <span class="tag">&gt;&lt;/script&gt;</span></pre>
               </div>
             </div>
@@ -1242,11 +1246,16 @@
         </div>
         <div class="footer-col">
           <h4>Charts</h4>
+          <a href="charts/">All 16 charts</a>
           <a href="charts/waffle/">Waffle</a>
           <a href="charts/timeline/">Timeline</a>
           <a href="charts/nightingale/">Nightingale</a>
           <a href="charts/lollipop/">Lollipop</a>
           <a href="charts/orbital/">Orbital</a>
+          <a href="charts/candlestick/">Candlestick</a>
+          <a href="charts/gauge/">Gauge</a>
+          <a href="charts/line/">Line</a>
+          <a href="charts/cascade/">Cascade</a>
         </div>
         <div class="footer-col">
           <h4>Resources</h4>
