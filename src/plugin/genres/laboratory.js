@@ -376,6 +376,7 @@ export const styles = {
     // ── Card — vertical spectral lines + dual-beam bar ─────────────────────────
     '--z-card-clip':    'none',
     '--z-card-filter':  'none',
+    '--z-card-bevel-filter': 'drop-shadow(0 4px 14px rgba(12,30,36,0.09))',
     // Fine vertical lines at 6 px pitch — spectrophotometric column spacing.
     // Pure 90° lines only (no horizontal component). Different from:
     //   Blueprint: horizontal rules at 18 px (perpendicular to Laboratory)

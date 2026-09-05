@@ -26,6 +26,7 @@
  *
  *   --z-card-clip                    clip-path polygon string (Ops = none)
  *   --z-card-filter                  filter: drop-shadow() for clip-path shaped cards
+ *   --z-card-bevel-filter            .card-bevel drop-shadow (box-shadow is clipped away)
  *   --z-card-gradient                Base colour surface (Cyberpunk = green-tinted)
  *   --z-card-border-color            Border colour
  *   --z-card-shadow                  box-shadow
@@ -300,9 +301,11 @@ export default function(theme) {
       borderRadius: '0',
       // clip-path clips box-shadow — zero both card and power-bar shadows, use
       // filter:drop-shadow() instead which traces the bevel outline after clipping.
+      // drop-shadow() takes at most three lengths, so the genre token carries a
+      // single offset/blur/colour that mirrors the genre's --z-shadow-card.
       '--card-shadow':     'none',
       '--card-bar-shadow': 'none',
-      filter: 'drop-shadow(0 24px 70px rgba(0,0,0,0.60)) drop-shadow(0 0 0 1px rgba(255,255,255,0.02))',
+      filter: 'var(--z-card-bevel-filter)',
     },
   }
 }
