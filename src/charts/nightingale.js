@@ -46,17 +46,33 @@ export class ZynaNightingale extends ZynaChart {
     this._applyA11y(svg, `Nightingale chart: ${data.map(d => `${d.label} ${fmtVal(d.value)}`).join(', ')}`)
 
     const cx = W / 2, cy = H / 2
-    const maxR   = Math.min(cx, cy) * 0.52
     // Guard: maxVal prevents NaN from Math.sqrt(value / 0)
     const maxVal = max(data, d => d.value) || 1
     const n      = data.length
     const slice  = (2 * Math.PI) / n
-    // Label ring radius and inner hole both scale with the container
-    const labelR = maxR + Math.max(70, W * 0.14)
-    const innerR = Math.max(6, maxR * 0.06)
     // Font sizes scale with container width
     const fSm = Math.max(10, W * 0.015)
     const fMd = Math.max(12, W * 0.018)
+    // Label ring: the whole label has to stay inside the SVG, which clips.
+    // Estimate the longest label, then give ground in order — the ring margin
+    // (never below 24px), the rose radius (never below 30% of the half-width) —
+    // and trim whatever still overflows with an ellipsis when the labels are set.
+    const longest = max(data, d => String(d.label ?? '').length) || 1
+    const estW    = longest * fMd * 0.55
+    let   maxR    = Math.min(cx, cy) * 0.52
+    const margin  = Math.max(24, Math.min(Math.max(70, W * 0.14), cx - maxR - estW - 8))
+    if (maxR + margin + estW + 8 > cx) maxR = Math.max(cx * 0.3, cx - margin - estW - 8)
+    const labelR = maxR + margin
+    const innerR = Math.max(6, maxR * 0.06)
+    const fit = (sel, maxW) => {
+      const node = sel.node()
+      let t = String(sel.text())
+      if (!node.getComputedTextLength) return
+      while (t.length > 1 && node.getComputedTextLength() > maxW) {
+        t = t.slice(0, -1)
+        sel.text(t.trimEnd() + '…')
+      }
+    }
 
     // Per-sector groups — keyed by label so D3 reuses elements on resize.
     svg.selectAll('g.ng-sector').data(data, d => d.label)
@@ -88,9 +104,10 @@ export class ZynaNightingale extends ZynaChart {
         const anchor = sm < -0.1 ? 'end' : sm > 0.1 ? 'start' : 'middle'
         const xOff   = sm > 0.1 ? 6 : sm < -0.1 ? -6 : 0
 
-        g.select('.ng-label')
+        const label = g.select('.ng-label')
           .attr('x', lx + xOff).attr('y', ly - 4)
           .attr('text-anchor', anchor).attr('font-size', `${fMd}px`).attr('fill', textC).text(pt.label)
+        fit(label, anchor === 'end' ? lx + xOff - 4 : anchor === 'start' ? W - (lx + xOff) - 4 : 2 * Math.min(lx, W - lx) - 4)
 
         g.select('.ng-value')
           .attr('display', showVals ? null : 'none')
