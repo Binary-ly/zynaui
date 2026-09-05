@@ -296,12 +296,15 @@ export const styles = {
     //   (calc(100% - 10px), 100%) → (10px, 100%) — bottom flat segment
     //   (10px, 100%) → (0, calc(100% - 10px)) — bottom-left diagonal
     //   (0, calc(100% - 10px)) → (0, 0) — left edge, chamfer start
-    '--z-btn-clip':         'polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px))',
+    // Chamfer depth reads var(--btn-corner) (default: --z-btn-corner = 10px)
+    // like every other genre, so .btn-sm / .btn-lg / .btn-icon rescale the cut
+    // instead of keeping a fixed 10px notch at every size.
+    '--z-btn-clip':         'polygon(0 0, 100% 0, 100% calc(100% - var(--btn-corner)), calc(100% - var(--btn-corner)) 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)))',
     // Inner clip: match outer polygon inset by 1px on all edges.
     // Top edge: 1px down. Right/left straight edges: 1px in.
-    // Bottom-right diagonal: corner point shifts +1px inward on both axes (so 10+1=11px).
+    // Bottom-right diagonal: corner point shifts +1px inward on both axes.
     // Bottom-left diagonal: same shift.
-    '--z-btn-inner-clip':   'polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 11px), calc(100% - 11px) calc(100% - 1px), 11px calc(100% - 1px), 1px calc(100% - 11px))',
+    '--z-btn-inner-clip':   'polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - calc(var(--btn-corner) + 1px)), calc(100% - calc(var(--btn-corner) + 1px)) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--btn-corner) + 1px)))',
     '--z-btn-corner':       '10px',
     '--z-btn-active-scale': '0.97',
     '--z-btn-scan-stop':    '40%',
@@ -346,21 +349,23 @@ export const styles = {
     //   Blueprint           → left partial-height (inset: 15% auto 15% 0)
     //   Laboratory          → TOP (inset: 0 0 auto 0) ← no overlap, untouched position
     //
-    // Since there is no left bar, --z-alert-bar-width: 0 and left padding is
-    // standard 1.25rem (no left-bar offset required).
+    // The bar is on top, so left padding is the standard 1.25rem (set explicitly
+    // below — it does not derive from --z-alert-bar-width here). --z-alert-bar-width
+    // is still the bar's thickness: .alert-round composes its inset ring from it,
+    // so it must be the real 3px, not 0, or round alerts lose their indicator.
     '--z-alert-radius':         '0 0 3px 3px',    // top flush with bar; bottom corners rounded
-    '--z-alert-bar-width':      '0',              // no left bar
+    '--z-alert-bar-width':      '3px',            // ruled line thickness (top bar / round ring)
     '--z-alert-prefix':         '"∴ "',           // therefore (U+2234) — scientific conclusion
     '--z-alert-bg-opacity':     '5%',
     '--z-alert-border':         '1px solid rgba(12,30,36,0.07)',
     '--z-alert-prefix-opacity': '0.36',
     '--z-alert-bar-glow':       'none',
     '--z-alert-texture':        'none',
-    '--z-alert-padding-top':    'calc(0.875rem + 3px)',  // standard padding + bar height
+    '--z-alert-padding-top':    'calc(0.875rem + var(--z-alert-bar-width))',  // standard padding + bar height
     '--z-alert-padding-left':   '1.25rem',        // no bar-width offset
     '--z-alert-bar-inset':      '0 0 auto 0',    // TOP: top=0 right=0 bottom=auto left=0
     '--z-alert-bar-w':          'auto',           // left:0 + right:0 = full width
-    '--z-alert-bar-h':          '3px',            // ruled line height
+    '--z-alert-bar-h':          'var(--z-alert-bar-width)',  // ruled line height
     '--z-alert-bar-radius':     '0',
 
     // ── Card — vertical spectral lines + dual-beam bar ─────────────────────────

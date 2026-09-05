@@ -262,11 +262,14 @@ export const styles = {
     //   (100%, calc(100% - 10px)) → (calc(100% - 10px), 100%) — bottom-right diagonal
     //   (calc(100% - 10px), 100%) → (0, 100%) — bottom edge (full width)
     //   (0, 100%) → (0, 0) — left edge (full height, flat)
-    '--z-btn-clip':         'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%)',
+    // Chamfer depth reads var(--btn-corner) (default: --z-btn-corner = 10px)
+    // like every other genre, so .btn-sm / .btn-lg / .btn-icon rescale the cut
+    // instead of keeping a fixed 10px shoulder at every size.
+    '--z-btn-clip':         'polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% calc(100% - var(--btn-corner)), calc(100% - var(--btn-corner)) 100%, 0 100%)',
     // Inner clip: outer polygon inset by 1px on all edges.
     // Left edge: 1px in from left. Top/bottom: 1px from edges.
-    // Top-right diagonal: shoulder shifts to 10+1=11px. Bottom-right: same.
-    '--z-btn-inner-clip':   'polygon(1px 1px, calc(100% - 11px) 1px, calc(100% - 1px) 11px, calc(100% - 1px) calc(100% - 11px), calc(100% - 11px) calc(100% - 1px), 1px calc(100% - 1px))',
+    // Top-right diagonal: shoulder shifts inward by 1px. Bottom-right: same.
+    '--z-btn-inner-clip':   'polygon(1px 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - calc(var(--btn-corner) + 1px)), calc(100% - calc(var(--btn-corner) + 1px)) calc(100% - 1px), 1px calc(100% - 1px))',
     '--z-btn-corner':       '10px',
     '--z-btn-active-scale': '0.97',
     '--z-btn-scan-stop':    '35%',
@@ -316,10 +319,12 @@ export const styles = {
     //   Laboratory          → top (inset: 0 0 auto 0)
     //   Atelier             → RIGHT PARTIAL-HEIGHT (inset: 15% 0 15% auto) ← no overlap
     //
-    // No left bar → standard left padding. Alert is open on all sides except
-    // the right edge where the gold crop mark appears.
+    // No left bar → standard left padding (set explicitly below, not derived
+    // from --z-alert-bar-width). --z-alert-bar-width is still the mark's
+    // thickness: .alert-round composes its inset ring from it, so it must be
+    // the real 3px, not 0, or round alerts lose their indicator entirely.
     '--z-alert-radius':         '3px 0 0 3px',   // left corners rounded, right flush with bar
-    '--z-alert-bar-width':      '0',              // no left bar
+    '--z-alert-bar-width':      '3px',            // gold crop mark thickness (bar / round ring)
     '--z-alert-prefix':         '"» "',           // right guillemet (U+00BB) — French editorial
     '--z-alert-bg-opacity':     '5%',
     '--z-alert-border':         '1px solid rgba(44,28,4,0.07)',
@@ -329,7 +334,7 @@ export const styles = {
     '--z-alert-padding-top':    '0.875rem',        // standard padding (no top bar)
     '--z-alert-padding-left':   '1.25rem',         // standard (no left bar)
     '--z-alert-bar-inset':      '15% 0 15% auto', // RIGHT partial-height crop mark
-    '--z-alert-bar-w':          '3px',             // gold crop mark width
+    '--z-alert-bar-w':          'var(--z-alert-bar-width)', // gold crop mark width
     '--z-alert-bar-h':          'auto',            // determined by top + bottom inset
     '--z-alert-bar-radius':     '2px 0 0 2px',     // slight left-side rounding on bar
 

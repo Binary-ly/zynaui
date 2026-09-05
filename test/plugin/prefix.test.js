@@ -125,6 +125,18 @@ describe('plugin prefix option', () => {
     expect(css).toMatch(/\.z-card/)
   })
 
+  // ── Keyframe selectors are never class selectors ────────────────────────────
+
+  test('prefix "z-" → decimal keyframe steps (85.001%) are left intact', async () => {
+    // Real bug: the class regex rewrote the ".001" in Laboratory's sawtooth
+    // keyframe step "85.001%" to "85.z-001%", an invalid selector the browser
+    // drops — the beam then swept back across the screen instead of blanking.
+    const css = await getCSSWithPrefix()
+    expect(css).toContain('85.001%')
+    expect(css).toContain('94.001%')
+    expect(css).not.toMatch(/\d\.z-/)
+  })
+
   // ── Empty prefix is a passthrough ───────────────────────────────────────────
 
   test('empty prefix → .btn is present (no renaming)', async () => {

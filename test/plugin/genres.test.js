@@ -170,17 +170,103 @@ describe('genresPlugin() output', () => {
     expect(cpRule['--zyna']).toBe('#39FF14')
   })
 
-  test('cyberpunk structural tokens take precedence over color tokens', () => {
+  test('cyberpunk structural tokens stay alongside its color tokens on html', () => {
     // In genresPlugin(), styles always take precedence: { ...tokens, ...styles[selector] }
-    // --z-btn-clip is a structural token that should come from styles, not tokens
+    // --z-btn-corner is a structural token that comes from styles, not tokens.
     const result = genresPlugin()
     const cpRule = result['html[data-genre="cyberpunk"]']
-    expect(cpRule['--z-btn-clip']).toBe('inset(0)')
+    expect(cpRule['--z-btn-corner']).toBe('18px')
+    expect(cpRule['--zyna']).toBe('#39FF14')
+  })
+
+  test('structural tokens that reference element-level tokens are emitted on the element', () => {
+    // Real bug: a custom property substitutes its var() references where it is
+    // DECLARED. --z-btn-clip on <html> resolved var(--btn-corner) against html's
+    // @property initial-value, so every button inherited a 10px chamfer no
+    // matter its size class, and Cyberpunk's var(--alert-bar-color) border/glow
+    // resolved to white for every alert variant. These tokens must live on the
+    // component element, genre-scoped by a descendant selector.
+    const result = genresPlugin()
+    // Ops: emitted on :where(.btn) / :where(.badge), not html
+    expect(result['html']['--z-btn-clip']).toBeUndefined()
+    expect(result['html']['--z-btn-inner-clip']).toBeUndefined()
+    expect(result['html']['--z-badge-inner-clip']).toBeUndefined()
+    expect(result[':where(.btn)']['--z-btn-clip']).toContain('var(--btn-corner)')
+    expect(result[':where(.btn)']['--z-btn-inner-clip']).toContain('var(--btn-corner)')
+    expect(result[':where(.badge)']['--z-badge-inner-clip']).toContain('var(--badge-offset)')
+    // html keeps the plain-valued structural tokens
+    expect(result['html']['--z-btn-corner']).toBe('var(--z-corner)')
+    // Genres: same tokens on the genre-scoped element selector
+    const cp = result[':where(html[data-genre="cyberpunk"]) :where(.btn)']
+    expect(cp['--z-btn-clip']).toBe('inset(0)')
+    expect(result['html[data-genre="cyberpunk"]']['--z-btn-clip']).toBeUndefined()
+    const cpAlert = result[':where(html[data-genre="cyberpunk"]) :where(.alert)']
+    expect(cpAlert['--z-alert-border']).toContain('var(--alert-bar-color)')
+    expect(cpAlert['--z-alert-bar-glow']).toContain('var(--alert-bar-color)')
+    expect(result['html[data-genre="cyberpunk"]']['--z-alert-border']).toBeUndefined()
+    // Every genre scopes the same token set — none leaves one on html
+    for (const [sel, decl] of Object.entries(result)) {
+      if (!/^html(\[data-genre=|$)/.test(sel)) continue
+      for (const k of ['--z-btn-clip', '--z-btn-inner-clip', '--z-badge-clip', '--z-badge-inner-clip', '--z-alert-border', '--z-alert-bar-glow', '--z-alert-texture']) {
+        expect(decl[k], `${k} must not be declared on ${sel}`).toBeUndefined()
+      }
+    }
+  })
+
+  test('element-scoped tokens compile to genre-scoped element rules in the CSS', async () => {
+    const css = await generateCSS()
+    expect(css).toMatch(/:where\(\.btn\)\s*\{[^}]*--z-btn-clip:/)
+    expect(css).toMatch(/:where\(html\[data-genre="phosphor"\]\) :where\(\.btn\)\s*\{[^}]*--z-btn-clip:/)
+    expect(css).toMatch(/:where\(html\[data-genre="cyberpunk"\]\) :where\(\.alert\)\s*\{[^}]*--z-alert-border:/)
   })
 
   test('does not crash if a genre has no tokens', () => {
     // Edge case: a genre may not define a tokens key
     expect(() => genresPlugin()).not.toThrow()
+  })
+
+  test('a tokens-only custom genre compiles into its own html[data-genre] rule', async () => {
+    // Real bug: tokens were only merged into a rule that a `styles` block had
+    // already created, so the simplest custom genre — defineGenre({ name, tokens })
+    // — compiled to nothing and data-genre="…" did nothing.
+    const { defineGenre, registerGenre } = await import('../../src/plugin/genres/index.js')
+    const g = defineGenre({ name: 'TokensOnly', tokens: { '--zyna': '#123456' } })
+    registerGenre(g)
+    const rule = genresPlugin()['html[data-genre="tokensonly"]']
+    expect(rule).toBeDefined()
+    expect(rule['--zyna']).toBe('#123456')
+    // Inherited Ops motion tokens ride along so the genre is complete on its own.
+    expect(rule['--z-duration-fast']).toBeTruthy()
+  })
+
+  test('multi-word genre names are slugified consistently (validation, selector, remap)', async () => {
+    // The docs genre builder exports names like "My Genre" and targets
+    // html[data-genre="my-genre"]; defineGenre used to throw on the space and
+    // genresPlugin used a different (lowercase-only) slug rule.
+    const { defineGenre, registerGenre, genreSlug } = await import('../../src/plugin/genres/index.js')
+    expect(genreSlug('  My  Genre ')).toBe('my-genre')
+    const g = defineGenre({ name: 'Two Words', tokens: { '--zyna': '#abcdef' } })
+    registerGenre(g)
+    expect(genresPlugin()['html[data-genre="two-words"]']['--zyna']).toBe('#abcdef')
+    // A child of a non-Ops base has its inherited selectors remapped by slug.
+    const cyber = (await import('../../src/plugin/genres/cyberpunk.js')).default
+    const child = defineGenre({ name: 'Neon Child', extends: cyber })
+    expect(Object.keys(child.styles).some(k => k.includes('[data-genre="neon-child"]'))).toBe(true)
+    expect(Object.keys(child.styles).some(k => k.includes('[data-genre="cyberpunk"]'))).toBe(false)
+  })
+
+  test('still rejects names the slug rule cannot make selector-safe', async () => {
+    const { defineGenre } = await import('../../src/plugin/genres/index.js')
+    expect(() => defineGenre({ name: 'bad"quote' })).toThrow(/Invalid genre name/)
+    expect(() => defineGenre({ name: '1starts-with-digit' })).toThrow(/Invalid genre name/)
+  })
+
+  test('genresPlugin(list) compiles only the given genres', async () => {
+    const { defineGenre } = await import('../../src/plugin/genres/index.js')
+    const only = defineGenre({ name: 'Solo', tokens: { '--zyna': '#0f0f0f' } })
+    const out = genresPlugin([only])
+    expect(out['html[data-genre="solo"]']['--zyna']).toBe('#0f0f0f')
+    expect(out['html[data-genre="cyberpunk"]']).toBeUndefined()
   })
 
   test('genre name is lowercased in the html[data-genre] selector', () => {

@@ -16,16 +16,19 @@
  *
  * @param {object} cssObj  CSS-in-JS object from any component or motion function.
  * @param {string} prefix  Class prefix string (e.g. 'zui-').
+ * @param {boolean} [inKeyframes=false]  Internal: true while walking the body of
+ *   an @keyframes block, whose keys are selectors like '0%' or '85.001%' — a
+ *   decimal keyframe step is not a class selector and must not be rewritten.
  * @returns {object}
  */
-export function applyPrefix(cssObj, prefix) {
+export function applyPrefix(cssObj, prefix, inKeyframes = false) {
   if (!prefix) return cssObj
   const out = {}
   for (const [key, value] of Object.entries(cssObj)) {
-    const newKey = prefixSelector(key, prefix)
+    const newKey = inKeyframes ? key : prefixSelector(key, prefix)
     if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
       // Recurse into nested rule objects (@media, &:hover wrappers, etc.)
-      out[newKey] = applyPrefix(value, prefix)
+      out[newKey] = applyPrefix(value, prefix, inKeyframes || key.startsWith('@keyframes'))
     } else {
       out[newKey] = value
     }
