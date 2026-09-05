@@ -98,8 +98,13 @@ export class ZynaNightingale extends ZynaChart {
           .attr('text-anchor', anchor).attr('font-family', 'monospace').attr('font-size', `${fSm}px`)
           .attr('fill', color).text(fmtVal(pt.value))
 
+        // The leader leaves the label block on the side that faces the centre:
+        // under the value for labels above the chart, over the label for labels
+        // below it — otherwise a bottom label's leader runs up through its text.
+        const below   = Math.cos(mid) < 0
+        const leaderY = below ? ly - fMd - 12 : ly + fSm + 12
         g.select('.ng-leader')
-          .attr('points', `${lx},${ly + fSm + 12} ${lx - sm * 24},${ly + fSm + 12} ${ex},${ey}`)
+          .attr('points', `${lx},${leaderY} ${lx - sm * 24},${leaderY} ${ex},${ey}`)
           .attr('fill', 'none').attr('stroke', color).attr('stroke-width', 0.8).attr('opacity', 0.5)
 
         g.select('.ng-dot')
