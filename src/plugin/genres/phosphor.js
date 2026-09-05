@@ -147,7 +147,11 @@ export const styles = {
     '--z-badge-letter-spacing': '0.10em',
     '--z-badge-inset-shadow':   'inset 0 0 0 1px currentColor',
     '--z-badge-scan-duration':  '9s',  // phosphor persistence — afterglow fades slowly
-    '--z-badge-inner-clip':     'inset(2px)',
+    '--z-badge-inner-clip':     'inset(1px)',
+    // Rim model: element = currentColor border, ::before = tint, so the border follows the clip.
+    '--z-badge-rim':            'currentColor',
+    '--z-badge-inset':          '1px',
+    '--z-badge-interior':       'linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page)',
 
     // ── Alert — RIGHT-side bar, double-chevron prompt prefix ──────────────────
     // Bar on the RIGHT: the accent terminates the text line like a cursor at
@@ -238,7 +242,7 @@ export const styles = {
   ':where(html[data-genre="phosphor"]) :where(.badge)::after': {
     animation: 'zyna-badge-scan var(--z-badge-scan-duration) linear infinite',
   },
-  ':where(html[data-genre="phosphor"]) :where(.badge-pulse)::before': {
+  ':where(html[data-genre="phosphor"]) :where(.badge-pulse)::after': {
     animation: 'zyna-pulse-ring var(--z-duration-pulse) ease-in-out infinite',
   },
 
@@ -288,7 +292,7 @@ export const styles = {
   '@media (prefers-reduced-motion: reduce)': {
     ':where(html[data-genre="phosphor"]) body::after': { animation: 'none' },
     ':where(html[data-genre="phosphor"]) :where(.badge)::after': { animation: 'none' },
-    ':where(html[data-genre="phosphor"]) :where(.badge-pulse)::before': {
+    ':where(html[data-genre="phosphor"]) :where(.badge-pulse)::after': {
       animation: 'zyna-pulse-fade calc(var(--z-duration-pulse) * 2) ease-in-out infinite',
     },
   },

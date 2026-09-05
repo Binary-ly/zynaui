@@ -207,7 +207,7 @@ describe('genresPlugin() output', () => {
     // Every genre scopes the same token set — none leaves one on html
     for (const [sel, decl] of Object.entries(result)) {
       if (!/^html(\[data-genre=|$)/.test(sel)) continue
-      for (const k of ['--z-btn-clip', '--z-btn-inner-clip', '--z-badge-clip', '--z-badge-inner-clip', '--z-alert-border', '--z-alert-bar-glow', '--z-alert-texture']) {
+      for (const k of ['--z-btn-clip', '--z-btn-inner-clip', '--z-badge-clip', '--z-badge-inner-clip', '--z-badge-interior', '--z-alert-border', '--z-alert-bar-glow', '--z-alert-texture']) {
         expect(decl[k], `${k} must not be declared on ${sel}`).toBeUndefined()
       }
     }
