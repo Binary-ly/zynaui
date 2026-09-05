@@ -97,6 +97,7 @@ export const styles = {
     // ── Card structural ─────────────────────────────────────────────────────
     '--z-card-clip':                  'none',
     '--z-card-filter':                'none',
+    '--z-card-bevel-filter':          'drop-shadow(0 24px 70px rgba(0,0,0,0.60))',
     '--z-card-texture':               'linear-gradient(transparent, transparent)',
     '--z-card-gradient':              'var(--z-surface-card)',
     '--z-card-border-color':          'var(--z-color-border)',

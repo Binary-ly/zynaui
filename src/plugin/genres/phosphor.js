@@ -179,6 +179,7 @@ export const styles = {
     // ── Card — phosphor terminal output pane ──────────────────────────────────
     '--z-card-clip':                  'none',
     '--z-card-filter':                'none',
+    '--z-card-bevel-filter':          'drop-shadow(0 2px 8px rgba(0,0,0,0.5))',
     '--z-card-texture':               'none',
     '--z-card-gradient':              'var(--z-surface-card)',
     '--z-card-border-color':          'rgba(255,159,10,0.14)',

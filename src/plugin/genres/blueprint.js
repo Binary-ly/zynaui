@@ -242,6 +242,7 @@ export const styles = {
     // ── Card — precision data sheet ───────────────────────────────────────────
     '--z-card-clip':                  'none',
     '--z-card-filter':                'none',
+    '--z-card-bevel-filter':          'drop-shadow(0 4px 12px rgba(27,58,107,0.10))',
     // Ruled schedule lines — a blank engineering parts list or schedule table.
     // Horizontal rules at 18 px simulate the pre-printed ruling on an engineering
     // form or inspection schedule, ready for annotation.
