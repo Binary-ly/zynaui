@@ -270,6 +270,7 @@ export const styles = {
     // ── Card — washi data sheet with sashiko texture ───────────────────────────
     '--z-card-clip':                  'none',
     '--z-card-filter':                'none',
+    '--z-card-bevel-filter':          'drop-shadow(0 4px 14px rgba(42,26,14,0.10))',
     // Sashiko diamond stitch (hishi-moyō 菱模様) — the simplest sashiko pattern.
     // Two 45° crossing gradient layers form a diamond grid at 12 px pitch.
     // At 1.8% opacity each, the combined pattern barely registers on cream paper

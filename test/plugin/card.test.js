@@ -76,4 +76,19 @@ describe('.card component', () => {
     expect(css).toContain('--card-shadow: none')
   })
 
+  test('.card-bevel draws a valid drop-shadow from the genre token', async () => {
+    // Real bug: the bevel filter was a literal that ended in
+    // drop-shadow(0 0 0 1px …) — a spread radius, which drop-shadow() does not
+    // accept — so the whole declaration was invalid and bevel cards had no
+    // shadow in any genre.
+    const css = await generateCSS()
+    expect(css).toMatch(/:where\(\.card-bevel\)\s*\{[^}]*filter: var\(--z-card-bevel-filter\)/)
+    expect(css).not.toMatch(/drop-shadow\(0 0 0 1px/)
+    const decls = css.match(/--z-card-bevel-filter:[^;]+;/g) || []
+    expect(decls.length).toBeGreaterThanOrEqual(9)
+    for (const d of decls) {
+      expect(d, d).toMatch(/^--z-card-bevel-filter: drop-shadow\(\S+ \S+ \S+ rgba\([^)]*\)\);$/)
+    }
+  })
+
 })
