@@ -8,7 +8,9 @@
  *   --badge-glow       drop-shadow filter (traces the parallelogram shape)
  *   --badge-scan-color Scan-sweep highlight colour
  *   --badge-dot-size   Pulse status dot diameter (default: 5px; .badge-lg sets 6px)
- *   --badge-interior   Interior fill for outlined variants (transparent for solid badges)
+ *   --badge-interior   Interior fill painted by ::before inside --badge-inner-clip. Transparent in
+ *                      Ops (solid badges); genres that draw a rim fill it with the --badge-bg tint
+ *                      over the page surface so the rim is the element background.
  *   --badge-offset     Parallelogram slant cut depth; shape modifiers set this automatically
  *   --badge-inner-clip clip-path for the inner inset stroke (outlined variant border width)
  *
@@ -25,6 +27,15 @@
  *   --z-badge-letter-spacing   letter-spacing
  *   --z-badge-inset-shadow     box-shadow (Ops = none, Cyberpunk = inset 1px border)
  *   --z-badge-scan-duration    Radar scan animation duration (Ops = 5s, Cyberpunk = 2.5s)
+ *   --z-badge-rim              Element background for genres that draw a border. Unset in Ops
+ *                              (the element paints --badge-bg); the other built-in genres set
+ *                              currentColor so the border follows the clip-path polygon, and
+ *                              --z-badge-inner-clip cuts the interior out of it. An inset
+ *                              box-shadow cannot do this — it always traces the box, not the shape.
+ *   --z-badge-interior         Interior fill for rim genres, emitted on the element by
+ *                              genresPlugin() because it references --badge-bg
+ *   --z-badge-inset            Rim width used by the shape modifiers' inner clips
+ *                              (Ops = 2px, rim genres = 1px)
  *
  * ─── Example ───────────────────────────────────────────────────────────────
  *   .badge-plasma {
@@ -37,6 +48,7 @@
 import shapes from '../../utils/shapes.js'
 
 export default function(theme) {
+  const rim = 'var(--z-badge-inset, 2px)'
   return {
     // ── @property registrations ───────────────────────────────────────────────
     // inherits:true on --badge-offset so ::before pseudo-elements can resolve it.
@@ -77,8 +89,9 @@ export default function(theme) {
       '--badge-glow':       'none',
       '--badge-scan-color': 'color-mix(in oklch, white 18%, transparent)',
       '--badge-offset':     'var(--zp-corner-badge)',
-      // Outlined technique defaults — transparent so solid badges are unaffected
-      '--badge-interior':   'transparent',
+      // Outlined technique defaults — transparent in Ops so solid badges are unaffected;
+      // rim genres set --z-badge-interior on the element (see genres/index.js).
+      '--badge-interior':   'var(--z-badge-interior, transparent)',
       // --z-badge-inner-clip: genre structural token, same two-level pattern as
       // --btn-inner-clip → var(--z-btn-inner-clip). The genre builder's unlayered
       // .gb-preview .badge::before rule reads --z-badge-inner-clip directly (same
@@ -106,7 +119,8 @@ export default function(theme) {
       // always wins over this token — no specificity re-scoping needed per genre.
       clipPath: `var(--z-badge-clip, ${shapes.slant('var(--badge-offset)')})`,
       borderRadius: 'var(--z-badge-radius)',
-      background: 'var(--badge-bg)',
+      // --z-badge-rim: rim genres paint currentColor here and move the tint to ::before.
+      background: 'var(--z-badge-rim, var(--badge-bg))',
       color: 'var(--badge-color)',
       filter: 'var(--badge-glow)',
       // --z-badge-inset-shadow: Ops = none. Cyberpunk = inset 1px border in text colour.
@@ -202,21 +216,24 @@ export default function(theme) {
       '--badge-color': 'var(--z-color-text-muted)',
     },
 
-    // ── Pulsing status dot — expanding ring via animated box-shadow ───────────
+    // ── Pulsing status dot ────────────────────────────────────────────────────
+    // The dot takes over ::after (the scan sweep) so ::before stays free to fill
+    // the interior — rim genres need it to draw the border along the clip shape.
+    // A live-status badge shows the pulse instead of the sweep.
     ':where(.badge-pulse)': {
       '--badge-dot-size': '5px',
-      '&::before': {
-        // Reset position properties inherited from .badge::before — the dot must
-        // flow as a flex item, not be absolutely positioned inside the badge.
-        content: '""',
+      '&::after': {
+        // Reset the sweep's absolute placement — the dot must flow as the first
+        // flex item, ahead of the label text.
         position: 'relative',
-        inset: 'auto',
-        clipPath: 'none',
-        zIndex: 'auto',
-        background: 'currentColor',
+        top: 'auto',
+        bottom: 'auto',
+        left: 'auto',
+        order: '-1',
         width: 'var(--badge-dot-size)',
         height: 'var(--badge-dot-size)',
         borderRadius: '50%',
+        background: 'currentColor',
         flexShrink: '0',
         animation: 'zyna-pulse-ring var(--z-duration-pulse) var(--z-ease-enter) infinite',
       },
@@ -241,21 +258,21 @@ export default function(theme) {
     // Each modifier also sets --badge-inner-clip so .badge-outline traces the correct shape.
     ':where(.badge-slant)': {
       clipPath: shapes.slant('var(--badge-offset)'),
-      '--badge-inner-clip': `polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), 2px calc(100% - 2px))`,
+      '--badge-inner-clip': `polygon(calc(var(--badge-offset) + ${rim}) ${rim}, calc(100% - ${rim}) ${rim}, calc(100% - calc(var(--badge-offset) + ${rim})) calc(100% - ${rim}), ${rim} calc(100% - ${rim}))`,
     },
     ':where(.badge-rect)': {
       clipPath: 'inset(0 round 3px)',
       borderRadius: '3px',
-      '--badge-inner-clip': 'inset(2px round 3px)',
+      '--badge-inner-clip': `inset(${rim} round 3px)`,
     },
     ':where(.badge-pill)': {
       clipPath: 'inset(0 round 9999px)',
       borderRadius: '9999px',
-      '--badge-inner-clip': 'inset(2px round 9999px)',
+      '--badge-inner-clip': `inset(${rim} round 9999px)`,
     },
     ':where(.badge-bevel)': {
       clipPath: shapes.bevel('var(--badge-offset)').outer,
-      '--badge-inner-clip': `polygon(calc(var(--badge-offset) + 2px) 2px, calc(100% - calc(var(--badge-offset) + 2px)) 2px, calc(100% - 2px) calc(var(--badge-offset) + 2px), calc(100% - 2px) calc(100% - calc(var(--badge-offset) + 2px)), calc(100% - calc(var(--badge-offset) + 2px)) calc(100% - 2px), calc(var(--badge-offset) + 2px) calc(100% - 2px), 2px calc(100% - calc(var(--badge-offset) + 2px)), 2px calc(var(--badge-offset) + 2px))`,
+      '--badge-inner-clip': `polygon(calc(var(--badge-offset) + ${rim}) ${rim}, calc(100% - calc(var(--badge-offset) + ${rim})) ${rim}, calc(100% - ${rim}) calc(var(--badge-offset) + ${rim}), calc(100% - ${rim}) calc(100% - calc(var(--badge-offset) + ${rim})), calc(100% - calc(var(--badge-offset) + ${rim})) calc(100% - ${rim}), calc(var(--badge-offset) + ${rim}) calc(100% - ${rim}), ${rim} calc(100% - calc(var(--badge-offset) + ${rim})), ${rim} calc(var(--badge-offset) + ${rim}))`,
     },
   }
 }

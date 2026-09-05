@@ -24,7 +24,7 @@ export default function motion() {
   return {
     '@media (prefers-reduced-motion: reduce)': {
       ':where(.badge)::after':        { animation: 'none' },
-      ':where(.badge-pulse)::before': {
+      ':where(.badge-pulse)::after': {
         animation: 'zyna-pulse-fade calc(var(--z-duration-pulse) * 2) ease-in-out infinite',
       },
       ':where(.card)':                { animation: 'none' },
