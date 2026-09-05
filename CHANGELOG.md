@@ -24,6 +24,7 @@ Repair pass from a full line-by-line audit of the plugin, charts, React wrapper,
 
 ### Fixed — charts
 
+- **`<zyna-timeline>` notes ran into each other in narrow containers.** Every note was centred on its point on one row, so at 320px four consecutive notes ("Ceasefire", "Berlin II", "Peak Crisis", "Derna Floods") printed over one another, and a note on the first or last point could leave the SVG. Notes are now measured after they are set; a note that would overlap the previous one is lifted onto a second row above the rail, and a note at either edge is anchored inward.
 - **`<zyna-candlestick>` and `<zyna-density>` collapsed rows with duplicate labels.** Their band/point scales were built from label strings, which d3 de-duplicates, so two candles on the same date or two periods called "Q1" drew on top of each other. Both scales are now index-based.
 - **`<zyna-cascade>` block labels went dark on non-hex accents.** The luminance helper only parsed hex; `rgb()`, `hsl()`, `oklch()`, and named colours now resolve through a canvas context, with the theme text colour as the fallback. Its injected preference/forced-colors `<style>` is also scoped to the instance's own SVG instead of matching any `.cs-block` in the host page.
 - **`<zyna-gauge>` drew nothing when long end labels met a narrow container** — the label reservation drove the radius negative and every segment degenerated to `M0,0Z`. The reservation is capped and the radius floored.

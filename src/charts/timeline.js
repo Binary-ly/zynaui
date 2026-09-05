@@ -124,6 +124,26 @@ export class ZynaTimeline extends ZynaChart {
         .attr('text-anchor', 'middle').attr('font-family', 'monospace')
         .attr('font-size', `${fSm}px`).attr('fill', c).text(fmtVal(pt.value))
     })
+
+    // Notes: measure each one, then walk left to right and lift a note onto a
+    // second row above the rail whenever it would overlap the previous note on
+    // its row. A note at either edge is anchored inward so it stays in the SVG.
+    const noted = []
+    groups.each(function(pt, i) {
+      if (pt.note) noted.push({ el: select(this).select('.tl-note'), cx: padL + i * xStep })
+    })
+    const rowEnd = [-Infinity, -Infinity]
+    const rowY   = [railY + 12, railY + 12 - (fMd + 6)]
+    for (const n of noted) {
+      const node = n.el.node()
+      const w    = node.getComputedTextLength ? node.getComputedTextLength() : String(n.el.text()).length * fSm * 0.6
+      let x = n.cx, anchor = 'middle', left = x - w / 2
+      if (left < 2) { left = 2; x = 2; anchor = 'start' }
+      else if (left + w > W - 2) { left = W - 2 - w; x = W - 2; anchor = 'end' }
+      const row = left > rowEnd[0] + 6 ? 0 : (left > rowEnd[1] + 6 ? 1 : 0)
+      rowEnd[row] = left + w
+      n.el.attr('x', x).attr('y', rowY[row]).attr('text-anchor', anchor)
+    }
   }
 }
 
