@@ -11,7 +11,9 @@
  *   --badge-interior   Interior fill painted by ::before inside --badge-inner-clip. Transparent in
  *                      Ops (solid badges); genres that draw a rim fill it with the --badge-bg tint
  *                      over the page surface so the rim is the element background.
- *   --badge-offset     Parallelogram slant cut depth; shape modifiers set this automatically
+ *   --badge-offset     Parallelogram slant cut depth (--zp-corner-badge × --badge-scale);
+ *                      the shape modifiers read it too
+ *   --badge-scale      Size multiplier for every cut depth: 1, .badge-sm 0.6, .badge-lg 1.2
  *   --badge-inner-clip clip-path for the inner inset stroke (outlined variant border width)
  *
  * All built-in gold colours reference var(--zyna) so the badge palette
@@ -36,6 +38,8 @@
  *                              genresPlugin() because it references --badge-bg
  *   --z-badge-inset            Rim width used by the shape modifiers' inner clips
  *                              (Ops = 2px, rim genres = 1px)
+ *   --z-badge-cut              Depth of a genre's own notch / chamfer / arrow; the genre clip
+ *                              multiplies it by --badge-scale so size classes scale the cut
  *
  * ─── Example ───────────────────────────────────────────────────────────────
  *   .badge-plasma {
@@ -88,7 +92,8 @@ export default function(theme) {
       '--badge-color':      'var(--z-color-text-muted)',  // WCAG AA ≥4.5:1 on dark
       '--badge-glow':       'none',
       '--badge-scan-color': 'color-mix(in oklch, white 18%, transparent)',
-      '--badge-offset':     'var(--zp-corner-badge)',
+      '--badge-scale':      '1',
+      '--badge-offset':     'calc(var(--zp-corner-badge) * var(--badge-scale))',
       // Outlined technique defaults — transparent in Ops so solid badges are unaffected;
       // rim genres set --z-badge-interior on the element (see genres/index.js).
       '--badge-interior':   'var(--z-badge-interior, transparent)',
@@ -239,17 +244,19 @@ export default function(theme) {
       },
     },
 
+    // Size classes scale every cut depth through --badge-scale: the slant
+    // (Ops 5px → 3px / 6px) and the notched genres' --z-badge-cut alike.
     ':where(.badge-sm)': {
       padding: '0.15rem 0.65rem',
       fontSize: '0.55rem',
-      '--badge-offset':   '3px',
+      '--badge-scale':    '0.6',
       '--badge-dot-size': '4px',
     },
 
     ':where(.badge-lg)': {
       padding: '0.32rem 1.05rem',
       fontSize: '0.68rem',
-      '--badge-offset':   'var(--zp-corner-badge-lg)',
+      '--badge-scale':    '1.2',
       '--badge-dot-size': '6px',
     },
 
