@@ -191,13 +191,14 @@ export const styles = {
     //
     // Clip polygon (clockwise): top-left → top-right → bottom-right → notch-end → notch-point
     // The notch is 8px — sufficient to read as a punch hole without consuming badge space.
-    '--z-badge-clip':           'polygon(0 0, 100% 0, 100% 100%, 8px 100%, 0 calc(100% - 8px))',
+    '--z-badge-cut':            '8px',
+    '--z-badge-clip':           'polygon(0 0, 100% 0, 100% 100%, calc(var(--z-badge-cut) * var(--badge-scale)) 100%, 0 calc(100% - var(--z-badge-cut) * var(--badge-scale)))',
     '--z-badge-radius':         '0',
     '--z-badge-padding':        '0.20rem 0.75rem',
     '--z-badge-letter-spacing': '0.11em',
     '--z-badge-inset-shadow':   'inset 0 0 0 1px currentColor',
     '--z-badge-scan-duration':  '6s',   // tactical awareness cadence
-    '--z-badge-inner-clip':     'polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 9px calc(100% - 1px), 1px calc(100% - 9px))',
+    '--z-badge-inner-clip':     'polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), calc(var(--z-badge-cut) * var(--badge-scale) + 1px) calc(100% - 1px), 1px calc(100% - (var(--z-badge-cut) * var(--badge-scale) + 1px)))',
     // Rim model: element = currentColor border, ::before = tint, so the border follows the notch.
     '--z-badge-rim':            'currentColor',
     '--z-badge-inset':          '1px',

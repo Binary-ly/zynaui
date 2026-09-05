@@ -295,7 +295,8 @@ export const styles = {
     //   (0, calc(50% + 5px)) → (10px, 50%) — lower notch diagonal to tip
     //   (10px, 50%) → (0, calc(50% - 5px)) — tip back to upper notch start
     //   (0, calc(50% - 5px)) → (0, 0) — left edge above notch back to top
-    '--z-badge-clip':           'polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 calc(50% + 5px), 10px 50%, 0 calc(50% - 5px))',
+    '--z-badge-cut':            '10px',
+    '--z-badge-clip':           'polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 calc(50% + var(--z-badge-cut) * var(--badge-scale) / 2), calc(var(--z-badge-cut) * var(--badge-scale)) 50%, 0 calc(50% - var(--z-badge-cut) * var(--badge-scale) / 2))',
     '--z-badge-radius':         '0',
     '--z-badge-padding':        '0.18rem 0.72rem 0.18rem 1.0rem',  // extra left padding for notch depth
     '--z-badge-letter-spacing': '0.07em',
@@ -304,7 +305,7 @@ export const styles = {
     // Inner clip for left V-notch badge (1px inset on all edges):
     // Notch tip moves from x=10px to x=11px (1px inner offset on diagonal).
     // Notch endpoints: ±5px at x=0 becomes ±6px at x=1px (diagonal compensation).
-    '--z-badge-inner-clip':     'polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px), 1px calc(50% + 6px), 11px 50%, 1px calc(50% - 6px))',
+    '--z-badge-inner-clip':     'polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px), 1px calc(50% + (var(--z-badge-cut) * var(--badge-scale) / 2 + 1px)), calc(var(--z-badge-cut) * var(--badge-scale) + 1px) 50%, 1px calc(50% - (var(--z-badge-cut) * var(--badge-scale) / 2 + 1px)))',
     // Rim model: element = currentColor border, ::before = tint, so the border follows the notch.
     '--z-badge-rim':            'currentColor',
     '--z-badge-inset':          '1px',
