@@ -4,7 +4,7 @@ All notable changes to ZynaUI are documented here.
 
 ---
 
-## [Unreleased]
+## [0.3.1-beta] (2026-09-06) — audit repair pass
 
 Repair pass from a full line-by-line audit of the plugin, charts, React wrapper, types, tests, and docs. Every fix below was reproduced before it was changed and is now covered by a test.
 

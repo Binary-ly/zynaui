@@ -11,12 +11,12 @@ They may be renamed or restructured in any minor release. Do not set or read
 them in your own stylesheets.
 
 **Effective from:** v0.2.0
-**Total public tokens:** 83
-**Total internal tokens:** 80
+**Total public tokens:** 84
+**Total internal tokens:** 86
 
 ---
 
-## Public API — 83 tokens
+## Public API — 84 tokens
 
 ### Brand (2)
 
