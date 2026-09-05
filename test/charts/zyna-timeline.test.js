@@ -161,4 +161,41 @@ describe('zyna-timeline', () => {
     expect(labels).to.include('Beta')
     expect(labels).not.to.include('Tripoli')
   })
+
+  it('keeps notes from overlapping or leaving the SVG in a narrow container', async () => {
+    // Six points with notes in a 320px column: on one row the middle four
+    // printed over each other, and a note on the first point ran off the left.
+    const noted = JSON.stringify([
+      { label: '2019', value: 310, note: 'Framework' },
+      { label: '2020', value: 259, note: 'Ceasefire' },
+      { label: '2021', value: 285, note: 'Berlin II' },
+      { label: '2022', value: 419, note: 'Peak Crisis' },
+      { label: '2023', value: 315, note: 'Derna Floods' },
+      { label: '2024', value: 273, note: 'Elections' },
+    ])
+    const el = await fixture(`<zyna-timeline data='${noted}' highlight="2022" style="display:block;width:320px"></zyna-timeline>`)
+    await new Promise(r => requestAnimationFrame(r))
+    const W = el.querySelector('svg').viewBox.baseVal.width
+    const boxes = [...el.querySelectorAll('text.tl-note')].map(t => ({ t: t.textContent, b: t.getBBox() }))
+    expect(boxes.length).to.equal(6)
+    for (const { t, b } of boxes) {
+      expect(b.x, `${t} left`).to.be.at.least(0)
+      expect(b.x + b.width, `${t} right`).to.be.at.most(W)
+    }
+    for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) {
+      const a = boxes[i].b, c = boxes[j].b
+      const overlap = a.x < c.x + c.width && c.x < a.x + a.width && a.y < c.y + c.height && c.y < a.y + a.height
+      expect(overlap, `${boxes[i].t} overlaps ${boxes[j].t}`).to.be.false
+    }
+    const rows = new Set([...el.querySelectorAll('text.tl-note')].map(t => t.getAttribute('y')))
+    expect(rows.size).to.equal(2)
+  })
+
+  it('keeps every note on one row when there is room', async () => {
+    const el = await fixture(`<zyna-timeline data='${sampleData}' style="display:block;width:900px"></zyna-timeline>`)
+    await new Promise(r => requestAnimationFrame(r))
+    const shown = [...el.querySelectorAll('text.tl-note')].filter(t => t.getAttribute('display') !== 'none')
+    expect(shown.length).to.equal(1)
+    expect(shown[0].getAttribute('text-anchor')).to.equal('middle')
+  })
 })
