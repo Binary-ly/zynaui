@@ -142,4 +142,29 @@ describe('zyna-nightingale', () => {
       expect(y < labelY(g) - 8 || y > valueY(g) + 4, `leader for ${g.querySelector('text.ng-label').textContent} starts inside its label block`).to.be.true
     }
   })
+
+  it('keeps every label inside the SVG at narrow widths', async () => {
+    // At 320px the label ring used to sit 153px from the centre, so side labels
+    // were anchored 7px from the edge and most of "Reconstruction" was clipped.
+    const el = await fixture(`<zyna-nightingale data='${sampleData}' style="display:block;width:320px"></zyna-nightingale>`)
+    const W = el.querySelector('svg').viewBox.baseVal.width
+    for (const t of el.querySelectorAll('text.ng-label')) {
+      const box = t.getBBox()
+      expect(box.x, `${t.textContent} left edge`).to.be.at.least(0)
+      expect(box.x + box.width, `${t.textContent} right edge`).to.be.at.most(W)
+    }
+    expect(el.querySelector('path.ng-arc').getAttribute('d')).to.not.be.empty
+  })
+
+  it('does not trim labels or shrink the rose when there is room', async () => {
+    const el = await fixture(`<zyna-nightingale data='${sampleData}' style="display:block;width:800px"></zyna-nightingale>`)
+    const labels = [...el.querySelectorAll('text.ng-label')].map(t => t.textContent)
+    expect(labels).to.deep.equal(['Emergency', 'Governance', 'Peacebuilding', 'Health'])
+    const dot = el.querySelector('circle.ng-dot')
+    // Emergency is the largest sector: its dot sits at maxR + 10 from the centre, and
+    // maxR is still 52% of the half-height (H = 800 * 0.8 = 640, so 320 * 0.52 = 166.4).
+    const dy = Math.abs(parseFloat(dot.getAttribute('cy')) - 320)
+    const dx = Math.abs(parseFloat(dot.getAttribute('cx')) - 400)
+    expect(Math.round(Math.hypot(dx, dy))).to.equal(176)
+  })
 })
