@@ -105,6 +105,7 @@ const v = {
     // ── Card structural ─────────────────────────────────────────────────────
     "--z-card-clip": "none",
     "--z-card-filter": "none",
+    "--z-card-bevel-filter": "drop-shadow(0 24px 70px rgba(0,0,0,0.60))",
     "--z-card-texture": "linear-gradient(transparent, transparent)",
     "--z-card-gradient": "var(--z-surface-card)",
     "--z-card-border-color": "var(--z-color-border)",
@@ -226,6 +227,7 @@ const v = {
     "--z-card-gradient": "linear-gradient(145deg, rgba(2,18,4,0.98) 0%, rgba(0,8,1,0.99) 100%)",
     "--z-card-border-color": "color-mix(in oklch, var(--zyna) 60%, transparent)",
     "--z-card-shadow": "0 0 0 1px color-mix(in oklch, var(--zyna) 25%, transparent), 0 8px 32px rgba(0,0,0,0.6)",
+    "--z-card-bevel-filter": "drop-shadow(0 8px 32px rgba(0,0,0,0.6))",
     "--z-card-bar-height": "3px",
     "--z-card-bar-bg": "var(--zyna)",
     "--z-card-bar-shadow": "0 0 14px var(--zyna), 0 0 32px color-mix(in oklch, var(--zyna) 50%, transparent)",
@@ -419,6 +421,7 @@ const v = {
     // institution-blue header band, fading rule at the top edge.
     "--z-card-clip": "none",
     "--z-card-filter": "none",
+    "--z-card-bevel-filter": "drop-shadow(0 6px 20px rgba(0,0,0,0.08))",
     "--z-card-texture": "none",
     "--z-card-gradient": "var(--z-surface-card)",
     "--z-card-border-color": "rgba(28,27,22,0.09)",
@@ -634,6 +637,7 @@ const v = {
     // ── Card — phosphor terminal output pane ──────────────────────────────────
     "--z-card-clip": "none",
     "--z-card-filter": "none",
+    "--z-card-bevel-filter": "drop-shadow(0 2px 8px rgba(0,0,0,0.5))",
     "--z-card-texture": "none",
     "--z-card-gradient": "var(--z-surface-card)",
     "--z-card-border-color": "rgba(255,159,10,0.14)",
@@ -939,6 +943,7 @@ const v = {
     // at every level from squad to corps.
     "--z-card-clip": "none",
     "--z-card-filter": "none",
+    "--z-card-bevel-filter": "drop-shadow(0 2px 8px rgba(0,0,0,0.60))",
     "--z-card-texture": "repeating-linear-gradient(45deg, rgba(139,158,75,0.022) 0px, rgba(139,158,75,0.022) 1px, transparent 1px, transparent 10px)",
     "--z-card-gradient": "var(--z-surface-card)",
     "--z-card-border-color": "rgba(139,158,75,0.13)",
@@ -1248,6 +1253,7 @@ const v = {
     // ── Card — precision data sheet ───────────────────────────────────────────
     "--z-card-clip": "none",
     "--z-card-filter": "none",
+    "--z-card-bevel-filter": "drop-shadow(0 4px 12px rgba(27,58,107,0.10))",
     // Ruled schedule lines — a blank engineering parts list or schedule table.
     // Horizontal rules at 18 px simulate the pre-printed ruling on an engineering
     // form or inspection schedule, ready for annotation.
@@ -1583,6 +1589,7 @@ const v = {
     // ── Card — washi data sheet with sashiko texture ───────────────────────────
     "--z-card-clip": "none",
     "--z-card-filter": "none",
+    "--z-card-bevel-filter": "drop-shadow(0 4px 14px rgba(42,26,14,0.10))",
     // Sashiko diamond stitch (hishi-moyō 菱模様) — the simplest sashiko pattern.
     // Two 45° crossing gradient layers form a diamond grid at 12 px pitch.
     // At 1.8% opacity each, the combined pattern barely registers on cream paper
@@ -1982,6 +1989,7 @@ const v = {
     // ── Card — vertical spectral lines + dual-beam bar ─────────────────────────
     "--z-card-clip": "none",
     "--z-card-filter": "none",
+    "--z-card-bevel-filter": "drop-shadow(0 4px 14px rgba(12,30,36,0.09))",
     // Fine vertical lines at 6 px pitch — spectrophotometric column spacing.
     // Pure 90° lines only (no horizontal component). Different from:
     //   Blueprint: horizontal rules at 18 px (perpendicular to Laboratory)
@@ -2338,6 +2346,7 @@ const v = {
     // ── Card — laid paper texture + centered gold fade bar ────────────────────
     "--z-card-clip": "none",
     "--z-card-filter": "none",
+    "--z-card-bevel-filter": "drop-shadow(0 4px 14px rgba(44,28,4,0.09))",
     // Fine horizontal laid lines at 4 px pitch + vertical chain lines at 40 px.
     // Two crossing gradients — the ONLY dual-axis card texture in ZynaUI:
     //   0deg  = horizontal stack of thin lines (4px period): laid lines
