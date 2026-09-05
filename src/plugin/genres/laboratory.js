@@ -327,7 +327,8 @@ export const styles = {
     //   (100%, 50%) → (calc(100% - 8px), 100%) — tip to bottom-right diagonal
     //   (calc(100% - 8px), 100%) → (0, 100%) — bottom edge
     //   (0, 100%) → (0, 0) — left edge
-    '--z-badge-clip':           'polygon(0 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 0 100%)',
+    '--z-badge-cut':            '8px',
+    '--z-badge-clip':           'polygon(0 0, calc(100% - var(--z-badge-cut) * var(--badge-scale)) 0, 100% 50%, calc(100% - var(--z-badge-cut) * var(--badge-scale)) 100%, 0 100%)',
     '--z-badge-radius':         '0',
     '--z-badge-padding':        '0.18rem 1.0rem 0.18rem 0.72rem',  // extra right padding for arrow shoulder
     '--z-badge-letter-spacing': '0.07em',
@@ -336,7 +337,7 @@ export const styles = {
     // Inner clip for badge in inner-clip border model (arrow shape, ~1px inset):
     // Top shoulder: 8+1=9px from right. Tip: ~2px from right edge (1px inset on diagonal).
     // Bottom shoulder: same as top. Left and bottom: 1px inset.
-    '--z-badge-inner-clip':     'polygon(1px 1px, calc(100% - 9px) 1px, calc(100% - 2px) 50%, calc(100% - 9px) calc(100% - 1px), 1px calc(100% - 1px))',
+    '--z-badge-inner-clip':     'polygon(1px 1px, calc(100% - (var(--z-badge-cut) * var(--badge-scale) + 1px)) 1px, calc(100% - 2px) 50%, calc(100% - (var(--z-badge-cut) * var(--badge-scale) + 1px)) calc(100% - 1px), 1px calc(100% - 1px))',
     // Rim model: element = currentColor border, ::before = tint, so the border follows the arrow.
     '--z-badge-rim':            'currentColor',
     '--z-badge-inset':          '1px',
@@ -375,6 +376,7 @@ export const styles = {
     // ── Card — vertical spectral lines + dual-beam bar ─────────────────────────
     '--z-card-clip':    'none',
     '--z-card-filter':  'none',
+    '--z-card-bevel-filter': 'drop-shadow(0 4px 14px rgba(12,30,36,0.09))',
     // Fine vertical lines at 6 px pitch — spectrophotometric column spacing.
     // Pure 90° lines only (no horizontal component). Different from:
     //   Blueprint: horizontal rules at 18 px (perpendicular to Laboratory)

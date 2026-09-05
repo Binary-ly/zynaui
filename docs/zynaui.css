@@ -388,7 +388,6 @@
     --zp-corner-lg: 13px;
     --zp-corner-xl: 16px;
     --zp-corner-badge: 5px;
-    --zp-corner-badge-lg: 6px;
     --zp-corner-card: 16px;
     --zp-ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
     --zp-ease-snap: cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -876,7 +875,7 @@
     border-radius: 0;
     --card-shadow: none;
     --card-bar-shadow: none;
-    filter: drop-shadow(0 24px 70px rgba(0,0,0,0.60)) drop-shadow(0 0 0 1px rgba(255,255,255,0.02));
+    filter: var(--z-card-bevel-filter);
   }
   @property --badge-offset {
     syntax: "<length>";
@@ -938,7 +937,8 @@
     --badge-color: var(--z-color-text-muted);
     --badge-glow: none;
     --badge-scan-color: color-mix(in oklch, white 18%, transparent);
-    --badge-offset: var(--zp-corner-badge);
+    --badge-scale: 1;
+    --badge-offset: calc(var(--zp-corner-badge) * var(--badge-scale));
     --badge-interior: var(--z-badge-interior, transparent);
     --badge-inner-clip: var(--z-badge-inner-clip);
     display: inline-flex;
@@ -1089,13 +1089,13 @@
   :where(.badge-sm) {
     padding: 0.15rem 0.65rem;
     font-size: 0.55rem;
-    --badge-offset: 3px;
+    --badge-scale: 0.6;
     --badge-dot-size: 4px;
   }
   :where(.badge-lg) {
     padding: 0.32rem 1.05rem;
     font-size: 0.68rem;
-    --badge-offset: var(--zp-corner-badge-lg);
+    --badge-scale: 1.2;
     --badge-dot-size: 6px;
   }
   :where(.badge-slant) {
@@ -1358,6 +1358,7 @@
     --z-alert-bar-radius: 3px 0 0 3px;
     --z-card-clip: none;
     --z-card-filter: none;
+    --z-card-bevel-filter: drop-shadow(0 24px 70px rgba(0,0,0,0.60));
     --z-card-texture: linear-gradient(transparent, transparent);
     --z-card-gradient: var(--z-surface-card);
     --z-card-border-color: var(--z-color-border);
@@ -1461,6 +1462,7 @@
     @supports (color: color-mix(in lab, red, red)) {
       --z-card-shadow: 0 0 0 1px color-mix(in oklch, var(--zyna) 25%, transparent), 0 8px 32px rgba(0,0,0,0.6);
     }
+    --z-card-bevel-filter: drop-shadow(0 8px 32px rgba(0,0,0,0.6));
     --z-card-bar-height: 3px;
     --z-card-bar-bg: var(--zyna);
     --z-card-bar-shadow: 0 0 14px var(--zyna), 0 0 32px var(--zyna);
@@ -1667,6 +1669,7 @@
     --z-alert-bar-radius: 0;
     --z-card-clip: none;
     --z-card-filter: none;
+    --z-card-bevel-filter: drop-shadow(0 6px 20px rgba(0,0,0,0.08));
     --z-card-texture: none;
     --z-card-gradient: var(--z-surface-card);
     --z-card-border-color: rgba(28,27,22,0.09);
@@ -1807,6 +1810,7 @@
     --z-alert-bar-radius: 0;
     --z-card-clip: none;
     --z-card-filter: none;
+    --z-card-bevel-filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
     --z-card-texture: none;
     --z-card-gradient: var(--z-surface-card);
     --z-card-border-color: rgba(255,159,10,0.14);
@@ -2025,6 +2029,7 @@
     --z-btn-corner: 10px;
     --z-btn-active-scale: 0.97;
     --z-btn-scan-stop: 60%;
+    --z-badge-cut: 8px;
     --z-badge-radius: 0;
     --z-badge-padding: 0.20rem 0.75rem;
     --z-badge-letter-spacing: 0.11em;
@@ -2045,6 +2050,7 @@
     --z-alert-bar-radius: 0;
     --z-card-clip: none;
     --z-card-filter: none;
+    --z-card-bevel-filter: drop-shadow(0 2px 8px rgba(0,0,0,0.60));
     --z-card-texture: repeating-linear-gradient(45deg, rgba(139,158,75,0.022) 0px, rgba(139,158,75,0.022) 1px, transparent 1px, transparent 10px);
     --z-card-gradient: var(--z-surface-card);
     --z-card-border-color: rgba(139,158,75,0.13);
@@ -2083,8 +2089,8 @@
     --z-btn-inner-clip: polygon(calc(var(--btn-corner) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - calc(var(--btn-corner) + 1px)), calc(100% - calc(var(--btn-corner) + 1px)) calc(100% - 1px), 1px calc(100% - 1px), 1px calc(var(--btn-corner) + 1px));
   }
   :where(html[data-genre="military"]) :where(.badge) {
-    --z-badge-clip: polygon(0 0, 100% 0, 100% 100%, 8px 100%, 0 calc(100% - 8px));
-    --z-badge-inner-clip: polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 9px calc(100% - 1px), 1px calc(100% - 9px));
+    --z-badge-clip: polygon(0 0, 100% 0, 100% 100%, calc(var(--z-badge-cut) * var(--badge-scale)) 100%, 0 calc(100% - var(--z-badge-cut) * var(--badge-scale)));
+    --z-badge-inner-clip: polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), calc(var(--z-badge-cut) * var(--badge-scale) + 1px) calc(100% - 1px), 1px calc(100% - (var(--z-badge-cut) * var(--badge-scale) + 1px)));
     --z-badge-interior: linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page);
   }
   :where(html[data-genre="military"]) :where(.alert) {
@@ -2199,6 +2205,7 @@
     --z-btn-corner: 10px;
     --z-btn-active-scale: 0.97;
     --z-btn-scan-stop: 40%;
+    --z-badge-cut: 5px;
     --z-badge-radius: 0;
     --z-badge-padding: 0.38rem 0.80rem 0.22rem 0.80rem;
     --z-badge-letter-spacing: 0.09em;
@@ -2219,6 +2226,7 @@
     --z-alert-bar-radius: 1px;
     --z-card-clip: none;
     --z-card-filter: none;
+    --z-card-bevel-filter: drop-shadow(0 4px 12px rgba(27,58,107,0.10));
     --z-card-texture: repeating-linear-gradient(0deg, rgba(27,58,107,0.022) 0px, rgba(27,58,107,0.022) 1px, transparent 1px, transparent 18px);
     --z-card-gradient: var(--z-surface-card);
     --z-card-border-color: rgba(27,58,107,0.09);
@@ -2260,8 +2268,8 @@
     --z-btn-inner-clip: polygon(1px 1px, calc(100% - var(--btn-corner) - 1px) 1px, calc(100% - var(--btn-corner) - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px));
   }
   :where(html[data-genre="blueprint"]) :where(.badge) {
-    --z-badge-clip: polygon(0 0, calc(50% - 5px) 0, 50% 5px, calc(50% + 5px) 0, 100% 0, 100% 100%, 0 100%);
-    --z-badge-inner-clip: polygon(1px 1px, calc(50% - 4px) 1px, 50% 4px, calc(50% + 4px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px));
+    --z-badge-clip: polygon(0 0, calc(50% - var(--z-badge-cut) * var(--badge-scale)) 0, 50% calc(var(--z-badge-cut) * var(--badge-scale)), calc(50% + var(--z-badge-cut) * var(--badge-scale)) 0, 100% 0, 100% 100%, 0 100%);
+    --z-badge-inner-clip: polygon(1px 1px, calc(50% - (var(--z-badge-cut) * var(--badge-scale) - 1px)) 1px, 50% calc(var(--z-badge-cut) * var(--badge-scale) - 1px), calc(50% + (var(--z-badge-cut) * var(--badge-scale) - 1px)) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px));
     --z-badge-interior: linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page);
   }
   :where(html[data-genre="blueprint"]) :where(.alert) {
@@ -2376,6 +2384,7 @@
     --z-btn-corner: 11px;
     --z-btn-active-scale: 0.97;
     --z-btn-scan-stop: 45%;
+    --z-badge-cut: 7px;
     --z-badge-radius: 0;
     --z-badge-padding: 0.20rem 0.78rem;
     --z-badge-letter-spacing: 0.09em;
@@ -2396,6 +2405,7 @@
     --z-alert-bar-radius: 0;
     --z-card-clip: none;
     --z-card-filter: none;
+    --z-card-bevel-filter: drop-shadow(0 4px 14px rgba(42,26,14,0.10));
     --z-card-texture: repeating-linear-gradient(45deg, rgba(201,60,35,0.018) 0px, rgba(201,60,35,0.018) 1px, transparent 1px, transparent 12px), repeating-linear-gradient(-45deg, rgba(201,60,35,0.018) 0px, rgba(201,60,35,0.018) 1px, transparent 1px, transparent 12px);
     --z-card-gradient: var(--z-surface-card);
     --z-card-border-color: rgba(42,26,14,0.09);
@@ -2434,8 +2444,8 @@
     --z-btn-inner-clip: polygon(calc(var(--btn-corner) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px), 1px calc(var(--btn-corner) + 1px));
   }
   :where(html[data-genre="washi"]) :where(.badge) {
-    --z-badge-clip: polygon(0 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%);
-    --z-badge-inner-clip: polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 8px), calc(100% - 8px) calc(100% - 1px), 1px calc(100% - 1px));
+    --z-badge-clip: polygon(0 0, 100% 0, 100% calc(100% - var(--z-badge-cut) * var(--badge-scale)), calc(100% - var(--z-badge-cut) * var(--badge-scale)) 100%, 0 100%);
+    --z-badge-inner-clip: polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - (var(--z-badge-cut) * var(--badge-scale) + 1px)), calc(100% - (var(--z-badge-cut) * var(--badge-scale) + 1px)) calc(100% - 1px), 1px calc(100% - 1px));
     --z-badge-interior: linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page);
   }
   :where(html[data-genre="washi"]) :where(.alert) {
@@ -2571,6 +2581,7 @@
     --z-btn-corner: 10px;
     --z-btn-active-scale: 0.97;
     --z-btn-scan-stop: 40%;
+    --z-badge-cut: 8px;
     --z-badge-radius: 0;
     --z-badge-padding: 0.18rem 1.0rem 0.18rem 0.72rem;
     --z-badge-letter-spacing: 0.07em;
@@ -2591,6 +2602,7 @@
     --z-alert-bar-radius: 0;
     --z-card-clip: none;
     --z-card-filter: none;
+    --z-card-bevel-filter: drop-shadow(0 4px 14px rgba(12,30,36,0.09));
     --z-card-texture: repeating-linear-gradient(90deg, rgba(0,144,176,0.042) 0px, rgba(0,144,176,0.042) 1px, transparent 1px, transparent 6px);
     --z-card-gradient: var(--z-surface-card);
     --z-card-border-color: rgba(12,30,36,0.08);
@@ -2629,8 +2641,8 @@
     --z-btn-inner-clip: polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - calc(var(--btn-corner) + 1px)), calc(100% - calc(var(--btn-corner) + 1px)) calc(100% - 1px), calc(var(--btn-corner) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--btn-corner) + 1px)));
   }
   :where(html[data-genre="laboratory"]) :where(.badge) {
-    --z-badge-clip: polygon(0 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 0 100%);
-    --z-badge-inner-clip: polygon(1px 1px, calc(100% - 9px) 1px, calc(100% - 2px) 50%, calc(100% - 9px) calc(100% - 1px), 1px calc(100% - 1px));
+    --z-badge-clip: polygon(0 0, calc(100% - var(--z-badge-cut) * var(--badge-scale)) 0, 100% 50%, calc(100% - var(--z-badge-cut) * var(--badge-scale)) 100%, 0 100%);
+    --z-badge-inner-clip: polygon(1px 1px, calc(100% - (var(--z-badge-cut) * var(--badge-scale) + 1px)) 1px, calc(100% - 2px) 50%, calc(100% - (var(--z-badge-cut) * var(--badge-scale) + 1px)) calc(100% - 1px), 1px calc(100% - 1px));
     --z-badge-interior: linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page);
   }
   :where(html[data-genre="laboratory"]) :where(.alert) {
@@ -2755,6 +2767,7 @@
     --z-btn-corner: 10px;
     --z-btn-active-scale: 0.97;
     --z-btn-scan-stop: 35%;
+    --z-badge-cut: 10px;
     --z-badge-radius: 0;
     --z-badge-padding: 0.18rem 0.72rem 0.18rem 1.0rem;
     --z-badge-letter-spacing: 0.07em;
@@ -2775,6 +2788,7 @@
     --z-alert-bar-radius: 2px 0 0 2px;
     --z-card-clip: none;
     --z-card-filter: none;
+    --z-card-bevel-filter: drop-shadow(0 4px 14px rgba(44,28,4,0.09));
     --z-card-texture: repeating-linear-gradient(0deg, rgba(184,146,10,0.05) 0px, rgba(184,146,10,0.05) 1px, transparent 1px, transparent 4px), repeating-linear-gradient(90deg, rgba(184,146,10,0.08) 0px, rgba(184,146,10,0.08) 1px, transparent 1px, transparent 40px);
     --z-card-gradient: var(--z-surface-card);
     --z-card-border-color: rgba(44,28,4,0.08);
@@ -2810,8 +2824,8 @@
     --z-btn-inner-clip: polygon(1px 1px, calc(100% - calc(var(--btn-corner) + 1px)) 1px, calc(100% - 1px) calc(var(--btn-corner) + 1px), calc(100% - 1px) calc(100% - calc(var(--btn-corner) + 1px)), calc(100% - calc(var(--btn-corner) + 1px)) calc(100% - 1px), 1px calc(100% - 1px));
   }
   :where(html[data-genre="atelier"]) :where(.badge) {
-    --z-badge-clip: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 calc(50% + 5px), 10px 50%, 0 calc(50% - 5px));
-    --z-badge-inner-clip: polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px), 1px calc(50% + 6px), 11px 50%, 1px calc(50% - 6px));
+    --z-badge-clip: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 calc(50% + var(--z-badge-cut) * var(--badge-scale) / 2), calc(var(--z-badge-cut) * var(--badge-scale)) 50%, 0 calc(50% - var(--z-badge-cut) * var(--badge-scale) / 2));
+    --z-badge-inner-clip: polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px), 1px calc(50% + (var(--z-badge-cut) * var(--badge-scale) / 2 + 1px)), calc(var(--z-badge-cut) * var(--badge-scale) + 1px) 50%, 1px calc(50% - (var(--z-badge-cut) * var(--badge-scale) / 2 + 1px)));
     --z-badge-interior: linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page);
   }
   :where(html[data-genre="atelier"]) :where(.alert) {

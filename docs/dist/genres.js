@@ -105,6 +105,7 @@ const v = {
     // ── Card structural ─────────────────────────────────────────────────────
     "--z-card-clip": "none",
     "--z-card-filter": "none",
+    "--z-card-bevel-filter": "drop-shadow(0 24px 70px rgba(0,0,0,0.60))",
     "--z-card-texture": "linear-gradient(transparent, transparent)",
     "--z-card-gradient": "var(--z-surface-card)",
     "--z-card-border-color": "var(--z-color-border)",
@@ -226,6 +227,7 @@ const v = {
     "--z-card-gradient": "linear-gradient(145deg, rgba(2,18,4,0.98) 0%, rgba(0,8,1,0.99) 100%)",
     "--z-card-border-color": "color-mix(in oklch, var(--zyna) 60%, transparent)",
     "--z-card-shadow": "0 0 0 1px color-mix(in oklch, var(--zyna) 25%, transparent), 0 8px 32px rgba(0,0,0,0.6)",
+    "--z-card-bevel-filter": "drop-shadow(0 8px 32px rgba(0,0,0,0.6))",
     "--z-card-bar-height": "3px",
     "--z-card-bar-bg": "var(--zyna)",
     "--z-card-bar-shadow": "0 0 14px var(--zyna), 0 0 32px color-mix(in oklch, var(--zyna) 50%, transparent)",
@@ -419,6 +421,7 @@ const v = {
     // institution-blue header band, fading rule at the top edge.
     "--z-card-clip": "none",
     "--z-card-filter": "none",
+    "--z-card-bevel-filter": "drop-shadow(0 6px 20px rgba(0,0,0,0.08))",
     "--z-card-texture": "none",
     "--z-card-gradient": "var(--z-surface-card)",
     "--z-card-border-color": "rgba(28,27,22,0.09)",
@@ -634,6 +637,7 @@ const v = {
     // ── Card — phosphor terminal output pane ──────────────────────────────────
     "--z-card-clip": "none",
     "--z-card-filter": "none",
+    "--z-card-bevel-filter": "drop-shadow(0 2px 8px rgba(0,0,0,0.5))",
     "--z-card-texture": "none",
     "--z-card-gradient": "var(--z-surface-card)",
     "--z-card-border-color": "rgba(255,159,10,0.14)",
@@ -886,14 +890,15 @@ const v = {
     //
     // Clip polygon (clockwise): top-left → top-right → bottom-right → notch-end → notch-point
     // The notch is 8px — sufficient to read as a punch hole without consuming badge space.
-    "--z-badge-clip": "polygon(0 0, 100% 0, 100% 100%, 8px 100%, 0 calc(100% - 8px))",
+    "--z-badge-cut": "8px",
+    "--z-badge-clip": "polygon(0 0, 100% 0, 100% 100%, calc(var(--z-badge-cut) * var(--badge-scale)) 100%, 0 calc(100% - var(--z-badge-cut) * var(--badge-scale)))",
     "--z-badge-radius": "0",
     "--z-badge-padding": "0.20rem 0.75rem",
     "--z-badge-letter-spacing": "0.11em",
     "--z-badge-inset-shadow": "inset 0 0 0 1px currentColor",
     "--z-badge-scan-duration": "6s",
     // tactical awareness cadence
-    "--z-badge-inner-clip": "polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 9px calc(100% - 1px), 1px calc(100% - 9px))",
+    "--z-badge-inner-clip": "polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), calc(var(--z-badge-cut) * var(--badge-scale) + 1px) calc(100% - 1px), 1px calc(100% - (var(--z-badge-cut) * var(--badge-scale) + 1px)))",
     // Rim model: element = currentColor border, ::before = tint, so the border follows the notch.
     "--z-badge-rim": "currentColor",
     "--z-badge-inset": "1px",
@@ -938,6 +943,7 @@ const v = {
     // at every level from squad to corps.
     "--z-card-clip": "none",
     "--z-card-filter": "none",
+    "--z-card-bevel-filter": "drop-shadow(0 2px 8px rgba(0,0,0,0.60))",
     "--z-card-texture": "repeating-linear-gradient(45deg, rgba(139,158,75,0.022) 0px, rgba(139,158,75,0.022) 1px, transparent 1px, transparent 10px)",
     "--z-card-gradient": "var(--z-surface-card)",
     "--z-card-border-color": "rgba(139,158,75,0.13)",
@@ -1194,14 +1200,15 @@ const v = {
     // The notch is 5 px deep and ±5 px from the horizontal centerline.
     // At font-size 12–14 px the badge top padding clears it comfortably.
     // No other design system uses a top-center notch on a badge element.
-    "--z-badge-clip": "polygon(0 0, calc(50% - 5px) 0, 50% 5px, calc(50% + 5px) 0, 100% 0, 100% 100%, 0 100%)",
+    "--z-badge-cut": "5px",
+    "--z-badge-clip": "polygon(0 0, calc(50% - var(--z-badge-cut) * var(--badge-scale)) 0, 50% calc(var(--z-badge-cut) * var(--badge-scale)), calc(50% + var(--z-badge-cut) * var(--badge-scale)) 0, 100% 0, 100% 100%, 0 100%)",
     "--z-badge-radius": "0",
     "--z-badge-padding": "0.38rem 0.80rem 0.22rem 0.80rem",
     // extra top to clear the 5 px notch
     "--z-badge-letter-spacing": "0.09em",
     "--z-badge-inset-shadow": "inset 0 0 0 1px currentColor",
     "--z-badge-scan-duration": "8s",
-    "--z-badge-inner-clip": "polygon(1px 1px, calc(50% - 4px) 1px, 50% 4px, calc(50% + 4px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px))",
+    "--z-badge-inner-clip": "polygon(1px 1px, calc(50% - (var(--z-badge-cut) * var(--badge-scale) - 1px)) 1px, 50% calc(var(--z-badge-cut) * var(--badge-scale) - 1px), calc(50% + (var(--z-badge-cut) * var(--badge-scale) - 1px)) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px))",
     // Rim model: element = currentColor border, ::before = tint, so the border follows the notch.
     "--z-badge-rim": "currentColor",
     "--z-badge-inset": "1px",
@@ -1246,6 +1253,7 @@ const v = {
     // ── Card — precision data sheet ───────────────────────────────────────────
     "--z-card-clip": "none",
     "--z-card-filter": "none",
+    "--z-card-bevel-filter": "drop-shadow(0 4px 12px rgba(27,58,107,0.10))",
     // Ruled schedule lines — a blank engineering parts list or schedule table.
     // Horizontal rules at 18 px simulate the pre-printed ruling on an engineering
     // form or inspection schedule, ready for annotation.
@@ -1534,14 +1542,15 @@ const v = {
     // Clip polygon (clockwise): top-left → top-right → BR-chamfer-start → BR-corner → bottom-left
     // The chamfer is 7 px — visible but refined, not aggressive.
     // No other design system uses a bottom-right badge chamfer.
-    "--z-badge-clip": "polygon(0 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%)",
+    "--z-badge-cut": "7px",
+    "--z-badge-clip": "polygon(0 0, 100% 0, 100% calc(100% - var(--z-badge-cut) * var(--badge-scale)), calc(100% - var(--z-badge-cut) * var(--badge-scale)) 100%, 0 100%)",
     "--z-badge-radius": "0",
     "--z-badge-padding": "0.20rem 0.78rem",
     "--z-badge-letter-spacing": "0.09em",
     "--z-badge-inset-shadow": "inset 0 0 0 1px currentColor",
     "--z-badge-scan-duration": "7s",
     // hanko seal rhythm — slow deliberate pass
-    "--z-badge-inner-clip": "polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 8px), calc(100% - 8px) calc(100% - 1px), 1px calc(100% - 1px))",
+    "--z-badge-inner-clip": "polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - (var(--z-badge-cut) * var(--badge-scale) + 1px)), calc(100% - (var(--z-badge-cut) * var(--badge-scale) + 1px)) calc(100% - 1px), 1px calc(100% - 1px))",
     // Rim model: element = currentColor border, ::before = tint, so the border follows the chamfer.
     "--z-badge-rim": "currentColor",
     "--z-badge-inset": "1px",
@@ -1580,6 +1589,7 @@ const v = {
     // ── Card — washi data sheet with sashiko texture ───────────────────────────
     "--z-card-clip": "none",
     "--z-card-filter": "none",
+    "--z-card-bevel-filter": "drop-shadow(0 4px 14px rgba(42,26,14,0.10))",
     // Sashiko diamond stitch (hishi-moyō 菱模様) — the simplest sashiko pattern.
     // Two 45° crossing gradient layers form a diamond grid at 12 px pitch.
     // At 1.8% opacity each, the combined pattern barely registers on cream paper
@@ -1923,7 +1933,8 @@ const v = {
     //   (100%, 50%) → (calc(100% - 8px), 100%) — tip to bottom-right diagonal
     //   (calc(100% - 8px), 100%) → (0, 100%) — bottom edge
     //   (0, 100%) → (0, 0) — left edge
-    "--z-badge-clip": "polygon(0 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 0 100%)",
+    "--z-badge-cut": "8px",
+    "--z-badge-clip": "polygon(0 0, calc(100% - var(--z-badge-cut) * var(--badge-scale)) 0, 100% 50%, calc(100% - var(--z-badge-cut) * var(--badge-scale)) 100%, 0 100%)",
     "--z-badge-radius": "0",
     "--z-badge-padding": "0.18rem 1.0rem 0.18rem 0.72rem",
     // extra right padding for arrow shoulder
@@ -1933,7 +1944,7 @@ const v = {
     // Inner clip for badge in inner-clip border model (arrow shape, ~1px inset):
     // Top shoulder: 8+1=9px from right. Tip: ~2px from right edge (1px inset on diagonal).
     // Bottom shoulder: same as top. Left and bottom: 1px inset.
-    "--z-badge-inner-clip": "polygon(1px 1px, calc(100% - 9px) 1px, calc(100% - 2px) 50%, calc(100% - 9px) calc(100% - 1px), 1px calc(100% - 1px))",
+    "--z-badge-inner-clip": "polygon(1px 1px, calc(100% - (var(--z-badge-cut) * var(--badge-scale) + 1px)) 1px, calc(100% - 2px) 50%, calc(100% - (var(--z-badge-cut) * var(--badge-scale) + 1px)) calc(100% - 1px), 1px calc(100% - 1px))",
     // Rim model: element = currentColor border, ::before = tint, so the border follows the arrow.
     "--z-badge-rim": "currentColor",
     "--z-badge-inset": "1px",
@@ -1978,6 +1989,7 @@ const v = {
     // ── Card — vertical spectral lines + dual-beam bar ─────────────────────────
     "--z-card-clip": "none",
     "--z-card-filter": "none",
+    "--z-card-bevel-filter": "drop-shadow(0 4px 14px rgba(12,30,36,0.09))",
     // Fine vertical lines at 6 px pitch — spectrophotometric column spacing.
     // Pure 90° lines only (no horizontal component). Different from:
     //   Blueprint: horizontal rules at 18 px (perpendicular to Laboratory)
@@ -2275,7 +2287,8 @@ const v = {
     //   (0, calc(50% + 5px)) → (10px, 50%) — lower notch diagonal to tip
     //   (10px, 50%) → (0, calc(50% - 5px)) — tip back to upper notch start
     //   (0, calc(50% - 5px)) → (0, 0) — left edge above notch back to top
-    "--z-badge-clip": "polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 calc(50% + 5px), 10px 50%, 0 calc(50% - 5px))",
+    "--z-badge-cut": "10px",
+    "--z-badge-clip": "polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 calc(50% + var(--z-badge-cut) * var(--badge-scale) / 2), calc(var(--z-badge-cut) * var(--badge-scale)) 50%, 0 calc(50% - var(--z-badge-cut) * var(--badge-scale) / 2))",
     "--z-badge-radius": "0",
     "--z-badge-padding": "0.18rem 0.72rem 0.18rem 1.0rem",
     // extra left padding for notch depth
@@ -2285,7 +2298,7 @@ const v = {
     // Inner clip for left V-notch badge (1px inset on all edges):
     // Notch tip moves from x=10px to x=11px (1px inner offset on diagonal).
     // Notch endpoints: ±5px at x=0 becomes ±6px at x=1px (diagonal compensation).
-    "--z-badge-inner-clip": "polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px), 1px calc(50% + 6px), 11px 50%, 1px calc(50% - 6px))",
+    "--z-badge-inner-clip": "polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px), 1px calc(50% + (var(--z-badge-cut) * var(--badge-scale) / 2 + 1px)), calc(var(--z-badge-cut) * var(--badge-scale) + 1px) 50%, 1px calc(50% - (var(--z-badge-cut) * var(--badge-scale) / 2 + 1px)))",
     // Rim model: element = currentColor border, ::before = tint, so the border follows the notch.
     "--z-badge-rim": "currentColor",
     "--z-badge-inset": "1px",
@@ -2333,6 +2346,7 @@ const v = {
     // ── Card — laid paper texture + centered gold fade bar ────────────────────
     "--z-card-clip": "none",
     "--z-card-filter": "none",
+    "--z-card-bevel-filter": "drop-shadow(0 4px 14px rgba(44,28,4,0.09))",
     // Fine horizontal laid lines at 4 px pitch + vertical chain lines at 40 px.
     // Two crossing gradients — the ONLY dual-axis card texture in ZynaUI:
     //   0deg  = horizontal stack of thin lines (4px period): laid lines
@@ -2518,9 +2532,9 @@ function ha(a = p) {
       for (const [t, i] of Object.entries(o.styles)) {
         const g = /^html(\[data-genre="[^"]+"\])?$/.exec(t);
         if (g && i && typeof i == "object") {
-          const { kept: w, scoped: m } = ba(i, g[1] ? t : null);
+          const { kept: w, scoped: u } = ba(i, g[1] ? t : null);
           r[t] = w;
-          for (const [b, u] of Object.entries(m)) r[b] = { ...r[b] || {}, ...u };
+          for (const [b, m] of Object.entries(u)) r[b] = { ...r[b] || {}, ...m };
         } else
           r[t] = i;
       }
