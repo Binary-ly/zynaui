@@ -136,7 +136,7 @@ Set on `.btn-*` variant classes or your own custom class alongside `.btn`.
 
 ---
 
-### Badge component (8)
+### Badge component (9)
 
 Set on `.badge-*` variant classes or your own custom class alongside `.badge`.
 
@@ -148,7 +148,8 @@ Set on `.badge-*` variant classes or your own custom class alongside `.badge`.
 | `--badge-scan-color` | — | `rgba(255,255,255,0.18)` | Scan-sweep highlight color. |
 | `--badge-dot-size` | — | `5px` | Pulse status dot diameter. `.badge-sm` sets `4px`, `.badge-lg` sets `6px`. |
 | `--badge-interior` | — | `transparent` | Interior fill painted by `::before` inside `--badge-inner-clip`. Transparent in Ops; genres that draw a border fill it with the `--badge-bg` tint over the page surface, so the border (the element background) follows the clip shape. |
-| `--badge-offset` | `@property <length>` | `5px` | Parallelogram slant depth. Shape modifiers set this automatically. |
+| `--badge-offset` | `@property <length>` | `5px` | Parallelogram slant depth (`--zp-corner-badge × --badge-scale`). The shape modifiers read it too. |
+| `--badge-scale` | — | `1` | Size multiplier for every cut depth. `.badge-sm` sets `0.6`, `.badge-lg` sets `1.2`; notched genres multiply their own `--z-badge-cut` by it. |
 | `--badge-inner-clip` | — | genre default | Inner clip-path for the outlined interior border technique. |
 
 ---
@@ -194,7 +195,7 @@ Set on `.alert-*` variant classes or your own custom class alongside `.alert`.
 
 ---
 
-## Internal tokens — 85 tokens (do not use)
+## Internal tokens — 86 tokens (do not use)
 
 These tokens are implementation details. They are set by the genre system on the
 `html` element and overridden by `html[data-genre="X"]` selectors. Setting them in
@@ -210,13 +211,13 @@ emits those eight on the component element (`:where(.btn)`,
 `:where(html[data-genre="X"]) :where(.btn)`, …) rather than on `html` — declaring
 them on `html` would freeze them at html's values.
 
-### Primitive tokens (15) — `--zp-*`
+### Primitive tokens (14) — `--zp-*`
 
 Raw values that feed semantic tokens. Never referenced directly by user code.
 
 ```
 --zp-corner-sm     --zp-corner-md      --zp-corner-lg      --zp-corner-xl
---zp-corner-badge  --zp-corner-badge-lg --zp-corner-card
+--zp-corner-badge  --zp-corner-card
 --zp-ease-standard --zp-ease-snap      --zp-ease-out
 --zp-success       --zp-danger         --zp-warning         --zp-info
 --zp-text
@@ -238,7 +239,7 @@ Use `--btn-corner` and `--btn-inner-clip` (public) to override shape on individu
 Phosphor (10 / 14 / 18px) and Washi (8 / 11 / 14px) set their own so the sizes
 stay ordered around their deeper default cut.
 
-### Badge genre structural (10) — `--z-badge-*`
+### Badge genre structural (11) — `--z-badge-*`
 
 Control the default badge shape, padding, border, and scan timing for each genre.
 Use `--badge-offset`, `--badge-bg`, `--badge-color` (public) to override individual badges.
@@ -247,8 +248,13 @@ Use `--badge-offset`, `--badge-bg`, `--badge-color` (public) to override individ
 --z-badge-clip       --z-badge-radius         --z-badge-padding
 --z-badge-letter-spacing  --z-badge-inset-shadow  --z-badge-scan-duration
 --z-badge-inner-clip  --z-badge-rim           --z-badge-inset
---z-badge-interior
+--z-badge-interior    --z-badge-cut
 ```
+
+`--z-badge-cut` is the depth of a genre's own notch, chamfer, or arrow (Military 8px,
+Blueprint 5px, Washi 7px, Laboratory 8px, Atelier 10px). The genre clip multiplies it
+by `--badge-scale`, so `.badge-sm` and `.badge-lg` scale the cut the way Ops scales
+its slant.
 
 `--z-badge-rim` is the element background in genres that draw a border (unset in
 Ops, `currentColor` in the other eight). `--z-badge-interior` is the `::before` fill
