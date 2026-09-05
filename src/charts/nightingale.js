@@ -98,8 +98,14 @@ export class ZynaNightingale extends ZynaChart {
           .attr('text-anchor', anchor).attr('font-family', 'monospace').attr('font-size', `${fSm}px`)
           .attr('fill', color).text(fmtVal(pt.value))
 
+        // Side labels extend away from the centre, so a leader that leaves from
+        // under the value and elbows inward never touches them. A centre-anchored
+        // label below the chart is the one case where that path runs straight up
+        // through its own text, so only there the leader leaves over the label.
+        const overLabel = anchor === 'middle' && Math.cos(mid) < 0
+        const leaderY   = overLabel ? ly - fMd - 12 : ly + fSm + 12
         g.select('.ng-leader')
-          .attr('points', `${lx},${ly + fSm + 12} ${lx - sm * 24},${ly + fSm + 12} ${ex},${ey}`)
+          .attr('points', `${lx},${leaderY} ${lx - sm * 24},${leaderY} ${ex},${ey}`)
           .attr('fill', 'none').attr('stroke', color).attr('stroke-width', 0.8).attr('opacity', 0.5)
 
         g.select('.ng-dot')
