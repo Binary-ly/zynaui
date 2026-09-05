@@ -269,23 +269,26 @@ export default function(theme) {
     // Each size class sets --btn-corner. The base clip-path polygon references
     // var(--btn-corner) so the geometry updates automatically — no repeated
     // polygon strings, no compound selectors needed for shape × size combos.
+    // The depths come from --z-btn-corner-sm / --z-btn-corner-lg (Ops maps them
+    // to --z-corner-sm / --z-corner-lg) so a genre whose default cut is deeper
+    // than the global scale can keep sm < default < lg.
     '.btn-sm': {
       padding: '0.42rem 1rem',
       fontSize: '0.63rem',
       letterSpacing: '0.12em',
-      '--btn-corner': 'var(--z-corner-sm)',
+      '--btn-corner': 'var(--z-btn-corner-sm)',
     },
 
     '.btn-lg': {
       padding: '0.9rem 2.1rem',
       fontSize: '0.78rem',
-      '--btn-corner': 'var(--z-corner-lg)',
+      '--btn-corner': 'var(--z-btn-corner-lg)',
     },
 
     '.btn-icon': {
       padding: '0.65rem',
       aspectRatio: '1',
-      '--btn-corner': 'var(--z-corner-sm)',
+      '--btn-corner': 'var(--z-btn-corner-sm)',
     },
 
     // ── Shape modifiers ────────────────────────────────────────────────────────

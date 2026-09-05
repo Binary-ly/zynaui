@@ -212,6 +212,8 @@ export const styles = {
     '--z-btn-clip':         'polygon(var(--btn-corner) 0, 100% 0, 100% 100%, 0 100%, 0 var(--btn-corner))',
     '--z-btn-inner-clip':   'polygon(calc(var(--btn-corner) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px), 1px calc(var(--btn-corner) + 1px))',
     '--z-btn-corner':       '11px',
+    '--z-btn-corner-sm':    '8px',
+    '--z-btn-corner-lg':    '14px',
     '--z-btn-active-scale': '0.97',
     '--z-btn-scan-stop':    '45%',
 

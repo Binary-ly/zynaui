@@ -42,7 +42,7 @@ export class ZynaDensity extends ZynaChart {
     const fmtVal     = v => this._fmt(v, fmt)
     const yLabel     = this._attr('y-label', '')
     const textC      = dark ? '#F0EBE0' : '#1A1A20'
-    const labelC     = dark ? '#5A5050' : '#8A8478'
+    const labelC     = this._muted()
     const gridC      = dark ? '#1E1E24' : '#E5E1D4'
     const uid        = this._uid
 

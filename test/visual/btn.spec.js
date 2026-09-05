@@ -14,12 +14,13 @@ const GENRE_CLIP = {
   atelier:    /polygon/,
 }
 
-// Genre-default chamfer depth in px for the default size — --z-btn-corner.
-// The size classes must move it (sm = --z-corner-sm 7px, lg = --z-corner-lg
-// 13px); before 0.3.1 the clip was frozen at html's 10px in every genre.
+// Chamfer depth in px per size — --z-btn-corner-sm / --z-btn-corner / --z-btn-corner-lg.
+// Ops maps sm/lg to the global --z-corner-sm (7px) / --z-corner-lg (13px);
+// Phosphor and Washi cut deeper than the global scale by default, so they carry
+// their own sm/lg depths — before that, their .btn-lg was shallower than .btn.
 const GENRE_CORNER = {
-  ops: 10, corporate: 10, phosphor: 14, military: 10,
-  blueprint: 10, washi: 11, laboratory: 10, atelier: 10,
+  ops: [7, 10, 13], corporate: [7, 10, 13], phosphor: [10, 14, 18], military: [7, 10, 13],
+  blueprint: [7, 10, 13], washi: [8, 11, 14], laboratory: [7, 10, 13], atelier: [7, 10, 13],
 }
 
 for (const genre of GENRES) {
@@ -95,11 +96,13 @@ for (const genre of GENRES) {
         <button class="btn btn-primary btn-lg" type="button">Lg</button>`)
       const clips = await page.evaluate(() =>
         [...document.querySelectorAll('.btn')].map(b => getComputedStyle(b).clipPath))
-      const corner = GENRE_CORNER[genre.id]
-      expect(clips[0]).toContain('7px')
-      expect(clips[0]).not.toContain(`${corner}px`)
-      expect(clips[1]).toContain(`${corner}px`)
-      expect(clips[2]).toContain('13px')
+      const [sm, md, lg] = GENRE_CORNER[genre.id]
+      expect(sm).toBeLessThan(md)
+      expect(md).toBeLessThan(lg)
+      expect(clips[0]).toContain(`${sm}px`)
+      expect(clips[0]).not.toContain(`${md}px`)
+      expect(clips[1]).toContain(`${md}px`)
+      expect(clips[2]).toContain(`${lg}px`)
     })
   })
 }

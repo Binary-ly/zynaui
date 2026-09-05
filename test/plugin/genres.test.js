@@ -213,6 +213,21 @@ describe('genresPlugin() output', () => {
     }
   })
 
+  test('genres that cut deeper than the global corner scale keep sm < default < lg', () => {
+    // Real bug: .btn-sm / .btn-lg read the global --z-corner-sm (7px) and
+    // --z-corner-lg (13px), so Phosphor's 14px chevron got *shallower* on
+    // .btn-lg and Washi's 11px cut barely moved.
+    const result = genresPlugin()
+    for (const [g, [sm, md, lg]] of [['phosphor', [10, 14, 18]], ['washi', [8, 11, 14]]]) {
+      const rule = result[`html[data-genre="${g}"]`]
+      expect(rule['--z-btn-corner'], g).toBe(`${md}px`)
+      expect(rule['--z-btn-corner-sm'], g).toBe(`${sm}px`)
+      expect(rule['--z-btn-corner-lg'], g).toBe(`${lg}px`)
+    }
+    expect(result['html']['--z-btn-corner-sm']).toBe('var(--z-corner-sm)')
+    expect(result['html']['--z-btn-corner-lg']).toBe('var(--z-corner-lg)')
+  })
+
   test('notched badge genres scale their cut by --badge-scale so size classes scale the notch', () => {
     const result = genresPlugin()
     for (const [g, depth] of [['military', '8px'], ['blueprint', '5px'], ['washi', '7px'], ['laboratory', '8px'], ['atelier', '10px']]) {

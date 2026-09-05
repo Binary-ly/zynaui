@@ -78,6 +78,15 @@ describe('.btn component', () => {
     expect(css).toContain('.btn-lg')
   })
 
+  test('size classes read the genre size depths, which Ops maps to the global corner scale', async () => {
+    const css = await generateCSS()
+    expect(css).toMatch(/\.btn-sm\s*\{[^}]*--btn-corner: var\(--z-btn-corner-sm\)/)
+    expect(css).toMatch(/\.btn-icon\s*\{[^}]*--btn-corner: var\(--z-btn-corner-sm\)/)
+    expect(css).toMatch(/\.btn-lg\s*\{[^}]*--btn-corner: var\(--z-btn-corner-lg\)/)
+    expect(css).toMatch(/(^|\n)\s*html\s*\{[^}]*--z-btn-corner-sm: var\(--z-corner-sm\)/)
+    expect(css).toMatch(/(^|\n)\s*html\s*\{[^}]*--z-btn-corner-lg: var\(--z-corner-lg\)/)
+  })
+
   test('::after scan sweep starts collapsed (scaleX(0)) and expands on hover', async () => {
     // The scan sweep is an ::after pseudo-element: transform:scaleX(0) at rest,
     // scaleX(1) on hover (btn.js:127-153). Without this, no sweep animation plays.
