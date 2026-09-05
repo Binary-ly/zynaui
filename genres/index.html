@@ -2275,7 +2275,7 @@
       if (c === 'inset(0 round 9999px)') return 'pill'
       if (c === 'inset(0 round 3px)') return 'microround'
       if (c.startsWith('polygon') && c.split(',').length === 8) return 'bevel'
-      if (c.startsWith('polygon(0 0, 100% 0, 100% 100%, 8px')) return 'notch'
+      if (/^polygon\(0 0, 100% 0, 100% 100%, (8px|calc\(var\(--z-badge-cut\))/.test(c)) return 'notch'
       return 'slant'
     }
 
