@@ -2451,9 +2451,9 @@ const v = {
   "@media (prefers-reduced-motion: reduce)": {
     ':where(html[data-genre="atelier"]) body::after': { animation: "none" }
   }
-}, sa = { name: ca, tokens: ia, swatches: da, styles: la };
+}, pa = { name: ca, tokens: ia, swatches: da, styles: la };
 function z(a) {
-  const n = p(a);
+  const n = s(a);
   if (!/^[a-z][a-z0-9_-]*$/.test(n))
     throw new Error(
       `[zynaui] Invalid genre name "${a}" — it is slugified (lowercased, whitespace → "-") into a data-genre attribute value, which must match /^[a-z][a-z0-9_-]*$/ (letters, digits, hyphens, underscores — no quotes or symbols).`
@@ -2469,7 +2469,7 @@ function x(a, n, o) {
   return d;
 }
 function za({ name: a, palette: n = {}, tokens: o = {}, styles: e = {}, extends: c }) {
-  const d = z(a), r = c ?? l, t = r === l ? { ...r.styles } : x(r.styles ?? {}, p(r.name), d);
+  const d = z(a), r = c ?? l, t = r === l ? { ...r.styles } : x(r.styles ?? {}, s(r.name), d);
   return {
     name: a,
     swatches: { ...r.swatches, ...n },
@@ -2478,10 +2478,10 @@ function za({ name: a, palette: n = {}, tokens: o = {}, styles: e = {}, extends:
   };
 }
 function xa(a) {
-  z(a.name), s.find((n) => n.name === a.name) || s.push(a);
+  z(a.name), p.find((n) => n.name === a.name) || p.push(a);
 }
-const s = [l, B, O, M, K, H, aa, oa, sa];
-function p(a) {
+const p = [l, B, O, M, K, H, aa, oa, pa];
+function s(a) {
   return String(a).trim().toLowerCase().replace(/\s+/g, "-");
 }
 function h(a, n) {
@@ -2490,7 +2490,7 @@ function h(a, n) {
     a[e] = o(a[e]) && o(c) ? h({ ...a[e] }, c) : c;
   return a;
 }
-const pa = /* @__PURE__ */ new Set([
+const sa = /* @__PURE__ */ new Set([
   "--bg",
   "--bg2",
   "--bg3",
@@ -2523,10 +2523,10 @@ function ba(a, n) {
   }
   return { kept: o, scoped: e };
 }
-function ha(a = s) {
+function ha(a = p) {
   const n = {};
   for (const o of a) {
-    const e = p(o.name), c = e === "ops", d = c ? "html" : `html[data-genre="${e}"]`;
+    const e = s(o.name), c = e === "ops", d = c ? "html" : `html[data-genre="${e}"]`;
     if (o.styles) {
       const r = {};
       for (const [t, i] of Object.entries(o.styles)) {
@@ -2542,7 +2542,7 @@ function ha(a = s) {
     }
     if (o.tokens && !c) {
       const r = Object.fromEntries(
-        Object.entries(o.tokens).filter(([t]) => !pa.has(t))
+        Object.entries(o.tokens).filter(([t]) => !sa.has(t))
       );
       n[d] = { ...r, ...n[d] || {} };
     }
@@ -2551,9 +2551,9 @@ function ha(a = s) {
 }
 export {
   ga as ELEMENT_SCOPED_TOKENS,
-  s as GENRES,
+  p as GENRES,
   za as defineGenre,
-  p as genreSlug,
+  s as genreSlug,
   ha as genresPlugin,
   xa as registerGenre
 };
