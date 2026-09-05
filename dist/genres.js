@@ -1,4 +1,4 @@
-const f = {
+const v = {
   /**
    * Diagonal — cuts top-right and bottom-left corners diagonally (2-corner chamfer).
    */
@@ -33,7 +33,7 @@ const f = {
    * but ensures filter traces the element before compositing and clips pseudo-elements.
    */
   rect: { clipPath: "inset(0)", borderRadius: "0", innerClip: "inset(1.5px)" }
-}, v = "Ops", y = {
+}, f = "Ops", y = {
   brand: "#C9A84C",
   success: "#00FFB2",
   danger: "#FF3366",
@@ -78,7 +78,7 @@ const f = {
     // freeze the chamfer at 10px for every size class.
     "--z-btn-clip": "polygon(0 0, calc(100% - var(--btn-corner)) 0, 100% var(--btn-corner), 100% 100%, var(--btn-corner) 100%, 0 calc(100% - var(--btn-corner)))",
     "--z-btn-corner": "var(--z-corner)",
-    "--z-btn-inner-clip": f.diagonal("var(--btn-corner)").inner,
+    "--z-btn-inner-clip": v.diagonal("var(--btn-corner)").inner,
     "--z-btn-active-scale": "0.96",
     "--z-btn-scan-stop": "70%",
     // ── Alert structural ────────────────────────────────────────────────────
@@ -152,7 +152,7 @@ const f = {
     "--z-topbar-glow": "none",
     "--z-sidebar-active-shadow": "none"
   }
-}, p = { name: v, tokens: k, swatches: y, styles: F }, E = "Cyberpunk", A = {
+}, l = { name: f, tokens: k, swatches: y, styles: F }, E = "Cyberpunk", A = {
   brand: "#39FF14",
   success: "#39FF14",
   danger: "#FF073A",
@@ -197,7 +197,11 @@ const f = {
     "--z-badge-letter-spacing": "0.16em",
     "--z-badge-inset-shadow": "inset 0 0 0 1px currentColor",
     "--z-badge-scan-duration": "2.5s",
-    "--z-badge-inner-clip": "inset(2px)",
+    "--z-badge-inner-clip": "inset(1px)",
+    // Rim model: element = currentColor border, ::before = tint, so the border follows the clip.
+    "--z-badge-rim": "currentColor",
+    "--z-badge-inset": "1px",
+    "--z-badge-interior": "linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page)",
     // ── Alert structural ─────────────────────────────────────────────────────
     "--z-alert-radius": "0",
     "--z-alert-bar-width": "5px",
@@ -387,7 +391,11 @@ const f = {
     "--z-badge-inset-shadow": "inset 0 0 0 1px currentColor",
     "--z-badge-scan-duration": "9s",
     // barely perceptible scan
-    "--z-badge-inner-clip": "inset(2px round 1px)",
+    "--z-badge-inner-clip": "inset(1px round 2px)",
+    // Rim model: element = currentColor border, ::before = tint, so the border follows the clip.
+    "--z-badge-rim": "currentColor",
+    "--z-badge-inset": "1px",
+    "--z-badge-interior": "linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page)",
     // ── Alert — left rule, § legal prefix, paper border ───────────────────────
     // § (section sign) is the mark used in legal and regulatory documents.
     // Completely unique as an alert prefix — no other design system uses it.
@@ -472,27 +480,6 @@ const f = {
   ':where(html[data-genre="corporate"]) :where(.badge-secondary)': {
     "--badge-bg": "transparent",
     "--badge-glow": "none"
-  },
-  // Polygon shapes (slant, bevel) can't use box-shadow: inset for a border —
-  // the rectangular shadow gets clipped abruptly at the diagonal corners.
-  // Switch to the inner-clip border model: outer = border color, ::before = fill.
-  // Polygon shapes (slant, bevel) can't use box-shadow: inset — rectangular shadow
-  // cuts abruptly at diagonal corners. Use inner-clip model instead (same technique
-  // as the genre builder which uses --z-badge-inset-shadow: none for all shapes):
-  //   outer strip (1px) = border color (currentColor)
-  //   ::before fill     = color-mix(currentColor 8%, page) — identical to how pill/rect
-  //                       look when rgba(currentColor, 0.08) sits on the page background
-  ':where(html[data-genre="corporate"]) :where(.badge-slant)': {
-    "--z-badge-inset-shadow": "none",
-    "--badge-bg": "currentColor",
-    "--badge-interior": "var(--z-surface-page)",
-    "--badge-inner-clip": "polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), 1px calc(100% - 1px))"
-  },
-  ':where(html[data-genre="corporate"]) :where(.badge-bevel)': {
-    "--z-badge-inset-shadow": "none",
-    "--badge-bg": "currentColor",
-    "--badge-interior": "var(--z-surface-page)",
-    "--badge-inner-clip": "polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) 1px, calc(100% - 1px) calc(var(--badge-offset) + 1px), calc(100% - 1px) calc(100% - calc(var(--badge-offset) + 1px)), calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), calc(var(--badge-offset) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--badge-offset) + 1px)), 1px calc(var(--badge-offset) + 1px))"
   },
   // ── Graph-paper ledger grid — page texture ────────────────────────────────────
   // 24 px repeating grid in institutional navy at ~4.5 % opacity.
@@ -619,7 +606,11 @@ const f = {
     "--z-badge-inset-shadow": "inset 0 0 0 1px currentColor",
     "--z-badge-scan-duration": "9s",
     // phosphor persistence — afterglow fades slowly
-    "--z-badge-inner-clip": "inset(2px)",
+    "--z-badge-inner-clip": "inset(1px)",
+    // Rim model: element = currentColor border, ::before = tint, so the border follows the clip.
+    "--z-badge-rim": "currentColor",
+    "--z-badge-inset": "1px",
+    "--z-badge-interior": "linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page)",
     // ── Alert — RIGHT-side bar, double-chevron prompt prefix ──────────────────
     // Bar on the RIGHT: the accent terminates the text line like a cursor at
     // end-of-line. No other genre or design system has a right-side alert bar.
@@ -707,7 +698,7 @@ const f = {
   ':where(html[data-genre="phosphor"]) :where(.badge)::after': {
     animation: "zyna-badge-scan var(--z-badge-scan-duration) linear infinite"
   },
-  ':where(html[data-genre="phosphor"]) :where(.badge-pulse)::before': {
+  ':where(html[data-genre="phosphor"]) :where(.badge-pulse)::after': {
     animation: "zyna-pulse-ring var(--z-duration-pulse) ease-in-out infinite"
   },
   // ── CRT phosphor overlay — scanlines + radial vignette ────────────────────
@@ -754,7 +745,7 @@ const f = {
   "@media (prefers-reduced-motion: reduce)": {
     ':where(html[data-genre="phosphor"]) body::after': { animation: "none" },
     ':where(html[data-genre="phosphor"]) :where(.badge)::after': { animation: "none" },
-    ':where(html[data-genre="phosphor"]) :where(.badge-pulse)::before': {
+    ':where(html[data-genre="phosphor"]) :where(.badge-pulse)::after': {
       animation: "zyna-pulse-fade calc(var(--z-duration-pulse) * 2) ease-in-out infinite"
     }
   }
@@ -905,6 +896,10 @@ const f = {
     "--z-badge-scan-duration": "6s",
     // tactical awareness cadence
     "--z-badge-inner-clip": "polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 9px calc(100% - 1px), 1px calc(100% - 9px))",
+    // Rim model: element = currentColor border, ::before = tint, so the border follows the notch.
+    "--z-badge-rim": "currentColor",
+    "--z-badge-inset": "1px",
+    "--z-badge-interior": "linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page)",
     // ── Alert — BOTTOM bar, diamond waypoint prefix ───────────────────────────
     // The bottom bar is a direct reference to NATO ground symbology:
     // a solid baseline below a unit marker indicates "defensive position."
@@ -1209,6 +1204,10 @@ const f = {
     "--z-badge-inset-shadow": "inset 0 0 0 1px currentColor",
     "--z-badge-scan-duration": "8s",
     "--z-badge-inner-clip": "polygon(1px 1px, calc(50% - 4px) 1px, 50% 4px, calc(50% + 4px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px))",
+    // Rim model: element = currentColor border, ::before = tint, so the border follows the notch.
+    "--z-badge-rim": "currentColor",
+    "--z-badge-inset": "1px",
+    "--z-badge-interior": "linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page)",
     // ── Alert — partial-height LEFT WITNESS LINE ───────────────────────────────
     // In ISO 128 dimension practice, witness lines (extension lines) project
     // ONLY from the feature being dimensioned — they don't extend beyond it.
@@ -1325,23 +1324,6 @@ const f = {
   ':where(html[data-genre="blueprint"]) :where(.badge-secondary)': {
     "--badge-bg": "color-mix(in oklch, var(--zyna) 5%, transparent)",
     "--badge-glow": "none"
-  },
-  // ── Polygon badge shape fixes (slant, bevel) on light surface ─────────────
-  // Polygon shapes can't use box-shadow: inset for a border — the rectangular
-  // shadow cuts abruptly at diagonal corners. Use the inner-clip border model:
-  //   outer = border color (currentColor), ::before fill = page background.
-  // Same technique as Corporate — required for all light-mode genres.
-  ':where(html[data-genre="blueprint"]) :where(.badge-slant)': {
-    "--z-badge-inset-shadow": "none",
-    "--badge-bg": "currentColor",
-    "--badge-interior": "var(--z-surface-page)",
-    "--badge-inner-clip": "polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), 1px calc(100% - 1px))"
-  },
-  ':where(html[data-genre="blueprint"]) :where(.badge-bevel)': {
-    "--z-badge-inset-shadow": "none",
-    "--badge-bg": "currentColor",
-    "--badge-interior": "var(--z-surface-page)",
-    "--badge-inner-clip": "polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) 1px, calc(100% - 1px) calc(var(--badge-offset) + 1px), calc(100% - 1px) calc(100% - calc(var(--badge-offset) + 1px)), calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), calc(var(--badge-offset) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--badge-offset) + 1px)), 1px calc(var(--badge-offset) + 1px))"
   },
   // ── Precision metric grid — page texture ──────────────────────────────────
   // Four gradient layers: horizontal + vertical lines at two tiers.
@@ -1562,6 +1544,10 @@ const f = {
     "--z-badge-scan-duration": "7s",
     // hanko seal rhythm — slow deliberate pass
     "--z-badge-inner-clip": "polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 8px), calc(100% - 8px) calc(100% - 1px), 1px calc(100% - 1px))",
+    // Rim model: element = currentColor border, ::before = tint, so the border follows the chamfer.
+    "--z-badge-rim": "currentColor",
+    "--z-badge-inset": "1px",
+    "--z-badge-interior": "linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page)",
     // ── Alert — left bar with shimi (ink-bleed) texture, 「 prefix ─────────────
     // The bar is a standard left-side accent, but --z-alert-texture applies a
     // horizontal gradient that bleeds the bar colour softly into the alert body —
@@ -1671,22 +1657,6 @@ const f = {
   ':where(html[data-genre="washi"]) :where(.badge-secondary)': {
     "--badge-bg": "color-mix(in oklch, var(--zyna) 5%, transparent)",
     "--badge-glow": "none"
-  },
-  // ── Polygon badge shape fixes (slant, bevel) on warm cream surface ─────────
-  // Polygon clip-paths cannot use inset box-shadow for a border — the rectangular
-  // shadow cuts abruptly at diagonal corners. Use the inner-clip border model
-  // with --z-surface-page as the interior fill. Same technique as Corporate.
-  ':where(html[data-genre="washi"]) :where(.badge-slant)': {
-    "--z-badge-inset-shadow": "none",
-    "--badge-bg": "currentColor",
-    "--badge-interior": "var(--z-surface-page)",
-    "--badge-inner-clip": "polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), 1px calc(100% - 1px))"
-  },
-  ':where(html[data-genre="washi"]) :where(.badge-bevel)': {
-    "--z-badge-inset-shadow": "none",
-    "--badge-bg": "currentColor",
-    "--badge-interior": "var(--z-surface-page)",
-    "--badge-inner-clip": "polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) 1px, calc(100% - 1px) calc(var(--badge-offset) + 1px), calc(100% - 1px) calc(100% - calc(var(--badge-offset) + 1px)), calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), calc(var(--badge-offset) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--badge-offset) + 1px)), 1px calc(var(--badge-offset) + 1px))"
   },
   // ── Washi kozo fiber network — page texture ────────────────────────────────
   // Three repeating-linear-gradient layers at deliberately off-axis angles.
@@ -1966,6 +1936,10 @@ const f = {
     // Top shoulder: 8+1=9px from right. Tip: ~2px from right edge (1px inset on diagonal).
     // Bottom shoulder: same as top. Left and bottom: 1px inset.
     "--z-badge-inner-clip": "polygon(1px 1px, calc(100% - 9px) 1px, calc(100% - 2px) 50%, calc(100% - 9px) calc(100% - 1px), 1px calc(100% - 1px))",
+    // Rim model: element = currentColor border, ::before = tint, so the border follows the arrow.
+    "--z-badge-rim": "currentColor",
+    "--z-badge-inset": "1px",
+    "--z-badge-interior": "linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page)",
     // ── Alert — TOP EDGE RULING + ∴ (therefore) prefix ─────────────────────────
     // Bar position: `inset: 0 0 auto 0` = top:0, right:0, bottom:auto, left:0.
     // Combined with `height: 3px` → a 3px bar spanning the full top edge.
@@ -2071,22 +2045,6 @@ const f = {
     "--badge-bg": "color-mix(in oklch, var(--zyna) 5%, transparent)",
     "--badge-glow": "none"
   },
-  // ── Polygon badge shape fixes on clinical white surface ───────────────────
-  // clip-path polygon shapes cannot use inset box-shadow for a border — the
-  // rectangular shadow clips abruptly at diagonal edges. Use the inner-clip
-  // border model with --z-surface-page as the interior fill.
-  ':where(html[data-genre="laboratory"]) :where(.badge-slant)': {
-    "--z-badge-inset-shadow": "none",
-    "--badge-bg": "currentColor",
-    "--badge-interior": "var(--z-surface-page)",
-    "--badge-inner-clip": "polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), 1px calc(100% - 1px))"
-  },
-  ':where(html[data-genre="laboratory"]) :where(.badge-bevel)': {
-    "--z-badge-inset-shadow": "none",
-    "--badge-bg": "currentColor",
-    "--badge-interior": "var(--z-surface-page)",
-    "--badge-inner-clip": "polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) 1px, calc(100% - 1px) calc(var(--badge-offset) + 1px), calc(100% - 1px) calc(100% - calc(var(--badge-offset) + 1px)), calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), calc(var(--badge-offset) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--badge-offset) + 1px)), 1px calc(var(--badge-offset) + 1px))"
-  },
   // ── Dot grid — page texture (radial-gradient) ─────────────────────────────
   // The ONLY radial-gradient page texture in ZynaUI. All other genres use
   // repeating-linear-gradient (line-based). This places 1 px circular dots at
@@ -2132,7 +2090,7 @@ const f = {
   success: "#2D6A2D",
   danger: "#B03020",
   info: "#1A5C7A"
-}, la = {
+}, ia = {
   // ── Brand — 22-karat gold (Au, #B8920A) ──────────────────────────────────
   // 22K gold alloy in its characteristic warm midtone: HSL ~43°, 89% saturation,
   // 38% lightness. This is the precise hue of gold foil hot-stamp blocking as
@@ -2242,7 +2200,7 @@ const f = {
   // silk gather
   "--z-ease-spring": "cubic-bezier(0.34, 1.26, 0.64, 1)"
   // garment settle
-}, pa = {
+}, la = {
   // ── Gold shimmer keyframe ─────────────────────────────────────────────────
   // A 120 px wide warm-gold shimmer traverses the viewport left-to-right over
   // 28 seconds at ease-in-out timing. The shimmer fades in at 8% of the cycle
@@ -2330,6 +2288,10 @@ const f = {
     // Notch tip moves from x=10px to x=11px (1px inner offset on diagonal).
     // Notch endpoints: ±5px at x=0 becomes ±6px at x=1px (diagonal compensation).
     "--z-badge-inner-clip": "polygon(1px 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), 1px calc(100% - 1px), 1px calc(50% + 6px), 11px 50%, 1px calc(50% - 6px))",
+    // Rim model: element = currentColor border, ::before = tint, so the border follows the notch.
+    "--z-badge-rim": "currentColor",
+    "--z-badge-inset": "1px",
+    "--z-badge-interior": "linear-gradient(var(--badge-bg), var(--badge-bg)), var(--z-surface-page)",
     // ── Alert — RIGHT PARTIAL-HEIGHT + » (right guillemet) prefix ─────────────
     // Bar: inset 15% 0 15% auto = top:15%, right:0, bottom:15%, left:auto
     // Width: 3px. Height: auto (determined by top + bottom inset).
@@ -2438,22 +2400,6 @@ const f = {
     "--badge-bg": "color-mix(in oklch, var(--zyna) 6%, transparent)",
     "--badge-glow": "none"
   },
-  // ── Polygon badge shape fixes on ecru vellum surface ─────────────────────
-  // clip-path polygon shapes cannot use inset box-shadow for a border on light
-  // backgrounds. Use the inner-clip border model: --badge-bg = currentColor,
-  // --badge-interior = page surface, --badge-inner-clip = inset polygon.
-  ':where(html[data-genre="atelier"]) :where(.badge-slant)': {
-    "--z-badge-inset-shadow": "none",
-    "--badge-bg": "currentColor",
-    "--badge-interior": "var(--z-surface-page)",
-    "--badge-inner-clip": "polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), 1px calc(100% - 1px))"
-  },
-  ':where(html[data-genre="atelier"]) :where(.badge-bevel)': {
-    "--z-badge-inset-shadow": "none",
-    "--badge-bg": "currentColor",
-    "--badge-interior": "var(--z-surface-page)",
-    "--badge-inner-clip": "polygon(calc(var(--badge-offset) + 1px) 1px, calc(100% - calc(var(--badge-offset) + 1px)) 1px, calc(100% - 1px) calc(var(--badge-offset) + 1px), calc(100% - 1px) calc(100% - calc(var(--badge-offset) + 1px)), calc(100% - calc(var(--badge-offset) + 1px)) calc(100% - 1px), calc(var(--badge-offset) + 1px) calc(100% - 1px), 1px calc(100% - calc(var(--badge-offset) + 1px)), 1px calc(var(--badge-offset) + 1px))"
-  },
   // ── Laid paper texture — page background ──────────────────────────────────
   // Dual-axis laid paper texture applied to the document body pseudo-element.
   // Two crossing repeating-linear-gradients:
@@ -2493,7 +2439,7 @@ const f = {
   "@media (prefers-reduced-motion: reduce)": {
     ':where(html[data-genre="atelier"]) body::after': { animation: "none" }
   }
-}, ia = { name: ca, tokens: la, swatches: da, styles: pa };
+}, pa = { name: ca, tokens: ia, swatches: da, styles: la };
 function z(a) {
   const n = s(a);
   if (!/^[a-z][a-z0-9_-]*$/.test(n))
@@ -2505,13 +2451,13 @@ function z(a) {
 function x(a, n, o) {
   const e = `[data-genre="${n}"]`, c = `[data-genre="${o}"]`, d = {};
   for (const [r, t] of Object.entries(a)) {
-    const l = r.includes(e) ? r.split(e).join(c) : r;
-    d[l] = t && typeof t == "object" && !Array.isArray(t) ? x(t, n, o) : t;
+    const i = r.includes(e) ? r.split(e).join(c) : r;
+    d[i] = t && typeof t == "object" && !Array.isArray(t) ? x(t, n, o) : t;
   }
   return d;
 }
 function za({ name: a, palette: n = {}, tokens: o = {}, styles: e = {}, extends: c }) {
-  const d = z(a), r = c ?? p, t = r === p ? { ...r.styles } : x(r.styles ?? {}, s(r.name), d);
+  const d = z(a), r = c ?? l, t = r === l ? { ...r.styles } : x(r.styles ?? {}, s(r.name), d);
   return {
     name: a,
     swatches: { ...r.swatches, ...n },
@@ -2520,9 +2466,9 @@ function za({ name: a, palette: n = {}, tokens: o = {}, styles: e = {}, extends:
   };
 }
 function xa(a) {
-  z(a.name), i.find((n) => n.name === a.name) || i.push(a);
+  z(a.name), p.find((n) => n.name === a.name) || p.push(a);
 }
-const i = [p, B, O, M, K, H, aa, oa, ia];
+const p = [l, B, O, M, K, H, aa, oa, pa];
 function s(a) {
   return String(a).trim().toLowerCase().replace(/\s+/g, "-");
 }
@@ -2547,6 +2493,7 @@ const sa = /* @__PURE__ */ new Set([
   "--z-btn-inner-clip": ".btn",
   "--z-badge-clip": ".badge",
   "--z-badge-inner-clip": ".badge",
+  "--z-badge-interior": ".badge",
   "--z-alert-border": ".alert",
   "--z-alert-bar-glow": ".alert",
   "--z-alert-texture": ".alert"
@@ -2564,20 +2511,20 @@ function ba(a, n) {
   }
   return { kept: o, scoped: e };
 }
-function ha(a = i) {
+function ha(a = p) {
   const n = {};
   for (const o of a) {
     const e = s(o.name), c = e === "ops", d = c ? "html" : `html[data-genre="${e}"]`;
     if (o.styles) {
       const r = {};
-      for (const [t, l] of Object.entries(o.styles)) {
+      for (const [t, i] of Object.entries(o.styles)) {
         const g = /^html(\[data-genre="[^"]+"\])?$/.exec(t);
-        if (g && l && typeof l == "object") {
-          const { kept: w, scoped: m } = ba(l, g[1] ? t : null);
+        if (g && i && typeof i == "object") {
+          const { kept: w, scoped: m } = ba(i, g[1] ? t : null);
           r[t] = w;
           for (const [b, u] of Object.entries(m)) r[b] = { ...r[b] || {}, ...u };
         } else
-          r[t] = l;
+          r[t] = i;
       }
       h(n, r);
     }
@@ -2592,7 +2539,7 @@ function ha(a = i) {
 }
 export {
   ga as ELEMENT_SCOPED_TOKENS,
-  i as GENRES,
+  p as GENRES,
   za as defineGenre,
   s as genreSlug,
   ha as genresPlugin,
