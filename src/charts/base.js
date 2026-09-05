@@ -261,6 +261,10 @@ export class ZynaChart extends HTMLElement {
   _brandDark() { return this._cssVar('--zyna-dark')  || '#7A6230' }
   _success()   { return this._cssVar('--zp-success') || '#00FFB2' }
   _danger()    { return this._cssVar('--zp-danger')  || '#FF3366' }
+  // Muted tick / axis label colour. Both values clear WCAG AA (4.5:1) on every
+  // built-in genre page: #8A8478 is 5.0–5.4:1 on the dark pages, #6B6560 is
+  // 5.0–5.4:1 on the light ones. (The previous dark value, #5A5050, was 2.6:1.)
+  _muted()     { return this._theme() !== 'light' ? '#8A8478' : '#6B6560' }
 
   _render() {}
 }
