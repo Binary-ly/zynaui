@@ -3,11 +3,15 @@ import { setupPage } from './helpers/page-setup.js'
 import { GENRES } from './helpers/genre.js'
 
 const GENRE_CLIP = {
-  ops:       /polygon/,
-  cyberpunk: /polygon|inset/,
-  corporate: /polygon|inset/,
-  phosphor:  /polygon|inset/,
-  military:  /polygon|inset/,
+  ops:        /polygon/,
+  cyberpunk:  /polygon|inset/,
+  corporate:  /polygon|inset/,
+  phosphor:   /polygon|inset/,
+  military:   /polygon|inset/,
+  blueprint:  /polygon/,
+  washi:      /polygon/,
+  laboratory: /polygon/,
+  atelier:    /polygon/,
 }
 
 for (const genre of GENRES) {

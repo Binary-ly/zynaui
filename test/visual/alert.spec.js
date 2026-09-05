@@ -4,13 +4,19 @@ import { GENRES } from './helpers/genre.js'
 
 // The bar ::before is position:absolute. Each genre anchors it to a different edge.
 // We assert the anchored edge property is '0px' (not auto/unset).
-// Source: --z-alert-bar-inset values: ops=left, cyberpunk=top, corporate=left, phosphor=right, military=bottom
+// Source: --z-alert-bar-inset values: ops=left, cyberpunk=top, corporate=left,
+// phosphor=right, military=bottom, blueprint=left (partial height), washi=left,
+// laboratory=top, atelier=right (partial height)
 const GENRE_BAR_EDGE = {
-  ops:       'left',
-  cyberpunk: 'top',
-  corporate: 'left',
-  phosphor:  'right',
-  military:  'bottom',
+  ops:        'left',
+  cyberpunk:  'top',
+  corporate:  'left',
+  phosphor:   'right',
+  military:   'bottom',
+  blueprint:  'left',
+  washi:      'left',
+  laboratory: 'top',
+  atelier:    'right',
 }
 
 for (const genre of GENRES) {
@@ -70,6 +76,16 @@ for (const genre of GENRES) {
         return getComputedStyle(alert, '::before')[prop]
       }, edge)
       expect(value).toBe('0px')
+    })
+
+    test('alert-round keeps a visible indicator ring', async ({ page }) => {
+      // The round shape replaces the bar with an inset ring built from
+      // --z-alert-bar-width. Laboratory and Atelier set that to 0 (their bar
+      // was not on the left) and lost the ring entirely.
+      await setupPage(page, genre, `<div class="alert alert-success alert-round" style="width:320px">Round.</div>`)
+      const shadow = await page.evaluate(() => getComputedStyle(document.querySelector('.alert')).boxShadow)
+      expect(shadow).toMatch(/inset/)
+      expect(shadow).not.toMatch(/0px 0px 0px 0px inset/)
     })
   })
 }
