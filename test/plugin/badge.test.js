@@ -124,4 +124,15 @@ describe('.badge component', () => {
     expect(css).not.toMatch(/:where\(\.badge-pulse\)\s*\{[^}]*--z-badge-rim/)
   })
 
+  test('no genre deepens the slant / bevel cut past the 5px badge primitive', async () => {
+    // Cyberpunk set --zp-corner-badge: 14px for a badge that is 22px tall: its
+    // .badge-slant sheared at ~32° and its .badge-bevel self-intersected,
+    // leaving tick marks at both tips. The primitive is only read by the
+    // slant / bevel modifiers, so it stays at the root value in every genre.
+    const { genresPlugin } = await import('../../src/plugin/genres/index.js')
+    for (const [sel, decl] of Object.entries(genresPlugin())) {
+      if (/^html\[data-genre=/.test(sel)) expect(decl['--zp-corner-badge'], sel).toBeUndefined()
+    }
+  })
+
 })
