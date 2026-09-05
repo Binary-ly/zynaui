@@ -116,6 +116,16 @@ describe('.badge component', () => {
     expect(css).toMatch(/:where\(\.badge-pill\)\s*\{[^}]*--badge-inner-clip: inset\(var\(--z-badge-inset, 2px\) round 9999px\)/)
   })
 
+  test('size classes scale every cut depth through --badge-scale', async () => {
+    const css = await generateCSS()
+    expect(css).toMatch(/:where\(\.badge\)\s*\{[^}]*--badge-scale: 1;/)
+    expect(css).toMatch(/:where\(\.badge\)\s*\{[^}]*--badge-offset: calc\(var\(--zp-corner-badge\) \* var\(--badge-scale\)\)/)
+    expect(css).toMatch(/:where\(\.badge-sm\)\s*\{[^}]*--badge-scale: 0\.6/)
+    expect(css).toMatch(/:where\(\.badge-lg\)\s*\{[^}]*--badge-scale: 1\.2/)
+    expect(css).not.toMatch(/:where\(\.badge-(sm|lg)\)\s*\{[^}]*--badge-offset/)
+    expect(css).not.toContain('--zp-corner-badge-lg')
+  })
+
   test('.badge-pulse draws its dot with ::after so ::before still fills the interior', async () => {
     const css = await generateCSS()
     expect(css).toMatch(/:where\(\.badge-pulse\)\s*\{[^}]*&::after\s*\{[^}]*order: -1/)
