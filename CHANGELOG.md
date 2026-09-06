@@ -9,6 +9,7 @@ All notable changes to ZynaUI are documented here.
 ### Fixed — charts
 
 - **`<zyna-line>` printed every x-axis label on top of its neighbours.** Each labelled point got its label regardless of width, so a series labelled at every point (twelve month names in a 420px card) drew the axis as one unreadable run. Labels are now walked left to right and any whose box would touch the last one kept is hidden; the tick marks stay as point markers and sparse or short labels are untouched.
+- **`<zyna-orbital>` trimmed labels that had room.** The space reserved beside the rose for the longest label was estimated at 0.55em per character, a few pixels under the real advance of a monospace label font (DM Mono is 0.6em), so at a 420px card width "Completed" rendered as "Complet…" with the left half of the box empty. The chart now measures the widest label in the label font before sizing the rose, so a label is only ellipsised when it genuinely cannot fit.
 
 ### Docs
 
