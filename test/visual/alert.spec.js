@@ -78,6 +78,26 @@ for (const genre of GENRES) {
       expect(value).toBe('0px')
     })
 
+    test('the accent bar paints the variant colour, not the initial grey', async ({ page }) => {
+      // The bar is a ::before painting var(--alert-bar-color). Registered with
+      // inherits:false, that resolved to its initial-value on the pseudo-element,
+      // so every variant in every genre drew the same white 10% bar while the
+      // glow around it carried the right colour.
+      await setupPage(page, genre, `
+        <div class="alert alert-success" style="width:320px">Success.</div>
+        <div class="alert alert-danger" style="width:320px">Danger.</div>`)
+      const seen = await page.evaluate(() =>
+        [...document.querySelectorAll('.alert')].map(a => ({
+          want: getComputedStyle(a).getPropertyValue('--alert-bar-color').trim(),
+          got:  getComputedStyle(a, '::before').backgroundColor,
+        })))
+      for (const { want, got } of seen) {
+        expect(got).not.toBe('rgba(255, 255, 255, 0.1)')
+        expect(got).toBe(want)
+      }
+      expect(seen[0].got).not.toBe(seen[1].got)
+    })
+
     test('alert-round keeps a visible indicator ring', async ({ page }) => {
       // The round shape replaces the bar with an inset ring built from
       // --z-alert-bar-width. Laboratory and Atelier set that to 0 (their bar

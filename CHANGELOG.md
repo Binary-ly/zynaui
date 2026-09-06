@@ -6,6 +6,10 @@ All notable changes to ZynaUI are documented here.
 
 ## [Unreleased]
 
+### Fixed — plugin CSS
+
+- **The alert accent bar was grey in every variant and every genre.** The bar is a `::before` painting `var(--alert-bar-color)`, but the property was registered with `inherits: false`, and a registered custom property resolves to its *initial-value* on a pseudo-element rather than to the originating element's value. So `.alert-success`, `.alert-danger`, `.alert-warning` and `.alert-info` all drew the same white 10% bar, while the glow around it (an unregistered genre token) carried the correct colour — which is why the bar looked washed out rather than obviously wrong. The property is now registered `inherits: true`, matching `--btn-corner` and `--badge-offset`; visual baselines updated for the alert variants, sizes, shapes, icons and the genre overviews.
+
 ### Docs
 
 - **The documented CDN URLs returned 404.** README, the landing page, and `llms.txt` pinned jsDelivr to `zynaui@0.3`, but a semver range never matches a prerelease, so `@0.3` resolved to nothing while every published version carries a `-beta` suffix. The snippets now pin the exact version (`zynaui@0.3.1-beta`) and say why.
