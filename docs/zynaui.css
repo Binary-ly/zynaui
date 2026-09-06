@@ -1118,7 +1118,7 @@
   }
   @property --alert-bar-color {
     syntax: "<color>";
-    inherits: false;
+    inherits: true;
     initial-value: rgba(255,255,255,0.10);
   }
   @property --alert-bg {
