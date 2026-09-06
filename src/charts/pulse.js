@@ -149,6 +149,27 @@ export class ZynaPulse extends ZynaChart {
           .text(d.label)
       })
 
+    // Every point got its label whatever the spacing, so a full timestamp per
+    // point printed the axis as one overlapping run. Walk the labels left to
+    // right and hide any whose box would touch the last one kept.
+    const xl = []
+    svg.selectAll('text.pl-xlabel').each(function(d) {
+      if (!d.label) return
+      const t    = select(this)
+      const node = t.node()
+      const w    = node.getComputedTextLength ? node.getComputedTextLength() : d.label.length * fSm * 0.6
+      const cx   = m.left + x(d.j)
+      // Edge labels are anchored inward, so their box starts at the anchor.
+      const left = d.j === 0 ? cx : d.j === M - 1 ? cx - w : cx - w / 2
+      xl.push({ t, left, w })
+    })
+    xl.sort((a, b) => a.left - b.left)
+    let lastRight = -Infinity
+    for (const { t, left, w } of xl) {
+      if (left < lastRight + 6) t.attr('display', 'none')
+      else lastRight = left + w
+    }
+
     svg.selectAll('g.pl-marker').data(mk, d => d.key)
       .join(
         enter => {

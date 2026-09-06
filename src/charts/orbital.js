@@ -61,8 +61,21 @@ export class ZynaOrbital extends ZynaChart {
     // foot in front of it) fits on either side; floor it at 30%.
     const rt      = rtAttr > 0 ? rtAttr : 0.115
     const reach   = 1 + rt / 2 + 0.08 + (data.length - 1) * 0.016 + 0.04
-    const longest = Math.max(1, ...data.map(d => String(d.label ?? '').length))
-    const estW    = Math.max(longest * fMd * 0.55, 5 * fSm * 0.6) + 5
+    // Measure the widest label in the label font rather than estimating the
+    // glyph width: the 0.55em guess ran a few pixels short of DM Mono's 0.6em
+    // advance, so a label that fit was still trimmed to an ellipsis.
+    const measure = t => {
+      probe.text(t)
+      const node = probe.node()
+      return node.getComputedTextLength ? node.getComputedTextLength() : String(t).length * fMd * 0.6
+    }
+    let probe = svg.select('text.orb-probe')
+    if (probe.empty()) {
+      probe = svg.append('text').attr('class', 'orb-probe').attr('visibility', 'hidden').attr('aria-hidden', 'true')
+    }
+    probe.attr('font-size', `${fMd}px`)
+    const labelW  = Math.max(0, ...data.map(d => measure(String(d.label ?? ''))))
+    const estW    = Math.max(labelW, 5 * fSm * 0.6) + 5
     const fitR    = (cx - 4 - estW) / reach
     const outerR  = Math.max(Math.min(cx, cy) * 0.3, Math.min(Math.min(cx, cy) * 0.80, fitR))
     const ringTW  = outerR * rt
