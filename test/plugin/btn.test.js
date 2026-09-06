@@ -87,6 +87,17 @@ describe('.btn component', () => {
     expect(css).toMatch(/(^|\n)\s*html\s*\{[^}]*--z-btn-corner-lg: var\(--z-corner-lg\)/)
   })
 
+  test('.btn-icon is sized square by --btn-icon-size, which the size classes set', async () => {
+    // One line box plus the size class's own vertical padding, so the square
+    // equals the height of a text button at that size in any genre font.
+    const css = await generateCSS()
+    expect(css).toMatch(/\.btn-icon\s*\{[^}]*width: var\(--btn-icon-size, calc\(1lh \+ 1\.3rem\)\)/)
+    expect(css).toMatch(/\.btn-icon\s*\{[^}]*height: var\(--btn-icon-size, calc\(1lh \+ 1\.3rem\)\)/)
+    expect(css).not.toMatch(/\.btn-icon\s*\{[^}]*aspect-ratio/)
+    expect(css).toMatch(/\.btn-sm\s*\{[^}]*--btn-icon-size: calc\(1lh \+ 0\.84rem\)/)
+    expect(css).toMatch(/\.btn-lg\s*\{[^}]*--btn-icon-size: calc\(1lh \+ 1\.8rem\)/)
+  })
+
   test('::after scan sweep starts collapsed (scaleX(0)) and expands on hover', async () => {
     // The scan sweep is an ::after pseudo-element: transform:scaleX(0) at rest,
     // scaleX(1) on hover (btn.js:127-153). Without this, no sweep animation plays.

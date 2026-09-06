@@ -13,6 +13,7 @@
  *   --btn-hover-text-shadow  Hover text luminescence
  *   --btn-active-filter      Active-press filter
  *   --btn-focus-color        Focus-visible ring colour
+ *   --btn-icon-size          Square side of a .btn-icon (default 2.35rem; .btn-sm 1.8rem, .btn-lg 2.95rem)
  *
  * Genre structural tokens (set on html by ops.js defaults, overridden by genre CSS selectors):
  *
@@ -277,17 +278,27 @@ export default function(theme) {
       fontSize: '0.63rem',
       letterSpacing: '0.12em',
       '--btn-corner': 'var(--z-btn-corner-sm)',
+      '--btn-icon-size': 'calc(1lh + 0.84rem)',
     },
 
     '.btn-lg': {
       padding: '0.9rem 2.1rem',
       fontSize: '0.78rem',
       '--btn-corner': 'var(--z-btn-corner-lg)',
+      '--btn-icon-size': 'calc(1lh + 1.8rem)',
     },
 
+    // Square by explicit size, not by aspect-ratio: with auto width and height
+    // the glyph's line box forms an automatic minimum height that aspect-ratio
+    // cannot shrink and does not widen the box to match, so an icon button came
+    // out taller than it was wide (29×38 in Ops) and a .btn-sm.btn-icon was
+    // taller than the .btn-sm beside it. The side is one line box plus the same
+    // vertical padding the size class uses, so it equals the height of a text
+    // button at that size in any genre font. --btn-icon-size overrides it.
     '.btn-icon': {
-      padding: '0.65rem',
-      aspectRatio: '1',
+      padding: '0',
+      width:  'var(--btn-icon-size, calc(1lh + 1.3rem))',
+      height: 'var(--btn-icon-size, calc(1lh + 1.3rem))',
       '--btn-corner': 'var(--z-btn-corner-sm)',
     },
 

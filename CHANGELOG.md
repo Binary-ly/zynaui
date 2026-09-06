@@ -6,6 +6,10 @@ All notable changes to ZynaUI are documented here.
 
 ## [Unreleased]
 
+### Fixed — plugin CSS
+
+- **`.btn-icon` was never square.** It relied on `aspect-ratio: 1`, but the glyph's line box forms an automatic minimum height that the ratio cannot shrink, and the ratio does not widen the box to match it — so an icon button rendered 29×38 in Ops, and a `.btn-sm.btn-icon` came out *taller* than the `.btn-sm` standing next to it. The square side is now one line box plus the same vertical padding the size class uses (`calc(1lh + 1.3rem)`, `.btn-sm` `calc(1lh + 0.84rem)`, `.btn-lg` `calc(1lh + 1.8rem)`), so an icon button is square and exactly as tall as a text button beside it in any genre font. The new `--btn-icon-size` element-level variable overrides it; visual baselines updated for the button size rows.
+
 ### Docs
 
 - **The documented CDN URLs returned 404.** README, the landing page, and `llms.txt` pinned jsDelivr to `zynaui@0.3`, but a semver range never matches a prerelease, so `@0.3` resolved to nothing while every published version carries a `-beta` suffix. The snippets now pin the exact version (`zynaui@0.3.1-beta`) and say why.
