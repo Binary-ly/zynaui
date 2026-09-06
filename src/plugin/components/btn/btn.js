@@ -188,8 +188,13 @@ export default function(theme) {
     // var(--zyna) …) which cannot be a static @property initial-value.
     '@property --btn-bg':         { syntax: '"*"',       inherits: 'false', initialValue: 'transparent' },
     '@property --btn-color':      { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(240,235,224,0.55)' },
-    '@property --btn-scan-color': { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(255,255,255,0.07)' },
-    '@property --btn-interior':   { syntax: '"<color>"', inherits: 'false', initialValue: 'transparent' },
+    // inherits:true on the two properties the pseudo-elements read. A registered
+    // property with inherits:false resolves to its initial-value on ::before /
+    // ::after — not to the button's own value — so the outlined interior painted
+    // `transparent` and the scan sweep painted the initial white, whatever the
+    // variant set. Same rule as --btn-corner below.
+    '@property --btn-scan-color': { syntax: '"<color>"', inherits: 'true',  initialValue: 'rgba(255,255,255,0.07)' },
+    '@property --btn-interior':   { syntax: '"<color>"', inherits: 'true',  initialValue: 'transparent' },
     // inherits:true so ::before pseudo-elements can resolve --btn-corner
     '@property --btn-corner':     { syntax: '"<length>"', inherits: 'true', initialValue: '10px' },
 

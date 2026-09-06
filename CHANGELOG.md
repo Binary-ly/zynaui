@@ -6,6 +6,10 @@ All notable changes to ZynaUI are documented here.
 
 ## [Unreleased]
 
+### Fixed — plugin CSS
+
+- **The outlined button technique never painted its interior, and no variant's scan colour applied.** `.btn::before` fills the inner polygon with `var(--btn-interior)` and `.btn::after` sweeps `var(--btn-scan-color)`, but both were registered with `inherits: false`, and a registered custom property resolves to its *initial-value* on a pseudo-element rather than to the originating element's value. So the interior painted `transparent` and the sweep painted the initial white 7% in every genre: `.btn-secondary`, `.btn-danger` and `.btn-plasma-outline` rendered as a flat translucent slab of the rim colour instead of a rim around a dark (or light) interior, and their text sat on that slab at 1.7–3.4:1 contrast. Both are now registered `inherits: true`, the same rule already applied to `--btn-corner` and `--badge-offset` for exactly this reason. Secondary-button contrast rises to 8.6:1 in Ops and 14.4:1 in Cyberpunk; visual baselines updated for the button variants, the hover state and the genre overviews.
+
 ### Docs
 
 - **The documented CDN URLs returned 404.** README, the landing page, and `llms.txt` pinned jsDelivr to `zynaui@0.3`, but a semver range never matches a prerelease, so `@0.3` resolved to nothing while every published version carries a `-beta` suffix. The snippets now pin the exact version (`zynaui@0.3.1-beta`) and say why.
