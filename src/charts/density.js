@@ -217,11 +217,30 @@ export class ZynaDensity extends ZynaChart {
       )
       .each(function(p) {
         select(this)
+          .attr('display', null)
           .attr('x', xScale(p.i)).attr('y', H - m.bottom + 16)
           .attr('text-anchor', 'middle').attr('font-family', 'monospace')
           .attr('font-size', `${fSm}px`).attr('fill', labelC)
           .text(p.label)
       })
+
+    // Every period got its label whatever the spacing, so eight month names in
+    // a card printed the axis as one overlapping run. Walk the labels left to
+    // right and hide any whose box would touch the last one kept.
+    const xl = []
+    svg.selectAll('text.dn-xlabel').each(function(p) {
+      const t    = select(this)
+      const node = t.node()
+      const w    = node.getComputedTextLength ? node.getComputedTextLength() : String(p.label).length * fSm * 0.6
+      xl.push({ t, x: xScale(p.i), w })
+    })
+    xl.sort((a, b) => a.x - b.x)
+    let lastRight = -Infinity
+    for (const { t, x, w } of xl) {
+      const left = x - w / 2
+      if (left < lastRight + 6) t.attr('display', 'none')
+      else lastRight = left + w
+    }
   }
 }
 

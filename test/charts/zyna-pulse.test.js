@@ -47,6 +47,25 @@ describe('zyna-pulse', () => {
     expect(shown.length).to.equal(7)
   })
 
+  it('hides x-axis labels that would overlap a neighbour', async () => {
+    // Twenty-four "00:00"-style timestamps in a 420px box were all drawn, so
+    // the axis read as one unbroken run of digits.
+    const values = Array.from({ length: 24 }, (_, j) => (j % 5) - 2)
+    const data   = JSON.stringify([{ label: 'CPU', values }, { label: 'MEM', values }])
+    const labels = JSON.stringify(values.map((_, j) => `${String(j).padStart(2, '0')}:00`))
+    const el = await fixture(`<zyna-pulse data='${data}' x-labels='${labels}' style="display:block;width:420px;font-family:monospace"></zyna-pulse>`)
+    await new Promise(r => requestAnimationFrame(r))
+    const all   = [...el.querySelectorAll('text.pl-xlabel')]
+    const shown = all.filter(t => t.getAttribute('display') !== 'none')
+    expect(shown.length).to.be.below(all.length)
+    expect(shown[0].textContent).to.equal('00:00')
+    const boxes = shown.map(t => ({ t: t.textContent, b: t.getBBox() }))
+    for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) {
+      const a = boxes[i].b, c = boxes[j].b
+      expect(a.x < c.x + c.width && c.x < a.x + a.width, `${boxes[i].t} overlaps ${boxes[j].t}`).to.be.false
+    }
+  })
+
   it('draws an event marker resolved by x-label', async () => {
     const el = await fixture(`<zyna-pulse data='${DATA}' x-labels='${XLABELS}' marker='${JSON.stringify([{ x: 't3', label: 'spike' }])}'></zyna-pulse>`)
     expect(el.querySelectorAll('g.pl-marker').length).to.equal(1)

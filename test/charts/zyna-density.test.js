@@ -45,6 +45,24 @@ describe('zyna-density', () => {
     expect([...el.querySelectorAll('text.dn-xlabel')].map(t => t.textContent)).to.deep.equal(['Jan', 'Feb', 'Mar'])
   })
 
+  it('hides period labels that would overlap a neighbour', async () => {
+    // Eight month names in a 420px box were all drawn, so the axis read
+    // "JanuaryFebruaryMarch…" as one run.
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August']
+    const data = JSON.stringify(months.map((m, i) => ({ label: m, values: [1 + i, 2 + i, 3 + i, 4 + i, 5 + i] })))
+    const el = await fixture(`<zyna-density data='${data}' style="display:block;width:420px;font-family:monospace"></zyna-density>`)
+    await new Promise(r => requestAnimationFrame(r))
+    const all   = [...el.querySelectorAll('text.dn-xlabel')]
+    const shown = all.filter(t => t.getAttribute('display') !== 'none')
+    expect(shown.length).to.be.below(all.length)
+    expect(shown[0].textContent).to.equal('January')
+    const boxes = shown.map(t => ({ t: t.textContent, b: t.getBBox() }))
+    for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) {
+      const a = boxes[i].b, c = boxes[j].b
+      expect(a.x < c.x + c.width && c.x < a.x + a.width, `${boxes[i].t} overlaps ${boxes[j].t}`).to.be.false
+    }
+  })
+
   it('handles a single-sample period without NaN', async () => {
     const el = await fixture(`<zyna-density data='${JSON.stringify([{ label: 'Solo', values: [5] }])}'></zyna-density>`)
     const d = el.querySelector('path.dn-violin').getAttribute('d')

@@ -104,7 +104,12 @@ export default function(theme) {
   return {
     // ── @property registrations ───────────────────────────────────────────────
     // Not used as switch variables in any var() fallback chain, so registration is safe.
-    '@property --alert-bar-color': { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(255,255,255,0.10)' },
+    // --alert-bar-color inherits: the accent bar is a ::before, and a registered
+    // property with inherits:false resolves to its initial-value on a pseudo-element
+    // rather than to the originating element's value — so the bar painted the
+    // initial white 10% in every variant while the glow around it (an unregistered
+    // token) carried the right colour.
+    '@property --alert-bar-color': { syntax: '"<color>"', inherits: 'true',  initialValue: 'rgba(255,255,255,0.10)' },
     '@property --alert-bg':        { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(255,255,255,0.02)' },
     '@property --alert-color':     { syntax: '"<color>"', inherits: 'false', initialValue: 'rgba(240,235,224,0.65)' },
 

@@ -87,6 +87,16 @@ describe('.btn component', () => {
     expect(css).toMatch(/(^|\n)\s*html\s*\{[^}]*--z-btn-corner-lg: var\(--z-corner-lg\)/)
   })
 
+  test('the two properties the pseudo-elements read are registered as inheriting', async () => {
+    // ::before paints var(--btn-interior) and ::after paints var(--btn-scan-color).
+    // A registered property with inherits:false resolves to its initial-value on a
+    // pseudo-element, not to the originating element's value, so the outlined
+    // interior stayed transparent and every variant's scan colour was ignored.
+    const css = await generateCSS()
+    expect(css).toMatch(/@property --btn-interior\s*\{[^}]*inherits:\s*true/)
+    expect(css).toMatch(/@property --btn-scan-color\s*\{[^}]*inherits:\s*true/)
+  })
+
   test('.btn-icon is sized square by --btn-icon-size, which the size classes set', async () => {
     // One line box plus the size class's own vertical padding, so the square
     // equals the height of a text button at that size in any genre font.

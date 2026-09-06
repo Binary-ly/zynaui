@@ -81,6 +81,27 @@ for (const genre of GENRES) {
       await expect(el).toHaveScreenshot(`btn-disabled-${genre.id}.png`)
     })
 
+    test('outlined variants paint their interior fill and their own scan colour', async ({ page }) => {
+      // ::before reads var(--btn-interior) and ::after reads var(--btn-scan-color).
+      // Registered with inherits:false, both resolved to their initial-value on
+      // the pseudo-element (transparent / white 7%) instead of the button's own
+      // value, so the outlined technique drew a flat translucent slab.
+      await setupPage(page, genre, `<button class="btn btn-secondary" type="button">Secondary</button>`)
+      const seen = await page.evaluate(() => {
+        const b  = document.querySelector('.btn')
+        const cs = getComputedStyle(b)
+        return {
+          interior:  cs.getPropertyValue('--btn-interior').trim(),
+          painted:   getComputedStyle(b, '::before').backgroundColor,
+          scan:      cs.getPropertyValue('--btn-scan-color').trim(),
+          sweep:     getComputedStyle(b, '::after').backgroundImage,
+        }
+      })
+      expect(seen.painted).not.toBe('rgba(0, 0, 0, 0)')
+      expect(seen.painted).toBe(seen.interior)
+      expect(seen.sweep).toContain(seen.scan)
+    })
+
     test('icon buttons are square and match the height of their size row', async ({ page }) => {
       // .btn-icon relied on aspect-ratio, which the glyph's line box defeats:
       // the content height is an automatic minimum the ratio cannot shrink, and

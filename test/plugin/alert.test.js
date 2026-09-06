@@ -2,6 +2,13 @@ import { describe, test, expect } from 'vitest'
 import { generateCSS } from './helpers.js'
 
 describe('.alert component', () => {
+  test('--alert-bar-color is registered as inheriting so the ::before bar can read it', async () => {
+    // A registered property with inherits:false resolves to its initial-value on
+    // a pseudo-element, so the accent bar painted white 10% in every variant.
+    const css = await generateCSS()
+    expect(css).toMatch(/@property --alert-bar-color\s*\{[^}]*inherits:\s*true/)
+  })
+
   test('generates base .alert class', async () => {
     const css = await generateCSS('<div class="alert">')
     expect(css).toContain('.alert')
