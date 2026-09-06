@@ -6,6 +6,10 @@ All notable changes to ZynaUI are documented here.
 
 ## [Unreleased]
 
+### Fixed — charts
+
+- **`<zyna-line>` printed every x-axis label on top of its neighbours.** Each labelled point got its label regardless of width, so a series labelled at every point (twelve month names in a 420px card) drew the axis as one unreadable run. Labels are now walked left to right and any whose box would touch the last one kept is hidden; the tick marks stay as point markers and sparse or short labels are untouched.
+
 ### Docs
 
 - **The documented CDN URLs returned 404.** README, the landing page, and `llms.txt` pinned jsDelivr to `zynaui@0.3`, but a semver range never matches a prerelease, so `@0.3` resolved to nothing while every published version carries a `-beta` suffix. The snippets now pin the exact version (`zynaui@0.3.1-beta`) and say why.
