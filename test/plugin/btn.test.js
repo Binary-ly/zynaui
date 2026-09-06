@@ -87,6 +87,16 @@ describe('.btn component', () => {
     expect(css).toMatch(/(^|\n)\s*html\s*\{[^}]*--z-btn-corner-lg: var\(--z-corner-lg\)/)
   })
 
+  test('the two properties the pseudo-elements read are registered as inheriting', async () => {
+    // ::before paints var(--btn-interior) and ::after paints var(--btn-scan-color).
+    // A registered property with inherits:false resolves to its initial-value on a
+    // pseudo-element, not to the originating element's value, so the outlined
+    // interior stayed transparent and every variant's scan colour was ignored.
+    const css = await generateCSS()
+    expect(css).toMatch(/@property --btn-interior\s*\{[^}]*inherits:\s*true/)
+    expect(css).toMatch(/@property --btn-scan-color\s*\{[^}]*inherits:\s*true/)
+  })
+
   test('::after scan sweep starts collapsed (scaleX(0)) and expands on hover', async () => {
     // The scan sweep is an ::after pseudo-element: transform:scaleX(0) at rest,
     // scaleX(1) on hover (btn.js:127-153). Without this, no sweep animation plays.

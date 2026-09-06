@@ -6,8 +6,10 @@ All notable changes to ZynaUI are documented here.
 
 ## [Unreleased]
 
-### Fixed — charts
+### Fixed — plugin CSS
 
+- **The outlined button technique never painted its interior, and no variant's scan colour applied.** `.btn::before` fills the inner polygon with `var(--btn-interior)` and `.btn::after` sweeps `var(--btn-scan-color)`, but both were registered with `inherits: false`, and a registered custom property resolves to its *initial-value* on a pseudo-element rather than to the originating element's value. So the interior painted `transparent` and the sweep painted the initial white 7% in every genre: `.btn-secondary`, `.btn-danger` and `.btn-plasma-outline` rendered as a flat translucent slab of the rim colour instead of a rim around a dark (or light) interior, and their text sat on that slab at 1.7–3.4:1 contrast. Both are now registered `inherits: true`, the same rule already applied to `--btn-corner` and `--badge-offset` for exactly this reason. Secondary-button contrast rises to 8.6:1 in Ops and 14.4:1 in Cyberpunk; visual baselines updated for the button variants, the hover state and the genre overviews.
+### Fixed — charts
 - **`<zyna-density>` printed every period label on top of its neighbours.** Each violin got its label whatever the spacing, so eight month names in a 420px card drew the axis as one overlapping run. Labels are now walked left to right and any whose box would touch the last one kept is hidden; short labels with room are unchanged.
 - **`<zyna-pulse>` printed every point label on top of its neighbours.** Each point got its x-axis label whatever the spacing, so a full timestamp per point (twenty-four "00:00" labels in a 420px card) drew the axis as one unbroken run of digits. Labels are now walked left to right and any whose box would touch the last one kept is hidden, taking the inward anchoring of the first and last label into account; empty-string suppression and short labels with room are unchanged.
 - **`<zyna-stratum>` printed every period label on top of its neighbours.** Each column got its label whatever the column width, so two dozen "Jan 1"-style periods in a 420px card drew the axis as one overlapping run. Labels are now walked left to right and any whose box would touch the last one kept is hidden; empty-string suppression and short labels with room are unchanged.
