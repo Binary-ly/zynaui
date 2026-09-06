@@ -6,6 +6,10 @@ All notable changes to ZynaUI are documented here.
 
 ## [Unreleased]
 
+### Fixed — charts
+
+- **`<zyna-lollipop>` cut long labels off at the left edge.** The label gutter was a fixed 18% of the width (76px in a 420px card), so any label longer than about nine characters started outside the SVG and lost its first letters ("Al Jufara District" showed as "fara District"). The gutter now grows to fit the widest label, up to 45% of the width, and a label longer than that is trimmed with an ellipsis instead of being clipped; short labels keep the old gutter.
+
 ### Docs
 
 - **The documented CDN URLs returned 404.** README, the landing page, and `llms.txt` pinned jsDelivr to `zynaui@0.3`, but a semver range never matches a prerelease, so `@0.3` resolved to nothing while every published version carries a `-beta` suffix. The snippets now pin the exact version (`zynaui@0.3.1-beta`) and say why.

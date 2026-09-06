@@ -125,6 +125,40 @@ describe('zyna-lollipop', () => {
     expect(values).to.include('$567')
   })
 
+  it('widens the label gutter for long labels instead of clipping them at the edge', async () => {
+    // The gutter was a fixed 18% of the width (76px at 420px), so "Al Jufara
+    // District" started left of the SVG and lost its first letters.
+    const data = JSON.stringify([
+      { label: 'Tripoli',            value: 1040 },
+      { label: 'Al Jufara District', value: 108 },
+      { label: 'Sabha',              value: 51 },
+    ])
+    const el = await fixture(`<zyna-lollipop data='${data}' style="display:block;width:420px;font-family:monospace"></zyna-lollipop>`)
+    await new Promise(r => requestAnimationFrame(r))
+    const labels = [...el.querySelectorAll('text.ll-label')]
+    expect(labels.map(t => t.textContent)).to.include('Al Jufara District')
+    for (const t of labels) expect(t.getBBox().x, `${t.textContent} left`).to.be.at.least(0)
+  })
+
+  it('caps the gutter at 45% of the width and trims a label that still cannot fit', async () => {
+    const data = JSON.stringify([
+      { label: 'Tripoli Metropolitan Region and Surroundings', value: 1040 },
+      { label: 'Sabha', value: 51 },
+    ])
+    const el = await fixture(`<zyna-lollipop data='${data}' style="display:block;width:420px;font-family:monospace"></zyna-lollipop>`)
+    await new Promise(r => requestAnimationFrame(r))
+    const long = [...el.querySelectorAll('text.ll-label')].find(t => t.textContent.startsWith('Tripoli'))
+    expect(long.textContent.endsWith('…')).to.be.true
+    expect(long.getBBox().x).to.be.at.least(0)
+    expect(parseFloat(el.querySelector('line.ll-stem').getAttribute('x1'))).to.be.at.most(420 * 0.45)
+  })
+
+  it('keeps the default gutter when the labels are short', async () => {
+    const el = await fixture(`<zyna-lollipop data='${sampleData}' style="display:block;width:420px"></zyna-lollipop>`)
+    await new Promise(r => requestAnimationFrame(r))
+    expect(parseFloat(el.querySelector('line.ll-stem').getAttribute('x1'))).to.be.closeTo(420 * 0.18, 0.5)
+  })
+
   it('re-renders when data attribute changes', async () => {
     const el = await fixture(`<zyna-lollipop data='${sampleData}'></zyna-lollipop>`)
     const newData = JSON.stringify([
