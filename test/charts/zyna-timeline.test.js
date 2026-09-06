@@ -191,6 +191,41 @@ describe('zyna-timeline', () => {
     expect(rows.size).to.equal(2)
   })
 
+  it('thins labels that would overlap and always keeps the highlighted one', async () => {
+    // Ten month labels in a 420px box: every label was drawn centred on its
+    // bubble, so "January 2019" through "October 2019" printed over each other.
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October']
+    const data = JSON.stringify(months.map((m, i) => ({ label: `${m} 2019`, value: 250 + i * 10 })))
+    const el = await fixture(`<zyna-timeline data='${data}' highlight="April 2019" style="display:block;width:420px;font-family:monospace"></zyna-timeline>`)
+    await new Promise(r => requestAnimationFrame(r))
+    const labels = [...el.querySelectorAll('text.tl-label')]
+    const shown  = labels.filter(t => t.getAttribute('display') !== 'none')
+    expect(shown.length).to.be.below(labels.length)
+    expect(shown.map(t => t.textContent)).to.include('April 2019')
+    const boxes = shown.map(t => ({ t: t.textContent, b: t.getBBox() }))
+    for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) {
+      const a = boxes[i].b, c = boxes[j].b
+      const overlap = a.x < c.x + c.width && c.x < a.x + a.width
+      expect(overlap, `${boxes[i].t} overlaps ${boxes[j].t}`).to.be.false
+    }
+    // Values are narrow enough to stay on every bubble.
+    const values = [...el.querySelectorAll('text.tl-value')].filter(t => t.getAttribute('display') !== 'none')
+    expect(values.length).to.equal(labels.length)
+    // Every shown label stays inside the SVG, including the kept edge ones.
+    const W = el.querySelector('svg').viewBox.baseVal.width
+    for (const { t, b } of boxes) {
+      expect(b.x, `${t} left`).to.be.at.least(0)
+      expect(b.x + b.width, `${t} right`).to.be.at.most(W)
+    }
+  })
+
+  it('shows every label when there is room', async () => {
+    const el = await fixture(`<zyna-timeline data='${sampleData}' style="display:block;width:900px"></zyna-timeline>`)
+    await new Promise(r => requestAnimationFrame(r))
+    const shown = [...el.querySelectorAll('text.tl-label')].filter(t => t.getAttribute('display') !== 'none')
+    expect(shown.map(t => t.textContent)).to.deep.equal(['Tripoli', 'Sabha', 'Benghazi'])
+  })
+
   it('keeps every note on one row when there is room', async () => {
     const el = await fixture(`<zyna-timeline data='${sampleData}' style="display:block;width:900px"></zyna-timeline>`)
     await new Promise(r => requestAnimationFrame(r))
