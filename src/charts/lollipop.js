@@ -54,11 +54,6 @@ export class ZynaLollipop extends ZynaChart {
     const rowH = Math.max(44, Math.min(70, W * 0.14))
     const H    = heightAttr > 0 ? heightAttr : Math.max(200, data.length * rowH + 60)
 
-    // Margins scale with container width to accommodate long labels
-    const m      = { left: Math.max(60, W * 0.18), right: Math.max(50, W * 0.15), top: 10, bottom: 28 }
-    const innerW = W - m.left - m.right
-    const innerH = H - m.top - m.bottom
-    const xScale = scaleLinear().domain([0, domainMax]).range([0, innerW])
     // Font sizes scale with container width
     const fSm    = Math.max(9, W * 0.022)
     const fMd    = Math.max(11, W * 0.026)
@@ -68,6 +63,38 @@ export class ZynaLollipop extends ZynaChart {
     if (svg.empty()) {
       svg = select(this).append('svg').style('display', 'block')
     }
+
+    // The label gutter used to be a fixed share of the width, so any label
+    // longer than about nine characters ran off the left edge and was cut.
+    // Measure the widest label in the label font and widen the gutter to fit
+    // it, up to 45% of the width; a label longer than that is trimmed with an
+    // ellipsis instead of being clipped.
+    let probe = svg.select('text.ll-probe')
+    if (probe.empty()) {
+      probe = svg.append('text').attr('class', 'll-probe').attr('visibility', 'hidden').attr('aria-hidden', 'true')
+    }
+    probe.attr('font-size', `${fMd}px`)
+    const measure = t => {
+      probe.text(t)
+      const node = probe.node()
+      return node.getComputedTextLength ? node.getComputedTextLength() : String(t).length * fMd * 0.6
+    }
+    const labelW = Math.max(0, ...data.map(d => measure(String(d.label ?? ''))))
+    const fit = (sel, maxW) => {
+      const node = sel.node()
+      let t = String(sel.text())
+      if (!node.getComputedTextLength) return
+      while (t.length > 1 && node.getComputedTextLength() > maxW) {
+        t = t.slice(0, -1)
+        sel.text(t.trimEnd() + '…')
+      }
+    }
+
+    const m      = { left: Math.min(Math.max(60, W * 0.18, labelW + 12), W * 0.45), right: Math.max(50, W * 0.15), top: 10, bottom: 28 }
+    const innerW = W - m.left - m.right
+    const innerH = H - m.top - m.bottom
+    const xScale = scaleLinear().domain([0, domainMax]).range([0, innerW])
+
     svg.attr('viewBox', `0 0 ${W} ${H}`).attr('width', W).attr('height', H)
     this._applyA11y(svg, `Lollipop chart: ${data.map(d => `${d.label} ${fmtVal(d.value)}`).join(', ')}`)
 
@@ -122,9 +149,10 @@ export class ZynaLollipop extends ZynaChart {
           .attr('cx', x).attr('cy', y)
           .attr('r', isTop ? 7 : 5).attr('fill', c)
 
-        g.select('.ll-label')
+        const label = g.select('.ll-label')
           .attr('x', m.left - 6).attr('y', y + fSm * 0.4)
           .attr('text-anchor', 'end').attr('font-size', `${fMd}px`).attr('fill', ct).text(pt.label)
+        fit(label, m.left - 8)
 
         g.select('.ll-value')
           .attr('display', showVals ? null : 'none')
