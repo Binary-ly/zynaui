@@ -9,6 +9,7 @@ All notable changes to ZynaUI are documented here.
 ### Fixed — charts
 
 - **`<zyna-pulse>` printed every point label on top of its neighbours.** Each point got its x-axis label whatever the spacing, so a full timestamp per point (twenty-four "00:00" labels in a 420px card) drew the axis as one unbroken run of digits. Labels are now walked left to right and any whose box would touch the last one kept is hidden, taking the inward anchoring of the first and last label into account; empty-string suppression and short labels with room are unchanged.
+- **`<zyna-orbital>` trimmed labels that had room.** The space reserved beside the rose for the longest label was estimated at 0.55em per character, a few pixels under the real advance of a monospace label font (DM Mono is 0.6em), so at a 420px card width "Completed" rendered as "Complet…" with the left half of the box empty. The chart now measures the widest label in the label font before sizing the rose, so a label is only ellipsised when it genuinely cannot fit.
 
 ### Docs
 
