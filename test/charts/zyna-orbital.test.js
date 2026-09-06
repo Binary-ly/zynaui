@@ -229,6 +229,28 @@ describe('zyna-orbital', () => {
     }
   })
 
+  it('does not trim a label that fits once the rose has made room for it', async () => {
+    // The room reserved for the labels was estimated at 0.55em per character,
+    // a few pixels under the real advance of the label font, so at the docs
+    // card width "Completed" was fitted to "Complet…" although it had space.
+    const data = JSON.stringify([
+      { label: 'Closing',   value: 0.419 },
+      { label: 'Active',    value: 0.316 },
+      { label: 'Completed', value: 0.246 },
+      { label: 'Planning',  value: 0.017 },
+    ])
+    // A monospace face like the docs' DM Mono: 0.6em per glyph, wider than the estimate.
+    const el = await fixture(`<zyna-orbital data='${data}' style="display:block;width:420px;font-family:monospace"></zyna-orbital>`)
+    await nextFrame()
+    const labels = [...el.querySelectorAll('text.orb-label')].map(t => t.textContent)
+    expect(labels).to.deep.equal(['Closing', 'Active', 'Completed', 'Planning'])
+    const W = el.querySelector('svg').viewBox.baseVal.width
+    for (const t of el.querySelectorAll('text.orb-label')) {
+      const b = t.getBBox()
+      expect(b.x + b.width, `${t.textContent} right`).to.be.at.most(W)
+    }
+  })
+
   it('keeps the full 80% radius when the labels have room', async () => {
     const el = await fixture(`<zyna-orbital data='${sampleData}' style="display:block;width:800px"></zyna-orbital>`)
     await nextFrame()
