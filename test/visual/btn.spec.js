@@ -38,13 +38,18 @@ for (const genre of GENRES) {
       await expect(el).toHaveScreenshot(`btn-variants-${genre.id}.png`)
     })
 
+    // The icon button is deliberately not in this screenshot. Its side is one
+    // line box plus padding, so its pixel size follows the resolved font — and
+    // in the two genres whose bundled test font actually loads (Cyberpunk and
+    // Military both use Share Tech Mono) the capture can land either side of
+    // the font swap, which moved this snapshot on roughly half of all runs.
+    // Its geometry is asserted numerically instead, in the test below.
     test('size variants', async ({ page }) => {
       const el = await setupPage(page, genre, `
         <div style="display:flex;gap:12px;align-items:center">
           <button class="btn btn-primary btn-sm" type="button">Sm</button>
           <button class="btn btn-primary" type="button">Default</button>
           <button class="btn btn-primary btn-lg" type="button">Lg</button>
-          <button class="btn btn-primary btn-icon" type="button" aria-label="star">★</button>
         </div>`)
       await expect(el).toHaveScreenshot(`btn-sizes-${genre.id}.png`)
     })
@@ -100,6 +105,34 @@ for (const genre of GENRES) {
       expect(seen.painted).not.toBe('rgba(0, 0, 0, 0)')
       expect(seen.painted).toBe(seen.interior)
       expect(seen.sweep).toContain(seen.scan)
+    })
+
+    test('icon buttons are square and match the height of their size row', async ({ page }) => {
+      // .btn-icon relied on aspect-ratio, which the glyph's line box defeats:
+      // the content height is an automatic minimum the ratio cannot shrink, and
+      // it does not widen the box to match. Icon buttons came out taller than
+      // wide, and a .btn-sm.btn-icon was taller than the .btn-sm beside it.
+      await setupPage(page, genre, `
+        <div style="display:flex;gap:12px;align-items:center">
+          <button class="btn btn-primary btn-sm" type="button">Sm</button>
+          <button class="btn btn-primary btn-sm btn-icon" type="button" aria-label="add">+</button>
+          <button class="btn btn-primary" type="button">Default</button>
+          <button class="btn btn-primary btn-icon" type="button" aria-label="add">+</button>
+          <button class="btn btn-primary btn-lg" type="button">Lg</button>
+          <button class="btn btn-primary btn-lg btn-icon" type="button" aria-label="add">+</button>
+        </div>`)
+      const box = await page.evaluate(() => [...document.querySelectorAll('.btn')].map(b => {
+        const r = b.getBoundingClientRect()
+        return { w: r.width, h: r.height }
+      }))
+      for (const i of [1, 3, 5]) {
+        expect(Math.abs(box[i].w - box[i].h), `icon ${i} is ${box[i].w}×${box[i].h}`).toBeLessThan(0.5)
+      }
+      for (const [text, icon] of [[0, 1], [2, 3], [4, 5]]) {
+        expect(Math.abs(box[text].h - box[icon].h), `row ${text} heights differ`).toBeLessThan(1)
+      }
+      expect(box[1].w).toBeLessThan(box[3].w)
+      expect(box[3].w).toBeLessThan(box[5].w)
     })
 
     test('clip-path matches genre default shape', async ({ page }) => {

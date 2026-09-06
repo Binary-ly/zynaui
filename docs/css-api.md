@@ -133,6 +133,7 @@ Set on `.btn-*` variant classes or your own custom class alongside `.btn`.
 | `--btn-interior` | `@property <color>` | `transparent` | Interior fill for outlined variants. Transparent for solid buttons. |
 | `--btn-hover-interior` | — | falls back to `--btn-interior` | Hover interior fill for outlined variants. |
 | `--btn-inner-clip` | — | genre default | Inner clip-path polygon for the outlined interior. Set automatically by shape modifiers. |
+| `--btn-icon-size` | — | `round(calc(1lh + 1.3rem), 1px)` | Square side of a `.btn-icon` — one line box plus the size's vertical padding, so it matches the height of a text button beside it. Set automatically by `.btn-sm` / `.btn-lg`. |
 
 ---
 

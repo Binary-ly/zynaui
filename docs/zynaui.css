@@ -666,15 +666,18 @@
     font-size: 0.63rem;
     letter-spacing: 0.12em;
     --btn-corner: var(--z-btn-corner-sm);
+    --btn-icon-size: round(calc(1lh + 0.84rem), 1px);
   }
   .btn-lg {
     padding: 0.9rem 2.1rem;
     font-size: 0.78rem;
     --btn-corner: var(--z-btn-corner-lg);
+    --btn-icon-size: round(calc(1lh + 1.8rem), 1px);
   }
   .btn-icon {
-    padding: 0.65rem;
-    aspect-ratio: 1;
+    padding: 0;
+    width: var(--btn-icon-size, round(calc(1lh + 1.3rem), 1px));
+    height: var(--btn-icon-size, round(calc(1lh + 1.3rem), 1px));
     --btn-corner: var(--z-btn-corner-sm);
   }
   .btn-cut {
