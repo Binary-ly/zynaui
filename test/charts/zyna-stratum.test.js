@@ -41,6 +41,25 @@ describe('zyna-stratum', () => {
     expect(shown).to.deep.equal(['J', 'F', 'M', 'A', 'M', 'J'])
   })
 
+  it('hides period labels that would overlap a neighbour', async () => {
+    // Twenty-four "Jan 1"-style labels in a 420px box were all drawn, so the
+    // axis read "JanJanJanJan…" as one run.
+    const values = Array.from({ length: 24 }, (_, j) => 5 + (j % 7))
+    const data   = JSON.stringify([{ label: 'WEST', values }, { label: 'SOUTH', values }])
+    const labels = JSON.stringify(values.map((_, j) => `Jan ${j + 1}`))
+    const el = await fixture(`<zyna-stratum data='${data}' x-labels='${labels}' style="display:block;width:420px;font-family:monospace"></zyna-stratum>`)
+    await new Promise(r => requestAnimationFrame(r))
+    const all   = [...el.querySelectorAll('text.st-xlabel')]
+    const shown = all.filter(t => t.getAttribute('display') !== 'none')
+    expect(shown.length).to.be.below(all.length)
+    expect(shown[0].textContent).to.equal('Jan 1')
+    const boxes = shown.map(t => ({ t: t.textContent, b: t.getBBox() }))
+    for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) {
+      const a = boxes[i].b, c = boxes[j].b
+      expect(a.x < c.x + c.width && c.x < a.x + a.width, `${boxes[i].t} overlaps ${boxes[j].t}`).to.be.false
+    }
+  })
+
   it('suppresses x labels for empty-string entries', async () => {
     const el = await fixture(`<zyna-stratum data='${DATA}' x-labels='${JSON.stringify(['J', '', '', 'A', '', ''])}'></zyna-stratum>`)
     const hidden = [...el.querySelectorAll('text.st-xlabel')].filter(t => t.getAttribute('display') === 'none')
