@@ -457,12 +457,12 @@
   }
   @property --btn-scan-color {
     syntax: "<color>";
-    inherits: false;
+    inherits: true;
     initial-value: rgba(255,255,255,0.07);
   }
   @property --btn-interior {
     syntax: "<color>";
-    inherits: false;
+    inherits: true;
     initial-value: transparent;
   }
   @property --btn-corner {
@@ -1121,7 +1121,7 @@
   }
   @property --alert-bar-color {
     syntax: "<color>";
-    inherits: false;
+    inherits: true;
     initial-value: rgba(255,255,255,0.10);
   }
   @property --alert-bg {
