@@ -115,6 +115,7 @@ export class ZynaTimeline extends ZynaChart {
         .attr('stroke', accent).attr('stroke-width', isHL ? 0 : 1.5)
 
       g.select('.tl-label')
+        .attr('display', null)
         .attr('x', cx).attr('y', baseY + fMd + 8)
         .attr('text-anchor', 'middle').attr('font-size', `${fMd}px`).attr('fill', c).text(pt.label)
 
@@ -123,6 +124,43 @@ export class ZynaTimeline extends ZynaChart {
         .attr('x', cx).attr('y', baseY + fMd * 2 + 14)
         .attr('text-anchor', 'middle').attr('font-family', 'monospace')
         .attr('font-size', `${fSm}px`).attr('fill', c).text(fmtVal(pt.value))
+    })
+
+    // Labels and values are centred on their bubbles, so once a label is wider
+    // than the step between bubbles neighbouring labels print over each other.
+    // Measure the widest of each and keep every nth, with the stride anchored
+    // on the highlighted point so its own label and value always show.
+    const hlIdx = Math.max(0, data.findIndex(d => d.label === hlLabel))
+    const widest = cls => {
+      let w = 0
+      groups.each(function() {
+        const node = select(this).select(cls).node()
+        const tw = node.getComputedTextLength ? node.getComputedTextLength() : String(node.textContent).length * fMd * 0.6
+        if (tw > w) w = tw
+      })
+      return w
+    }
+    const strideOf   = w => Math.max(1, Math.ceil((w + 6) / xStep))
+    const labelStride = strideOf(widest('.tl-label'))
+    const valueStride = showVals ? strideOf(widest('.tl-value')) : 1
+    // A kept label is centred on its bubble, and the outer bubbles sit close to
+    // the edges, so the first and last one are anchored inward to stay inside
+    // the SVG — the same treatment the notes below already get.
+    const edgeAnchor = (sel, cx) => {
+      const node = sel.node()
+      const w = node.getComputedTextLength ? node.getComputedTextLength() : String(sel.text()).length * fSm * 0.6
+      if (cx - w / 2 < 2)     sel.attr('x', 2).attr('text-anchor', 'start')
+      else if (cx + w / 2 > W - 2) sel.attr('x', W - 2).attr('text-anchor', 'end')
+      else sel.attr('x', cx).attr('text-anchor', 'middle')
+    }
+    groups.each(function(pt, i) {
+      const g  = select(this)
+      const cx = padL + i * xStep
+      const on = stride => (i - hlIdx) % stride === 0
+      const label = g.select('.tl-label').attr('display', on(labelStride) ? null : 'none')
+      const value = g.select('.tl-value').attr('display', showVals && on(valueStride) ? null : 'none')
+      if (on(labelStride)) edgeAnchor(label, cx)
+      if (showVals && on(valueStride)) edgeAnchor(value, cx)
     })
 
     // Notes: measure each one, then walk left to right and lift a note onto a

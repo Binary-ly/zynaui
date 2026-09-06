@@ -93,6 +93,33 @@ describe('zyna-line', () => {
     expect(ticks.length).to.equal(2)
   })
 
+  it('hides x-axis labels that would overlap a neighbour', async () => {
+    // Twelve month names in a 420px box: every label was drawn, so the axis
+    // read "JanuaryFebruaryMarch…" as one run.
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    const data = JSON.stringify([{ values: months.map((m, i) => ({ x: m, y: 10 + i })) }])
+    const el = await fixture(`<zyna-line data='${data}' style="display:block;width:420px;font-family:monospace"></zyna-line>`)
+    await new Promise(r => requestAnimationFrame(r))
+    const labels = [...el.querySelectorAll('text.ln-xl')]
+    const shown  = labels.filter(t => t.getAttribute('display') !== 'none')
+    expect(shown.length).to.be.below(labels.length)
+    expect(shown[0].textContent).to.equal('January')
+    const boxes = shown.map(t => ({ t: t.textContent, b: t.getBBox() }))
+    for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) {
+      const a = boxes[i].b, c = boxes[j].b
+      expect(a.x < c.x + c.width && c.x < a.x + a.width, `${boxes[i].t} overlaps ${boxes[j].t}`).to.be.false
+    }
+    // The tick marks stay as point markers even where the label is hidden.
+    expect(el.querySelectorAll('line.ln-xtick-line').length).to.equal(12)
+  })
+
+  it('keeps every x-axis label when there is room', async () => {
+    const el = await fixture(`<zyna-line data='${singleSeries}' style="display:block;width:600px"></zyna-line>`)
+    await new Promise(r => requestAnimationFrame(r))
+    const shown = [...el.querySelectorAll('text.ln-xl')].filter(t => t.getAttribute('display') !== 'none')
+    expect(shown.map(t => t.textContent)).to.deep.equal(['Q1', 'Q2', 'Q3', 'Q4'])
+  })
+
   // ── Y-axis ticks ──────────────────────────────────────────────────────────────
 
   it('renders y-axis tick groups', async () => {

@@ -174,10 +174,29 @@ export class ZynaLine extends ZynaChart {
           .attr('y1', innerH).attr('y2', innerH + 5)
           .attr('stroke', gridC).attr('stroke-width', 0.8)
         xg.select('.ln-xl')
+          .attr('display', null)
           .attr('x', tx).attr('y', innerH + fMd + 8)
           .attr('text-anchor', 'middle')
           .attr('font-size', `${fSm}px`).attr('fill', textC).text(d.label)
       })
+
+    // Every labelled point got its label regardless of width, so a series
+    // labelled at each point printed its axis as one overlapping run. Walk the
+    // labels left to right and hide any whose box would touch the last one kept.
+    const xl = []
+    g.selectAll('g.ln-xtick').each(function(d) {
+      const t    = select(this).select('.ln-xl')
+      const node = t.node()
+      const w    = node.getComputedTextLength ? node.getComputedTextLength() : String(d.label).length * fSm * 0.6
+      xl.push({ t, x: xScale(d.i), w })
+    })
+    xl.sort((a, b) => a.x - b.x)
+    let lastRight = -Infinity
+    for (const { t, x, w } of xl) {
+      const left = x - w / 2
+      if (left < lastRight + 6) t.attr('display', 'none')
+      else lastRight = left + w
+    }
 
     // Baseline
     let baseline = g.select('.ln-baseline')

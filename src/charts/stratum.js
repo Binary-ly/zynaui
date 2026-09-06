@@ -137,6 +137,25 @@ export class ZynaStratum extends ZynaChart {
           .attr('font-size', `${fSm}px`).attr('fill', labelC)
           .text(d.label)
       })
+
+    // Every period got its label whatever the column width, so two dozen
+    // columns in a card printed the axis as one overlapping run. Walk the
+    // labels left to right and hide any whose box would touch the last kept.
+    const xl = []
+    svg.selectAll('text.st-xlabel').each(function(d) {
+      if (!d.label) return
+      const t    = select(this)
+      const node = t.node()
+      const w    = node.getComputedTextLength ? node.getComputedTextLength() : d.label.length * fSm * 0.6
+      xl.push({ t, x: m.left + xScale(d.j) + colW / 2, w })
+    })
+    xl.sort((a, b) => a.x - b.x)
+    let lastRight = -Infinity
+    for (const { t, x, w } of xl) {
+      const left = x - w / 2
+      if (left < lastRight + 6) t.attr('display', 'none')
+      else lastRight = left + w
+    }
   }
 }
 
