@@ -6,6 +6,10 @@ All notable changes to ZynaUI are documented here.
 
 ## [Unreleased]
 
+### Fixed — charts
+
+- **`<zyna-pulse>` printed every point label on top of its neighbours.** Each point got its x-axis label whatever the spacing, so a full timestamp per point (twenty-four "00:00" labels in a 420px card) drew the axis as one unbroken run of digits. Labels are now walked left to right and any whose box would touch the last one kept is hidden, taking the inward anchoring of the first and last label into account; empty-string suppression and short labels with room are unchanged.
+
 ### Docs
 
 - **The documented CDN URLs returned 404.** README, the landing page, and `llms.txt` pinned jsDelivr to `zynaui@0.3`, but a semver range never matches a prerelease, so `@0.3` resolved to nothing while every published version carries a `-beta` suffix. The snippets now pin the exact version (`zynaui@0.3.1-beta`) and say why.
