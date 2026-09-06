@@ -6,6 +6,10 @@ All notable changes to ZynaUI are documented here.
 
 ## [Unreleased]
 
+### Fixed — charts
+
+- **`<zyna-orbital>` trimmed labels that had room.** The space reserved beside the rose for the longest label was estimated at 0.55em per character, a few pixels under the real advance of a monospace label font (DM Mono is 0.6em), so at a 420px card width "Completed" rendered as "Complet…" with the left half of the box empty. The chart now measures the widest label in the label font before sizing the rose, so a label is only ellipsised when it genuinely cannot fit.
+
 ### Docs
 
 - **The documented CDN URLs returned 404.** README, the landing page, and `llms.txt` pinned jsDelivr to `zynaui@0.3`, but a semver range never matches a prerelease, so `@0.3` resolved to nothing while every published version carries a `-beta` suffix. The snippets now pin the exact version (`zynaui@0.3.1-beta`) and say why.
