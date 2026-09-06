@@ -9,6 +9,8 @@ All notable changes to ZynaUI are documented here.
 ### Fixed — plugin CSS
 
 - **`.btn-icon` was never square.** It relied on `aspect-ratio: 1`, but the glyph's line box forms an automatic minimum height that the ratio cannot shrink, and the ratio does not widen the box to match it — so an icon button rendered 29×38 in Ops, and a `.btn-sm.btn-icon` came out *taller* than the `.btn-sm` standing next to it. The square side is now one line box plus the same vertical padding the size class uses (`calc(1lh + 1.3rem)`, `.btn-sm` `calc(1lh + 0.84rem)`, `.btn-lg` `calc(1lh + 1.8rem)`), so an icon button is square and exactly as tall as a text button beside it in any genre font. The new `--btn-icon-size` element-level variable overrides it; visual baselines updated for the button size rows.
+### Fixed — charts
+- **`<zyna-orbital>` trimmed labels that had room.** The space reserved beside the rose for the longest label was estimated at 0.55em per character, a few pixels under the real advance of a monospace label font (DM Mono is 0.6em), so at a 420px card width "Completed" rendered as "Complet…" with the left half of the box empty. The chart now measures the widest label in the label font before sizing the rose, so a label is only ellipsised when it genuinely cannot fit.
 
 ### Docs
 
