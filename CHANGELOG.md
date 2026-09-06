@@ -8,6 +8,7 @@ All notable changes to ZynaUI are documented here.
 
 ### Fixed — charts
 
+- **`<zyna-lollipop>` cut long labels off at the left edge.** The label gutter was a fixed 18% of the width (76px in a 420px card), so any label longer than about nine characters started outside the SVG and lost its first letters ("Al Jufara District" showed as "fara District"). The gutter now grows to fit the widest label, up to 45% of the width, and a label longer than that is trimmed with an ellipsis instead of being clipped; short labels keep the old gutter.
 - **`<zyna-timeline>` labels printed over each other.** Every bubble's label and value were drawn centred on the bubble regardless of width, so ten "January 2019"-style labels in a 420px card became an unreadable smear. The chart now measures the widest label (and value) and keeps every nth, with the stride anchored on the highlighted point so its own label and value always show; short labels with room are untouched.
 - **`<zyna-orbital>` trimmed labels that had room.** The space reserved beside the rose for the longest label was estimated at 0.55em per character, a few pixels under the real advance of a monospace label font (DM Mono is 0.6em), so at a 420px card width "Completed" rendered as "Complet…" with the left half of the box empty. The chart now measures the widest label in the label font before sizing the rose, so a label is only ellipsised when it genuinely cannot fit.
 
