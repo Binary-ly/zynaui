@@ -6,6 +6,10 @@ All notable changes to ZynaUI are documented here.
 
 ## [Unreleased]
 
+### Fixed — charts
+
+- **`<zyna-timeline>` labels printed over each other.** Every bubble's label and value were drawn centred on the bubble regardless of width, so ten "January 2019"-style labels in a 420px card became an unreadable smear. The chart now measures the widest label (and value) and keeps every nth, with the stride anchored on the highlighted point so its own label and value always show; short labels with room are untouched.
+
 ### Docs
 
 - **The documented CDN URLs returned 404.** README, the landing page, and `llms.txt` pinned jsDelivr to `zynaui@0.3`, but a semver range never matches a prerelease, so `@0.3` resolved to nothing while every published version carries a `-beta` suffix. The snippets now pin the exact version (`zynaui@0.3.1-beta`) and say why.
