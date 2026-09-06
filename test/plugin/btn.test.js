@@ -101,11 +101,11 @@ describe('.btn component', () => {
     // One line box plus the size class's own vertical padding, so the square
     // equals the height of a text button at that size in any genre font.
     const css = await generateCSS()
-    expect(css).toMatch(/\.btn-icon\s*\{[^}]*width: var\(--btn-icon-size, calc\(1lh \+ 1\.3rem\)\)/)
-    expect(css).toMatch(/\.btn-icon\s*\{[^}]*height: var\(--btn-icon-size, calc\(1lh \+ 1\.3rem\)\)/)
+    expect(css).toMatch(/\.btn-icon\s*\{[^}]*width: var\(--btn-icon-size, round\(calc\(1lh \+ 1\.3rem\), 1px\)\)/)
+    expect(css).toMatch(/\.btn-icon\s*\{[^}]*height: var\(--btn-icon-size, round\(calc\(1lh \+ 1\.3rem\), 1px\)\)/)
     expect(css).not.toMatch(/\.btn-icon\s*\{[^}]*aspect-ratio/)
-    expect(css).toMatch(/\.btn-sm\s*\{[^}]*--btn-icon-size: calc\(1lh \+ 0\.84rem\)/)
-    expect(css).toMatch(/\.btn-lg\s*\{[^}]*--btn-icon-size: calc\(1lh \+ 1\.8rem\)/)
+    expect(css).toMatch(/\.btn-sm\s*\{[^}]*--btn-icon-size: round\(calc\(1lh \+ 0\.84rem\), 1px\)/)
+    expect(css).toMatch(/\.btn-lg\s*\{[^}]*--btn-icon-size: round\(calc\(1lh \+ 1\.8rem\), 1px\)/)
   })
 
   test('::after scan sweep starts collapsed (scaleX(0)) and expands on hover', async () => {

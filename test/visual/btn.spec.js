@@ -38,13 +38,18 @@ for (const genre of GENRES) {
       await expect(el).toHaveScreenshot(`btn-variants-${genre.id}.png`)
     })
 
+    // The icon button is deliberately not in this screenshot. Its side is one
+    // line box plus padding, so its pixel size follows the resolved font — and
+    // in the two genres whose bundled test font actually loads (Cyberpunk and
+    // Military both use Share Tech Mono) the capture can land either side of
+    // the font swap, which moved this snapshot on roughly half of all runs.
+    // Its geometry is asserted numerically instead, in the test below.
     test('size variants', async ({ page }) => {
       const el = await setupPage(page, genre, `
         <div style="display:flex;gap:12px;align-items:center">
           <button class="btn btn-primary btn-sm" type="button">Sm</button>
           <button class="btn btn-primary" type="button">Default</button>
           <button class="btn btn-primary btn-lg" type="button">Lg</button>
-          <button class="btn btn-primary btn-icon" type="button" aria-label="star">★</button>
         </div>`)
       await expect(el).toHaveScreenshot(`btn-sizes-${genre.id}.png`)
     })
